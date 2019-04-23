@@ -6,20 +6,37 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btn"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Select or Capture Image" />
+        android:onClick="get_base64"
+        android:text="Select or Capture Image"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
+        android:id="@+id/iv"
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="303dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/iv"/>
+        android:src="@mipmap/ic_launcher" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_marginTop="40dp"
+        android:onClick="get_base64"
+        android:text="Get base 64" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="TextView" />
+
 </LinearLayout>

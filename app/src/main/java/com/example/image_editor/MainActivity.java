@@ -3,6 +3,7 @@ package com.example.image_editor;
 import android.Manifest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.image_editor.R;
@@ -19,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -29,7 +31,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.util.Base64;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn;
     private ImageView imageview;
+    private TextView textview;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
 
@@ -159,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
-    private void  requestMultiplePermissions(){
+    private void requestMultiplePermissions(){
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.CAMERA,
@@ -195,4 +201,22 @@ public class MainActivity extends AppCompatActivity {
                 .check();
     }
 
+    public void get_base64(View view) {
+        imageview = (ImageView) findViewById(R.id.iv);
+
+        // imageview to bitmap
+        imageview.invalidate();
+        BitmapDrawable drawable = (BitmapDrawable) imageview.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+
+        // bitmap to base64
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        String imgString = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                imgString, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 }
