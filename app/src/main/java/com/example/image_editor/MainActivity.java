@@ -1,20 +1,29 @@
 package com.example.image_editor;
 
 import android.Manifest;
+import android.app.DownloadManager;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.textclassifier.TextClassification;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static java.nio.file.StandardOpenOption.*;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-
-import com.example.image_editor.R;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -23,15 +32,12 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.BufferedOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import android.app.AlertDialog;
@@ -49,21 +55,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.util.Base64;
 
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.net.UnknownServiceException;
 import java.util.Calendar;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -234,30 +231,33 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        String imgString = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        final String[] imgString = {Base64.encodeToString(byteArray, Base64.NO_WRAP)};
 
+        final String[] result = {"null"};
         // post request
-        String urlString = "https://tranquil-fjord-16465.herokuapp.com/mypost"; // URL to call
-        OutputStream out = null;
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getMyThing("qweqw")
+                .enqueue(new Callback<Post>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                response.message(), Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
 
-        try {
-            URL url = new URL(urlString);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            out = new BufferedOutputStream(urlConnection.getOutputStream());
-
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-            writer.write(imgString);
-            writer.flush();
-            writer.close();
-            out.close();
-
-            urlConnection.connect();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+                    @Override
+                    public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                t.getMessage(), Toast.LENGTH_SHORT);
+                        toast.show();
+                        t.printStackTrace();
+                    }
+                });
 
         Toast toast = Toast.makeText(getApplicationContext(),
-                imgString, Toast.LENGTH_SHORT);
+                result[0], Toast.LENGTH_SHORT);
         toast.show();
+
     }
 }
