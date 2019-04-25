@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">image_editor</string>
+    <string name="title_activity_filters">Filters</string>
 </resources>

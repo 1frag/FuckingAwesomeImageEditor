@@ -25,6 +25,12 @@
         android:src="@mipmap/ic_launcher" />
 
     <Button
+        android:id="@+id/filter_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose Filter" />
+
+    <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="66dp"

@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        configFiltersButton();
+
     }
 
     private void showPictureDialog() {
@@ -258,6 +260,17 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(),
                 result[0], Toast.LENGTH_SHORT);
         toast.show();
+
+    }
+
+    private void configFiltersButton(){
+        Button filterButton = (Button) findViewById(R.id.filter_picker);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Filters.class));
+            }
+        });
 
     }
 }
