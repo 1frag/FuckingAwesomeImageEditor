@@ -2,7 +2,6 @@ package com.example.image_editor;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,7 +57,7 @@ public class Scaling extends AppCompatActivity {
     }
 
     private void configApplyButton(){
-        Button applyButton = (Button) findViewById(R.id.apply_button);
+        Button applyButton = (Button) findViewById(R.id.apply_button_scaling);
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +74,7 @@ public class Scaling extends AppCompatActivity {
     }
 
     private void configSaveButton(){
-        Button saveButton = (Button) findViewById(R.id.save_button);
+        Button saveButton = (Button) findViewById(R.id.save_button_scaling);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

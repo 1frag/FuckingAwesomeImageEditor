@@ -70,36 +70,36 @@
         app:layout_constraintHorizontal_bias="0.142"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coef_height"
-        app:layout_constraintVertical_bias="0.075" />
+        app:layout_constraintVertical_bias="0.087" />
 
     <EditText
         android:id="@+id/coef_height"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="452dp"
+        android:layout_marginBottom="104dp"
         android:ems="10"
         android:hint="Height coefficient"
         android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@+id/include2"
         app:layout_constraintEnd_toEndOf="@+id/coef_width"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/coef_width"
-        app:layout_constraintTop_toTopOf="@+id/include2" />
+        app:layout_constraintStart_toStartOf="@+id/coef_width" />
 
     <Button
-        android:id="@+id/apply_button"
+        android:id="@+id/apply_button_scaling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="452dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="104dp"
         android:text="Apply"
+        app:layout_constraintBottom_toBottomOf="@+id/include2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/coef_height"
-        app:layout_constraintTop_toTopOf="@+id/include2" />
+        app:layout_constraintStart_toEndOf="@+id/coef_height" />
 
     <Button
-        android:id="@+id/save_button"
+        android:id="@+id/save_button_scaling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -108,7 +108,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/include2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/coef_width"
-        app:layout_constraintTop_toBottomOf="@+id/apply_button"
+        app:layout_constraintTop_toBottomOf="@+id/apply_button_scaling"
         app:layout_constraintVertical_bias="0.125" />
 
 </android.support.constraint.ConstraintLayout>
