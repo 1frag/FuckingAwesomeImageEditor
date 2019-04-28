@@ -35,14 +35,28 @@ public class Filters extends AppCompatActivity {
         this.path = intent.getStringExtra("Image");
 
         configScalingButton();
+        configColorFiltersButton();
     }
 
     private void configScalingButton(){
-        Button filterButton = (Button) findViewById(R.id.open_scaling);
-        filterButton.setOnClickListener(new View.OnClickListener() {
+        Button scallingButton = (Button) findViewById(R.id.open_scaling);
+        scallingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Filters.this, Scaling.class);
+                intent.putExtra("Image", path);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void configColorFiltersButton(){
+        Button colorFiltersButton = (Button) findViewById(R.id.open_color_filters);
+        colorFiltersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Filters.this, Color_Filters.class);
                 intent.putExtra("Image", path);
                 startActivity(intent);
             }
