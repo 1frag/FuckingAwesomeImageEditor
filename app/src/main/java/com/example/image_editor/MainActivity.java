@@ -67,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
     private ImageView imageview;
     private TextView textview;
+    private Bitmap bitmap;
+    private String path;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
+    private boolean photoChoosed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,10 +140,11 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
+                    this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    this.path = saveImage(bitmap);
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageview.setImageBitmap(bitmap);
+                    photoChoosed = true;
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -153,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
             imageview.setImageBitmap(thumbnail);
             saveImage(thumbnail);
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            photoChoosed = true;
         }
     }
 
@@ -268,7 +273,14 @@ public class MainActivity extends AppCompatActivity {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Filters.class));
+                if (photoChoosed) {
+                    Intent intent = new Intent(MainActivity.this, Filters.class);
+                    intent.putExtra("Image", path);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "You need to choose photo first!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

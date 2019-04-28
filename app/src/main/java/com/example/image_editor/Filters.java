@@ -1,6 +1,7 @@
 package com.example.image_editor;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.widget.Button;
 
 public class Filters extends AppCompatActivity {
+
+    private Bitmap bitmap;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,9 @@ public class Filters extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        this.path = intent.getStringExtra("Image");
+
         configScalingButton();
     }
 
@@ -35,7 +42,9 @@ public class Filters extends AppCompatActivity {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Filters.this, Scaling.class));
+                Intent intent = new Intent(Filters.this, Scaling.class);
+                intent.putExtra("Image", path);
+                startActivity(intent);
             }
         });
 
