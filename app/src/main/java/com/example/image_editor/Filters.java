@@ -38,6 +38,8 @@ public class Filters extends AppCompatActivity {
         configColorFiltersButton();
     }
 
+    // button configs below
+
     private void configScalingButton(){
         Button scallingButton = (Button) findViewById(R.id.open_scaling);
         scallingButton.setOnClickListener(new View.OnClickListener() {

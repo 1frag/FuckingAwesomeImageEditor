@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private String path;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
-    private boolean photoChoosed = false;
+    private boolean photoChosen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     this.path = saveImage(bitmap);
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageview.setImageBitmap(bitmap);
-                    photoChoosed = true;
+                    photoChosen = true;
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             imageview.setImageBitmap(thumbnail);
             saveImage(thumbnail);
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-            photoChoosed = true;
+            photoChosen = true;
         }
     }
 
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (photoChoosed) {
+                if (photoChosen) {
                     Intent intent = new Intent(MainActivity.this, Filters.class);
                     intent.putExtra("Image", path);
                     startActivity(intent);
