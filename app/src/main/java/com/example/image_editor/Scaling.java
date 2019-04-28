@@ -55,8 +55,8 @@ public class Scaling extends AppCompatActivity {
             public void onClick(View v) {
                 EditText coef_width =  (EditText) findViewById(R.id.coef_width);
                 EditText coef_height =  (EditText) findViewById(R.id.coef_height);
-                int w = Integer.parseInt(coef_width.getText().toString());
-                int h = Integer.parseInt(coef_height.getText().toString());
+                float w = Float.parseFloat(coef_width.getText().toString());
+                float h = Float.parseFloat(coef_height.getText().toString());
 
                 resizeImage(w, h);
             }
@@ -66,13 +66,13 @@ public class Scaling extends AppCompatActivity {
 
     // TODO: add configSaveButton here
 
-    private void resizeImage(int coef_w, int coef_h){
+    private void resizeImage(float coef_w, float coef_h){
         Bitmap bmOriginal = this.bitmap;
         int width = bmOriginal.getWidth();
         int height = bmOriginal.getHeight();
 
-        int newWidth = width*coef_w;
-        int newHeight = height*coef_h;
+        int newWidth = Math.round(width*coef_w);
+        int newHeight = Math.round(height*coef_h);
 
         Bitmap newBitmap = Bitmap.createScaledBitmap(bmOriginal, newWidth,
                 newHeight, false);
