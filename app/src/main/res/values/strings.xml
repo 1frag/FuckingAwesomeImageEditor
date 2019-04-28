@@ -3,4 +3,5 @@
     <string name="title_activity_filters">Filters</string>
     <string name="title_activity_scaling">Scaling</string>
     <string name="title_activity_color__filters">Color_Filters</string>
+    <string name="title_activity_rotation">Rotation</string>
 </resources>

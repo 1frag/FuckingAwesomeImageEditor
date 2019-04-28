@@ -36,6 +36,7 @@ public class Filters extends AppCompatActivity {
 
         configScalingButton();
         configColorFiltersButton();
+        configRotationButton();
     }
 
     // button configs below
@@ -59,6 +60,19 @@ public class Filters extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Filters.this, Color_Filters.class);
+                intent.putExtra("Image", path);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void configRotationButton(){
+        Button rotationButton = (Button) findViewById(R.id.open_rotation);
+        rotationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Filters.this, Rotation.class);
                 intent.putExtra("Image", path);
                 startActivity(intent);
             }
