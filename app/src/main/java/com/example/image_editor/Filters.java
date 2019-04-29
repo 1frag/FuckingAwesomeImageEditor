@@ -37,13 +37,14 @@ public class Filters extends AppCompatActivity {
         configScalingButton();
         configColorFiltersButton();
         configRotationButton();
+        configAStarButton();
     }
 
     // button configs below
 
     private void configScalingButton(){
-        Button scallingButton = (Button) findViewById(R.id.open_scaling);
-        scallingButton.setOnClickListener(new View.OnClickListener() {
+        Button scalingButton = (Button) findViewById(R.id.open_scaling);
+        scalingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Filters.this, Scaling.class);
@@ -74,6 +75,18 @@ public class Filters extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Filters.this, Rotation.class);
                 intent.putExtra("Image", path);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void configAStarButton(){
+        Button aStarButton = (Button) findViewById(R.id.open_a_astar);
+        aStarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Filters.this, A_Star.class);
                 startActivity(intent);
             }
         });

@@ -17,9 +17,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".A_Star"
+            android:label="@string/title_activity_a__star"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Rotation"
             android:label="@string/title_activity_rotation"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Color_Filters"
             android:label="@string/title_activity_color__filters"
