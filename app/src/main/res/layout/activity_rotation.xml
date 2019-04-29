@@ -40,14 +40,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/include4"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_rotation"
         app:layout_constraintEnd_toEndOf="@+id/include4"
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="@+id/include4"
-        app:layout_constraintTop_toTopOf="@+id/include4"
-        app:layout_constraintVertical_bias="0.268"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout4"
+        app:layout_constraintVertical_bias="0.359"
         tools:srcCompat="@tools:sample/avatars" />
 
     <EditText
@@ -65,10 +64,10 @@
         android:inputType="numberSigned"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/include4"
-        app:layout_constraintVertical_bias="0.911" />
+        app:layout_constraintVertical_bias="0.947" />
 
     <Button
         android:id="@+id/apply_button_rotation"
@@ -96,11 +95,18 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toEndOf="@+id/angle_input" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_rotation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="378dp" />
 
 </android.support.constraint.ConstraintLayout>
