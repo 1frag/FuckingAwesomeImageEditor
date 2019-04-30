@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,7 +56,7 @@ public class Color_Filters extends AppCompatActivity {
 
 
          configSelectFilterButton();
-        // TODO: configSaveButton();
+         configSaveButton();
     }
 
     private void configSelectFilterButton(){
@@ -68,11 +69,24 @@ public class Color_Filters extends AppCompatActivity {
         });
     }
 
+    private void configSaveButton(){
+        Button saveButton = (Button) findViewById(R.id.save_button_scaling);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String path = saveImage(bufferedBitmap);
+                Toast.makeText(Color_Filters.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+        });
+    }
+
     private void showFilterDialog() {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Select color filter");
         String[] pictureDialogItems = {
-                "Name 1",
+                "Movie",
                 "Name 2"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
@@ -80,7 +94,7 @@ public class Color_Filters extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                // do something
+                                movieFilter();
                                 break;
                             case 1:
                                 // do something
@@ -118,6 +132,25 @@ public class Color_Filters extends AppCompatActivity {
             e1.printStackTrace();
         }
         return "";
+    }
+
+    private void movieFilter(){
+        bufferedBitmap = Bitmap.createBitmap(bitmap.getWidth(),bitmap.getHeight(), bitmap.getConfig());
+
+        for(int i=0; i<bitmap.getWidth(); i++){
+            for(int j=0; j<bitmap.getHeight(); j++){
+                int p = bitmap.getPixel(i, j);
+                int r = Color.red(p);
+                int g = Color.green(p);
+                int b = Color.blue(p);
+
+                b = (int) (b*0.8);
+                g = (int) (g*0.9);
+                bufferedBitmap.setPixel(i, j, Color.argb(Color.alpha(p), r, g, b));
+            }
+        }
+        imageView.setImageBitmap(bufferedBitmap);
+
     }
 
 }
