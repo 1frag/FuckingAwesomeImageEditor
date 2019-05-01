@@ -87,6 +87,7 @@ public class Filters extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Filters.this, A_Star.class);
+                intent.putExtra("Image", path);
                 startActivity(intent);
             }
         });
