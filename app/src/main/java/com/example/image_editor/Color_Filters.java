@@ -88,7 +88,8 @@ public class Color_Filters extends AppCompatActivity {
         pictureDialog.setTitle("Select color filter");
         String[] pictureDialogItems = {
                 "Movie",
-                "Blur"};
+                "Blur",
+                "Black and white"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -100,6 +101,10 @@ public class Color_Filters extends AppCompatActivity {
                                 break;
                             case 1:
                                 bufferedBitmap = fastBlur(bitmap);
+                                imageView.setImageBitmap(bufferedBitmap);
+                                break;
+                            case 2:
+                                bufferedBitmap = createGrayscale(bitmap);
                                 imageView.setImageBitmap(bufferedBitmap);
                                 break;
                         }
@@ -366,6 +371,32 @@ public class Color_Filters extends AppCompatActivity {
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
 
         return (bitmap);
+    }
+
+    public Bitmap createGrayscale(Bitmap src) {
+        int width = src.getWidth();
+        int height = src.getHeight();
+        // create output bitmap
+        Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+        // color information
+        int A, R, G, B;
+        int pixel;
+
+        // scan through all pixels
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
+                // get pixel color
+                pixel = src.getPixel(x, y);
+                A = Color.alpha(pixel);
+                R = Color.red(pixel);
+                G = Color.green(pixel);
+                B = Color.blue(pixel);
+                int gray = (int) (0.2989 * R + 0.5870 * G + 0.1140 * B);
+                // set new pixel color to output bitmap
+                bmOut.setPixel(x, y, Color.argb(A, gray, gray, gray));
+            }
+        }
+        return bmOut;
     }
 
 }
