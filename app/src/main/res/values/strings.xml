@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">image_editor</string>
+    <string name="app_name">Fucking Awesome Editor</string>
     <string name="title_activity_filters">Filters</string>
     <string name="title_activity_scaling">Scaling</string>
     <string name="title_activity_color__filters">Color_Filters</string>
