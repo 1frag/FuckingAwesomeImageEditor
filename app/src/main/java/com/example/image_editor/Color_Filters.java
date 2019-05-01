@@ -108,6 +108,7 @@ public class Color_Filters extends AppCompatActivity {
                                 imageView.setImageBitmap(bufferedBitmap);
                                 break;
                         }
+
                     }
                 });
         pictureDialog.show();
@@ -163,7 +164,7 @@ public class Color_Filters extends AppCompatActivity {
     }
 
     public Bitmap fastBlur(Bitmap sentBitmap) {
-
+        // params for filter
         float scale = 1;
         int radius = 5;
 
