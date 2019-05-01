@@ -1,6 +1,7 @@
 package com.example.image_editor;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -62,7 +63,7 @@ import java.util.Calendar;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private Button btn;
     private ImageView imageview;
@@ -224,48 +225,6 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .onSameThread()
                 .check();
-    }
-
-    public void get_base64(View view) {
-        imageview = (ImageView) findViewById(R.id.iv);
-
-        // imageview to bitmap
-        imageview.invalidate();
-        BitmapDrawable drawable = (BitmapDrawable) imageview.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-
-        // bitmap to base64
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        final String[] imgString = {Base64.encodeToString(byteArray, Base64.NO_WRAP)};
-
-        final String[] result = {"null"};
-        // post request
-        NetworkService.getInstance()
-                .getJSONApi()
-                .getMyThing("qweqw")
-                .enqueue(new Callback<Post>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                response.message(), Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
-                        Toast toast = Toast.makeText(getApplicationContext(),
-                                t.getMessage(), Toast.LENGTH_SHORT);
-                        toast.show();
-                        t.printStackTrace();
-                    }
-                });
-
-        Toast toast = Toast.makeText(getApplicationContext(),
-                result[0], Toast.LENGTH_SHORT);
-        toast.show();
-
     }
 
     private void configFiltersButton(){

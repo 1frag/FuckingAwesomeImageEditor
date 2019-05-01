@@ -30,14 +30,6 @@
         android:layout_height="wrap_content"
         android:text="Choose Filter" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="66dp"
-        android:layout_marginTop="40dp"
-        android:onClick="get_base64"
-        android:text="Get base 64" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
