@@ -12,7 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40dp"
         android:onClick="get_base64"
-        android:text="Select or Capture Image"
+        android:text="@string/select_or_capture_image"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
@@ -28,13 +28,6 @@
         android:id="@+id/filter_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Filter" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="TextView" />
+        android:text="@string/choose_filter" />
 
 </LinearLayout>
