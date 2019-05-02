@@ -1,7 +1,9 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -43,10 +45,9 @@ public class Rotation extends AppCompatActivity {
         this.path = intent.getStringExtra("Image");
 
         this.imageView = (ImageView) findViewById(R.id.imageRotation);
-        try{
+        try {
             this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-        }
-        catch (
+        } catch (
                 IOException e) {
             e.printStackTrace();
             Toast.makeText(Rotation.this, "Failed!", Toast.LENGTH_SHORT).show();
@@ -57,12 +58,12 @@ public class Rotation extends AppCompatActivity {
         configSaveButton();
     }
 
-    private void configApplyButton(){
+    private void configApplyButton() {
         Button applyButton = (Button) findViewById(R.id.apply_button_rotation);
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText angle =  (EditText) findViewById(R.id.angle_input);
+                EditText angle = (EditText) findViewById(R.id.angle_input);
 
                 int ang = Integer.parseInt(angle.getText().toString());
 
@@ -73,18 +74,45 @@ public class Rotation extends AppCompatActivity {
 
     }
 
-    // TODO: FIX ME PLEASE
-    private void rotateOnAngle(int angle){
-        Bitmap bmOriginal = this.bitmap;
-        imageView.setPivotX(imageView.getWidth()/2);
-        imageView.setPivotY(imageView.getHeight() / 2);
-        imageView.setRotation(angle);
+    @SuppressLint("Assert")
+    private void rotateOnAngle(int angle) {
+        int x = bitmap.getWidth();
+        int y = bitmap.getHeight();
+        double a = (double) (90 - angle % 90) * Math.PI / 180.0;
+        double cosa = Math.cos(a);
+        double sina = Math.sin(a);
+        double AB = x * sina + y * cosa;
+        double AD = y * sina + x * cosa;
+        Bitmap btmp;
+        btmp = Bitmap.createBitmap((int) AB + 2, (int) AD + 2, Bitmap.Config.ARGB_8888);
+        btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
+        Log.i("UPD", "hi");
+        for (int nx = 0; nx <= (int) AB; nx++) {
+            Log.i("UPD", ((Integer)nx).toString());
+            for (int ny = 0; ny <= (int) AD; ny++) {
+                int w = (int) (nx * sina - ny * cosa + x * cosa * cosa);
+                int h = (int) (nx * cosa + ny * sina - x * sina * cosa);
+                if(((angle / 90) & 1) == 1){
+                    int cnt = w;
+                    w = y - h;
+                    h = cnt;
+                }
+                if(((angle / 90) & 2) == 2){
+                    h = y - h;
+                    w = x - w;
+                }
+                if(w<0 || w>=bitmap.getWidth())continue;
+                if(h<0 || h>=bitmap.getHeight())continue;
+                btmp.setPixel(nx, ny, bitmap.getPixel(w, h));
+            }
+        }
+        Log.i("UPD", "end");
 
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        this.bufferedBitmap = drawable.getBitmap();
+        imageView.setImageBitmap(btmp);
+        imageView.invalidate();
     }
 
-    private void configSaveButton(){
+    private void configSaveButton() {
         Button saveButton = (Button) findViewById(R.id.save_button_rotation);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
