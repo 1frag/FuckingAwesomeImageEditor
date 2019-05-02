@@ -3,6 +3,7 @@ package com.example.image_editor;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.app.Instrumentation;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,20 +12,6 @@ import android.view.textclassifier.TextClassification;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -38,8 +25,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.BufferedOutputStream;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -107,7 +92,7 @@ public class MainActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                choosePhotoFromGallary();
+                                choosePhotoFromGallery();
                                 break;
                             case 1:
                                 takePhotoFromCamera();
@@ -118,7 +103,7 @@ public class MainActivity extends Activity {
         pictureDialog.show();
     }
 
-    public void choosePhotoFromGallary() {
+    public void choosePhotoFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -142,6 +127,11 @@ public class MainActivity extends Activity {
                 Uri contentURI = data.getData();
                 try {
                     this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    // if photo is too big
+                    if (this.bitmap.getByteCount() > 10000000){
+                        Toast.makeText(getApplicationContext(), "Your photo is too large!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     this.path = saveImage(bitmap);
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageview.setImageBitmap(bitmap);
@@ -154,9 +144,9 @@ public class MainActivity extends Activity {
             }
 
         } else if (requestCode == CAMERA) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageview.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
+            this.bitmap = (Bitmap) data.getExtras().get("data");
+            imageview.setImageBitmap(this.bitmap);
+            this.path = saveImage(this.bitmap);
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
             photoChosen = true;
         }
@@ -244,4 +234,5 @@ public class MainActivity extends Activity {
         });
 
     }
+
 }
