@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -94,21 +95,9 @@ public class Color_Filters extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                bufferedBitmap = movieFilter(bitmap);
-                                imageView.setImageBitmap(bufferedBitmap);
-                                break;
-                            case 1:
-                                bufferedBitmap = fastBlur(bitmap);
-                                imageView.setImageBitmap(bufferedBitmap);
-                                break;
-                            case 2:
-                                bufferedBitmap = createGrayscale(bitmap);
-                                imageView.setImageBitmap(bufferedBitmap);
-                                break;
-                        }
-
+                        // start algo in the backgroung
+                        AsyncTaskFilters filterAsync = new AsyncTaskFilters();
+                        filterAsync.execute(which);
                     }
                 });
         pictureDialog.show();
@@ -398,6 +387,46 @@ public class Color_Filters extends AppCompatActivity {
             }
         }
         return bmOut;
+    }
+
+    private class AsyncTaskFilters extends AsyncTask <Integer, Void, Bitmap> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(), "New thread created", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        protected Bitmap doInBackground(Integer... which) {
+            int a = which[0];
+            Bitmap result = null;
+            switch (a) {
+                case 0:
+                    result = movieFilter(bitmap);
+                    break;
+                case 1:
+                    result = fastBlur(bitmap);
+                    break;
+                case 2:
+                    result = createGrayscale(bitmap);
+                    break;
+            }
+            if (result == null){
+                Toast.makeText(getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
+                return bitmap;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            bufferedBitmap = result;
+            imageView.setImageBitmap(result);
+            Toast.makeText(getApplicationContext(), "SO GOOD", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
