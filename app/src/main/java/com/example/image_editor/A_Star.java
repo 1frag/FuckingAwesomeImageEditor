@@ -44,7 +44,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
     private String IMAGE_DIRECTORY = "/demonuts";
     private Bitmap bitmap;
     private ArrayList<Pixel> remstart, remfinish;
-    Canvas canvas;
+    private Canvas canvas;
     private boolean start = false, finish = false;
     private Button change_start;
     private Button change_end;
@@ -305,7 +305,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         return new ArrayList<Point>();
     }
 
-    public void algorithm(View view) {
+    public void algorithm() {
 
         if (!check()) {
             return;
@@ -313,8 +313,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         int n = bitmap.getWidth();
         int m = bitmap.getHeight();
 
-        ArrayList<Point> answer = new ArrayList<Point>();
-        answer = A_Star(n, m);
+        ArrayList<Point> answer = A_Star(n, m);
 
         for(int i=0;i<answer.size();i++){
             bitmap.setPixel(answer.get(i).x,
@@ -324,4 +323,18 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         Log.i("UPD", "END");
 
     }
+
+    public Bitmap ImportantShit(Bitmap bitmap){
+
+        remstart = new ArrayList<>();
+        remfinish = new ArrayList<>();
+
+        canvas = new Canvas(bitmap);
+        imageView.setImageBitmap(bitmap);
+
+        algorithm();
+
+        return bitmap;
+    }
+
 }
