@@ -18,9 +18,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".algem"
+            android:label="Algem"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".A_Star"
             android:label="@string/title_activity_a__star"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Rotation"
             android:label="@string/title_activity_rotation"

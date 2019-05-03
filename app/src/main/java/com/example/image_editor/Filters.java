@@ -38,6 +38,7 @@ public class Filters extends AppCompatActivity {
         configColorFiltersButton();
         configRotationButton();
         configAStarButton();
+        configAlgemButton();
     }
 
     // button configs below
@@ -87,6 +88,19 @@ public class Filters extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Filters.this, A_Star.class);
+                intent.putExtra("Image", path);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void configAlgemButton(){
+        Button algemButton = (Button) findViewById(R.id.algem);
+        algemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Filters.this, algem.class);
                 intent.putExtra("Image", path);
                 startActivity(intent);
             }

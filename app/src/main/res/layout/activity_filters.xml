@@ -116,4 +116,15 @@
         app:layout_constraintTop_toTopOf="@+id/open_rotation"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Button
+        android:id="@+id/algem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="80dp"
+        android:text="algem"
+        app:layout_constraintStart_toStartOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@+id/open_rotation" />
+
 </android.support.constraint.ConstraintLayout>
