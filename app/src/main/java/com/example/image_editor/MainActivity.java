@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
     private TextView textview;
     private Bitmap bitmap;
     private String path;
-    private static final String IMAGE_DIRECTORY = "/demonuts";
+    private static final String IMAGE_DIRECTORY = "/awesome";
     private int GALLERY = 1, CAMERA = 2;
     private boolean photoChosen = false;
 
@@ -168,7 +168,8 @@ public class MainActivity extends Activity {
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
+            MediaScannerConnection.scanFile(
+                    this,
                     new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
             fo.close();
