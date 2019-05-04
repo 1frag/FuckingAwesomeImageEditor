@@ -231,4 +231,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void click_a_star(View view) {
+        // todo: показать где-то три кнопки
+        // todo: реагировать на них
+        // todo: присабачить алгоритм
+    }
 }
