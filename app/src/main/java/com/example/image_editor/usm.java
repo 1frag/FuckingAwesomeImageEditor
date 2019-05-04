@@ -48,7 +48,7 @@ public class usm {
         for (int i = 0; i < bitmap.getWidth(); i++) {
             for (int j = 0; j < bitmap.getHeight(); j++) {
                 int now = bitmap.getPixel(i, j);
-                int R = Color.red(now);
+               t int R = Color.red(now);
                 R = (int) (F * (R - 128) + 128);
                 int G = Color.green(now);
                 G = (int) (F * (G - 128) + 128);
