@@ -51,7 +51,7 @@ import java.util.Calendar;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private Button btn;
     private ImageView imageview;
@@ -64,47 +64,49 @@ public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList myDataset= new ArrayList();
+    private ArrayList myDataset = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        // todo: what is rool good tone this. or it is redundant?)
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.imageview = findViewById(R.id.iv);
 
     }
 
     private void showPictureDialog() {
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
-        pictureDialog.setTitle("Select Action");
-        String[] pictureDialogItems = {
-                "Select photo from gallery",
-                "Capture photo from camera"};
-        pictureDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                choosePhotoFromGallery();
-                                break;
-                            case 1:
-                                takePhotoFromCamera();
-                                break;
-                        }
-                    }
-                });
-        pictureDialog.show();
+//        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+//        pictureDialog.setTitle("Select Action");
+//        String[] pictureDialogItems = {
+//                "Select photo from gallery",
+//                "Capture photo from camera"};
+//        pictureDialog.setItems(pictureDialogItems,
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        switch (which) {
+//                            case 0:
+//                                choosePhotoFromGallery();
+//                                break;
+//                            case 1:
+//                                takePhotoFromCamera();
+//                                break;
+//                        }
+//                    }
+//                });
+//        pictureDialog.show();
     }
 
-    public void choosePhotoFromGallery() {
+    public void choosePhotoFromGallery(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(galleryIntent, GALLERY);
     }
 
-    private void takePhotoFromCamera() {
+    public void takePhotoFromCamera(View view) {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
     }
@@ -122,11 +124,11 @@ public class MainActivity extends AppCompatActivity{
                 try {
                     this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                     // if photo is too big
-                    if (this.bitmap.getByteCount() > 10000000){
+                    if (this.bitmap.getByteCount() > 10000000) {
                         Toast.makeText(getApplicationContext(), "Your photo is too large!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    this.path = saveImage(bitmap);
+//                    this.path = saveImage(bitmap); todo: test: is it correct? (not saved!)
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageview.setImageBitmap(bitmap);
                     photoChosen = true;
@@ -140,15 +142,17 @@ public class MainActivity extends AppCompatActivity{
         } else if (requestCode == CAMERA) {
             this.bitmap = (Bitmap) data.getExtras().get("data");
             imageview.setImageBitmap(this.bitmap);
-            this.path = saveImage(this.bitmap);
+//            this.path = saveImage(this.bitmap); todo: 129 _0_0_
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
             photoChosen = true;
         }
     }
 
-    public String saveImage(Bitmap myBitmap) {
+    public void saveImage(View view) {
+        // todo: think about loading from private bitmap or imageview??
+
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
         // have the object build the directory structure, if needed.
@@ -167,12 +171,10 @@ public class MainActivity extends AppCompatActivity{
                     new String[]{"image/jpeg"}, null);
             fo.close();
             Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
-            return f.getAbsolutePath();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        return "";
+        // todo: toast or logs
     }
 
     private void requestMultiplePermissions() {
@@ -211,7 +213,7 @@ public class MainActivity extends AppCompatActivity{
                 .check();
     }
 
-    private void configFiltersButton(){
+    private void configFiltersButton() {
 //        Button filterButton = (Button) findViewById(R.id.filter_picker);
 //        filterButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
