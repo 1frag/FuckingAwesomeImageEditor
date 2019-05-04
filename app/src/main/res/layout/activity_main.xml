@@ -7,66 +7,32 @@
     android:orientation="vertical"
     android:background="@color/darkGrey">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:text="@string/app_name"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/White"
-            android:textSize="25sp"
-            android:textStyle="bold|italic"
-            app:fontFamily="sans-serif" />
-
-    </android.support.v7.widget.Toolbar>
-
 
     <ImageButton
         android:id="@+id/imgCamera"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="0dp"
+        android:layout_marginStart="0dp"
         android:background="@color/Black"
         android:padding="8dp"
         android:src="@drawable/ic_cam"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        android:layout_marginLeft="0dp" />
 
     <ImageView
         android:id="@+id/imgGallery"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="0dp"
         android:background="@color/Black"
-        android:padding="8dp"
+        android:padding="0dp"
         android:src="@drawable/ic_library"
         app:layout_constraintStart_toEndOf="@+id/imgCamera"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
-        tools:ignore="ContentDescription"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/imgRedo"
@@ -87,15 +53,15 @@
         android:id="@+id/imgDownload"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_margin="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
         android:background="@color/Black"
         android:padding="8dp"
         android:src="@drawable/ic_download"
-        app:layout_constraintEnd_toEndOf="@+id/my_toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <ImageButton
@@ -121,8 +87,8 @@
         android:layout_margin="10dp"
         android:layout_marginTop="8dp"
         android:src="@mipmap/ic_launcher"
-        app:layout_constraintTop_toBottomOf="@+id/imgCamera"
-        tools:layout_editor_absoluteX="45dp" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="-8dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvConstraintTools"
@@ -143,13 +109,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="216dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:text="@string/HINT"
         android:textColor="@color/White"
@@ -157,8 +118,9 @@
         android:textStyle="bold|italic"
         app:fontFamily="sans-serif"
         app:layout_constraintEnd_toStartOf="@+id/imgDownload"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imgGallery"
-        app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <Button
@@ -200,40 +162,5 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/btn3"
         app:layout_constraintTop_toBottomOf="@+id/iv" />
-
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:onClick="get_base64"
-        android:text="@string/select_or_capture_image"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"/>
-
-
-
-    <Button
-        android:id="@+id/filter_picker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/choose_filter"
-        app:layout_constraintBottom_toTopOf="@+id/btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="invisible"/>
 
 </android.support.constraint.ConstraintLayout>

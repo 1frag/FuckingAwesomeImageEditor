@@ -51,7 +51,7 @@ import java.util.Calendar;
 
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity{
 
     private Button btn;
     private ImageView imageview;
@@ -68,34 +68,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) findViewById(R.id.rvConstraintTools);
-        recyclerView.setHasFixedSize(true);
 
-        myDataset.add("A star");
-        myDataset.add("Filters");
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(myDataset);
-        recyclerView.setAdapter(mAdapter);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        requestMultiplePermissions();
-
-        btn = (Button) findViewById(R.id.btn);
-        imageview = (ImageView) findViewById(R.id.iv);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPictureDialog();
-            }
-        });
-
-        configFiltersButton();
 
     }
 
@@ -237,20 +212,20 @@ public class MainActivity extends Activity {
     }
 
     private void configFiltersButton(){
-        Button filterButton = (Button) findViewById(R.id.filter_picker);
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (photoChosen) {
-                    Intent intent = new Intent(MainActivity.this, Filters.class);
-                    intent.putExtra("Image", path);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "You need to choose photo first!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        Button filterButton = (Button) findViewById(R.id.filter_picker);
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (photoChosen) {
+//                    Intent intent = new Intent(MainActivity.this, Filters.class);
+//                    intent.putExtra("Image", path);
+//                    startActivity(intent);
+//                }
+//                else{
+//                    Toast.makeText(getApplicationContext(), "You need to choose photo first!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
     }
 
