@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.textclassifier.TextClassification;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,7 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.List;
@@ -58,9 +61,25 @@ public class MainActivity extends Activity {
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
     private boolean photoChosen = false;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList myDataset= new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        recyclerView = (RecyclerView) findViewById(R.id.rvConstraintTools);
+        recyclerView.setHasFixedSize(true);
+
+        myDataset.add("A star");
+        myDataset.add("Filters");
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MyAdapter(myDataset);
+        recyclerView.setAdapter(mAdapter);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
