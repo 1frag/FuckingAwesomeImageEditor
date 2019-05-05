@@ -66,24 +66,64 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList myDataset = new ArrayList();
 
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mImageUrls = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // todo: what is rool good tone this. or it is redundant?)
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        layoutManager = new LinearLayoutManager(this);
-        myDataset.add("Filters");
-        myDataset.add("A star");
-        recyclerView = (RecyclerView) findViewById(R.id.rvConstraintTools);
-        recyclerView.setHasFixedSize(true);
 
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new MyAdapter(myDataset);
-        recyclerView.setAdapter(mAdapter);
         setContentView(R.layout.activity_main);
 
         this.imageview = findViewById(R.id.iv);
+        getImages();
+    }
 
+    private void getImages(){
+        Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
+
+        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+        mNames.add("Havasu Falls");
+
+        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
+        mNames.add("Trondheim");
+
+        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
+        mNames.add("Portugal");
+
+        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
+        mNames.add("Rocky Mountain National Park");
+
+
+        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
+        mNames.add("Mahahual");
+
+        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
+        mNames.add("Frozen Lake");
+
+
+        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
+        mNames.add("White Sands Desert");
+
+        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
+        mNames.add("Austrailia");
+
+        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
+        mNames.add("Washington");
+
+        initRecyclerView();
+
+    }
+
+    private void initRecyclerView(){
+        Log.d("fuck", "initRecyclerView: init recyclerview");
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
+        recyclerView.setAdapter(adapter);
     }
 
     private void showPictureDialog() {
