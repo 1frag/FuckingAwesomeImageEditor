@@ -81,27 +81,6 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    class q extends Conductor {
-        private ArrayList<Button> buttons = new ArrayList<>();
-        private ArrayList<String> txt_btn = new ArrayList<>();
-
-        q(ArrayList<Button> buttons) {
-            super();
-            this.buttons = buttons;
-            this.txt_btn.add("set start");
-            this.txt_btn.add("set finish");
-            this.txt_btn.add("set wall");
-            this.txt_btn.add("do algo");
-        }
-
-        void touchToolbar() {
-            super.touchToolbar();
-            for (int i = 0; i < 4; i++) {
-                this.buttons.get(i).setText(this.txt_btn.get(i));
-            }
-        }
-    }
-
     private void getImages() {
         Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
 
@@ -113,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         buttons.add((Button) findViewById(R.id.btn2));
         buttons.add((Button) findViewById(R.id.btn3));
         buttons.add((Button) findViewById(R.id.btn4));
-        q Q = new q(buttons);
+        A_Star Q = new A_Star(buttons, imageview);
 
         mClasses.add(Q);
         mClasses.add(Q);

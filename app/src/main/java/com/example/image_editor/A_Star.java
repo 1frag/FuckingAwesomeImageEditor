@@ -1,34 +1,16 @@
 package com.example.image_editor;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.view.View.OnTouchListener;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,21 +18,79 @@ import java.util.PriorityQueue;
 
 import static java.lang.Math.abs;
 
-public class A_Star implements OnTouchListener {
+public class A_Star extends Conductor implements OnTouchListener {
 
-    private ImageView imageView;
-    private Bitmap bufferedBitmap;
-    private String path;
     private Integer typeDraw = 0;
-    private String IMAGE_DIRECTORY = "/demonuts";
     private Bitmap bitmap;
     private ArrayList<Pixel> remstart, remfinish;
-    private Canvas canvas;
     private boolean start = false, finish = false;
     private Button change_start;
     private Button change_end;
     private Point pnt_start, pnt_finish;
     private Point[][] par;
+
+    private ArrayList<Button> buttons;
+    private ImageView imageView;
+
+    A_Star(ArrayList<Button> buttons, ImageView imageView) {
+        /* buttons - ArrayList<Button>
+        *  buttons[0] - set start Button
+        *  buttons[1] - set finish Button
+        *  buttons[2] - set wall Button
+        *  buttons[3] - do algo
+        * */
+        super(buttons.get(3));
+        this.change_start = buttons.get(0);
+        this.change_end = buttons.get(1);
+        this.imageView = imageView;
+        this.buttons = buttons;
+        remstart = new ArrayList<>();
+        remfinish = new ArrayList<>();
+
+    }
+
+    private void ConfigWallButton(Button button) {
+        button.setText("set wall");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnsetwall(v);
+            }
+        });
+    }
+
+    private void ConfigFinishButton(Button button) {
+        button.setText("Set finish");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnsetto(v);
+            }
+        });
+    }
+
+    private void ConfigStartButton(Button button) {
+        button.setText("Set start");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnsetfrom(v);
+            }
+        });
+    }
+
+    void touchToolbar() {
+        super.touchToolbar();
+        buttons.get(3).setText("Do algo");
+        ConfigWallButton(buttons.get(2));
+        ConfigFinishButton(buttons.get(1));
+        ConfigStartButton(buttons.get(0));
+
+        bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        imageView.setImageBitmap(bitmap);
+        imageView.setOnTouchListener(this);
+    }
 
     public void btnsetfrom(View view) {
         typeDraw = 1;
@@ -111,6 +151,7 @@ public class A_Star implements OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         int mx = (int) event.getX();
         int my = (int) event.getY();
+        Log.i("upd", ((Integer)(mx)).toString() + " " + ((Integer)(my)).toString());
 //        Log.i("UPD", "touch");
         if (typeDraw == 3) {
             int rad = 15;
@@ -269,10 +310,10 @@ public class A_Star implements OnTouchListener {
                 }
             }
         }
-        return new ArrayList<Point>();
+        return new ArrayList<>();
     }
 
-    public void algorithm() {
+    private void algorithm() {
 
         if (!check()) {
             return;
@@ -291,16 +332,10 @@ public class A_Star implements OnTouchListener {
 
     }
 
-    public Bitmap touchRun(Bitmap bitmap){
-        remstart = new ArrayList<>();
-        remfinish = new ArrayList<>();
-
-        canvas = new Canvas(bitmap);
-        imageView.setImageBitmap(bitmap);
-
+    void touchRun(){
+        super.touchRun();
         algorithm();
-
-        return bitmap;
+        imageView.invalidate();
     }
 
 }
