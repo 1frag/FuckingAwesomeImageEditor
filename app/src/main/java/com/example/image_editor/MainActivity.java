@@ -73,6 +73,7 @@ public class MainActivity extends Activity {
 
         myDataset.add("A star");
         myDataset.add("Filters");
+
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);

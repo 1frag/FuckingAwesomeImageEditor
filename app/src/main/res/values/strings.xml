@@ -8,5 +8,7 @@
     <string name="choose_filter">Choose Filter</string>
     <string name="select_or_capture_image">Select or Capture Image</string>
     <string name="HINT">HINT: do something ;)</string>
+    <string name="angle">Add your angle</string>
+
 
 </resources>
