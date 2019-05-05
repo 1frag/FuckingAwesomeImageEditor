@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<Conductor> mClasses = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +81,49 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    private void getImages(){
+    class q extends Conductor {
+        private ArrayList<Button> buttons = new ArrayList<>();
+        private ArrayList<String> txt_btn = new ArrayList<>();
+
+        q(ArrayList<Button> buttons) {
+            super();
+            this.buttons = buttons;
+            this.txt_btn.add("set start");
+            this.txt_btn.add("set finish");
+            this.txt_btn.add("set wall");
+            this.txt_btn.add("do algo");
+        }
+
+        void touchToolbar() {
+            super.touchToolbar();
+            for (int i = 0; i < 4; i++) {
+                this.buttons.get(i).setText(this.txt_btn.get(i));
+            }
+        }
+    }
+
+    private void getImages() {
         Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
 
         mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
         mNames.add("Havasu Falls");
+
+        ArrayList<Button> buttons = new ArrayList<>();
+        buttons.add((Button) findViewById(R.id.btn1));
+        buttons.add((Button) findViewById(R.id.btn2));
+        buttons.add((Button) findViewById(R.id.btn3));
+        buttons.add((Button) findViewById(R.id.btn4));
+        q Q = new q(buttons);
+
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
+        mClasses.add(Q);
 
         mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
         mNames.add("Trondheim");
@@ -116,13 +155,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         Log.d("fuck", "initRecyclerView: init recyclerview");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls, mClasses);
         recyclerView.setAdapter(adapter);
     }
 

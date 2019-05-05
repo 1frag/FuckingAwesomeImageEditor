@@ -3,6 +3,7 @@ package com.example.image_editor;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -35,7 +36,7 @@ import java.util.PriorityQueue;
 
 import static java.lang.Math.abs;
 
-public class A_Star extends AppCompatActivity implements OnTouchListener {
+public class A_Star implements OnTouchListener {
 
     private ImageView imageView;
     private Bitmap bufferedBitmap;
@@ -44,46 +45,12 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
     private String IMAGE_DIRECTORY = "/demonuts";
     private Bitmap bitmap;
     private ArrayList<Pixel> remstart, remfinish;
-    Canvas canvas;
+    private Canvas canvas;
     private boolean start = false, finish = false;
     private Button change_start;
     private Button change_end;
     private Point pnt_start, pnt_finish;
     private Point[][] par;
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_a__star);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        remstart = new ArrayList<Pixel>();
-        remfinish = new ArrayList<Pixel>();
-
-        change_start = findViewById(R.id.change_start);
-        change_end = findViewById(R.id.change_end);
-
-        Intent intent = getIntent();
-        this.path = intent.getStringExtra("Image");
-
-        this.imageView = findViewById(R.id.imageScaling);
-
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            canvas = new Canvas(bitmap);
-            imageView.setImageBitmap(bitmap);
-            imageView.setOnTouchListener(this);
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-            Toast.makeText(A_Star.this, "Failed!", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
     public void btnsetfrom(View view) {
         typeDraw = 1;
@@ -305,7 +272,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         return new ArrayList<Point>();
     }
 
-    public void algorithm(View view) {
+    public void algorithm() {
 
         if (!check()) {
             return;
@@ -313,8 +280,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         int n = bitmap.getWidth();
         int m = bitmap.getHeight();
 
-        ArrayList<Point> answer = new ArrayList<Point>();
-        answer = A_Star(n, m);
+        ArrayList<Point> answer = A_Star(n, m);
 
         for(int i=0;i<answer.size();i++){
             bitmap.setPixel(answer.get(i).x,
@@ -324,4 +290,17 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         Log.i("UPD", "END");
 
     }
+
+    public Bitmap touchRun(Bitmap bitmap){
+        remstart = new ArrayList<>();
+        remfinish = new ArrayList<>();
+
+        canvas = new Canvas(bitmap);
+        imageView.setImageBitmap(bitmap);
+
+        algorithm();
+
+        return bitmap;
+    }
+
 }

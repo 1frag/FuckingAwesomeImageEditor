@@ -43,12 +43,13 @@
         android:layout_margin="10dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/Black"
         android:padding="8dp"
         android:src="@drawable/ic_redo"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintStart_toEndOf="@+id/imgUndo"
-        app:layout_constraintTop_toBottomOf="@+id/iv"
         tools:ignore="ContentDescription" />
 
     <ImageButton
@@ -74,22 +75,25 @@
         android:layout_margin="10dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/Black"
         android:padding="8dp"
         android:src="@drawable/ic_undo"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv"
         tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/iv"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/walls"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_editor_absoluteX="-253dp" />
 
@@ -100,7 +104,7 @@
         android:gravity="center"
         android:text="@string/HINT"
         android:textColor="@color/White"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold|italic"
         app:fontFamily="sans-serif"
         app:layout_constraintEnd_toStartOf="@+id/imgDownload"
@@ -110,44 +114,52 @@
 
 
     <Button
-        android:id="@+id/btn1"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn2"
-        app:layout_constraintTop_toBottomOf="@+id/iv" />
+        android:id="@+id/start"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Set start"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/btn2"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn3"
-        app:layout_constraintTop_toBottomOf="@+id/iv" />
+        android:id="@+id/finish"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Set finish"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintStart_toEndOf="@+id/start" />
 
     <Button
-        android:id="@+id/btn3"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn4"
-        app:layout_constraintTop_toBottomOf="@+id/iv" />
+        android:id="@+id/walls"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Set walls"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintStart_toEndOf="@+id/finish" />
 
     <Button
-        android:id="@+id/btn4"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:id="@+id/algo"
+        android:layout_width="118dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Start algorithm"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv" />
+        app:layout_constraintStart_toEndOf="@+id/walls" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
