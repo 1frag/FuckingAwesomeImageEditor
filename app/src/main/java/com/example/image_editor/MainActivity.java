@@ -69,6 +69,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // todo: what is rool good tone this. or it is redundant?)
+
+        myDataset.add("Filters");
+        myDataset.add("A star");
+        recyclerView = (RecyclerView) findViewById(R.id.rvConstraintTools);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyAdapter(myDataset);
+        recyclerView.setAdapter(mAdapter);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
