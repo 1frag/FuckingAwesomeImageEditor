@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.Instrumentation;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList myDataset = new ArrayList();
 
     private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mImageUrls = new ArrayList<>();
+    private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
 
     @Override
@@ -100,44 +101,40 @@ public class MainActivity extends AppCompatActivity {
     private void getImages(DesignerSingleton managerDesign) {
         Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
 
-        mImageUrls.add("https://lh3.googleusercontent.com/XakVfCC74Ek2JAod2cqM8Z69nY0HGfS5GWPQlwOD-t9xaiW_0DgB58w6fYrL3VAdrGr2OD7gGvu3j_OuY6evNoMpu5kL8jNmLLoPxvxmIMEicZ5JH7QAlHcadS_kfXAKh72vOX80rWdg5EMSm2j9carmwgIs6kHEzOzZcCRBb8KwcjqJ0N8K_FLqh0e9HpmiANsNzirVJi1HqNb3rhnXdO-E7H5q-xoFmdLoEdhU81Kdb0v0C5rhzPlFw3CuAnSQF2y-E2XdhtIHg3rRMdBY4vV38D_zdSlYZz-YG82QccRcCdkcdaNPqKdhM8If_aNBybbbAbByK5tKuOQ9luzi052b-YadVNqVCtDkSU1__KhunXgzNV74Cp3_tY2c9uh4BJeGs7LH6ae2CBx_X9ENlKdYxQjp4TmGJooIUvcL6KnDDH8V03itU63eKoa0E7LYfLKj5oHYYtSLixLTE9o6FCfBzILM7V_SwizIS9GjyWorAI9OkStapJnYMtnZqJSoLFCOBsUaSok8lzaap_i6tkKgiRD_NT6_1jpzDcJIsZuWJxjpXR4RViQb3YOXjXfsJtWOISpDXp2guO_rZMmPBYE2sDDSVXfYbD1PR-4=w250-h238-p-k-nu");
+        mImageUrls.add(R.drawable.icon_a_star);
         mNames.add("A*");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.googleusercontent.com/62loR7NsEz_knsBGi9HNDDXdWUPwWDHIiINdAVtocvMseItXxXpqT1xIHsiyytXWTX7e34WjBLYLPe6zu3VzosFFQAzdt7sO7Bd0ac0YXFtefodRNkMdknuaraW1dQIgCdJCZRCXQC3grWF3BT729DhtYPwzbVDMWoU1Zwsbovt0bTwftpLsjBe190XqsZS80izsK6Huz_oMBaDlj9_gZ1JwaaZGzw8yVSEyFihzG9b__fs1gXWrMaqYig8kQS7JNB7V7cyENN1oPs-oBa2mi2rX03EQSeVz7pEynjJxVLxlkcidMl6hyRePYUAv54izzTd9gIIFLz9uj6Lzu5Jb9IjyDx_QIt5meW_1sXNJgrTxmhzyYn54n5KSZLFe246Swy3plvTCZyFybzka-L4pzqxPSOd3kLem6DmqEz9liXTLq-_XjjW9CWvnO6cgtsX5ES-yMlsPW1vWCY7Dfymgv0VpKHuX-L5z_hJMW3CSrcQM0zhaWR6_AQlHkXquAgtz5GJ_p8po_lpoP2g00ZrHBx2v8FJg56kyBKwGZDcVU9oDYfeVZjyYoZHDxu4eUxfteCeRusVW1toqRpib5xGueW4JhQxQ-Mq7dRfoQtM=w250-h238-p-k-nu");
-        mNames.add("Interpolation");
+        mImageUrls.add(R.drawable.icon_spline);
+        mNames.add("Spline");
         mClasses.add(new algem(managerDesign));
 
-        mImageUrls.add("https://lh3.googleusercontent.com/WTW5WswCvAGIrvHUkOurpnRDOdkS2nO4amFUxH7MFvQohjzDfFkrGeKBhR5bix6YUwFqPl5XWyHw__u01GHmc20YFT3eS2xrF1nQeC67HZqfZgJYDhk91HVb9AP5OqUsM9Pr6jYTE9aEcQCI4gPexxhuwh8tX0V5Zm_CvtqNW8LDqhWS3wyyNu3kFkRgKStfsfp0fkpNkoSWiRDED4TiRfCxOAfTr4RMWrRSgSks1vbk6S5RSEVujkVfnUXCdCmM0ri8kNzc9eMXlM-kI3upckqlp8ddxRWfB9iz4d-m4cUh0qUgAqFzI6d6U8QPT9jNDvLdpGuiZughaOrEY9W5gB8x8tBUDYszBkD2Z0H8eP5qWMjy77An92rM6xgzSipnPIVMyF-fT_zmsStApfCvQVYtihTnvpYO3RjubOMT7TUripM6rL0kS7MG3Wp5AaGZLhkzBGdSX0bTso8flhtpskJEwoA80oWm7AZjvZKB3E8VcOdvcOEwXkFKMsIFYg1iH_pb9ZTVeRlu7_vpfFilzIeiqTGbcYZ0a5682sIYNFgv10g4yggSwdAZqwSfilE0tysrCB60GGoXzywXhKYWAU-0Ywx_tsdY1JRYDWk=w250-h238-p-k-nu");
+        mImageUrls.add(R.drawable.icon_rotate);
         mNames.add("Rotate");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.google.com/u/0/d/1-oY1hAQXpDlTNabvjRq3dMFz9KggF5o2=w250-h238-p-k-nu-iv1");
+        mImageUrls.add(R.drawable.icon_billinear_filter);
         mNames.add("Bilinear filter");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.google.com/u/0/d/1hHmJqYuwuXQRRYeCaPA2iKZugZ2DzQqG=w250-h238-p-k-nu-iv1");
+        mImageUrls.add(R.drawable.icon_billinear_filter_2);
         mNames.add("three linear");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.google.com/u/0/d/1Wrowvm_9pE0Pz-eRtr3-TfupmaxcdYS4=w250-h238-p-k-nu-iv1");
+        mImageUrls.add(R.drawable.icon_retouch);
         mNames.add("Retouch");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.google.com/u/0/d/1uIy6ClqP5o4rA6c-oI9rcRIXqkpyhEbA=w250-h238-p-k-nu-iv1");
+        mImageUrls.add(R.drawable.icon_scale);
         mNames.add("Scale");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.google.com/u/0/d/1E09hl9Bxi_PG17MhxhEojqi8QCXZs3Nq=w250-h238-p-k-nu-iv1");
+        mImageUrls.add(R.drawable.icon_segmentation);
         mNames.add("Segmentation");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add("https://lh3.google.com/u/0/d/15kNFyAOAMP6dbZC18q4eZ8L_EkmU1PoZ=w250-h238-p-k-nu-iv1");
+        mImageUrls.add(R.drawable.icon_sharpness);
         mNames.add("Sharpness");
-        mClasses.add(new A_Star(managerDesign));
-
-        mImageUrls.add("https://lh3.google.com/u/0/d/18j7zyWCV47KfHHCwMT6EJnUOCTDVz5Qe=w250-h238-p-k-nu-iv1");
-        mNames.add("spline");
         mClasses.add(new A_Star(managerDesign));
 
         initRecyclerView();
