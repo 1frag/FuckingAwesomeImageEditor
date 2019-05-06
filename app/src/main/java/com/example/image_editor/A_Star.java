@@ -33,12 +33,6 @@ public class A_Star extends Conductor implements OnTouchListener {
     private ImageView imageView;
 
     A_Star(ArrayList<Button> buttons, ImageView imageView) {
-        /* buttons - ArrayList<Button>
-        *  buttons[0] - set start Button
-        *  buttons[1] - set finish Button
-        *  buttons[2] - set wall Button
-        *  buttons[3] - do algo
-        * */
         super(buttons.get(3));
         this.change_start = buttons.get(0);
         this.change_end = buttons.get(1);
@@ -86,13 +80,14 @@ public class A_Star extends Conductor implements OnTouchListener {
         ConfigFinishButton(buttons.get(1));
         ConfigStartButton(buttons.get(0));
 
-        bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
     }
 
-    public void btnsetfrom(View view) {
+    private void btnsetfrom(View view) {
         typeDraw = 1;
         if (start) {
             for (int i = 0; i < remstart.size(); i++) {
@@ -106,7 +101,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
     }
 
-    public void btnsetto(View view) {
+    private void btnsetto(View view) {
         typeDraw = 2;
         if (finish) {
             for (int i = 0; i < remfinish.size(); i++) {
@@ -120,7 +115,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
     }
 
-    public void btnsetwall(View view) {
+    private void btnsetwall(View view) {
         typeDraw = 3;
     }
 
@@ -144,14 +139,13 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     private void errorTouched() {
         // todo: hand this
-        return;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int mx = (int) event.getX();
         int my = (int) event.getY();
-        Log.i("upd", ((Integer)(mx)).toString() + " " + ((Integer)(my)).toString());
+        Log.i("upd", ((Integer) (mx)).toString() + " " + ((Integer) (my)).toString());
 //        Log.i("UPD", "touch");
         if (typeDraw == 3) {
             int rad = 15;
@@ -231,7 +225,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             change_start.setText("delete from");
             return true;
         } else {
-            // TODO: toast with message: wtf u don't click button
+            // TODO: message: wtf u don't click button
         }
         return false;
     }
@@ -246,9 +240,9 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private ArrayList<Point> reconstruct_path() {
-        ArrayList<Point> res = new ArrayList<Point>();
+        ArrayList<Point> res = new ArrayList<>();
         Point now = pnt_finish;
-        while (now != pnt_start){
+        while (now != pnt_start) {
             res.add(now);
             now = par[now.x][now.y];
         }
@@ -257,7 +251,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         return res;
     }
 
-    private ArrayList<Point> A_Star(int n, int m) {
+    private ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
         par = new Point[n][m];
@@ -266,24 +260,19 @@ public class A_Star extends Conductor implements OnTouchListener {
                 in_open[i][j] = false;
             }
         }
-//        Log.i("UPD", "A_Star: end for in for");
+        
         int[] dirx = {0, 0, 1, -1};
         int[] diry = {1, -1, 0, 0};
 
-        HashSet<Point> closedset = new HashSet<Point>();
+        HashSet<Point> closedset = new HashSet<>();
         PointComparator myComp = new PointComparator(pnt_finish, n, m);
         PriorityQueue<Point> openset =
-                new PriorityQueue<Point>(10, myComp);
+                new PriorityQueue<>(10, myComp);
         openset.add(pnt_start);
         myComp.setInG(pnt_start, 0);
-        int k=0;
-        Log.i("UPD", ((Integer)pnt_start.x).toString() + " " + ((Integer)pnt_start.y).toString());
-        Log.i("UPD", ((Integer)pnt_finish.x).toString() + " " + ((Integer)pnt_finish.y).toString());
+
         while (!openset.isEmpty()) {
             Point x = openset.poll();
-
-//            bitmap.setPixel(x.x, x.y, Color.BLUE);
-//            imageView.invalidate();
 
             if (x.x == pnt_finish.x && x.y == pnt_finish.y) {
                 return reconstruct_path();
@@ -313,28 +302,23 @@ public class A_Star extends Conductor implements OnTouchListener {
         return new ArrayList<>();
     }
 
-    private void algorithm() {
-
+    void touchRun() {
+        super.touchRun();
+        
         if (!check()) {
             return;
         }
         int n = bitmap.getWidth();
         int m = bitmap.getHeight();
 
-        ArrayList<Point> answer = A_Star(n, m);
+        ArrayList<Point> answer = algorithm(n, m);
 
-        for(int i=0;i<answer.size();i++){
+        for (int i = 0; i < answer.size(); i++) {
             bitmap.setPixel(answer.get(i).x,
                     answer.get(i).y,
                     Color.YELLOW);
         }
-        Log.i("UPD", "END");
-
-    }
-
-    void touchRun(){
-        super.touchRun();
-        algorithm();
+        
         imageView.invalidate();
     }
 
