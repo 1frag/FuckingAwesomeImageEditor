@@ -1,53 +1,61 @@
 package com.example.image_editor;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.net.Uri;
-import android.os.Build;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class algem extends Conductor implements View.OnTouchListener {
 
     private ImageView imageView;
-    private String path;
     private Bitmap bitmap;
     private Canvas canvas;
     private int typeEvent;
-    private ArrayList<DPoint> K;
+    private ArrayList<DPoint> K = new ArrayList<>();
+    private DesignerSingleton managerDesign;
     private int n;
 
-    algem(Button btn4) {
-        super(btn4);
+    algem(DesignerSingleton managerDesign) {
+        super(managerDesign.btn4);
+        this.managerDesign = managerDesign;
+        this.imageView = managerDesign.imageView;
     }
 
-    void touchToolbar(){
+    void touchToolbar() {
         // btn1 -> draw point
         // btn2 -> do interpolation
+        super.touchToolbar();
+        managerDesign.btn4.setText("Do int...on");
+        ConfigDrawPointsButton(managerDesign.btn1);
+        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        canvas = new Canvas(bitmap);
+        imageView.setImageBitmap(bitmap);
+        imageView.setOnTouchListener(this);
     }
 
-    void touchRun(){
+    private void ConfigDrawPointsButton(Button btn1) {
+        btn1.setText("Draw Points");
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setpoint(v);
+            }
+        });
+    }
 
+    void touchRun() {
+        algorithm();
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +90,22 @@ public class algem extends Conductor implements View.OnTouchListener {
         int mx = (int) event.getX();
         int my = (int) event.getY();
         if (typeEvent == 1 && event.getAction() == 0) {
-            canvas.drawCircle(mx, my, 15, new Paint(Color.BLACK));
+//            canvas.drawCircle(mx, my, 15, new Paint(Color.BLACK));
+            DrawCircle(mx, my, 15, Color.BLACK);
             K.add(new DPoint(mx, my));
             imageView.invalidate();
             return true;
         }
         return false;
+    }
+
+    private void DrawCircle(int mx, int my, int r, int color) {
+        for (int x = mx - r; x <= mx + r; x++) {
+            for (int y = my - r; y <= my + r; y++) {
+                if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r)
+                    bitmap.setPixel(x, y, color);
+            }
+        }
     }
 
     public void setpoint(View view) {
@@ -156,7 +174,7 @@ public class algem extends Conductor implements View.OnTouchListener {
     }
 
     @SuppressLint("Assert")
-    public void algorithm(View view) {
+    private void algorithm() {
         // in first we have:
         //
         // 2 * P(1, 0  ) + 1 * P(1, 1 )                 = K(0)+2*K(1)
@@ -169,10 +187,6 @@ public class algem extends Conductor implements View.OnTouchListener {
 //        DrawC(P1.get(0));
 //        DrawC(P2.get(0));
         DrawSpline(P1, P2);
-    }
-
-    private void DrawC(DPoint dPoint) {
-        canvas.drawCircle((int) dPoint.x, (int) dPoint.y, 5, new Paint(Color.BLACK));
     }
 
     private void DrawSpline(ArrayList<DPoint> p1, ArrayList<DPoint> p2) {

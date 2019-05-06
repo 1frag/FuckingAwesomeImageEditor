@@ -79,16 +79,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.imageview = findViewById(R.id.iv);
-        getImages();
+
+        DesignerSingleton managerDesign = DesignerInit();
+        getImages(managerDesign);
     }
 
-    private void getImages() {
-        Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
-
-        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-        mNames.add("Havasu Falls");
-
-        DesignerSingleton managerDesign = DesignerSingleton.getInstance(
+    private DesignerSingleton DesignerInit() {
+        return DesignerSingleton.getInstance(
                 (Button) findViewById(R.id.btn1),
                 (Button) findViewById(R.id.btn2),
                 (Button) findViewById(R.id.btn3),
@@ -98,44 +95,46 @@ public class MainActivity extends AppCompatActivity {
                 (ImageButton) findViewById(R.id.imgUndo),
                 (TextView) findViewById(R.id.logger)
         );
+    }
 
-        A_Star Q = new A_Star(managerDesign);
+    private void getImages(DesignerSingleton managerDesign) {
+        Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
 
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
-        mClasses.add(Q);
+        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
+        mNames.add("Havasu Falls");
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
         mNames.add("Trondheim");
+        mClasses.add(new algem(managerDesign));
 
         mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
         mNames.add("Portugal");
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
         mNames.add("Rocky Mountain National Park");
-
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
         mNames.add("Mahahual");
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
         mNames.add("Frozen Lake");
-
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
         mNames.add("White Sands Desert");
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
         mNames.add("Austrailia");
+        mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
         mNames.add("Washington");
+        mClasses.add(new A_Star(managerDesign));
 
         initRecyclerView();
 
