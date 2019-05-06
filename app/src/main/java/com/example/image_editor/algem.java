@@ -2,7 +2,6 @@ package com.example.image_editor;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,7 +18,6 @@ public class algem extends Conductor implements View.OnTouchListener {
 
     private ImageView imageView;
     private Bitmap bitmap;
-    private Canvas canvas;
     private int typeEvent;
     private ArrayList<DPoint> K = new ArrayList<>();
     private DesignerSingleton managerDesign;
@@ -39,7 +37,6 @@ public class algem extends Conductor implements View.OnTouchListener {
         ConfigDrawPointsButton(managerDesign.btn1);
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        canvas = new Canvas(bitmap);
         imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
     }
@@ -90,7 +87,6 @@ public class algem extends Conductor implements View.OnTouchListener {
         int mx = (int) event.getX();
         int my = (int) event.getY();
         if (typeEvent == 1 && event.getAction() == 0) {
-//            canvas.drawCircle(mx, my, 15, new Paint(Color.BLACK));
             DrawCircle(mx, my, 15, Color.BLACK);
             K.add(new DPoint(mx, my));
             imageView.invalidate();
@@ -205,7 +201,6 @@ public class algem extends Conductor implements View.OnTouchListener {
                 if (ny < 0 || ny >= bitmap.getHeight()) continue;
                 Log.i("upd", "yes");
                 bitmap.setPixel(nx, ny, Color.BLACK);
-                canvas.drawCircle(nx, ny, 5, new Paint(Color.BLACK));
             }
         }
         imageView.invalidate();
