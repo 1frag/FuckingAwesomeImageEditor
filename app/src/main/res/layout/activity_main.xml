@@ -97,10 +97,10 @@
         app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/logger" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/logger"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"

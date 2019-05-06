@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.textclassifier.TextClassification;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,12 +88,18 @@ public class MainActivity extends AppCompatActivity {
         mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
         mNames.add("Havasu Falls");
 
-        ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add((Button) findViewById(R.id.btn1));
-        buttons.add((Button) findViewById(R.id.btn2));
-        buttons.add((Button) findViewById(R.id.btn3));
-        buttons.add((Button) findViewById(R.id.btn4));
-        A_Star Q = new A_Star(buttons, imageview);
+        DesignerSingleton managerDesign = DesignerSingleton.getInstance(
+                (Button) findViewById(R.id.btn1),
+                (Button) findViewById(R.id.btn2),
+                (Button) findViewById(R.id.btn3),
+                (Button) findViewById(R.id.btn4),
+                (ImageView) findViewById(R.id.iv),
+                (ImageButton) findViewById(R.id.imgRedo),
+                (ImageButton) findViewById(R.id.imgUndo),
+                (TextView) findViewById(R.id.logger)
+        );
+
+        A_Star Q = new A_Star(managerDesign);
 
         mClasses.add(Q);
         mClasses.add(Q);

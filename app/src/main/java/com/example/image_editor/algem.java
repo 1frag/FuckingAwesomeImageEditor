@@ -19,6 +19,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class algem extends AppCompatActivity implements View.OnTouchListener {
+public class algem extends Conductor implements View.OnTouchListener {
 
     private ImageView imageView;
     private String path;
@@ -36,33 +37,43 @@ public class algem extends AppCompatActivity implements View.OnTouchListener {
     private ArrayList<DPoint> K;
     private int n;
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
+    algem(Button btn4) {
+        super(btn4);
+    }
+
+    void touchToolbar(){
+        // btn1 -> draw point
+        // btn2 -> do interpolation
+    }
+
+    void touchRun(){
+
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_algem);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        typeEvent = 0;
-        K = new ArrayList<>();
-
-        Intent intent = getIntent();
-        this.path = intent.getStringExtra("Image");
-
-        this.imageView = findViewById(R.id.imageScaling);
-
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            canvas = new Canvas(bitmap);
-            imageView.setImageBitmap(bitmap);
-            imageView.setOnTouchListener(this);
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-            Toast.makeText(algem.this, "Failed!", Toast.LENGTH_SHORT).show();
-        }
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_algem);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        typeEvent = 0;
+//        K = new ArrayList<>();
+//
+//        Intent intent = getIntent();
+//        this.path = intent.getStringExtra("Image");
+//
+//        this.imageView = findViewById(R.id.imageScaling);
+//
+//        try {
+//            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
+//            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+//            canvas = new Canvas(bitmap);
+//            imageView.setImageBitmap(bitmap);
+//            imageView.setOnTouchListener(this);
+//        } catch (
+//                IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(algem.this, "Failed!", Toast.LENGTH_SHORT).show();
+//        }
 
     }
 

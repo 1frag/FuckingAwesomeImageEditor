@@ -29,15 +29,15 @@ public class A_Star extends Conductor implements OnTouchListener {
     private Point pnt_start, pnt_finish;
     private Point[][] par;
 
-    private ArrayList<Button> buttons;
     private ImageView imageView;
+    private DesignerSingleton managerDesign;
 
-    A_Star(ArrayList<Button> buttons, ImageView imageView) {
-        super(buttons.get(3));
-        this.change_start = buttons.get(0);
-        this.change_end = buttons.get(1);
-        this.imageView = imageView;
-        this.buttons = buttons;
+    A_Star(DesignerSingleton managerDesign) {
+        super(managerDesign.btn4);
+        this.managerDesign = managerDesign;
+        this.change_start = managerDesign.btn1;
+        this.change_end = managerDesign.btn2;
+        this.imageView = managerDesign.imageView;
         remstart = new ArrayList<>();
         remfinish = new ArrayList<>();
 
@@ -75,10 +75,10 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     void touchToolbar() {
         super.touchToolbar();
-        buttons.get(3).setText("Do algo");
-        ConfigWallButton(buttons.get(2));
-        ConfigFinishButton(buttons.get(1));
-        ConfigStartButton(buttons.get(0));
+        managerDesign.btn4.setText("Do algo");
+        ConfigWallButton(managerDesign.btn3);
+        ConfigFinishButton(managerDesign.btn2);
+        ConfigStartButton(managerDesign.btn1);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
