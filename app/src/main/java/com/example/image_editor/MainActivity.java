@@ -72,6 +72,28 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
 
+//    private DesignerSingleton managerDesign;
+//    private Button load_from_cam;
+//    private Button load_from_gallery;
+//    private ImageView imageView;
+//    private RecyclerView methods;
+//    private Button undo;
+//    private Button redo;
+//    private Button download;
+//    private TextView hint;
+//
+//    Defolt_station(DesignerSingleton managerDesign) {
+//        this.managerDesign = managerDesign;
+//        this.load_from_cam = managerDesign.imgCamera;
+//        this.load_from_gallery = managerDesign.imgGallery;
+//        this.imageView = managerDesign.iv;
+//        this.methods = managerDesign.recyclerView;
+//        this.undo = managerDesign.imgUndo;
+//        this.redo = managerDesign.imgRedo;
+//        this.download = managerDesign.imgDownload;
+//        this.hint = managerDesign.logger;
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // todo: what is rool good tone this. or it is redundant?)
