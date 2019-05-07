@@ -23,7 +23,7 @@ class Conductor{
         Log.i("upd", "touchToolbar");
     }
 
-    class AsyncTaskConductor extends AsyncTask<Integer, Void, Bitmap>{
+    class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -32,28 +32,28 @@ class Conductor{
         }
 
         @Override
-        protected Bitmap doInBackground(Integer... params) {
+        protected Bitmap doInBackground(String... params) {
 
-            int which = params[0];
-            Bitmap result = null;
+            String which = params[0];
+            System.out.println(which);
 
             Bitmap bitmap = ((BitmapDrawable)activity.getImageView().getDrawable()).getBitmap();
             switch (which) {
-                case 0:
-                    result = ColorFIltersCollection.movieFilter(bitmap);
+                case "Movie":
+                    bitmap = ColorFIltersCollection.movieFilter(bitmap);
                     break;
-                case 1:
-                    result = ColorFIltersCollection.fastBlur(bitmap);
+                case "Blur":
+                    bitmap = ColorFIltersCollection.fastBlur(bitmap);
                     break;
-                case 2:
-                    result = ColorFIltersCollection.createGrayScale(bitmap);
+                case "Black and white":
+                    bitmap = ColorFIltersCollection.createGrayScale(bitmap);
                     break;
             }
-            if (result == null){
+            if (bitmap == null){
                 Toast.makeText(activity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
                 return bitmap;
             }
-            return result;
+            return bitmap;
         }
 
         @Override

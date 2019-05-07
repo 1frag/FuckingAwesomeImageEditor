@@ -85,7 +85,7 @@ public class Color_Filters extends Conductor {
     private void showFilterDialog() {
         AlertDialog.Builder filterDialog = new AlertDialog.Builder(activity);
         filterDialog.setTitle("Select color filter");
-        String[] pictureDialogItems = {
+        final String[] pictureDialogItems = {
                 "Movie",
                 "Blur",
                 "Black and white"};
@@ -95,7 +95,7 @@ public class Color_Filters extends Conductor {
                     public void onClick(DialogInterface dialog, int which) {
                         // start algo in the background
                         AsyncTaskConductor filterAsync = new AsyncTaskConductor();
-                        filterAsync.execute(which);
+                        filterAsync.execute(pictureDialogItems[which]);
                     }
                 });
         filterDialog.show();
