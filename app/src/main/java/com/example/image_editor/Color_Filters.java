@@ -14,10 +14,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -41,12 +43,32 @@ public class Color_Filters extends Conductor {
     private String IMAGE_DIRECTORY = "/demonuts";
 
     private ImageView imageView;
+    private MainActivity activity;
 
     Color_Filters(MainActivity activity) {
         super(activity);
-//        this.managerDesign = DesignerSingleton.getInstance();
-//        this.selectFilter = managerDesign.btn1;
-//        this.imageView = managerDesign.imageView;
+        // work only with activity_main.xml
+        this.activity = activity;
+        this.imageView = activity.getImageView();
+
+    }
+
+    void touchToolbar() {
+        super.touchToolbar();
+        activity.getLayoutInflater().inflate( // constant line (magic)
+                R.layout.filters_menu, // your layout
+                activity.getPlaceHolder()); // constant line (magic)
+        RecyclerView rv = activity.findViewById(R.id.recyclerView);
+        rv.setVisibility(View.GONE);
+        // here you can touch your extending layout
+
+        Button btn_filter_picker = activity.findViewById(R.id.filter_picker);
+
+        configSelectFilterButton(btn_filter_picker);
+
+        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+        imageView.setImageBitmap(bitmap);
     }
 
     private void configSelectFilterButton(Button button) {
@@ -59,72 +81,23 @@ public class Color_Filters extends Conductor {
         });
     }
 
-    void touchToolbar() {
-        super.touchToolbar();
-//        managerDesign.btn4.setText("Do algo");
-//        configSelectFilterButton(managerDesign.btn1);
-
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        imageView.setImageBitmap(bitmap);
-    }
 
     private void showFilterDialog() {
-//        AlertDialog.Builder filterDialog = new AlertDialog.Builder();
-//        filterDialog.setTitle("Select color filter");
-//        String[] pictureDialogItems = {
-//                "Movie",
-//                "Blur",
-//                "Black and white"};
-//        filterDialog.setItems(pictureDialogItems,
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        // start algo in the backgroung
-//                        AsyncTaskFilters filterAsync = new AsyncTaskFilters();
-//                        filterAsync.execute(which);
-//                    }
-//                });
-//        filterDialog.show();
+        AlertDialog.Builder filterDialog = new AlertDialog.Builder(activity);
+        filterDialog.setTitle("Select color filter");
+        final String[] pictureDialogItems = {
+                "Movie",
+                "Blur",
+                "Black and white"};
+        filterDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // start algo in the background
+                        AsyncTaskConductor filterAsync = new AsyncTaskConductor();
+                        filterAsync.execute(pictureDialogItems[which]);
+                    }
+                });
+        filterDialog.show();
     }
-
-    private class AsyncTaskFilters extends AsyncTask <Integer, Void, Bitmap> {
-
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Toast.makeText(getApplicationContext(), "New thread created", Toast.LENGTH_SHORT).show();
-
-//        }
-
-        @Override
-        protected Bitmap doInBackground(Integer... which) {
-            int a = which[0];
-            Bitmap result = null;
-            switch (a) {
-                case 0:
-                    result = ColorFIltersCollection.movieFilter(bitmap);
-                    break;
-                case 1:
-                    result = ColorFIltersCollection.fastBlur(bitmap);
-                    break;
-                case 2:
-                    result = ColorFIltersCollection.createGrayScale(bitmap);
-                    break;
-            }
-            if (result == null){
-//                Toast.makeText(getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
-                return bitmap;
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            bufferedBitmap = result;
-            imageView.setImageBitmap(result);
-//            Toast.makeText(getApplicationContext(), "SO GOOD", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 }

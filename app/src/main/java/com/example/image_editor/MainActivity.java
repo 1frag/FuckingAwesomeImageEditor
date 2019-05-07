@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         mImageUrls.add(R.drawable.icon_color_filters);
         mNames.add("Filters");
-        mClasses.add(new A_Star(this));
+        mClasses.add(new Color_Filters(this));
 
         mImageUrls.add(R.drawable.icon_retouch);
         mNames.add("Retouch");
@@ -167,28 +167,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    private void showPictureDialog() {
-//        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
-//        pictureDialog.setTitle("Select Action");
-//        String[] pictureDialogItems = {
-//                "Select photo from gallery",
-//                "Capture photo from camera"};
-//        pictureDialog.setItems(pictureDialogItems,
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        switch (which) {
-//                            case 0:
-//                                choosePhotoFromGallery();
-//                                break;
-//                            case 1:
-//                                takePhotoFromCamera();
-//                                break;
-//                        }
-//                    }
-//                });
-//        pictureDialog.show();
-    }
 
     public void choosePhotoFromGallery(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
@@ -304,23 +282,6 @@ public class MainActivity extends AppCompatActivity {
                 .check();
     }
 
-    private void configFiltersButton() {
-//        Button filterButton = (Button) findViewById(R.id.filter_picker);
-//        filterButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (photoChosen) {
-//                    Intent intent = new Intent(MainActivity.this, Filters.class);
-//                    intent.putExtra("Image", path);
-//                    startActivity(intent);
-//                }
-//                else{
-//                    Toast.makeText(getApplicationContext(), "You need to choose photo first!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-    }
 
     public ImageView getImageView() {
         return imageview;
