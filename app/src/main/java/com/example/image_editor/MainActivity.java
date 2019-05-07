@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 //        this.hint = managerDesign.logger;
 //    }
 
-    public LinearLayout getPlaceHolder(){
+    public LinearLayout getPlaceHolder() {
         return placeHolder;
     }
 
@@ -114,56 +114,62 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    void setDefaultState(){
+    void setDefaultState() {
         placeHolder.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
         findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
         findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
         findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
         findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+    }
 
-
+    void initClasses(int ID) {
+        if (mClasses.size() == 0) {
+            for (int i = 0; i < 9; i++)
+                mClasses.add(new Conductor(this));
+        }
+        if ((ID & (1 << 0)) > 0) mClasses.set(0, new A_Star(this));
+        if ((ID & (1 << 1)) > 0) mClasses.set(1, new algem(this));
+        if ((ID & (1 << 2)) > 0) mClasses.set(2, new A_Star(this));
+        if ((ID & (1 << 3)) > 0) mClasses.set(3, new A_Star(this));
+        if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));
+        if ((ID & (1 << 5)) > 0) mClasses.set(5, new A_Star(this));
+        if ((ID & (1 << 6)) > 0) mClasses.set(6, new A_Star(this));
+        if ((ID & (1 << 7)) > 0) mClasses.set(7, new A_Star(this));
+        if ((ID & (1 << 8)) > 0) mClasses.set(8, new A_Star(this));
     }
 
     private void getImages() {
         Log.d("upd", "initImageBitmaps: preparing bitmaps.");
+        initClasses((1 << 9) - 1);
 
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageUrls.add(R.drawable.icon_a_star); // 0
         mNames.add("A*");
-        mClasses.add(new A_Star(this));
 
-        mImageUrls.add(R.drawable.icon_spline);
+        mImageUrls.add(R.drawable.icon_spline); // 1
         mNames.add("Spline");
-        mClasses.add(new algem(this));
 
-        mImageUrls.add(R.drawable.icon_rotate);
+        mImageUrls.add(R.drawable.icon_rotate); // 2
         mNames.add("Rotate");
-        mClasses.add(new A_Star(this));
 
-        mImageUrls.add(R.drawable.icon_billinear_filter);
+        mImageUrls.add(R.drawable.icon_billinear_filter); // 3
         mNames.add("Bilinear filter");
-        mClasses.add(new A_Star(this));
 
-        mImageUrls.add(R.drawable.icon_color_filters);
+        mImageUrls.add(R.drawable.icon_color_filters); // 4
         mNames.add("Filters");
-        mClasses.add(new Color_Filters(this));
 
-        mImageUrls.add(R.drawable.icon_retouch);
+        mImageUrls.add(R.drawable.icon_retouch); // 5
         mNames.add("Retouch");
-        mClasses.add(new A_Star(this));
 
-        mImageUrls.add(R.drawable.icon_scale);
+        mImageUrls.add(R.drawable.icon_scale); // 6
         mNames.add("Scale");
-        mClasses.add(new A_Star(this));
 
-        mImageUrls.add(R.drawable.icon_segmentation);
+        mImageUrls.add(R.drawable.icon_segmentation); // 7
         mNames.add("Segmentation");
-        mClasses.add(new A_Star(this));
 
-        mImageUrls.add(R.drawable.icon_sharpness);
+        mImageUrls.add(R.drawable.icon_sharpness); // 8
         mNames.add("Sharpness");
-        mClasses.add(new A_Star(this));
 
         initRecyclerView();
 
@@ -300,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void click_finish(View view) {
-        Log.i("upd", ((Integer)view.getId()).toString());
-        Log.i("upd", ((Integer)R.id.finish).toString());
+        Log.i("upd", ((Integer) view.getId()).toString());
+        Log.i("upd", ((Integer) R.id.finish).toString());
     }
 }
