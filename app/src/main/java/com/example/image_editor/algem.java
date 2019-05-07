@@ -20,21 +20,21 @@ public class algem extends Conductor implements View.OnTouchListener {
     private Bitmap bitmap;
     private int typeEvent;
     private ArrayList<DPoint> K = new ArrayList<>();
-    private DesignerSingleton managerDesign;
+    private MainActivity activity;
     private int n;
 
-    algem(DesignerSingleton managerDesign) {
-        super(managerDesign.btn4);
-        this.managerDesign = managerDesign;
-        this.imageView = managerDesign.imageView;
+    algem(MainActivity activity) {
+        super(activity);
+        this.activity = activity;
+        this.imageView = activity.getImageView();
     }
 
     void touchToolbar() {
         // btn1 -> draw point
         // btn2 -> do interpolation
         super.touchToolbar();
-        managerDesign.btn4.setText("Do int...on");
-        ConfigDrawPointsButton(managerDesign.btn1);
+//        managerDesign.btn4.setText("Do int...on");
+//        ConfigDrawPointsButton(managerDesign.btn1);
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         imageView.setImageBitmap(bitmap);

@@ -1,28 +1,20 @@
 package com.example.image_editor;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-class Conductor {
+class Conductor{
 
     private Button btn4;
+    private MainActivity activity;
 
-    Conductor(Button btn4){
-        this.btn4 = btn4;
+    Conductor(MainActivity activity){
+        this.activity = activity;
     }
 
     void touchToolbar(){
         Log.i("upd", "touchToolbar");
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                touchRun();
-            }
-        });
-    }
-
-    void touchRun(){
-        Log.i("upd", "touchRun");
     }
 
 }

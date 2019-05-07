@@ -1,15 +1,20 @@
 package com.example.image_editor;
 
+import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,27 +29,27 @@ public class A_Star extends Conductor implements OnTouchListener {
     private Bitmap bitmap;
     private ArrayList<Pixel> remstart, remfinish;
     private boolean start = false, finish = false;
-    private Button change_start;
-    private Button change_end;
+    private ImageButton change_start;
+    private ImageButton change_end;
     private Point pnt_start, pnt_finish;
     private Point[][] par;
+    private MainActivity activity;
 
     private ImageView imageView;
     private DesignerSingleton managerDesign;
 
-    A_Star(DesignerSingleton managerDesign) {
-        super(managerDesign.btn4);
-        this.managerDesign = managerDesign;
-        this.change_start = managerDesign.btn1;
-        this.change_end = managerDesign.btn2;
-        this.imageView = managerDesign.imageView;
+    A_Star(MainActivity activity) {
+        super(activity);
+        // work only with activity_main.xml
+        this.activity = activity;
+        this.imageView = activity.getImageView();
         remstart = new ArrayList<>();
         remfinish = new ArrayList<>();
 
     }
 
-    private void ConfigWallButton(Button button) {
-        button.setText("set wall");
+    private void ConfigWallButton(ImageButton button) {
+//        button.setText("set wall");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,8 +58,8 @@ public class A_Star extends Conductor implements OnTouchListener {
         });
     }
 
-    private void ConfigFinishButton(Button button) {
-        button.setText("Set finish");
+    private void ConfigFinishButton(ImageButton button) {
+//        button.setText("Set finish");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,8 +68,8 @@ public class A_Star extends Conductor implements OnTouchListener {
         });
     }
 
-    private void ConfigStartButton(Button button) {
-        button.setText("Set start");
+    private void ConfigStartButton(ImageButton button) {
+//        button.setText("Set start");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,18 +78,42 @@ public class A_Star extends Conductor implements OnTouchListener {
         });
     }
 
+    public void click_finish(View view) {
+        Log.i("upd", "complete");
+    }
+
     void touchToolbar() {
         super.touchToolbar();
-        managerDesign.btn4.setText("Do algo");
-        ConfigWallButton(managerDesign.btn3);
-        ConfigFinishButton(managerDesign.btn2);
-        ConfigStartButton(managerDesign.btn1);
+        activity.getLayoutInflater().inflate( // constant line (magic)
+                R.layout.a_star_menu, // your layout
+                activity.getPlaceHolder()); // constant line (magic)
+        RecyclerView rv = activity.findViewById(R.id.recyclerView);
+        rv.setVisibility(View.GONE);
+        // here you can touch your extending layout
+        this.change_start = activity.findViewById(R.id.start);
+        this.change_end = activity.findViewById(R.id.finish);
+        ImageButton btn_wall = activity.findViewById(R.id.wall);
+        Button btn_algo = activity.findViewById(R.id.algo_a_star);
+
+        ConfigDoAlgoButton(btn_algo);
+        ConfigWallButton(btn_wall);
+        ConfigFinishButton(change_end);
+        ConfigStartButton(change_start);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
+    }
+
+    private void ConfigDoAlgoButton(Button btn_algo) {
+        btn_algo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                touchRun();
+            }
+        });
     }
 
     private void btnsetfrom(View view) {
@@ -96,7 +125,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                         remstart.get(i).getColor());
             }
             remstart.clear();
-            change_start.setText("set from");
+//            change_start.setText("set from");
             start = false;
         }
     }
@@ -110,7 +139,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                         remfinish.get(i).getColor());
             }
             remfinish.clear();
-            change_end.setText("set to");
+//            change_end.setText("set to");
             finish = false;
         }
     }
@@ -195,7 +224,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             pnt_finish = new Point(mx, my);
             finish = true;
             imageView.invalidate();
-            change_end.setText("delete to");
+//            change_end.setText("delete to");
             return true;
         } else if (typeDraw == 1) {
             int rad = 30;
@@ -222,7 +251,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             pnt_start = new Point(mx, my);
             start = true;
             imageView.invalidate();
-            change_start.setText("delete from");
+//            change_start.setText("delete from");
             return true;
         } else {
             // TODO: message: wtf u don't click button
@@ -260,7 +289,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 in_open[i][j] = false;
             }
         }
-        
+
         int[] dirx = {0, 0, 1, -1};
         int[] diry = {1, -1, 0, 0};
 
@@ -303,8 +332,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     void touchRun() {
-        super.touchRun();
-        
+
         if (!check()) {
             return;
         }
@@ -318,7 +346,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     answer.get(i).y,
                     Color.YELLOW);
         }
-        
+
         imageView.invalidate();
     }
 

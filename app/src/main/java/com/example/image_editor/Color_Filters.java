@@ -43,9 +43,9 @@ public class Color_Filters extends Conductor {
     private ImageView imageView;
     private DesignerSingleton managerDesign;
 
-    Color_Filters(DesignerSingleton managerDesign) {
-        super(managerDesign.btn4);
-        this.managerDesign = managerDesign;
+    Color_Filters(MainActivity activity) {
+        super(activity);
+//        this.managerDesign = DesignerSingleton.getInstance();
         this.selectFilter = managerDesign.btn1;
         this.imageView = managerDesign.imageView;
     }

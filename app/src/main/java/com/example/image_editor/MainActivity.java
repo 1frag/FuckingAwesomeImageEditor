@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.textclassifier.TextClassification;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList myDataset = new ArrayList();
+    private LinearLayout placeHolder;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
@@ -94,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
 //        this.hint = managerDesign.logger;
 //    }
 
+    public LinearLayout getPlaceHolder(){
+        return placeHolder;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // todo: what is rool good tone this. or it is redundant?)
@@ -102,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.imageview = findViewById(R.id.iv);
+
+        this.placeHolder = findViewById(R.id.method_layout);
 
         DesignerSingleton managerDesign = DesignerInit();
         getImages(managerDesign);
@@ -125,39 +133,39 @@ public class MainActivity extends AppCompatActivity {
 
         mImageUrls.add(R.drawable.icon_a_star);
         mNames.add("A*");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_spline);
         mNames.add("Spline");
-        mClasses.add(new algem(managerDesign));
+        mClasses.add(new algem(this));
 
         mImageUrls.add(R.drawable.icon_rotate);
         mNames.add("Rotate");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_billinear_filter);
         mNames.add("Bilinear filter");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_color_filters);
         mNames.add("Filters");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_retouch);
         mNames.add("Retouch");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_scale);
         mNames.add("Scale");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_segmentation);
         mNames.add("Segmentation");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         mImageUrls.add(R.drawable.icon_sharpness);
         mNames.add("Sharpness");
-        mClasses.add(new A_Star(managerDesign));
+        mClasses.add(new A_Star(this));
 
         initRecyclerView();
 
@@ -328,9 +336,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void click_a_star(View view) {
-        // todo: показать где-то три кнопки
-        // todo: реагировать на них
-        // todo: присабачить алгоритм
+    public ImageView getImageView() {
+        return imageview;
+    }
+
+    public void click_finish(View view) {
+        Log.i("upd", ((Integer)view.getId()).toString());
+        Log.i("upd", ((Integer)R.id.finish).toString());
     }
 }

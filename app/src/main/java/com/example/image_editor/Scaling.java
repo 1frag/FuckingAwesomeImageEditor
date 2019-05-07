@@ -26,8 +26,8 @@ public class Scaling extends Conductor {
 
     private ImageView imageView;
 
-    Scaling(DesignerSingleton managerDesign) {
-        super(managerDesign.btn4);
+    Scaling(MainActivity activity) {
+        super(activity);
     }
 
     Bitmap algorithm(Bitmap now, int percent) {
