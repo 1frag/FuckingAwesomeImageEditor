@@ -70,22 +70,22 @@ public class Color_Filters extends Conductor {
     }
 
     private void showFilterDialog() {
-        AlertDialog.Builder filterDialog = new AlertDialog.Builder();
-        filterDialog.setTitle("Select color filter");
-        String[] pictureDialogItems = {
-                "Movie",
-                "Blur",
-                "Black and white"};
-        filterDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // start algo in the backgroung
-                        AsyncTaskFilters filterAsync = new AsyncTaskFilters();
-                        filterAsync.execute(which);
-                    }
-                });
-        filterDialog.show();
+//        AlertDialog.Builder filterDialog = new AlertDialog.Builder();
+//        filterDialog.setTitle("Select color filter");
+//        String[] pictureDialogItems = {
+//                "Movie",
+//                "Blur",
+//                "Black and white"};
+//        filterDialog.setItems(pictureDialogItems,
+//                new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        // start algo in the backgroung
+//                        AsyncTaskFilters filterAsync = new AsyncTaskFilters();
+//                        filterAsync.execute(which);
+//                    }
+//                });
+//        filterDialog.show();
     }
 
     private class AsyncTaskFilters extends AsyncTask <Integer, Void, Bitmap> {

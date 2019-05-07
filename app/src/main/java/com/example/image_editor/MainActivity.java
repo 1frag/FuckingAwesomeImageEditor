@@ -117,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
         mNames.add("Bilinear filter");
         mClasses.add(new A_Star(managerDesign));
 
-        mImageUrls.add(R.drawable.icon_billinear_filter_2);
-        mNames.add("three linear");
+        mImageUrls.add(R.drawable.icon_color_filters);
+        mNames.add("Filters");
         mClasses.add(new A_Star(managerDesign));
 
         mImageUrls.add(R.drawable.icon_retouch);
