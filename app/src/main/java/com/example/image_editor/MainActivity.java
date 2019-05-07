@@ -114,6 +114,18 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
+    void setDefaultState(){
+        placeHolder.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
+        findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
+        findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
+        findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
+        findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+
+
+    }
+
     private void getImages() {
         Log.d("upd", "initImageBitmaps: preparing bitmaps.");
 

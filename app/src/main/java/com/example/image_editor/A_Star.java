@@ -95,6 +95,12 @@ public class A_Star extends Conductor implements OnTouchListener {
         ImageButton btn_wall = activity.findViewById(R.id.wall);
         Button btn_algo = activity.findViewById(R.id.algo_a_star);
 
+        activity.findViewById(R.id.imgUndo).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.GONE);
+
         ConfigDoAlgoButton(btn_algo);
         ConfigWallButton(btn_wall);
         ConfigFinishButton(change_end);
