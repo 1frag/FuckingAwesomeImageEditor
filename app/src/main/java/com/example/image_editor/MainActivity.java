@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getImages(DesignerSingleton managerDesign) {
-        Log.d("fuck", "initImageBitmaps: preparing bitmaps.");
+        Log.d("upd", "initImageBitmaps: preparing bitmaps.");
 
         mImageUrls.add(R.drawable.icon_a_star);
         mNames.add("A*");
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        Log.d("fuck", "initRecyclerView: init recyclerview");
+        Log.d("upd", "initRecyclerView: init recyclerview");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
