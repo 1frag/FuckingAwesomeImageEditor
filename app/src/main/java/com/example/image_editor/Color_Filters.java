@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,6 +46,10 @@ public class Color_Filters extends Conductor {
     private ImageView imageView;
     private MainActivity activity;
 
+    private ArrayList<String> mNamesUser = new ArrayList<>();
+    private ArrayList<String> mNamesProg = new ArrayList<>();
+    private ArrayList<Integer> mImageUrls = new ArrayList<>();
+
     Color_Filters(MainActivity activity) {
         super(activity);
         // work only with activity_main.xml
@@ -62,17 +67,47 @@ public class Color_Filters extends Conductor {
         rv.setVisibility(View.GONE);
         // here you can touch your extending layout
 
-        Button btn_filter_picker = activity.findViewById(R.id.filter_picker);
+        RecyclerView filters_bar = activity.findViewById(R.id.filters_bar);
+        pickFilters();
 
-        configSelectFilterButton(btn_filter_picker);
+//        configSelectFilterButton(btn_filter_picker);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
         imageView.setImageBitmap(bitmap);
     }
 
-    private void configSelectFilterButton(Button button) {
-        button.setText("select filter");
+    private void pickFilters() {
+        // pick to arrays
+        mNamesUser.add("Movie"); // 0
+        mNamesProg.add("Movie");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Blur"); // 1
+        mNamesProg.add("Blur");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Black and white"); // 2
+        mNamesProg.add("Black and white");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        try {
+            initRecyclerView();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initRecyclerView() throws NoSuchMethodException {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView filters_bar = activity.findViewById(R.id.filters_bar);
+        filters_bar.setLayoutManager(layoutManager);
+        FiltersAdapter adapter = new FiltersAdapter(activity, mNamesUser, mNamesProg, mImageUrls);
+        filters_bar.setAdapter(adapter);
+    }
+
+    private void configSelectFilterButton(ImageButton button) {
+//        button.setText("select filter");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +115,7 @@ public class Color_Filters extends Conductor {
             }
         });
     }
+
 
 
     private void showFilterDialog() {

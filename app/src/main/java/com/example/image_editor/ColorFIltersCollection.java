@@ -7,6 +7,7 @@ import android.util.Log;
 // class to work with color correction
 // all methods take bitmap and return bitmap
 public class ColorFIltersCollection {
+
     static public Bitmap movieFilter(Bitmap sentBitmap){
         Bitmap bufBitmap = Bitmap.createBitmap(sentBitmap.getWidth(),sentBitmap.getHeight(), sentBitmap.getConfig());
 
