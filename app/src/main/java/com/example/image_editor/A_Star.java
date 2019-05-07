@@ -280,7 +280,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         return res;
     }
 
-    private ArrayList<Point> algorithm(int n, int m) {
+    public ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
         par = new Point[n][m];
@@ -339,15 +339,34 @@ public class A_Star extends Conductor implements OnTouchListener {
         int n = bitmap.getWidth();
         int m = bitmap.getHeight();
 
-        ArrayList<Point> answer = algorithm(n, m);
+        AsyncTaskConductor task = new AsyncTaskConductor(){
+            @Override
+            protected Bitmap doInBackground(String... params){
+                int n = Integer.parseInt(params[1]);
+                int m = Integer.parseInt(params[2]);
+                ArrayList<Point> answer = algorithm(n, m);
 
-        for (int i = 0; i < answer.size(); i++) {
-            bitmap.setPixel(answer.get(i).x,
-                    answer.get(i).y,
-                    Color.YELLOW);
-        }
+                for (int i = 0; i < answer.size(); i++) {
+                    bitmap.setPixel(answer.get(i).x,
+                            answer.get(i).y,
+                            Color.YELLOW);
+                }
 
-        imageView.invalidate();
+                imageView.invalidate();
+                return bitmap;
+            }
+        };
+
+        task.execute("A*", Integer.toString(n), Integer.toString(m));
+//        ArrayList<Point> answer = algorithm(n, m);
+//
+//        for (int i = 0; i < answer.size(); i++) {
+//            bitmap.setPixel(answer.get(i).x,
+//                    answer.get(i).y,
+//                    Color.YELLOW);
+//        }
+//
+//        imageView.invalidate();
     }
 
 }

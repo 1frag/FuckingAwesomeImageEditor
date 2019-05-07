@@ -1,5 +1,6 @@
 package com.example.image_editor;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 class Conductor{
@@ -35,7 +37,7 @@ class Conductor{
         protected Bitmap doInBackground(String... params) {
 
             String which = params[0];
-            System.out.println(which);
+//            System.out.println(which);
 
             Bitmap bitmap = ((BitmapDrawable)activity.getImageView().getDrawable()).getBitmap();
             switch (which) {

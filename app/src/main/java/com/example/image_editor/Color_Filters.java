@@ -93,7 +93,7 @@ public class Color_Filters extends Conductor {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // start algo in the background
+                        // start algorithm in the background
                         AsyncTaskConductor filterAsync = new AsyncTaskConductor();
                         filterAsync.execute(pictureDialogItems[which]);
                     }
