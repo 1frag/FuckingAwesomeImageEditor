@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,7 +37,6 @@ public class A_Star extends Conductor implements OnTouchListener {
     private MainActivity activity;
 
     private ImageView imageView;
-    private DesignerSingleton managerDesign;
 
     A_Star(MainActivity activity) {
         super(activity);

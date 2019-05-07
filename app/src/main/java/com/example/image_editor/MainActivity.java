@@ -111,24 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
         this.placeHolder = findViewById(R.id.method_layout);
 
-        DesignerSingleton managerDesign = DesignerInit();
-        getImages(managerDesign);
+        getImages();
     }
 
-    private DesignerSingleton DesignerInit() {
-        return DesignerSingleton.getInstance(
-                (Button) findViewById(R.id.btn1),
-                (Button) findViewById(R.id.btn2),
-                (Button) findViewById(R.id.btn3),
-                (Button) findViewById(R.id.btn4),
-                (ImageView) findViewById(R.id.iv),
-                (ImageButton) findViewById(R.id.imgRedo),
-                (ImageButton) findViewById(R.id.imgUndo),
-                (TextView) findViewById(R.id.logger)
-        );
-    }
-
-    private void getImages(DesignerSingleton managerDesign) {
+    private void getImages() {
         Log.d("upd", "initImageBitmaps: preparing bitmaps.");
 
         mImageUrls.add(R.drawable.icon_a_star);

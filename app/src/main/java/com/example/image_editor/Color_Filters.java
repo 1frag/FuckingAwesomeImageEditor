@@ -41,13 +41,12 @@ public class Color_Filters extends Conductor {
     private String IMAGE_DIRECTORY = "/demonuts";
 
     private ImageView imageView;
-    private DesignerSingleton managerDesign;
 
     Color_Filters(MainActivity activity) {
         super(activity);
 //        this.managerDesign = DesignerSingleton.getInstance();
-        this.selectFilter = managerDesign.btn1;
-        this.imageView = managerDesign.imageView;
+//        this.selectFilter = managerDesign.btn1;
+//        this.imageView = managerDesign.imageView;
     }
 
     private void configSelectFilterButton(Button button) {
@@ -62,8 +61,8 @@ public class Color_Filters extends Conductor {
 
     void touchToolbar() {
         super.touchToolbar();
-        managerDesign.btn4.setText("Do algo");
-        configSelectFilterButton(managerDesign.btn1);
+//        managerDesign.btn4.setText("Do algo");
+//        configSelectFilterButton(managerDesign.btn1);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         imageView.setImageBitmap(bitmap);

@@ -80,58 +80,20 @@
     <ImageView
         android:id="@+id/iv"
         android:layout_width="wrap_content"
-        android:layout_height="430dp"
-        android:layout_gravity="center"
-        android:layout_margin="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
+        android:foregroundGravity="center"
         android:maxHeight="400dp"
         android:src="@drawable/default_img"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgUndo" />
-
-    <Button
-        android:id="@+id/btn1"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/btn2" />
-
-    <Button
-        android:id="@+id/btn2"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/btn3" />
-
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/btn4" />
-
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.309"
+        app:layout_goneMarginTop="50dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
