@@ -32,7 +32,7 @@
 
     <include
         android:id="@+id/include5"
-        layout="@layout/content_a__star"
+        layout="@layout/content_algem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="0dp"
