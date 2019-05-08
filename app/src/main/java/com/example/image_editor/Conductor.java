@@ -29,38 +29,20 @@ class Conductor{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // will set animation later
+            activity.switchProgressBarVisibilityVisible();
             Toast.makeText(activity.getApplicationContext(), "Thread created", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected Bitmap doInBackground(String... params) {
-
-            String which = params[0];
-//            System.out.println(which);
-
             Bitmap bitmap = ((BitmapDrawable)activity.getImageView().getDrawable()).getBitmap();
-            switch (which) {
-                case "Movie":
-                    bitmap = ColorFIltersCollection.movieFilter(bitmap);
-                    break;
-                case "Blur":
-                    bitmap = ColorFIltersCollection.fastBlur(bitmap);
-                    break;
-                case "Black and white":
-                    bitmap = ColorFIltersCollection.createGrayScale(bitmap);
-                    break;
-            }
-            if (bitmap == null){
-                Toast.makeText(activity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
-                return bitmap;
-            }
             return bitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
+            activity.switchProgressBarVisibilityInvisible();
             ImageView imageView = activity.getImageView();
             imageView.setImageBitmap(result);
             Toast.makeText(activity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();

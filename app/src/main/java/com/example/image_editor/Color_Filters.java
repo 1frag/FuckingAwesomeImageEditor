@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -106,34 +107,5 @@ public class Color_Filters extends Conductor {
         filters_bar.setAdapter(adapter);
     }
 
-    private void configSelectFilterButton(ImageButton button) {
-//        button.setText("select filter");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFilterDialog();
-            }
-        });
-    }
 
-
-
-    private void showFilterDialog() {
-        AlertDialog.Builder filterDialog = new AlertDialog.Builder(activity);
-        filterDialog.setTitle("Select color filter");
-        final String[] pictureDialogItems = {
-                "Movie",
-                "Blur",
-                "Black and white"};
-        filterDialog.setItems(pictureDialogItems,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // start algorithm in the background
-                        AsyncTaskConductor filterAsync = new AsyncTaskConductor();
-                        filterAsync.execute(pictureDialogItems[which]);
-                    }
-                });
-        filterDialog.show();
-    }
 }

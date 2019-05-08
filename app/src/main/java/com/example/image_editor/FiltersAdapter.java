@@ -41,7 +41,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // will set animation later
+            mactivity.switchProgressBarVisibilityVisible();
             Toast.makeText(mactivity.getApplicationContext(), "Thread created", Toast.LENGTH_SHORT).show();
         }
 
@@ -49,7 +49,6 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         protected Bitmap doInBackground(String... params) {
 
             String which = params[0];
-//            System.out.println(which);
 
             Bitmap bitmap = ((BitmapDrawable)mactivity.getImageView().getDrawable()).getBitmap();
             switch (which) {
@@ -74,6 +73,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             ImageView imageView = mactivity.getImageView();
+            mactivity.switchProgressBarVisibilityInvisible();
             imageView.setImageBitmap(result);
             Toast.makeText(mactivity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();
         }

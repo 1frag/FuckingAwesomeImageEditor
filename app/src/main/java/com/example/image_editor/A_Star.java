@@ -345,11 +345,13 @@ public class A_Star extends Conductor implements OnTouchListener {
         int n = bitmap.getWidth();
         int m = bitmap.getHeight();
 
+
         AsyncTaskConductor task = new AsyncTaskConductor(){
             @Override
             protected Bitmap doInBackground(String... params){
                 int n = Integer.parseInt(params[1]);
                 int m = Integer.parseInt(params[2]);
+
                 ArrayList<Point> answer = algorithm(n, m);
 
                 for (int i = 0; i < answer.size(); i++) {
@@ -358,7 +360,13 @@ public class A_Star extends Conductor implements OnTouchListener {
                             Color.YELLOW);
                 }
 
-                imageView.invalidate();
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.invalidate();
+                    }
+                });
+
                 return bitmap;
             }
         };

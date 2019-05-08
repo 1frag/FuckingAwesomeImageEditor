@@ -1,19 +1,12 @@
 package com.example.image_editor;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.DownloadManager;
-import android.app.Instrumentation;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.textclassifier.TextClassification;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,17 +18,10 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.BufferedOutputStream;
-import java.io.OutputStreamWriter;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -44,7 +30,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
+
+    private ProgressBar progressBar;
+
 
 //    private DesignerSingleton managerDesign;
 //    private Button load_from_cam;
@@ -111,8 +100,20 @@ public class MainActivity extends AppCompatActivity {
 
         this.placeHolder = findViewById(R.id.method_layout);
 
+        this.progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
+        switchProgressBarVisibilityInvisible();;
+
         getImages();
     }
+
+    public void switchProgressBarVisibilityVisible(){
+        this.progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void switchProgressBarVisibilityInvisible(){
+        this.progressBar.setVisibility(View.GONE);
+    }
+
 
     void setDefaultState() {
         placeHolder.setVisibility(View.GONE);
