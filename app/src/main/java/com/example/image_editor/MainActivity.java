@@ -1,10 +1,12 @@
 package com.example.image_editor;
 
 import android.Manifest;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -68,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
 //    private Button load_from_gallery;
 //    private ImageView imageView;
 //    private RecyclerView methods;
-//    private Button undo;
-//    private Button redo;
+    private ImageButton undo;
+    private ImageButton redo;
+
+    public History history;
 //    private Button download;
 //    private TextView hint;
 //
@@ -103,7 +107,42 @@ public class MainActivity extends AppCompatActivity {
         this.progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
         switchProgressBarVisibilityInvisible();;
 
+        history = new History();
+//        history.addBitmap(((BitmapDrawable)imageview.getDrawable()).getBitmap());
+
+        undo = (ImageButton) findViewById(R.id.imgUndo);
+        redo = (ImageButton) findViewById(R.id.imgRedo);
+        configRedoButton();
+        configUndoButton();
+
         getImages();
+    }
+
+    private void configRedoButton(){
+        redo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("REDO");
+                bitmap = history.takeFromBuffer();
+                if (bitmap == null){
+                    Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
+                }
+                else imageview.setImageBitmap(bitmap);
+            }
+        });
+    }
+
+    private void configUndoButton(){
+        undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bitmap = history.popBitmap();
+                if (bitmap == null){
+                    Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
+                }
+                else imageview.setImageBitmap(bitmap);
+            }
+        });
     }
 
     public void switchProgressBarVisibilityVisible(){

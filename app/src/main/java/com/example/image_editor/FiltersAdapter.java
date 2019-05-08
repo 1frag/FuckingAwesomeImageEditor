@@ -51,6 +51,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             String which = params[0];
 
             Bitmap bitmap = ((BitmapDrawable)mactivity.getImageView().getDrawable()).getBitmap();
+            mactivity.history.addBitmap(bitmap);
             switch (which) {
                 case "Movie":
                     bitmap = ColorFIltersCollection.movieFilter(bitmap);
