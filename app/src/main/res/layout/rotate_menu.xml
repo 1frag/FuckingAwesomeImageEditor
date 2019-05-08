@@ -34,19 +34,37 @@
         android:id="@+id/reset_seekbar"
         android:layout_width="100dp"
         android:layout_height="35dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:text="RESET"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintHorizontal_bias="0.945"
         app:layout_constraintStart_toStartOf="@+id/seekBar"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <View
+        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_angle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Angle"
+        app:layout_constraintBottom_toBottomOf="@+id/reset_seekbar"
+        app:layout_constraintEnd_toStartOf="@+id/reset_seekbar"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.884" />
 
 
 </android.support.constraint.ConstraintLayout>
