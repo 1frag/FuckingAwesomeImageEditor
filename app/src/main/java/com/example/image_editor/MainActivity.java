@@ -180,6 +180,19 @@ public class MainActivity extends AppCompatActivity {
         if ((ID & (1 << 8)) > 0) mClasses.set(8, new A_Star(this));
     }
 
+    void PrepareToRun(int resourse) {
+        getLayoutInflater().inflate(
+                resourse,
+                getPlaceHolder());
+        RecyclerView rv = findViewById(R.id.recyclerView);
+        rv.setVisibility(View.GONE);
+        findViewById(R.id.imgUndo).setVisibility(View.GONE);
+        findViewById(R.id.imgRedo).setVisibility(View.GONE);
+        findViewById(R.id.imgDownload).setVisibility(View.GONE);
+        findViewById(R.id.imgCamera).setVisibility(View.GONE);
+        findViewById(R.id.imgGallery).setVisibility(View.GONE);
+    }
+
     private void getImages() {
         Log.d("upd", "initImageBitmaps: preparing bitmaps.");
         initClasses((1 << 9) - 1);

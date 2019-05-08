@@ -84,22 +84,12 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     void touchToolbar() {
         super.touchToolbar();
-        activity.getLayoutInflater().inflate( // constant line (magic)
-                R.layout.a_star_menu, // your layout
-                activity.getPlaceHolder()); // constant line (magic)
-        RecyclerView rv = activity.findViewById(R.id.recyclerView);
-        rv.setVisibility(View.GONE);
-        // here you can touch your extending layout
+        activity.PrepareToRun(R.layout.a_star_menu);
+
         this.change_start = activity.findViewById(R.id.start);
         this.change_end = activity.findViewById(R.id.finish);
         ImageButton btn_wall = activity.findViewById(R.id.wall);
         Button btn_algo = activity.findViewById(R.id.algo_a_star);
-
-        activity.findViewById(R.id.imgUndo).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgRedo).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgDownload).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgCamera).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgGallery).setVisibility(View.GONE);
 
         ConfigDoAlgoButton(btn_algo);
         ConfigWallButton(btn_wall);
