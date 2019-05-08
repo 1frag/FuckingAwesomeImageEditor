@@ -54,33 +54,7 @@ public class algem extends Conductor implements View.OnTouchListener {
     void touchRun() {
         algorithm();
     }
-
-    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_algem);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        typeEvent = 0;
-//        K = new ArrayList<>();
-//
-//        Intent intent = getIntent();
-//        this.path = intent.getStringExtra("Image");
-//
-//        this.imageView = findViewById(R.id.imageScaling);
-//
-//        try {
-//            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-//            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-//            canvas = new Canvas(bitmap);
-//            imageView.setImageBitmap(bitmap);
-//            imageView.setOnTouchListener(this);
-//        } catch (
-//                IOException e) {
-//            e.printStackTrace();
-//            Toast.makeText(algem.this, "Failed!", Toast.LENGTH_SHORT).show();
-//        }
-
-    }
+    
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

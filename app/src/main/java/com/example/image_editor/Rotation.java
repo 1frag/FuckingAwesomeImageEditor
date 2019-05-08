@@ -46,11 +46,7 @@ public class Rotation extends Conductor {
         rv.setVisibility(View.GONE);
         // here you can touch your extending layout
 
-        activity.findViewById(R.id.imgUndo).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgRedo).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgDownload).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgCamera).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgGallery).setVisibility(View.GONE);
+        mainActivityMenuGone();
 
         btn_rotate90 = activity.findViewById(R.id.rotate90);
         btn_reset = activity.findViewById(R.id.reset_seekbar);

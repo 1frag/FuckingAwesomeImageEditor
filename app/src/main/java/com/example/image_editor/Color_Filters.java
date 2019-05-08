@@ -68,6 +68,8 @@ public class Color_Filters extends Conductor {
         rv.setVisibility(View.GONE);
         // here you can touch your extending layout
 
+//        mainActivityMenuGone();
+
         RecyclerView filters_bar = activity.findViewById(R.id.filters_bar);
         pickFilters();
 

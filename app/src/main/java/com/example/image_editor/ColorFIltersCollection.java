@@ -27,10 +27,13 @@ public class ColorFIltersCollection {
         return bufBitmap;
 
     }
-    static public Bitmap fastBlur(Bitmap sentBitmap) {
-        // params for filter
-        float scale = 1;
+    static public Bitmap fastBlur(Bitmap sentBitmap, Integer... params) {
+        // by default
+        int scale = 1;
         int radius = 5;
+
+        if (params[0] != null) radius = params[0];
+        if (params[1] != null) scale = params[1];
 
         int width = Math.round(sentBitmap.getWidth() * scale);
         int height = Math.round(sentBitmap.getHeight() * scale);

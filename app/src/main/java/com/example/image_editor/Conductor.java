@@ -25,6 +25,22 @@ class Conductor{
         Log.i("upd", "touchToolbar");
     }
 
+    void mainActivityMenuGone(){
+        activity.findViewById(R.id.imgUndo).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.GONE);
+    }
+
+    void mainActivityMenuVisible(){
+        activity.findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+    }
+
     class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap>{
         @Override
         protected void onPreExecute() {
