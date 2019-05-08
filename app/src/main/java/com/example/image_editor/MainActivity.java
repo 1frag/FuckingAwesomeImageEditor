@@ -170,10 +170,10 @@ public class MainActivity extends AppCompatActivity {
         }
         if ((ID & (1 << 0)) > 0) mClasses.set(0, new A_Star(this));
         if ((ID & (1 << 1)) > 0) mClasses.set(1, new algem(this));
-        if ((ID & (1 << 2)) > 0) mClasses.set(2, new A_Star(this));
+        if ((ID & (1 << 2)) > 0) mClasses.set(2, new Rotation(this));
         if ((ID & (1 << 3)) > 0) mClasses.set(3, new A_Star(this));
         if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));
-        if ((ID & (1 << 5)) > 0) mClasses.set(5, new A_Star(this));
+        if ((ID & (1 << 5)) > 0) mClasses.set(5, new Retouch(this));
         if ((ID & (1 << 6)) > 0) mClasses.set(6, new A_Star(this));
         if ((ID & (1 << 7)) > 0) mClasses.set(7, new A_Star(this));
         if ((ID & (1 << 8)) > 0) mClasses.set(8, new A_Star(this));
