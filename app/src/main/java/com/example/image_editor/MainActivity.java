@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
         switchProgressBarVisibilityInvisible();;
 
         history = new History();
-//        history.addBitmap(((BitmapDrawable)imageview.getDrawable()).getBitmap());
 
         undo = (ImageButton) findViewById(R.id.imgUndo);
         redo = (ImageButton) findViewById(R.id.imgRedo);
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bitmap = history.popBitmap();
+                bitmap = history.popBitmap(((BitmapDrawable)imageview.getDrawable()).getBitmap());
                 if (bitmap == null){
                     Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
                 }

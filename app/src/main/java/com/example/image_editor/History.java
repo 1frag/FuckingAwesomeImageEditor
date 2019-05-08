@@ -20,7 +20,8 @@ public class History {
         buffer.clear();
     }
 
-    public Bitmap popBitmap(){
+    // put current bitmap in buffer
+    public Bitmap popBitmap(Bitmap currentBitmap){
         Bitmap bitmap;
         try {
             bitmap = history.pop();
@@ -28,7 +29,7 @@ public class History {
         catch (Exception e){
             return null;
         }
-        buffer.push(bitmap);
+        buffer.push(currentBitmap);
 
         return bitmap;
     }
