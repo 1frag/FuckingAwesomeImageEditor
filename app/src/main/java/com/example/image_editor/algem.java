@@ -54,7 +54,7 @@ public class algem extends Conductor implements View.OnTouchListener {
     void touchRun() {
         algorithm();
     }
-    
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

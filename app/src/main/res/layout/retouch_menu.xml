@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <SeekBar
-        android:id="@+id/seekBarBlurRadius"
+        android:id="@+id/seek_bar_blur_radius"
         android:layout_width="205dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBarBrushSIze"
+        android:id="@+id/seek_bar_brush_sIze"
         android:layout_width="205dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarBlurRadius" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_blur_radius" />
 
     <View
         android:id="@+id/view_retouch"
@@ -62,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_retouch"
         app:layout_constraintEnd_toStartOf="@+id/btn_apply_retouch"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/seekBarBlurRadius"
+        app:layout_constraintStart_toEndOf="@+id/seek_bar_blur_radius"
         app:layout_constraintTop_toTopOf="@+id/view_retouch"
         app:layout_constraintVertical_bias="0.197" />
 
@@ -78,7 +78,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_retouch"
         app:layout_constraintEnd_toStartOf="@+id/btn_apply_retouch"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/seekBarBrushSIze"
+        app:layout_constraintStart_toEndOf="@+id/seek_bar_brush_sIze"
         app:layout_constraintTop_toBottomOf="@+id/text_view_radius"
         app:layout_constraintVertical_bias="0.633" />
 

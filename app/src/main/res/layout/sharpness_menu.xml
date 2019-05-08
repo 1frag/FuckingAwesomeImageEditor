@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <SeekBar
-        android:id="@+id/seekBarBlurRadius"
+        android:id="@+id/seek_bar_blur_radius"
         android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBarBrushSIze"
+        android:id="@+id/seek_bar_brush_sIze"
         android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
@@ -28,7 +28,7 @@
         android:thumbOffset="@dimen/cardview_default_radius"
         android:thumbTint="@color/saladGreen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarBlurRadius" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_blur_radius" />
 
     <SeekBar
         android:id="@+id/seekBar3"
@@ -40,7 +40,7 @@
         android:thumbOffset="@dimen/cardview_default_radius"
         android:thumbTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarBrushSIze" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_brush_sIze" />
 
     <View
         android:id="@+id/view"
@@ -60,7 +60,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="8dp"
         android:background="@color/colorAccent"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarBlurRadius"
+        app:layout_constraintEnd_toStartOf="@+id/seek_bar_blur_radius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,7 +74,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="8dp"
         android:background="@color/saladGreen"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarBrushSIze"
+        app:layout_constraintEnd_toStartOf="@+id/seek_bar_brush_sIze"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
