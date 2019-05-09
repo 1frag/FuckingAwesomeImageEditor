@@ -2,19 +2,15 @@ package com.example.image_editor;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.widget.AbsoluteLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -205,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 mClasses.add(new Conductor(this));
         }
         if ((ID & (1 << 0)) > 0) mClasses.set(0, new A_Star(this));
-        if ((ID & (1 << 1)) > 0) mClasses.set(1, new algem(this));
+        if ((ID & (1 << 1)) > 0) mClasses.set(1, new Algem(this));
         if ((ID & (1 << 2)) > 0) mClasses.set(2, new Rotation(this));
         if ((ID & (1 << 3)) > 0) mClasses.set(3, new A_Star(this));
         if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));

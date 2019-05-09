@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".algem"
+            android:name=".Algem"
             android:label="Algem"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

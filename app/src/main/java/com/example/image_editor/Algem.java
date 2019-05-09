@@ -5,16 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-public class algem extends Conductor implements View.OnTouchListener {
+public class Algem extends Conductor implements View.OnTouchListener {
 
     private ImageView imageView;
     private Bitmap bitmap;
@@ -23,7 +25,7 @@ public class algem extends Conductor implements View.OnTouchListener {
     private MainActivity activity;
     private int n;
 
-    algem(MainActivity activity) {
+    Algem(MainActivity activity) {
         super(activity);
         this.activity = activity;
         this.imageView = activity.getImageView();
@@ -33,26 +35,30 @@ public class algem extends Conductor implements View.OnTouchListener {
         // btn1 -> draw point
         // btn2 -> do interpolation
         super.touchToolbar();
-//        managerDesign.btn4.setText("Do int...on");
-//        ConfigDrawPointsButton(managerDesign.btn1);
+        PrepareToRun(R.layout.spline_menu);
+
+        ConfigDrawPointsButton((ImageButton) activity.findViewById(R.id.add_points));
+        activity.findViewById(R.id.algo_spline).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                algorithm();
+            }
+        });
+
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
+
     }
 
-    private void ConfigDrawPointsButton(Button btn1) {
-        btn1.setText("Draw Points");
+    private void ConfigDrawPointsButton(ImageButton btn1) {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setpoint(v);
             }
         });
-    }
-
-    void touchRun() {
-        algorithm();
     }
 
 
@@ -143,7 +149,6 @@ public class algem extends Conductor implements View.OnTouchListener {
         return dX;
     }
 
-    @SuppressLint("Assert")
     private void algorithm() {
         // in first we have:
         //
@@ -151,11 +156,8 @@ public class algem extends Conductor implements View.OnTouchListener {
         // 1 * P(1, i-1) + 4 * P(1, i ) + 1 * P(1, i+1) = 4*K(i)+2*K(i+1), for i in [1, n-2]
         //                 2 * P(1,n-2) + 7 * P(1, n-1) = 8*K(n-1)+K(n)
         n = K.size() - 1;
-        assert n > 0;
         ArrayList<DPoint> P1 = Thomas_algorithm();
         ArrayList<DPoint> P2 = Other_matem(P1);
-//        DrawC(P1.get(0));
-//        DrawC(P2.get(0));
         DrawSpline(P1, P2);
     }
 
@@ -173,12 +175,11 @@ public class algem extends Conductor implements View.OnTouchListener {
                 int ny = (int) (r1.y + 3 * r2.y + 3 * r3.y + r4.y);
                 if (nx < 0 || nx >= bitmap.getWidth()) continue;
                 if (ny < 0 || ny >= bitmap.getHeight()) continue;
-                Log.i("upd", "yes");
-                bitmap.setPixel(nx, ny, Color.BLACK);
+//                bitmap.setPixel(nx, ny, Color.BLACK);
+                DrawCircle(nx, ny, 5, Color.BLACK);
             }
         }
         imageView.invalidate();
-        Log.i("upd", "end");
     }
 
     private ArrayList<DPoint> Other_matem(ArrayList<DPoint> P1) {

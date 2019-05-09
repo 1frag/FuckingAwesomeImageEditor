@@ -145,6 +145,13 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private boolean canPutRect(int rad, int mx, int my) {
+        if ((pnt_finish == null) ||
+                ((mx - pnt_finish.x) * (mx - pnt_finish.x) + (my - pnt_finish.y) + (my - pnt_finish.y) >= 45 * 45)) {
+            if ((pnt_start == null) ||
+                    ((mx - pnt_start.x) * (mx - pnt_start.x) + (my - pnt_start.y) + (my - pnt_start.y) >= 45 * 45)) {
+                return true;
+            }
+        }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
                 if (0 > mx + i || mx + i >= bitmap.getWidth() ||
@@ -336,9 +343,9 @@ public class A_Star extends Conductor implements OnTouchListener {
         int m = bitmap.getHeight();
 
 
-        AsyncTaskConductor task = new AsyncTaskConductor(){
+        AsyncTaskConductor task = new AsyncTaskConductor() {
             @Override
-            protected Bitmap doInBackground(String... params){
+            protected Bitmap doInBackground(String... params) {
                 int n = Integer.parseInt(params[1]);
                 int m = Integer.parseInt(params[2]);
 
