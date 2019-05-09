@@ -3,6 +3,7 @@ package com.example.image_editor;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Conductor> mClasses = new ArrayList<>();
 
     private ProgressBar progressBar;
-
 
 //    private DesignerSingleton managerDesign;
 //    private Button load_from_cam;

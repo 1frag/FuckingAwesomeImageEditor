@@ -37,11 +37,10 @@ public class Retouch extends Conductor implements OnTouchListener {
     private SeekBar seekBarBrushSize;
     private SeekBar seekBarBlurRadius;
 
-    private Canvas bufferCanvas;
-    private Canvas canvas;
-
     private int brushSize = 1;
     private int blurRadius = 1;
+
+    private Canvas bufferCanvas;
 
     Retouch(MainActivity activity) {
         super(activity);
@@ -60,10 +59,10 @@ public class Retouch extends Conductor implements OnTouchListener {
         textViewBlurRadius = activity.findViewById(R.id.text_view_radius);
 
         seekBarBlurRadius = activity.findViewById(R.id.seek_bar_blur_radius);
-        seekBarBlurRadius.setMax(15);
+        seekBarBlurRadius.setMax(20);
 
         seekBarBrushSize = activity.findViewById(R.id.seek_bar_brush_sIze);
-        seekBarBrushSize.setMax(15);
+        seekBarBrushSize.setMax(50);
 
         configApplyButton(applyRetouch);
 
@@ -108,7 +107,7 @@ public class Retouch extends Conductor implements OnTouchListener {
         original = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         bufferedBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         mask = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(original);
+//        canvas = new Canvas(original);
 
         imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
@@ -124,6 +123,11 @@ public class Retouch extends Conductor implements OnTouchListener {
                 Paint paint = new Paint();
                 paint.setXfermode(new PorterDuffXfermode(mode));
 
+                PorterDuff.Mode mode2 = PorterDuff.Mode.DST_ATOP;
+
+                Paint paint2 = new Paint();
+                paint2.setXfermode(new PorterDuffXfermode(mode2));
+
                 // blurred bitmap
                 bufferedBitmap = ColorFIltersCollection.fastBlur(original, blurRadius, 1);
 
@@ -132,10 +136,13 @@ public class Retouch extends Conductor implements OnTouchListener {
 
                 bufferCanvas.drawBitmap(mask, 0, 0, null);
                 bufferCanvas.drawBitmap(bufferedBitmap, 0, 0, paint);
+                bufferCanvas.drawBitmap(original, 0, 0, paint2);
 
                 // dump the buffer
-                canvas.drawBitmap(original, 0, 0, null);
-                canvas.drawBitmap(bitmap, 0, 0, null);
+//                activity.canvas.drawBitmap(original, 0, 0, null);
+//                activity.canvas.drawBitmap(bitmap, 0, 0, null);
+
+                imageView.setImageBitmap(bitmap);
 
                 // TODO: need to return drawing option to user
             }
