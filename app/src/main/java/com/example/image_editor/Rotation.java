@@ -110,17 +110,43 @@ public class Rotation extends Conductor {
         });
     }
 
-    @SuppressLint("Assert")
     private void rotateOnAngle(int angle) {
+        Bitmap btmp = bitmap;
         if (angle < 0) angle += 360;
-        int x = bitmap.getWidth();
-        int y = bitmap.getHeight();
+        if (((angle / 90) & 1) == 1){
+            btmp = Bitmap.createBitmap(bitmap.getHeight(),
+                    bitmap.getWidth(),
+                    Bitmap.Config.ARGB_8888);
+            btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
+        }
+
+        for(int w=0;w<bitmap.getWidth();w++){
+            for(int h=0;h<bitmap.getHeight();h++){
+                int a = w, b = h;
+                if(((angle / 90) & 1) == 1){
+                    a = bitmap.getHeight() - h;
+                    b = w;
+                }
+                if(((angle / 90) & 2) == 2){
+                    a = bitmap.getHeight() - h;
+                    b = bitmap.getWidth() - w;
+                }
+                if(a<0 || a>=btmp.getWidth())continue;
+                if(b<0 || b>=btmp.getHeight())continue;
+                if(w<0 || w>=bitmap.getWidth())continue;
+                if(h<0 || h>=bitmap.getHeight())continue;
+                btmp.setPixel(a, b, bitmap.getPixel(w, h));
+            }
+        }
+        bitmap = btmp;
+        int x = btmp.getWidth();
+        int y = btmp.getHeight();
         double a = (double) (90 - angle % 90) * Math.PI / 180.0;
         double cosa = Math.cos(a);
         double sina = Math.sin(a);
         double AB = x * sina + y * cosa;
         double AD = y * sina + x * cosa;
-        Bitmap btmp;
+
         btmp = Bitmap.createBitmap((int) AB + 2, (int) AD + 2, Bitmap.Config.ARGB_8888);
         btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
 //        Log.i("UPD", "hi");
@@ -129,15 +155,7 @@ public class Rotation extends Conductor {
             for (int ny = 0; ny <= (int) AD; ny++) {
                 int w = (int) (nx * sina - ny * cosa + x * cosa * cosa);
                 int h = (int) (nx * cosa + ny * sina - x * sina * cosa);
-                if(((angle / 90) & 1) == 1){
-                    int cnt = w;
-                    w = y - h;
-                    h = cnt;
-                }
-                if(((angle / 90) & 2) == 2){
-                    h = y - h;
-                    w = x - w;
-                }
+
                 if(w<0 || w>=bitmap.getWidth())continue;
                 if(h<0 || h>=bitmap.getHeight())continue;
                 btmp.setPixel(nx, ny, bitmap.getPixel(w, h));
