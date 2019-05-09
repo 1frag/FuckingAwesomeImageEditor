@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList myDataset = new ArrayList();
     private LinearLayout placeHolder;
     public boolean inMethod = false;
+    private boolean exitFromMethod = false;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
@@ -139,15 +140,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // TODO: проверка, были ли изменения
     @Override
     public void onBackPressed() {
-        // super.onBackPressed();
+//         super.onBackPressed();
         if(inMethod){
-            // todo: а вы уверены, что хотите выйти из метода
-            (new Conductor(this)).setDefaultState(null);
-            return;
+            // уверен, что выйти из метода
+            openQuitFromMethodDialog();
+            if (exitFromMethod) {
+                (new Conductor(this)).setDefaultState(null);
+            }
+            else return;
         }
-        openQuitDialog();
+        // уверен, что выйти из приложения
+        else openQuitDialog();
     }
 
     private void openQuitDialog() {
@@ -167,6 +173,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
+            }
+        });
+
+        quitDialog.show();
+    }
+
+    private void openQuitFromMethodDialog() {
+        // todo: UI че писать?)
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
+        quitDialog.setTitle("Изменения будут применены. Продолжить?");
+
+        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                exitFromMethod = true;
+            }
+        });
+
+        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                exitFromMethod = false;
             }
         });
 
