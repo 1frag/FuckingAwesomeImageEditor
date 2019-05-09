@@ -138,7 +138,7 @@ public class Usm extends Conductor {
     private void InitParams() {
 
         this.amount = seekBarAmount.getProgress();
-        this.radius = seekBarRadius.getProgress();
+        this.radius = 1 + seekBarRadius.getProgress();
         this.threshold = seekBarThreshold.getProgress();
 
         // debug information
