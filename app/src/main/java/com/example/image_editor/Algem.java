@@ -93,8 +93,11 @@ public class Algem extends Conductor implements View.OnTouchListener {
     private void DrawCircle(int mx, int my, int r, int color) {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
-                if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r)
+                if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r){
+                    if(0>x || x>=bitmap.getWidth())continue;
+                    if(0>y || y>=bitmap.getHeight())continue;
                     bitmap.setPixel(x, y, color);
+                }
             }
         }
     }
