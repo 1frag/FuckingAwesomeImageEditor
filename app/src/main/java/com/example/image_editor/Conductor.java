@@ -44,6 +44,7 @@ class Conductor{
         activity.findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
         activity.findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
         activity.initClasses((1 << 9) - 1);
+        activity.getImageView().setOnTouchListener(null);
     }
 
     void PrepareToRun(int resourse) {
