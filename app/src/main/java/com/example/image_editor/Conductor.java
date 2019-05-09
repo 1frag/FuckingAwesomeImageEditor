@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 class Conductor{
 
     private MainActivity activity;
+    private Bitmap beforeChanges;
 
     Conductor(MainActivity activity){
         this.activity = activity;
@@ -26,6 +27,7 @@ class Conductor{
 
     void touchToolbar(){
         Log.i("upd", "touchToolbar");
+        beforeChanges = ((BitmapDrawable)activity.getImageView().getDrawable()).getBitmap();
     }
 
     public void setDefaultState(View view) {
@@ -56,9 +58,21 @@ class Conductor{
         activity.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activity.getImageView().setImageBitmap(beforeChanges);
+                activity.getImageView().invalidate();
+                // todo: спросить пользователя уверен что изменения не будут применены
+                // todo: не спрашивать если изменений не было
                 setDefaultState(v);
             }
         });
+
+        activity.findViewById(R.id.apply).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDefaultState(v);
+            }
+        });
+
 
         activity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         activity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
