@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList myDataset = new ArrayList();
     private LinearLayout placeHolder;
     public boolean inMethod = false;
-    private boolean exitFromMethod = false;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
@@ -144,14 +143,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //         super.onBackPressed();
-        if(inMethod){
+        if (inMethod) openQuitFromMethodDialog();
             // уверен, что выйти из метода
-            openQuitFromMethodDialog();
-            if (exitFromMethod) {
-                (new Conductor(this)).setDefaultState(null);
-            }
-            else return;
-        }
         // уверен, что выйти из приложения
         else openQuitDialog();
     }
@@ -187,14 +180,14 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                exitFromMethod = true;
+                (new Conductor(MainActivity.this)).setDefaultState(null);
             }
         });
 
         quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                exitFromMethod = false;
+                return;
             }
         });
 
