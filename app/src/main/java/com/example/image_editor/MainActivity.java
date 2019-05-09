@@ -162,19 +162,6 @@ public class MainActivity extends AppCompatActivity {
         this.progressBar.setVisibility(View.GONE);
     }
 
-
-    public void setDefaultState(View view) {
-        placeHolder.setVisibility(View.INVISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
-        findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
-        findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
-        findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
-        findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
-        findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
-        findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
-        initClasses((1 << 9) - 1);
-    }
-
     void initClasses(int ID) {
         if (mClasses.size() == 0) {
             for (int i = 0; i < 9; i++)
@@ -190,22 +177,6 @@ public class MainActivity extends AppCompatActivity {
         if ((ID & (1 << 7)) > 0) mClasses.set(7, new A_Star(this));
         if ((ID & (1 << 8)) > 0) mClasses.set(8, new A_Star(this));
         initRecyclerView();
-    }
-
-    void PrepareToRun(int resourse) {
-        placeHolder.setVisibility(View.VISIBLE);
-
-        final LayoutInflater factory = getLayoutInflater();
-        final View menu = factory.inflate(resourse, null);
-        placeHolder.addView(menu, 0);
-
-        findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
-        findViewById(R.id.imgUndo).setVisibility(View.INVISIBLE);
-        findViewById(R.id.imgRedo).setVisibility(View.INVISIBLE);
-        findViewById(R.id.imgDownload).setVisibility(View.INVISIBLE);
-        findViewById(R.id.imgCamera).setVisibility(View.INVISIBLE);
-        findViewById(R.id.imgGallery).setVisibility(View.INVISIBLE);
     }
 
     private void getImages() {

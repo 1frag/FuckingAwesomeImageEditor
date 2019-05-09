@@ -39,18 +39,9 @@ public class Rotation extends Conductor {
 
     void touchToolbar() {
         super.touchToolbar();
-        activity.getLayoutInflater().inflate( // constant line (magic)
-                R.layout.rotate_menu, // your layout
-                activity.getPlaceHolder()); // constant line (magic)
-        RecyclerView rv = activity.findViewById(R.id.recyclerView);
-        rv.setVisibility(View.GONE);
-        // here you can touch your extending layout
+        PrepareToRun(R.layout.rotate_menu);
 
-        activity.findViewById(R.id.imgUndo).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgRedo).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgDownload).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgCamera).setVisibility(View.GONE);
-        activity.findViewById(R.id.imgGallery).setVisibility(View.GONE);
+        // here you can touch your extending layout
 
         btn_rotate90 = activity.findViewById(R.id.rotate90);
         btn_reset = activity.findViewById(R.id.reset_seekbar);

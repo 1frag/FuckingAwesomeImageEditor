@@ -61,8 +61,7 @@ public class Color_Filters extends Conductor {
 
     void touchToolbar() {
         super.touchToolbar();
-        activity.PrepareToRun(R.layout.filters_menu);
-        // here you can touch your extending layout
+        PrepareToRun(R.layout.filters_menu);
         pickFilters();
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();

@@ -7,42 +7,80 @@
     android:layout_height="match_parent">
 
     <SeekBar
-        android:id="@+id/seekBar1"
-        android:layout_width="302dp"
-        android:layout_height="30dp"
+        android:id="@+id/seek_bar_blur_radius"
+        android:layout_width="205dp"
+        android:layout_height="38dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:thumbOffset="@dimen/cardview_default_radius"
         android:thumbTint="@color/saladGreen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="302dp"
-        android:layout_height="30dp"
+        android:id="@+id/seek_bar_brush_sIze"
+        android:layout_width="205dp"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:thumbOffset="@dimen/cardview_default_radius"
         android:thumbTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar1" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_blur_radius" />
 
     <View
+        android:id="@+id/view_retouch"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_apply_retouch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Apply"
+        app:layout_constraintBottom_toBottomOf="@+id/view_retouch"
+        app:layout_constraintEnd_toEndOf="@+id/view_retouch"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/view_retouch"
+        app:layout_constraintTop_toTopOf="@+id/view_retouch" />
+
+    <TextView
+        android:id="@+id/text_view_radius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Radius"
+        app:layout_constraintBottom_toBottomOf="@+id/view_retouch"
+        app:layout_constraintEnd_toStartOf="@+id/btn_apply_retouch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/seek_bar_blur_radius"
+        app:layout_constraintTop_toTopOf="@+id/view_retouch"
+        app:layout_constraintVertical_bias="0.197" />
+
+    <TextView
+        android:id="@+id/text_view_brush_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Brush size"
+        app:layout_constraintBottom_toBottomOf="@+id/view_retouch"
+        app:layout_constraintEnd_toStartOf="@+id/btn_apply_retouch"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/seek_bar_brush_sIze"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_radius"
+        app:layout_constraintVertical_bias="0.633" />
 
 
 </android.support.constraint.ConstraintLayout>

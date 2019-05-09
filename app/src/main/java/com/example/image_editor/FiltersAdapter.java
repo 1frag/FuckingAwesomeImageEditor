@@ -57,7 +57,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
                     bitmap = ColorFIltersCollection.movieFilter(bitmap);
                     break;
                 case "Blur":
-                    bitmap = ColorFIltersCollection.fastBlur(bitmap);
+                    bitmap = ColorFIltersCollection.fastBlur(bitmap, 5, 1);
                     break;
                 case "Black and white":
                     bitmap = ColorFIltersCollection.createGrayScale(bitmap);

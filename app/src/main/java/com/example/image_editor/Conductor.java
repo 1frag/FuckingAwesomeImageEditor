@@ -4,10 +4,13 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +27,65 @@ class Conductor{
     void touchToolbar(){
         Log.i("upd", "touchToolbar");
     }
+
+    public void setDefaultState(View view) {
+        LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
+        RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
+
+        placeHolder.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+        activity.initClasses((1 << 9) - 1);
+    }
+
+    void PrepareToRun(int resourse) {
+        LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
+        RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
+
+        placeHolder.setVisibility(View.VISIBLE);
+
+        final LayoutInflater factory = activity.getLayoutInflater();
+        final View menu = factory.inflate(resourse, null);
+        placeHolder.addView(menu, 0);
+
+        activity.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDefaultState(v);
+            }
+        });
+
+        activity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgUndo).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.INVISIBLE);
+    }
+
+/*
+    void mainActivityMenuGone(){
+        activity.findViewById(R.id.imgUndo).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.GONE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.GONE);
+    }
+
+    void mainActivityMenuVisible(){
+        activity.findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+    }
+*/
 
     class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap>{
         @Override
