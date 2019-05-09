@@ -25,6 +25,8 @@ public class Algem extends Conductor implements View.OnTouchListener {
     private MainActivity activity;
     private int n;
 
+    private Button startAlgo;
+
     Algem(MainActivity activity) {
         super(activity);
         this.activity = activity;
@@ -37,13 +39,10 @@ public class Algem extends Conductor implements View.OnTouchListener {
         super.touchToolbar();
         PrepareToRun(R.layout.spline_menu);
 
-        ConfigDrawPointsButton((ImageButton) activity.findViewById(R.id.add_points));
-        activity.findViewById(R.id.algo_spline).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                algorithm();
-            }
-        });
+        startAlgo = activity.findViewById(R.id.algo_spline);
+
+        configDrawPointsButton((ImageButton) activity.findViewById(R.id.add_points));
+        configStartAlgoButton(startAlgo);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -52,11 +51,27 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     }
 
-    private void ConfigDrawPointsButton(ImageButton btn1) {
+    private void configDrawPointsButton(ImageButton btn1) {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setpoint(v);
+            }
+        });
+    }
+
+    private void configStartAlgoButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncTaskConductor splainTask = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        algorithm();
+                        return bitmap;
+                    }
+                };
+                splainTask.execute();
             }
         });
     }
@@ -179,7 +194,12 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 DrawCircle(nx, ny, 5, Color.BLACK);
             }
         }
-        imageView.invalidate();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                imageView.invalidate();
+            }
+        });
     }
 
     private ArrayList<DPoint> Other_matem(ArrayList<DPoint> P1) {
