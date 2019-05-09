@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         if ((ID & (1 << 3)) > 0) mClasses.set(3, new A_Star(this));
         if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));
         if ((ID & (1 << 5)) > 0) mClasses.set(5, new Retouch(this));
-        if ((ID & (1 << 6)) > 0) mClasses.set(6, new A_Star(this));
+        if ((ID & (1 << 6)) > 0) mClasses.set(6, new Scaling(this));
         if ((ID & (1 << 7)) > 0) mClasses.set(7, new A_Star(this));
         if ((ID & (1 << 8)) > 0) mClasses.set(8, new Usm(this));
         initRecyclerView();
