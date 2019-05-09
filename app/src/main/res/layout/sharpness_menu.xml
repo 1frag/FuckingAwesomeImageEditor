@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <SeekBar
-        android:id="@+id/seekBarAmount"
+        android:id="@+id/seek_bar_amount"
         android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginTop="4dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBarRadius"
+        android:id="@+id/seek_bar_radius"
         android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
@@ -28,10 +28,10 @@
         android:thumbOffset="@dimen/cardview_default_radius"
         android:thumbTint="@color/saladGreen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_amount" />
 
     <SeekBar
-        android:id="@+id/seekBarThreshold"
+        android:id="@+id/seek_bar_threshold"
         android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginTop="5dp"
@@ -40,7 +40,7 @@
         android:thumbOffset="@dimen/cardview_default_radius"
         android:thumbTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBarRadius" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_radius" />
 
     <View
         android:id="@+id/view"
@@ -60,7 +60,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="8dp"
         android:background="@color/colorAccent"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarAmount"
+        app:layout_constraintEnd_toStartOf="@+id/seek_bar_amount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,7 +74,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="8dp"
         android:background="@color/saladGreen"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarRadius"
+        app:layout_constraintEnd_toStartOf="@+id/seek_bar_radius"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -87,7 +87,7 @@
         android:layout_marginEnd="6dp"
         android:layout_marginRight="8dp"
         android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toStartOf="@+id/seekBarThreshold"
+        app:layout_constraintEnd_toStartOf="@+id/seek_bar_threshold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 

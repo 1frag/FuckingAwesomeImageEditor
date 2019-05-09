@@ -81,10 +81,17 @@ public class GaussianBlur {
         }
     }
 
+
     private void boxBlur(double r) {
         for (int i = 0; i < h; i++)
             for (int j = 0; j < w; j++)
-                target.setPixel(i, j, source.getPixel(i, j));
+                // wtf exception here
+                try {
+                    target.setPixel(i, j, source.getPixel(i, j));
+                }
+                catch (Exception e){
+                    continue;
+                }
         boxBlurH(r);
         boxBlurT(r);
     }

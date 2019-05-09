@@ -17,6 +17,10 @@ public class Usm extends Conductor {
     private double radius;
     private int threshold;
 
+    private SeekBar seekBarAmount;
+    private SeekBar seekBarRadius;
+    private SeekBar seekBarThreshold;
+
     Usm(MainActivity activity) {
         super(activity);
         this.activity = activity;
@@ -29,12 +33,29 @@ public class Usm extends Conductor {
         super.touchToolbar();
         PrepareToRun(R.layout.sharpness_menu);
 
+        seekBarAmount = activity.findViewById(R.id.seek_bar_amount);
+        seekBarAmount.setMax(100);
+        seekBarThreshold = activity.findViewById(R.id.seek_bar_threshold);
+        seekBarThreshold.setMax(255);
+        seekBarRadius = activity.findViewById(R.id.seek_bar_radius);
+        seekBarRadius.setMax(50);
+
         activity.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                algorithm();
+                long startTime = System.currentTimeMillis();
+                AsyncTaskConductor usmAsync = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        algorithm();
+                        return bitmap;
+                    }
+                };
+                usmAsync.execute();
+                long endTime = System.currentTimeMillis();
                 imageView.invalidate();
                 Log.i("upd", "already");
+                System.out.println("That took " + (endTime - startTime) + " milliseconds");
             }
         });
 
@@ -86,8 +107,8 @@ public class Usm extends Conductor {
         Log.i("upd", ((Integer)bitmap.getWidth()).toString() + " x " +
                 ((Integer)bitmap.getHeight()).toString());
 
-        Bitmap blurred = (new GaussianBlur(bitmap, radius)).algorithm();
-//        Bitmap blurred = ColorFIltersCollection.fastBlur(bitmap, (int)radius, 1);
+//        Bitmap blurred = (new GaussianBlur(bitmap, radius)).algorithm();
+        Bitmap blurred = ColorFIltersCollection.fastBlur(bitmap, (int)radius, 1);
 
 //        for (int w = 0; w < blurred.getWidth(); w++) {
 //            for (int h = 0; h < blurred.getHeight(); h++) {
@@ -116,17 +137,15 @@ public class Usm extends Conductor {
 
     private void InitParams() {
 
-        this.amount = ((SeekBar) activity.findViewById(R.id.seekBarAmount)).getProgress();
-        this.radius = ((SeekBar) activity.findViewById(R.id.seekBarRadius)).getProgress();
-        this.threshold = ((SeekBar) activity.findViewById(R.id.seekBarThreshold)).getProgress();
+        this.amount = seekBarAmount.getProgress();
+        this.radius = seekBarRadius.getProgress();
+        this.threshold = seekBarThreshold.getProgress();
 
-        amount += 50;
-        radius = radius / 50.0;
-        threshold /= 10;
-
-        amount = 20;
-        radius = 5.0;
-        threshold = 0;
+        // debug information
+        System.out.println();
+        System.out.println(amount);
+        System.out.println(radius);
+        System.out.println(threshold);
 
     }
 
