@@ -1,7 +1,9 @@
 package com.example.image_editor;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList myDataset = new ArrayList();
     private LinearLayout placeHolder;
+    public boolean inMethod = false;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
@@ -139,6 +142,40 @@ public class MainActivity extends AppCompatActivity {
                 else imageview.setImageBitmap(bitmap);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        if(inMethod){
+            // todo: а вы уверены, что хотите выйти из метода
+            (new Conductor(this)).setDefaultState(null);
+            return;
+        }
+        openQuitDialog();
+    }
+
+    private void openQuitDialog() {
+        // todo: UI че писать?)
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
+        quitDialog.setTitle("Выход: Вы уверены?");
+
+        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                finish();
+            }
+        });
+
+        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        quitDialog.show();
     }
 
     private void configUndoButton(){

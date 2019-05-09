@@ -31,6 +31,7 @@ class Conductor{
     }
 
     public void setDefaultState(View view) {
+        activity.inMethod = false;
         LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
 
@@ -46,6 +47,7 @@ class Conductor{
     }
 
     void PrepareToRun(int resourse) {
+        activity.inMethod = true;
         LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
 
