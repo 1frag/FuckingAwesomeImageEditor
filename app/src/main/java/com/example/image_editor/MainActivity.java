@@ -1,14 +1,18 @@
 package com.example.image_editor;
 
 import android.Manifest;
+import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,11 +107,17 @@ public class MainActivity extends AppCompatActivity {
         this.imageview = findViewById(R.id.iv);
 
         this.placeHolder = findViewById(R.id.method_layout);
+        this.recyclerView = findViewById(R.id.recyclerView);
 
         this.progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
         switchProgressBarVisibilityInvisible();;
 
         history = new History();
+
+        getLayoutInflater().inflate(
+                R.layout.apply_menu,
+                (LinearLayout)findViewById(R.id.apply_layout));
+
 
         undo = (ImageButton) findViewById(R.id.imgUndo);
         redo = (ImageButton) findViewById(R.id.imgRedo);
@@ -153,14 +163,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void setDefaultState() {
-        placeHolder.setVisibility(View.GONE);
+    public void setDefaultState(View view) {
+        placeHolder.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
+        findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
         findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
         findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
         findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
         findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
         findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+        initClasses((1 << 9) - 1);
     }
 
     void initClasses(int ID) {
@@ -177,19 +189,23 @@ public class MainActivity extends AppCompatActivity {
         if ((ID & (1 << 6)) > 0) mClasses.set(6, new A_Star(this));
         if ((ID & (1 << 7)) > 0) mClasses.set(7, new A_Star(this));
         if ((ID & (1 << 8)) > 0) mClasses.set(8, new A_Star(this));
+        initRecyclerView();
     }
 
     void PrepareToRun(int resourse) {
-        getLayoutInflater().inflate(
-                resourse,
-                getPlaceHolder());
-        RecyclerView rv = findViewById(R.id.recyclerView);
-        rv.setVisibility(View.GONE);
-        findViewById(R.id.imgUndo).setVisibility(View.GONE);
-        findViewById(R.id.imgRedo).setVisibility(View.GONE);
-        findViewById(R.id.imgDownload).setVisibility(View.GONE);
-        findViewById(R.id.imgCamera).setVisibility(View.GONE);
-        findViewById(R.id.imgGallery).setVisibility(View.GONE);
+        placeHolder.setVisibility(View.VISIBLE);
+
+        final LayoutInflater factory = getLayoutInflater();
+        final View menu = factory.inflate(resourse, null);
+        placeHolder.addView(menu, 0);
+
+        findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.imgUndo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.imgRedo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.imgDownload).setVisibility(View.INVISIBLE);
+        findViewById(R.id.imgCamera).setVisibility(View.INVISIBLE);
+        findViewById(R.id.imgGallery).setVisibility(View.INVISIBLE);
     }
 
     private void getImages() {
@@ -231,7 +247,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("upd", "initRecyclerView: init recyclerview");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls, mClasses);
         recyclerView.setAdapter(adapter);

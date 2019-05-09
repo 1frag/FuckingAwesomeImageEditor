@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/a_star_view"
         android:layout_width="match_parent"
         android:layout_height="76dp"
         app:layout_constraintEnd_toEndOf="parent"

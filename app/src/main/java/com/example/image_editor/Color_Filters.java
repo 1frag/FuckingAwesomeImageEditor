@@ -61,17 +61,9 @@ public class Color_Filters extends Conductor {
 
     void touchToolbar() {
         super.touchToolbar();
-        activity.getLayoutInflater().inflate( // constant line (magic)
-                R.layout.filters_menu, // your layout
-                activity.getPlaceHolder()); // constant line (magic)
-        RecyclerView rv = activity.findViewById(R.id.recyclerView);
-        rv.setVisibility(View.GONE);
+        activity.PrepareToRun(R.layout.filters_menu);
         // here you can touch your extending layout
-
-        RecyclerView filters_bar = activity.findViewById(R.id.filters_bar);
         pickFilters();
-
-//        configSelectFilterButton(btn_filter_picker);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 

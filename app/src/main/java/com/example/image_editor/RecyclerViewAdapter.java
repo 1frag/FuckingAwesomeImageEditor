@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,13 +33,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
-    private Context mContext;
+    private MainActivity activity;
 
-    RecyclerViewAdapter(Context context, ArrayList<String> names, ArrayList<Integer> imageUrls, ArrayList<Conductor> classes) {
-        mNames = names;
-        mImageUrls = imageUrls;
-        mContext = context;
-        mClasses = classes;
+    RecyclerViewAdapter(MainActivity activity, ArrayList<String> names, ArrayList<Integer> imageUrls, ArrayList<Conductor> classes) {
+        this.mNames = names;
+        this.mImageUrls = imageUrls;
+        this.mClasses = classes;
+        this.activity = activity;
     }
 
     @Override
@@ -57,7 +59,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClasses.get(position).touchToolbar();
+                try {
+                    Conductor cndr = (Conductor) mClasses.get(position).getClass().getConstructors()[0].newInstance(activity);
+                    cndr.touchToolbar();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
     }
