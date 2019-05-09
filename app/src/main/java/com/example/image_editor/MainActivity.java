@@ -4,14 +4,18 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,10 +106,26 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
         this.imageview = findViewById(R.id.iv);
 
         this.placeHolder = findViewById(R.id.method_layout);
         this.recyclerView = findViewById(R.id.recyclerView);
+
+        imageview.setMaxHeight((int) (height * 0.585));
+
+//        LinearLayout.LayoutParams params = new
+//                LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                ViewGroup.LayoutParams.WRAP_CONTENT);
+        // Set the height by params
+//        params.height=100;
+        // set height of RecyclerView
+//        recyclerView.setLayoutParams(params);
 
         this.progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
         switchProgressBarVisibilityInvisible();;
@@ -119,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         undo = (ImageButton) findViewById(R.id.imgUndo);
         redo = (ImageButton) findViewById(R.id.imgRedo);
+
         configRedoButton();
         configUndoButton();
 
