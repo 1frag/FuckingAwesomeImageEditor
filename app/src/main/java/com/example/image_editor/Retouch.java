@@ -117,36 +117,45 @@ public class Retouch extends Conductor implements OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // PorterDuff mode
-                PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
-
-                Paint paint = new Paint();
-                paint.setXfermode(new PorterDuffXfermode(mode));
-
-                PorterDuff.Mode mode2 = PorterDuff.Mode.DST_ATOP;
-
-                Paint paint2 = new Paint();
-                paint2.setXfermode(new PorterDuffXfermode(mode2));
-
-                // blurred bitmap
-                bufferedBitmap = ColorFIltersCollection.fastBlur(original, blurRadius, 1);
-
-                bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-                bufferCanvas = new Canvas(bitmap);
-
-                bufferCanvas.drawBitmap(mask, 0, 0, null);
-                bufferCanvas.drawBitmap(bufferedBitmap, 0, 0, paint);
-                bufferCanvas.drawBitmap(original, 0, 0, paint2);
-
-                // dump the buffer
-//                activity.canvas.drawBitmap(original, 0, 0, null);
-//                activity.canvas.drawBitmap(bitmap, 0, 0, null);
-
-                imageView.setImageBitmap(bitmap);
-
-                // TODO: need to return drawing option to user
+                AsyncTaskConductor retouchAsync = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        algorithm();
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                retouchAsync.execute();
             }
         });
+    }
+
+    private void algorithm(){
+        // PorterDuff mode
+        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(mode));
+
+        PorterDuff.Mode mode2 = PorterDuff.Mode.DST_ATOP;
+
+        Paint paint2 = new Paint();
+        paint2.setXfermode(new PorterDuffXfermode(mode2));
+
+        // blurred bitmap
+        bufferedBitmap = ColorFIltersCollection.fastBlur(original, blurRadius, 1);
+
+        bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        bufferCanvas = new Canvas(bitmap);
+
+        bufferCanvas.drawBitmap(mask, 0, 0, null);
+        bufferCanvas.drawBitmap(bufferedBitmap, 0, 0, paint);
+        bufferCanvas.drawBitmap(original, 0, 0, paint2);
     }
 
     private boolean canPutRect(int rad, int mx, int my) {
