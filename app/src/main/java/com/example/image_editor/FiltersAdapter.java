@@ -59,9 +59,16 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
                 case "Blur":
                     bitmap = ColorFIltersCollection.fastBlur(bitmap, 5, 1);
                     break;
-                case "Black and white":
+                case "B&W":
                     bitmap = ColorFIltersCollection.createGrayScale(bitmap);
                     break;
+                case "Blue laguna":
+                    bitmap = ColorFIltersCollection.lagunaFilter(bitmap);
+                    break;
+                case "Contrast":
+                    bitmap = ColorFIltersCollection.adjustedContrast(bitmap, 2);
+                    break;
+
             }
             if (bitmap == null){
                 Toast.makeText(mactivity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
