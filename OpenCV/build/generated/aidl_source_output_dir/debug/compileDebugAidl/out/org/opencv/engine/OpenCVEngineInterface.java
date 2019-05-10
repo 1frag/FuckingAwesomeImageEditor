@@ -1,10 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
-<<<<<<< HEAD
  * Original file: /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
-=======
- * Original file: C:\\Users\\admin\\fucking_awesome_image_editor\\OpenCV\\src\\main\\aidl\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
->>>>>>> 409149d9ef372059bf33ac0cff0c8ecf69594bf3
  */
 package org.opencv.engine;
 /**

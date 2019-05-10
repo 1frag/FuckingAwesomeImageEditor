@@ -30,6 +30,7 @@ import java.util.Calendar;
 public class Scaling extends Conductor {
 
     private Bitmap bitmap;
+    private Bitmap original;
     private ImageView imageView;
     private MainActivity activity;
 
@@ -51,7 +52,8 @@ public class Scaling extends Conductor {
         super.touchToolbar();
         PrepareToRun(R.layout.scaling_menu);
 
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        original = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        bitmap = original.copy(Bitmap.Config.ARGB_8888, true);
 
         resetScaling = activity.findViewById(R.id.btn_reset_scaling);
         textViewScaling = activity.findViewById(R.id.text_view_scale_size);
@@ -67,6 +69,7 @@ public class Scaling extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 scalingValue = progress;
+                textViewScaling.setText("Scale: " + ((float)scalingValue/100));
             }
 
             @Override
@@ -76,34 +79,49 @@ public class Scaling extends Conductor {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                textViewScaling.setText("Scale: " + ((float)scalingValue/100));
-                bitmap = algorithm(bitmap, (float) scalingValue/100);
-                imageView.setImageBitmap(bitmap);
+                AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        bitmap = algorithm(original, (float) scalingValue/100);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                scalingAsync.execute();
+                imageView.invalidate();
             }
         });
     }
 
-    // TODO: here)
+
     private void configResetButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                return;
+                imageView.setImageBitmap(original);
             }
         });
     }
 
     Bitmap algorithm(Bitmap now, float coef) {
+        if (coef < 0.05){
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity.getApplicationContext(), "Dude, it's too small", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return now;
+        }
         int w = now.getWidth();
         int h = now.getHeight();
-        System.out.println(w);
-        System.out.println(h);
-        System.out.println(coef);
 
-        // TODO: some exceptions here
         now = ColorFIltersCollection.resizeBilinear(now, w, h, (int)(w*coef), (int)(h*coef));
-        System.out.println(now.getHeight());
-        System.out.println(now.getWidth());
         return now;
     }
 }
