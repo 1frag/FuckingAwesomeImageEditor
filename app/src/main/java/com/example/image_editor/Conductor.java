@@ -32,6 +32,7 @@ class Conductor{
 
     public void setDefaultState(View view) {
         activity.inMethod = false;
+        activity.imageChanged = false;
         LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
 
@@ -105,6 +106,7 @@ class Conductor{
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             activity.switchProgressBarVisibilityInvisible();
+            activity.imageChanged = true;
             ImageView imageView = activity.getImageView();
             imageView.setImageBitmap(result);
             Toast.makeText(activity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();

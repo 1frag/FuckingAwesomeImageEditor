@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList myDataset = new ArrayList();
     private LinearLayout placeHolder;
     public boolean inMethod = false;
+    public boolean imageChanged = false;
     private int initialColor;
 
     private ArrayList<String> mNames = new ArrayList<>();
@@ -167,10 +168,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 //         super.onBackPressed();
-        if (inMethod) openQuitFromMethodDialog();
-            // уверен, что выйти из метода
-        // уверен, что выйти из приложения
-        else openQuitDialog();
+        if (inMethod){
+            if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
+            else (new Conductor(MainActivity.this)).setDefaultState(null); // выход из метода, если изменений не было
+        }
+        else openQuitDialog(); // уверен, что выйти из приложения
     }
 
     private void openQuitDialog() {
