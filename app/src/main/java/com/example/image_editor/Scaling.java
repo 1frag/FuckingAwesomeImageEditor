@@ -62,6 +62,7 @@ public class Scaling extends Conductor {
 
         configResetButton(resetScaling);
 
+        // TODO: reconfig me pls
         seekBarScaling.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -76,11 +77,13 @@ public class Scaling extends Conductor {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textViewScaling.setText("Scale: " + ((float)scalingValue/100));
-//                algorithm(bitmap, scalingValue);
+                bitmap = algorithm(bitmap, (float) scalingValue/100);
+                imageView.setImageBitmap(bitmap);
             }
         });
     }
 
+    // TODO: here)
     private void configResetButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,31 +93,17 @@ public class Scaling extends Conductor {
         });
     }
 
-    Bitmap algorithm(Bitmap now, int percent) {
+    Bitmap algorithm(Bitmap now, float coef) {
         int w = now.getWidth();
         int h = now.getHeight();
-        int a = (int) Math.ceil(h * percent / 100.0);
-        int b = (int) Math.ceil(w * percent / 100.0);
-        if (percent < 100) {
-            // todo: уменьшение
-        } else {
-            // todo: увеличение
-            for (int x = 0; x < a; x++) {
-                for (int y = 0; y < b; y++) {
+        System.out.println(w);
+        System.out.println(h);
+        System.out.println(coef);
 
-                    int q1 = (int) Math.floor(x * percent / 100.0);
-                    int p1 = (int) Math.floor(y * percent / 100.0);
-                    int q2 = (int) Math.ceil(x * percent / 100.0);
-                    int p2 = (int) Math.ceil(y * percent / 100.0);
-                    for (int q = q1; q < q2; q++) {
-                        for (int p = p1; p < p2; p++) {
-
-                        }
-                    }
-
-                }
-            }
-        }
+        // TODO: some exceptions here
+        now = ColorFIltersCollection.resizeBilinear(now, w, h, (int)(w*coef), (int)(h*coef));
+        System.out.println(now.getHeight());
+        System.out.println(now.getWidth());
         return now;
     }
 }
