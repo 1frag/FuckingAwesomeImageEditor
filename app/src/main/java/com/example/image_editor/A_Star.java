@@ -1,33 +1,22 @@
 package com.example.image_editor;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Application;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.view.View.OnTouchListener;
+import android.widget.LinearLayout;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -35,57 +24,95 @@ import java.util.PriorityQueue;
 
 import static java.lang.Math.abs;
 
-public class A_Star extends AppCompatActivity implements OnTouchListener {
+public class A_Star extends Conductor implements OnTouchListener {
 
-    private ImageView imageView;
-    private Bitmap bufferedBitmap;
-    private String path;
     private Integer typeDraw = 0;
-    private String IMAGE_DIRECTORY = "/demonuts";
     private Bitmap bitmap;
     private ArrayList<Pixel> remstart, remfinish;
-    Canvas canvas;
     private boolean start = false, finish = false;
-    private Button change_start;
-    private Button change_end;
+    private ImageButton change_start;
+    private ImageButton change_end;
     private Point pnt_start, pnt_finish;
     private Point[][] par;
+    private MainActivity activity;
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_a__star);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private ImageView imageView;
 
-        remstart = new ArrayList<Pixel>();
-        remfinish = new ArrayList<Pixel>();
-
-        change_start = findViewById(R.id.change_start);
-        change_end = findViewById(R.id.change_end);
-
-        Intent intent = getIntent();
-        this.path = intent.getStringExtra("Image");
-
-        this.imageView = findViewById(R.id.imageScaling);
-
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            canvas = new Canvas(bitmap);
-            imageView.setImageBitmap(bitmap);
-            imageView.setOnTouchListener(this);
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-            Toast.makeText(A_Star.this, "Failed!", Toast.LENGTH_SHORT).show();
-        }
+    A_Star(MainActivity activity) {
+        super(activity);
+        // work only with activity_main.xml
+        this.activity = activity;
+        this.imageView = activity.getImageView();
+        remstart = new ArrayList<>();
+        remfinish = new ArrayList<>();
 
     }
 
-    public void btnsetfrom(View view) {
+    private void ConfigWallButton(ImageButton button) {
+//        button.setText("set wall");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnsetwall(v);
+            }
+        });
+    }
+
+    private void ConfigFinishButton(ImageButton button) {
+//        button.setText("Set finish");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnsetto(v);
+            }
+        });
+    }
+
+    private void ConfigStartButton(ImageButton button) {
+//        button.setText("Set start");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnsetfrom(v);
+            }
+        });
+    }
+
+    public void click_finish(View view) {
+        Log.i("upd", "complete");
+    }
+
+    void touchToolbar() {
+        super.touchToolbar();
+        PrepareToRun(R.layout.a_star_menu);
+
+        this.change_start = activity.findViewById(R.id.start);
+        this.change_end = activity.findViewById(R.id.finish);
+        ImageButton btn_wall = activity.findViewById(R.id.wall);
+        Button btn_algo = activity.findViewById(R.id.algo_a_star);
+
+        ConfigDoAlgoButton(btn_algo);
+        ConfigWallButton(btn_wall);
+        ConfigFinishButton(change_end);
+        ConfigStartButton(change_start);
+
+        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        imageView.setImageBitmap(bitmap);
+        imageView.setOnTouchListener(this);
+    }
+
+    private void ConfigDoAlgoButton(Button btn_algo) {
+        btn_algo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                touchRun();
+            }
+        });
+    }
+
+    private void btnsetfrom(View view) {
         typeDraw = 1;
         if (start) {
             for (int i = 0; i < remstart.size(); i++) {
@@ -94,12 +121,12 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
                         remstart.get(i).getColor());
             }
             remstart.clear();
-            change_start.setText("set from");
+//            change_start.setText("set from");
             start = false;
         }
     }
 
-    public void btnsetto(View view) {
+    private void btnsetto(View view) {
         typeDraw = 2;
         if (finish) {
             for (int i = 0; i < remfinish.size(); i++) {
@@ -108,16 +135,23 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
                         remfinish.get(i).getColor());
             }
             remfinish.clear();
-            change_end.setText("set to");
+//            change_end.setText("set to");
             finish = false;
         }
     }
 
-    public void btnsetwall(View view) {
+    private void btnsetwall(View view) {
         typeDraw = 3;
     }
 
     private boolean canPutRect(int rad, int mx, int my) {
+        if ((pnt_finish == null) ||
+                ((mx - pnt_finish.x) * (mx - pnt_finish.x) + (my - pnt_finish.y) + (my - pnt_finish.y) >= 45 * 45)) {
+            if ((pnt_start == null) ||
+                    ((mx - pnt_start.x) * (mx - pnt_start.x) + (my - pnt_start.y) + (my - pnt_start.y) >= 45 * 45)) {
+                return true;
+            }
+        }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
                 if (0 > mx + i || mx + i >= bitmap.getWidth() ||
@@ -137,13 +171,13 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
 
     private void errorTouched() {
         // todo: hand this
-        return;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int mx = (int) event.getX();
         int my = (int) event.getY();
+        Log.i("upd", ((Integer) (mx)).toString() + " " + ((Integer) (my)).toString());
 //        Log.i("UPD", "touch");
         if (typeDraw == 3) {
             int rad = 15;
@@ -193,7 +227,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
             pnt_finish = new Point(mx, my);
             finish = true;
             imageView.invalidate();
-            change_end.setText("delete to");
+//            change_end.setText("delete to");
             return true;
         } else if (typeDraw == 1) {
             int rad = 30;
@@ -220,10 +254,10 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
             pnt_start = new Point(mx, my);
             start = true;
             imageView.invalidate();
-            change_start.setText("delete from");
+//            change_start.setText("delete from");
             return true;
         } else {
-            // TODO: toast with message: wtf u don't click button
+            // TODO: message: wtf u don't click button
         }
         return false;
     }
@@ -238,9 +272,9 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
     }
 
     private ArrayList<Point> reconstruct_path() {
-        ArrayList<Point> res = new ArrayList<Point>();
+        ArrayList<Point> res = new ArrayList<>();
         Point now = pnt_finish;
-        while (now != pnt_start){
+        while (now != pnt_start) {
             res.add(now);
             now = par[now.x][now.y];
         }
@@ -249,7 +283,7 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         return res;
     }
 
-    private ArrayList<Point> A_Star(int n, int m) {
+    public ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
         par = new Point[n][m];
@@ -258,24 +292,19 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
                 in_open[i][j] = false;
             }
         }
-//        Log.i("UPD", "A_Star: end for in for");
+
         int[] dirx = {0, 0, 1, -1};
         int[] diry = {1, -1, 0, 0};
 
-        HashSet<Point> closedset = new HashSet<Point>();
+        HashSet<Point> closedset = new HashSet<>();
         PointComparator myComp = new PointComparator(pnt_finish, n, m);
         PriorityQueue<Point> openset =
-                new PriorityQueue<Point>(10, myComp);
+                new PriorityQueue<>(10, myComp);
         openset.add(pnt_start);
         myComp.setInG(pnt_start, 0);
-        int k=0;
-        Log.i("UPD", ((Integer)pnt_start.x).toString() + " " + ((Integer)pnt_start.y).toString());
-        Log.i("UPD", ((Integer)pnt_finish.x).toString() + " " + ((Integer)pnt_finish.y).toString());
+
         while (!openset.isEmpty()) {
             Point x = openset.poll();
-
-//            bitmap.setPixel(x.x, x.y, Color.BLUE);
-//            imageView.invalidate();
 
             if (x.x == pnt_finish.x && x.y == pnt_finish.y) {
                 return reconstruct_path();
@@ -302,10 +331,10 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
                 }
             }
         }
-        return new ArrayList<Point>();
+        return new ArrayList<>();
     }
 
-    public void algorithm(View view) {
+    void touchRun() {
 
         if (!check()) {
             return;
@@ -313,15 +342,42 @@ public class A_Star extends AppCompatActivity implements OnTouchListener {
         int n = bitmap.getWidth();
         int m = bitmap.getHeight();
 
-        ArrayList<Point> answer = new ArrayList<Point>();
-        answer = A_Star(n, m);
 
-        for(int i=0;i<answer.size();i++){
-            bitmap.setPixel(answer.get(i).x,
-                    answer.get(i).y,
-                    Color.YELLOW);
-        }
-        Log.i("UPD", "END");
+        AsyncTaskConductor task = new AsyncTaskConductor() {
+            @Override
+            protected Bitmap doInBackground(String... params) {
+                int n = Integer.parseInt(params[1]);
+                int m = Integer.parseInt(params[2]);
 
+                ArrayList<Point> answer = algorithm(n, m);
+
+                for (int i = 0; i < answer.size(); i++) {
+                    bitmap.setPixel(answer.get(i).x,
+                            answer.get(i).y,
+                            Color.YELLOW);
+                }
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.invalidate();
+                    }
+                });
+
+                return bitmap;
+            }
+        };
+
+        task.execute("A*", Integer.toString(n), Integer.toString(m));
+//        ArrayList<Point> answer = algorithm(n, m);
+//
+//        for (int i = 0; i < answer.size(); i++) {
+//            bitmap.setPixel(answer.get(i).x,
+//                    answer.get(i).y,
+//                    Color.YELLOW);
+//        }
+//
+//        imageView.invalidate();
     }
+
 }

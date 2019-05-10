@@ -1,156 +1,169 @@
 package com.example.image_editor;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Calendar;
 
-public class Rotation extends AppCompatActivity {
+public class Rotation extends Conductor {
+
+    private Bitmap bitmap;
+
+    private ImageButton btn_rotate90;
+    private Button btn_reset;
+    private SeekBar angleSeekBar;
 
     private ImageView imageView;
-    private Bitmap bitmap;
-    private Bitmap bufferedBitmap;
-    private String path;
+    private MainActivity activity;
 
-    private String IMAGE_DIRECTORY = "/demonuts";
+    private TextView textViewAngle;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rotation);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private int currentAngle = 0;
 
-        Intent intent = getIntent();
-        this.path = intent.getStringExtra("Image");
-
-        this.imageView = (ImageView) findViewById(R.id.imageRotation);
-        try {
-            this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-            Toast.makeText(Rotation.this, "Failed!", Toast.LENGTH_SHORT).show();
-        }
-        this.imageView.setImageBitmap(this.bitmap);
-
-        configApplyButton();
-        configSaveButton();
+    Rotation(MainActivity activity) {
+        super(activity);
+        // work only with activity_main.xml
+        this.activity = activity;
+        this.imageView = activity.getImageView();
     }
 
-    private void configApplyButton() {
-        Button applyButton = (Button) findViewById(R.id.apply_button_rotation);
-        applyButton.setOnClickListener(new View.OnClickListener() {
+    void touchToolbar() {
+        super.touchToolbar();
+        PrepareToRun(R.layout.rotate_menu);
+
+        // here you can touch your extending layout
+
+        btn_rotate90 = activity.findViewById(R.id.rotate90);
+        btn_reset = activity.findViewById(R.id.reset_seekbar);
+
+        textViewAngle = activity.findViewById(R.id.text_view_angle);
+
+        angleSeekBar = activity.findViewById(R.id.seekBar);
+        angleSeekBar.setProgress(90);
+        angleSeekBar.setMax(180);
+
+        configRotate90Button(btn_rotate90);
+        configResetButton(btn_reset);
+
+        // Initialize the textview with '0'.
+        textViewAngle.setText("Current angle: " + (angleSeekBar.getProgress()-90));
+
+        angleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
             @Override
-            public void onClick(View v) {
-                EditText angle = (EditText) findViewById(R.id.angle_input);
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                progress = progresValue;
+                Toast.makeText(activity.getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+            }
 
-                int ang = Integer.parseInt(angle.getText().toString());
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Toast.makeText(activity.getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
+            }
 
-                rotateOnAngle(ang);
-                // TODO: catch exceptions here
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                textViewAngle.setText("Current angle: " + ((angleSeekBar.getProgress()+progress-180)/2));
+                Toast.makeText(activity.getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
+                System.out.println(progress);
+                rotateOnAngle(progress-90);
             }
         });
+        
+        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+        imageView.setImageBitmap(bitmap);
 
     }
 
-    @SuppressLint("Assert")
+    private void configResetButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageBitmap(bitmap);
+                currentAngle = 0;
+                angleSeekBar.setProgress(90);
+                textViewAngle.setText("Current angle: " + (angleSeekBar.getProgress()-90));
+            }
+        });
+    }
+
+    private void configRotate90Button(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotateOnAngle(currentAngle + 90);
+                currentAngle += 90;
+                textViewAngle.setText("Current angle: " + currentAngle);
+            }
+        });
+    }
+
     private void rotateOnAngle(int angle) {
-        int x = bitmap.getWidth();
-        int y = bitmap.getHeight();
+        Bitmap btmp = bitmap;
+        if (angle < 0) angle += 360;
+        if (((angle / 90) & 1) == 1){
+            btmp = Bitmap.createBitmap(bitmap.getHeight(),
+                    bitmap.getWidth(),
+                    Bitmap.Config.ARGB_8888);
+            btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
+        }
+
+        for(int w=0;w<bitmap.getWidth();w++){
+            for(int h=0;h<bitmap.getHeight();h++){
+                int a = w, b = h;
+                if(((angle / 90) & 1) == 1){
+                    a = bitmap.getHeight() - h;
+                    b = w;
+                }
+                if(((angle / 90) & 2) == 2){
+                    a = bitmap.getHeight() - h;
+                    b = bitmap.getWidth() - w;
+                }
+                if(a<0 || a>=btmp.getWidth())continue;
+                if(b<0 || b>=btmp.getHeight())continue;
+                if(w<0 || w>=bitmap.getWidth())continue;
+                if(h<0 || h>=bitmap.getHeight())continue;
+                btmp.setPixel(a, b, bitmap.getPixel(w, h));
+            }
+        }
+        bitmap = btmp;
+        int x = btmp.getWidth();
+        int y = btmp.getHeight();
         double a = (double) (90 - angle % 90) * Math.PI / 180.0;
         double cosa = Math.cos(a);
         double sina = Math.sin(a);
         double AB = x * sina + y * cosa;
         double AD = y * sina + x * cosa;
-        Bitmap btmp;
+
         btmp = Bitmap.createBitmap((int) AB + 2, (int) AD + 2, Bitmap.Config.ARGB_8888);
         btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
-        Log.i("UPD", "hi");
+//        Log.i("UPD", "hi");
         for (int nx = 0; nx <= (int) AB; nx++) {
-            Log.i("UPD", ((Integer)nx).toString());
+//            Log.i("UPD", ((Integer)nx).toString());
             for (int ny = 0; ny <= (int) AD; ny++) {
                 int w = (int) (nx * sina - ny * cosa + x * cosa * cosa);
                 int h = (int) (nx * cosa + ny * sina - x * sina * cosa);
-                if(((angle / 90) & 1) == 1){
-                    int cnt = w;
-                    w = y - h;
-                    h = cnt;
-                }
-                if(((angle / 90) & 2) == 2){
-                    h = y - h;
-                    w = x - w;
-                }
+
                 if(w<0 || w>=bitmap.getWidth())continue;
                 if(h<0 || h>=bitmap.getHeight())continue;
                 btmp.setPixel(nx, ny, bitmap.getPixel(w, h));
             }
         }
-        Log.i("UPD", "end");
+//        Log.i("UPD", "end");
 
         imageView.setImageBitmap(btmp);
         imageView.invalidate();
-    }
-
-    private void configSaveButton() {
-        Button saveButton = (Button) findViewById(R.id.save_button_rotation);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String path = saveImage(bufferedBitmap);
-                Toast.makeText(Rotation.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-                finish();
-                return;
-            }
-        });
-    }
-
-    public String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
-            return f.getAbsolutePath();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return "";
     }
 }

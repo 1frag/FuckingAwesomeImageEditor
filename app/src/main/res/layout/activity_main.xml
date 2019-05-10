@@ -1,56 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_toolbar"
-        android:text="@string/app_name"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" >
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/app_name"
-            android:textColor="#FAF5F5"
-            android:textSize="30sp"
-            android:textStyle="bold|italic"
-            app:fontFamily="sans-serif" />
-
-    </android.support.v7.widget.Toolbar>
 
     <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:onClick="get_base64"
-        android:text="@string/select_or_capture_image"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="clr"
+        android:onClick="btnSelectColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgCamera" />
+
+    <ImageButton
+        android:id="@+id/imgCamera"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:background="@color/White"
+        android:onClick="takePhotoFromCamera"
+        android:padding="8dp"
+        android:src="@drawable/ic_cam"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/imgGallery"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:background="@color/White"
+        android:onClick="choosePhotoFromGallery"
+        android:padding="8dp"
+        android:src="@drawable/ic_library"
+        app:layout_constraintStart_toEndOf="@+id/imgCamera"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/imgRedo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:background="@color/White"
+        android:padding="8dp"
+        android:src="@drawable/ic_redo"
+        app:layout_constraintEnd_toStartOf="@+id/imgDownload"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/imgDownload"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:background="@color/White"
+        android:onClick="saveImage"
+        android:padding="8dp"
+        android:src="@drawable/ic_download"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/imgUndo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/White"
+        android:padding="8dp"
+        android:src="@drawable/ic_undo"
+        app:layout_constraintEnd_toStartOf="@+id/imgRedo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="300dp"
-        android:layout_height="303dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher" />
-
-    <Button
-        android:id="@+id/filter_picker"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/choose_filter" />
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="220dp"
+        android:adjustViewBounds="true"
+        android:foregroundGravity="center"
+        android:maxHeight="400dp"
+        android:src="@drawable/default_img"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginTop="50dp" />
 
-</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="72dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent "
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/method_layout"
+        android:layout_width="390dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="72dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/apply_layout"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarMain"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

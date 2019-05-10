@@ -2,6 +2,7 @@ package com.example.image_editor;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,109 +27,101 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class Scaling extends AppCompatActivity {
+public class Scaling extends Conductor {
 
-    private ImageView imageView;
     private Bitmap bitmap;
-    private Bitmap bufferedBitmap;
-    private String path;
+    private Bitmap original;
+    private ImageView imageView;
+    private MainActivity activity;
 
-    private String IMAGE_DIRECTORY = "/demonuts";
+    private TextView textViewScaling;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scaling);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    private Button resetScaling;
 
-        Intent intent = getIntent();
-        this.path = intent.getStringExtra("Image");
+    private SeekBar seekBarScaling;
 
-        this.imageView = (ImageView) findViewById(R.id.imageScaling);
-        try{
-            this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(new File(this.path)));
-        }
-        catch (
-            IOException e) {
-            e.printStackTrace();
-            Toast.makeText(Scaling.this, "Failed!", Toast.LENGTH_SHORT).show();
-        }
-        this.imageView.setImageBitmap(this.bitmap);
-
-        configApplyButton();
-        configSaveButton();
+    private int scalingValue = 100;
+    
+    Scaling(MainActivity activity) {
+        super(activity);
+        this.activity = activity;
+        this.imageView = activity.getImageView();
     }
 
-    private void configApplyButton(){
-        Button applyButton = (Button) findViewById(R.id.apply_button_scaling);
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText coef_width =  (EditText) findViewById(R.id.coef_width);
-                EditText coef_height =  (EditText) findViewById(R.id.coef_height);
-                float w = Float.parseFloat(coef_width.getText().toString());
-                float h = Float.parseFloat(coef_height.getText().toString());
+    void touchToolbar() {
+        super.touchToolbar();
+        PrepareToRun(R.layout.scaling_menu);
 
-                resizeImage(w, h);
-                // TODO: catch exceptions here
+        original = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        bitmap = original.copy(Bitmap.Config.ARGB_8888, true);
+
+        resetScaling = activity.findViewById(R.id.btn_reset_scaling);
+        textViewScaling = activity.findViewById(R.id.text_view_scale_size);
+
+        seekBarScaling = activity.findViewById(R.id.seek_bar_scaling);
+        seekBarScaling.setMax(200);
+        seekBarScaling.setProgress(100);
+
+        configResetButton(resetScaling);
+
+        // TODO: reconfig me pls
+        seekBarScaling.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                scalingValue = progress;
+                textViewScaling.setText("Scale: " + ((float)scalingValue/100));
             }
-        });
 
-    }
-
-    private void configSaveButton(){
-        Button saveButton = (Button) findViewById(R.id.save_button_scaling);
-        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String path = saveImage(bufferedBitmap);
-                Toast.makeText(Scaling.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-                finish();
+            public void onStartTrackingTouch(SeekBar seekBar) {
                 return;
             }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        bitmap = algorithm(original, (float) scalingValue/100);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                scalingAsync.execute();
+                imageView.invalidate();
+            }
         });
     }
 
-    private void resizeImage(float coef_w, float coef_h){
-        Bitmap bmOriginal = this.bitmap;
-        int width = bmOriginal.getWidth();
-        int height = bmOriginal.getHeight();
 
-        int newWidth = Math.round(width*coef_w);
-        int newHeight = Math.round(height*coef_h);
-
-        this.bufferedBitmap = Bitmap.createScaledBitmap(bmOriginal, newWidth,
-                newHeight, false);
-        this.imageView.setImageBitmap(this.bufferedBitmap);
+    private void configResetButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageBitmap(original);
+            }
+        });
     }
 
-    public String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
+    Bitmap algorithm(Bitmap now, float coef) {
+        if (coef < 0.05){
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity.getApplicationContext(), "Dude, it's too small", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return now;
         }
+        int w = now.getWidth();
+        int h = now.getHeight();
 
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
-
-            return f.getAbsolutePath();
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return "";
+        now = ColorFIltersCollection.resizeBilinear(now, w, h, (int)(w*coef), (int)(h*coef));
+        return now;
     }
 }

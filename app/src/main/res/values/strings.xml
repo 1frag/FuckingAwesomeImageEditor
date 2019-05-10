@@ -7,4 +7,6 @@
     <string name="title_activity_a__star">A_Star</string>
     <string name="choose_filter">Choose Filter</string>
     <string name="select_or_capture_image">Select or Capture Image</string>
+    <string name="HINT">HINT: do something ;)</string>
+
 </resources>

@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".algem"
+            android:name=".Algem"
             android:label="Algem"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -37,11 +37,8 @@
             android:name=".Scaling"
             android:label="@string/title_activity_scaling"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Filters"
-            android:label="@string/title_activity_filters"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
