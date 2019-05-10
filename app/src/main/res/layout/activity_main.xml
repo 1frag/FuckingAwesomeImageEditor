@@ -8,6 +8,14 @@
     android:orientation="vertical">
 
 
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="clr"
+        android:onClick="btnSelectColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgCamera" />
+
     <ImageButton
         android:id="@+id/imgCamera"
         android:layout_width="50dp"
@@ -81,13 +89,13 @@
         android:id="@+id/iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="220dp"
         android:adjustViewBounds="true"
         android:foregroundGravity="center"
         android:maxHeight="400dp"
         android:src="@drawable/default_img"
-        app:layout_constraintBottom_toTopOf="@+id/method_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +113,7 @@
         android:layout_marginBottom="72dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent "
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
