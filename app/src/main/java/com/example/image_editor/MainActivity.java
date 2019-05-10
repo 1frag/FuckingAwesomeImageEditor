@@ -48,6 +48,8 @@ import java.util.Calendar;
 
 import java.util.List;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btn;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList myDataset = new ArrayList();
     private LinearLayout placeHolder;
     public boolean inMethod = false;
+    private int initialColor;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
@@ -420,5 +423,22 @@ public class MainActivity extends AppCompatActivity {
     public void click_finish(View view) {
         Log.i("upd", ((Integer) view.getId()).toString());
         Log.i("upd", ((Integer) R.id.finish).toString());
+    }
+
+
+    public void btnSelectColor(View view) {
+        AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, initialColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                initialColor = color;
+
+            }
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+                // cancel was selected by the user
+            }
+        });
+        dialog.show();
     }
 }

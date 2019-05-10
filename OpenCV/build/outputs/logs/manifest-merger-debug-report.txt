@@ -1,5 +1,6 @@
 -- Merging decision tree log ---
 manifest
+<<<<<<< HEAD
 ADDED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/AndroidManifest.xml:2:1-6:12
 INJECTED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/AndroidManifest.xml:2:1-6:12
 INJECTED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/AndroidManifest.xml:2:1-6:12
@@ -21,3 +22,26 @@ INJECTED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/And
 		ADDED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/AndroidManifest.xml:4:7-33
 		INJECTED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/AndroidManifest.xml
 		INJECTED from /home/somnoynadno/fucking_awesome_image_editor/OpenCV/src/main/AndroidManifest.xml
+=======
+ADDED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:1-6:12
+	package
+		ADDED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:3:7-27
+		INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:5:7-34
+		INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml:4:7-33
+		INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\admin\fucking_awesome_image_editor\OpenCV\src\main\AndroidManifest.xml
+>>>>>>> 409149d9ef372059bf33ac0cff0c8ecf69594bf3
