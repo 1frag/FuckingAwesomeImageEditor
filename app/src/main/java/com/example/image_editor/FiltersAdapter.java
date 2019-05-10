@@ -26,6 +26,8 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     private ArrayList<String> mNamesProg = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
 
+    private Bitmap bitmap;
+
     FiltersAdapter(MainActivity activity,
                    ArrayList<String> namesUser,
                    ArrayList<String> namesProg,
@@ -34,6 +36,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         mNamesUser = namesUser;
         mNamesProg = namesProg;
         mImageUrls = imageUrls;
+        bitmap = ((BitmapDrawable)mactivity.getImageView().getDrawable()).getBitmap();
     }
 
     /* it is copy-paste-code */
@@ -50,31 +53,31 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
 
             String which = params[0];
 
-            Bitmap bitmap = ((BitmapDrawable)mactivity.getImageView().getDrawable()).getBitmap();
+            Bitmap bufferedBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             mactivity.history.addBitmap(bitmap);
             switch (which) {
                 case "Movie":
-                    bitmap = ColorFIltersCollection.movieFilter(bitmap);
+                    bufferedBitmap = ColorFIltersCollection.movieFilter(bitmap);
                     break;
                 case "Blur":
-                    bitmap = ColorFIltersCollection.fastBlur(bitmap, 5, 1);
+                    bufferedBitmap = ColorFIltersCollection.fastBlur(bitmap, 5, 1);
                     break;
                 case "B&W":
-                    bitmap = ColorFIltersCollection.createGrayScale(bitmap);
+                    bufferedBitmap = ColorFIltersCollection.createGrayScale(bitmap);
                     break;
                 case "Blue laguna":
-                    bitmap = ColorFIltersCollection.lagunaFilter(bitmap);
+                    bufferedBitmap = ColorFIltersCollection.lagunaFilter(bitmap);
                     break;
                 case "Contrast":
-                    bitmap = ColorFIltersCollection.adjustedContrast(bitmap, 2);
+                    bufferedBitmap = ColorFIltersCollection.adjustedContrast(bitmap, 3);
                     break;
 
             }
-            if (bitmap == null){
+            if (bufferedBitmap == null){
                 Toast.makeText(mactivity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
                 return bitmap;
             }
-            return bitmap;
+            return bufferedBitmap;
         }
 
         @Override

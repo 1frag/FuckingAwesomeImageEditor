@@ -79,8 +79,16 @@ public class Color_Filters extends Conductor {
         mNamesProg.add("Blur");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Black and white"); // 2
-        mNamesProg.add("Black and white");
+        mNamesUser.add("B&W"); // 2
+        mNamesProg.add("B&W");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Blue laguna"); // 3
+        mNamesProg.add("Blue laguna");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Contrast"); // 4
+        mNamesProg.add("Contrast");
         mImageUrls.add(R.drawable.icon_a_star);
 
         try {
