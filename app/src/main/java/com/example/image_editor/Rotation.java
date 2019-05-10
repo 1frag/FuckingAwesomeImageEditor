@@ -114,7 +114,7 @@ public class Rotation extends Conductor {
     }
 
     private void rotateOnAngle(int angle) {
-        Bitmap btmp = bitmap;
+        Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         if (angle < 0) angle += 360;
         if (((angle / 90) & 1) == 1){
             btmp = Bitmap.createBitmap(bitmap.getHeight(),
@@ -136,8 +136,6 @@ public class Rotation extends Conductor {
                 }
                 if(a<0 || a>=btmp.getWidth())continue;
                 if(b<0 || b>=btmp.getHeight())continue;
-                if(w<0 || w>=bitmap.getWidth())continue;
-                if(h<0 || h>=bitmap.getHeight())continue;
                 btmp.setPixel(a, b, bitmap.getPixel(w, h));
             }
         }
