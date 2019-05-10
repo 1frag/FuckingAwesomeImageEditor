@@ -60,14 +60,26 @@ public class Algem extends Conductor implements View.OnTouchListener {
         });
     }
 
-    private void configStartAlgoButton(Button button){
+    private void configStartAlgoButton(final Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AsyncTaskConductor splainTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(false);
+                            }
+                        });
                         algorithm();
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(true);
+                            }
+                        });
                         return bitmap;
                     }
                 };

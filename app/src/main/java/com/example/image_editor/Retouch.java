@@ -113,18 +113,25 @@ public class Retouch extends Conductor implements OnTouchListener {
         imageView.setOnTouchListener(this);
     }
 
-    private void configApplyButton(Button button){
+    private void configApplyButton(final Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AsyncTaskConductor retouchAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(false);
+                            }
+                        });
                         algorithm();
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
+                                button.setEnabled(true);
                             }
                         });
                         return bitmap;

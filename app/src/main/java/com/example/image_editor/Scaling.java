@@ -78,15 +78,17 @@ public class Scaling extends Conductor {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(final SeekBar seekBar) {
                 AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
+                        seekBar.setEnabled(false);
                         bitmap = algorithm(original, (float) scalingValue/100);
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
+                                seekBar.setEnabled(true);
                             }
                         });
                         return bitmap;

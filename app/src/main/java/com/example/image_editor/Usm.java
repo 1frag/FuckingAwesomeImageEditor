@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
@@ -40,14 +41,28 @@ public class Usm extends Conductor {
         seekBarRadius = activity.findViewById(R.id.seek_bar_radius);
         seekBarRadius.setMax(50);
 
-        activity.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        final Button runUSM = activity.findViewById(R.id.button);
+
+        runUSM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long startTime = System.currentTimeMillis();
                 AsyncTaskConductor usmAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runUSM.setEnabled(false);
+                            }
+                        });
                         algorithm();
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                runUSM.setEnabled(true);
+                            }
+                        });
                         return bitmap;
                     }
                 };

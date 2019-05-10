@@ -58,6 +58,7 @@ public class Rotation extends Conductor {
         // Initialize the textview with '0'.
         textViewAngle.setText("Current angle: " + (angleSeekBar.getProgress()-90));
 
+        // TODO: really need async
         angleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
 
@@ -74,10 +75,12 @@ public class Rotation extends Conductor {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                seekBar.setEnabled(false);
                 textViewAngle.setText("Current angle: " + ((angleSeekBar.getProgress()+progress-180)/2));
                 Toast.makeText(activity.getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
                 System.out.println(progress);
                 rotateOnAngle(progress-90);
+                seekBar.setEnabled(true);
             }
         });
         
