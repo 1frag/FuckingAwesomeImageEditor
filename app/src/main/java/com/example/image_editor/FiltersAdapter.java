@@ -71,7 +71,15 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
                 case "Contrast":
                     bufferedBitmap = ColorFIltersCollection.adjustedContrast(bitmap, 3);
                     break;
-
+                case "Sephia":
+                    bufferedBitmap = ColorFIltersCollection.sephiaFilter(bitmap);
+                    break;
+                case "Noise":
+                    bufferedBitmap = ColorFIltersCollection.fleaEffect(bitmap);
+                    break;
+                case "Green grass":
+                    bufferedBitmap = ColorFIltersCollection.grassFilter(bitmap);
+                    break;
             }
             if (bufferedBitmap == null){
                 Toast.makeText(mactivity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();

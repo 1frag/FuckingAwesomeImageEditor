@@ -3,12 +3,69 @@ package com.example.image_editor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.util.Log;
+
+import java.util.Random;
 
 // class to work with color correction
 // all methods take bitmap and return bitmap
 public class ColorFIltersCollection {
+
+    public static final int COLOR_MIN = 0x00;
+    public static final int COLOR_MAX = 0xFF;
+
+    public static Bitmap fleaEffect(Bitmap source) {
+        // get image size
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int[] pixels = new int[width * height];
+        // get pixel array from source
+        source.getPixels(pixels, 0, width, 0, 0, width, height);
+        // a random object
+        Random random = new Random();
+
+        int index = 0;
+        // iteration through pixels
+        for(int y = 0; y < height; ++y) {
+            for(int x = 0; x < width; ++x) {
+                // get current index in 2D-matrix
+                index = y * width + x;
+                // get random color
+                int randColor = Color.rgb(random.nextInt(COLOR_MAX/4),
+                        random.nextInt(COLOR_MAX/4), random.nextInt(COLOR_MAX/4));
+                // OR
+                pixels[index] |= randColor;
+            }
+        }
+        // output bitmap
+        Bitmap bmOut = Bitmap.createBitmap(width, height, source.getConfig());
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    static public Bitmap grassFilter(Bitmap sentBitmap){
+        Bitmap bufBitmap = Bitmap.createBitmap(sentBitmap.getWidth(),sentBitmap.getHeight(), sentBitmap.getConfig());
+
+        for(int i=0; i<sentBitmap.getWidth(); i++){
+            for(int j=0; j<sentBitmap.getHeight(); j++){
+                int p = sentBitmap.getPixel(i, j);
+                int r = Color.red(p);
+                int g = Color.green(p);
+                int b = Color.blue(p);
+
+                r = (int) (r*0.9);
+                b = (int) (b*0.9);
+                g = ((int) (g*1.2));
+                if (g > 255) g = 255;
+                bufBitmap.setPixel(i, j, Color.argb(Color.alpha(p), r, g, b));
+            }
+        }
+
+        return bufBitmap;
+    }
 
     static public Bitmap movieFilter(Bitmap sentBitmap){
         Bitmap bufBitmap = Bitmap.createBitmap(sentBitmap.getWidth(),sentBitmap.getHeight(), sentBitmap.getConfig());
@@ -40,7 +97,8 @@ public class ColorFIltersCollection {
                 int b = Color.blue(p);
 
                 r = (int) (r*0.9);
-                b = ((int) (b*1.2)) & 0x000000FF;
+                b = ((int) (b*1.2));
+                if (b > 255) b = 255;
                 bufBitmap.setPixel(i, j, Color.argb(Color.alpha(p), r, g, b));
             }
         }
@@ -333,6 +391,46 @@ public class ColorFIltersCollection {
             }
         }
         return bmOut;
+    }
+
+    static public Bitmap sephiaFilter(Bitmap bmpOriginal) {
+        int width, height, r,g, b, c, gry;
+        height = bmpOriginal.getHeight();
+        width = bmpOriginal.getWidth();
+        int depth = 20;
+
+        Bitmap bmpSephia = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmpSephia);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setScale(.3f, .3f, .3f, 1.0f);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        canvas.drawBitmap(bmpOriginal, 0, 0, paint);
+        for(int x=0; x < width; x++) {
+            for(int y=0; y < height; y++) {
+                c = bmpOriginal.getPixel(x, y);
+
+                r = Color.red(c);
+                g = Color.green(c);
+                b = Color.blue(c);
+
+                gry = (r + g + b) / 3;
+                r = g = b = gry;
+
+                r = r + (depth * 2);
+                g = g + depth;
+
+                if(r > 255) {
+                    r = 255;
+                }
+                if(g > 255) {
+                    g = 255;
+                }
+                bmpSephia.setPixel(x, y, Color.rgb(r, g, b));
+            }
+        }
+        return bmpSephia;
     }
 
     static public Bitmap resizeBilinear(Bitmap pixels, int w, int h, int w2, int h2) {

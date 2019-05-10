@@ -91,6 +91,18 @@ public class Color_Filters extends Conductor {
         mNamesProg.add("Contrast");
         mImageUrls.add(R.drawable.icon_a_star);
 
+        mNamesUser.add("Sephia"); // 5
+        mNamesProg.add("Sephia");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Noise"); // 6
+        mNamesProg.add("Noise");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Green grass"); // 7
+        mNamesProg.add("Green grass");
+        mImageUrls.add(R.drawable.icon_a_star);
+
         try {
             initRecyclerView();
         } catch (NoSuchMethodException e) {
