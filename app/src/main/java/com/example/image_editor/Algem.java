@@ -94,6 +94,11 @@ public class Algem extends Conductor implements View.OnTouchListener {
         int mx = (int) event.getX();
         int my = (int) event.getY();
         if (typeEvent == 1 && event.getAction() == 0) {
+
+            View npoint = new View(activity);
+            npoint.findViewById(R.id.mv_point);
+            npoint.setVisibility(View.VISIBLE);
+
             DrawCircle(mx, my, 15, Color.BLACK);
             K.add(new DPoint(mx, my));
             imageView.invalidate();
