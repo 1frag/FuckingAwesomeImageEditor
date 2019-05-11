@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         this.placeHolder = findViewById(R.id.method_layout);
         this.recyclerView = findViewById(R.id.recyclerView);
 
+        LinearLayout ltiv = findViewById(R.id.ltiv);
+
         imageview.setMaxHeight((int) (height * 0.585));
 
 //        LinearLayout.LayoutParams params = new

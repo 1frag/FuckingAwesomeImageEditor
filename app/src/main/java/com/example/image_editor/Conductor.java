@@ -1,4 +1,5 @@
 package com.example.image_editor;
+
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,26 +9,28 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-class Conductor{
+class Conductor {
 
     private MainActivity activity;
     private Bitmap beforeChanges;
 
-    Conductor(MainActivity activity){
+    Conductor(MainActivity activity) {
         this.activity = activity;
     }
 
-    void touchToolbar(){
+    void touchToolbar() {
         Log.i("upd", "touchToolbar");
-        beforeChanges = ((BitmapDrawable)activity.getImageView().getDrawable()).getBitmap();
+        beforeChanges = ((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap();
     }
 
     public void setDefaultState(View view) {
@@ -52,6 +55,13 @@ class Conductor{
         activity.inMethod = true;
         LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
+        ImageView imageview = activity.getImageView();
+
+//        LinearLayout ltiv = activity.findViewById(R.id.ltiv);
+//        ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(imageview.getLayoutParams());;
+//        marginParams.setMargins(0, 10, 0, 0);
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
+//        ltiv.setLayoutParams(layoutParams);
 
         placeHolder.setVisibility(View.VISIBLE);
 
@@ -88,7 +98,7 @@ class Conductor{
     }
 
 
-    class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap>{
+    class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -98,7 +108,7 @@ class Conductor{
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = ((BitmapDrawable)activity.getImageView().getDrawable()).getBitmap();
+            Bitmap bitmap = ((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap();
             return bitmap;
         }
 
