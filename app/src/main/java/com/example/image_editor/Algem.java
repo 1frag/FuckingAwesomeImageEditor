@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -95,9 +96,10 @@ public class Algem extends Conductor implements View.OnTouchListener {
         int my = (int) event.getY();
         if (typeEvent == 1 && event.getAction() == 0) {
 
-            View npoint = new View(activity);
-            npoint.findViewById(R.id.mv_point);
-            npoint.setVisibility(View.VISIBLE);
+//            View npoint = new View(activity);
+//            npoint.findViewById(R.id.mv_point);
+//            npoint.setVisibility(View.VISIBLE);
+//            npoint.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
 
             DrawCircle(mx, my, 15, Color.BLACK);
             K.add(new DPoint(mx, my));
