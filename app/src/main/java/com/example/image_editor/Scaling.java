@@ -82,7 +82,7 @@ public class Scaling extends Conductor {
                 AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        seekBar.setEnabled(false);
+//                        seekBar.setEnabled(false);
                         bitmap = algorithm(original, (float) scalingValue/100);
                         activity.runOnUiThread(new Runnable() {
                             @Override
