@@ -71,35 +71,39 @@ public class Color_Filters extends Conductor {
 
     private void pickFilters() {
         // pick to arrays
-        mNamesUser.add("Movie"); // 0
+        mNamesUser.add("Original"); // 0
+        mNamesProg.add("Original");
+        mImageUrls.add(R.drawable.icon_a_star);
+
+        mNamesUser.add("Movie"); // 1
         mNamesProg.add("Movie");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Blur"); // 1
+        mNamesUser.add("Blur"); // 2
         mNamesProg.add("Blur");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("B&W"); // 2
+        mNamesUser.add("B&W"); // 3
         mNamesProg.add("B&W");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Blue laguna"); // 3
+        mNamesUser.add("Blue laguna"); // 4
         mNamesProg.add("Blue laguna");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Contrast"); // 4
+        mNamesUser.add("Contrast"); // 5
         mNamesProg.add("Contrast");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Sephia"); // 5
+        mNamesUser.add("Sephia"); // 6
         mNamesProg.add("Sephia");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Noise"); // 6
+        mNamesUser.add("Noise"); // 7
         mNamesProg.add("Noise");
         mImageUrls.add(R.drawable.icon_a_star);
 
-        mNamesUser.add("Green grass"); // 7
+        mNamesUser.add("Green grass"); // 8
         mNamesProg.add("Green grass");
         mImageUrls.add(R.drawable.icon_a_star);
 
