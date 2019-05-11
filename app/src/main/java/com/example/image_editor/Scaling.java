@@ -37,6 +37,7 @@ public class Scaling extends Conductor {
     private TextView textViewScaling;
 
     private Button resetScaling;
+    private Button applyScaling;
 
     private SeekBar seekBarScaling;
 
@@ -56,6 +57,7 @@ public class Scaling extends Conductor {
         bitmap = original.copy(Bitmap.Config.ARGB_8888, true);
 
         resetScaling = activity.findViewById(R.id.btn_reset_scaling);
+        applyScaling = activity.findViewById(R.id.btn_apply_scaling);
         textViewScaling = activity.findViewById(R.id.text_view_scale_size);
 
         seekBarScaling = activity.findViewById(R.id.seek_bar_scaling);
@@ -63,6 +65,7 @@ public class Scaling extends Conductor {
         seekBarScaling.setProgress(100);
 
         configResetButton(resetScaling);
+        configApplyButton(applyScaling);
 
         // TODO: reconfig me pls
         seekBarScaling.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -78,25 +81,8 @@ public class Scaling extends Conductor {
             }
 
             @Override
-            public void onStopTrackingTouch(final SeekBar seekBar) {
-                AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
-                    @Override
-                    protected Bitmap doInBackground(String... params){
-                        seekBar.setEnabled(false);
-                        bitmap = algorithm(original, (float) scalingValue/100);
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imageView.setImageBitmap(bitmap);
-                                seekBar.setEnabled(true);
-                            }
-                        });
-                        return bitmap;
-                    }
-                };
-                scalingAsync.execute();
-                imageView.invalidate();
-            }
+            public void onStopTrackingTouch(final SeekBar seekBar) { return; }
+
         });
     }
 
@@ -110,8 +96,37 @@ public class Scaling extends Conductor {
         });
     }
 
+    private void configApplyButton(final Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(false);
+                            }
+                        });
+                        bitmap = algorithm(original, (float) scalingValue/100);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                                button.setEnabled(true);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                scalingAsync.execute();
+            }
+        });
+    }
+
     Bitmap algorithm(Bitmap now, float coef) {
-        if (coef < 0.05){
+        if (coef < 0.12){
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
