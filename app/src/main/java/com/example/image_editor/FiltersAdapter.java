@@ -56,6 +56,9 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             Bitmap bufferedBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             mactivity.history.addBitmap(bitmap);
             switch (which) {
+                case "Original":
+                    bufferedBitmap = bitmap;
+                    break;
                 case "Movie":
                     bufferedBitmap = ColorFIltersCollection.movieFilter(bitmap);
                     break;
