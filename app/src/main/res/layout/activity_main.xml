@@ -11,8 +11,10 @@
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text="clr"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="428dp"
         android:onClick="btnSelectColor"
+        android:text="clr"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgCamera" />
 

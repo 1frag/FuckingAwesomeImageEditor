@@ -1,6 +1,7 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -15,6 +16,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
     private MainActivity activity;
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
+    private int cntfix=0;
 
     class Solver {
         private Double a, b, c, d, e, f;
@@ -63,13 +65,13 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
     }
 
     void initParams() {
-        p11 = new DPoint(1, 3);
-        p12 = new DPoint(1, 5);
-        p13 = new DPoint(8, 5);
-
-        p21 = new DPoint(10, 30);
-        p22 = new DPoint(142, 50);
-        p23 = new DPoint(80, 10);
+//        p11 = new DPoint(152, 377);
+//        p12 = new DPoint(136, 50);
+//        p13 = new DPoint(81, 582);
+//
+//        p21 = new DPoint(101, 309);
+//        p22 = new DPoint(142, 502);
+//        p23 = new DPoint(80, 101);
     }
 
     //matrix of algebraic complements
@@ -145,11 +147,11 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                         getFirstPoints(),
                         getSecondInBDF()));
 
-        Log.i("upd", "mes!");
         Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888,
                 true);
+        btmp.eraseColor(Color.WHITE);
+
         for (int i = 0; i < bitmap.getWidth(); i++) {
-            Log.i("upd", "45!");
             for (int j = 0; j < bitmap.getHeight(); j++) {
                 DPoint image = solver.calc(new DPoint(i, j));
                 int w = (int) image.x;
@@ -160,7 +162,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
             }
         }
         imageView.setImageBitmap(btmp);
-        Log.i("upd", "nice!");
+        imageView.invalidate();
 
     }
 
@@ -176,6 +178,30 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return false;
+        if(event.getAction() != 0)return false;
+
+        if(cntfix==0)p11 = new DPoint(event.getX(), event.getY());
+        if(cntfix==1)p12 = new DPoint(event.getX(), event.getY());
+        if(cntfix==2)p13 = new DPoint(event.getX(), event.getY());
+        if(cntfix==3)p21 = new DPoint(event.getX(), event.getY());
+        if(cntfix==4)p22 = new DPoint(event.getX(), event.getY());
+        if(cntfix==5)p23 = new DPoint(event.getX(), event.getY());
+
+        if(cntfix<3){
+            for(int i=-10;i<=10;i++){
+                for(int j=-10;j<=10;j++){
+                    bitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
+                }
+            }
+        }else if(cntfix<6){
+            for(int i=-10;i<=10;i++){
+                for(int j=-10;j<=10;j++){
+                    bitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
+                }
+            }
+        }
+        imageView.invalidate();
+        cntfix++;
+        return true;
     }
 }
