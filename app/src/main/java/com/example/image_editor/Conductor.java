@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import android.widget.ImageButton;
+
 import android.widget.FrameLayout;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +28,9 @@ class Conductor {
 
     private MainActivity activity;
     private Bitmap beforeChanges;
+
+    private ImageButton applyChanges;
+    private ImageButton cancelChanges;
 
     Conductor(MainActivity activity) {
         this.activity = activity;
@@ -73,25 +80,11 @@ class Conductor {
         final View menu = factory.inflate(resourse, null);
         placeHolder.addView(menu, 0);
 
-        activity.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.getImageView().setImageBitmap(beforeChanges);
-                activity.getImageView().invalidate();
-                // todo: спросить пользователя уверен что изменения не будут применены
-                // todo: не спрашивать если изменений не было
-                setDefaultState(v);
-            }
-        });
+        cancelChanges = activity.findViewById(R.id.cancel);
+        applyChanges = activity.findViewById(R.id.apply);
 
-        activity.findViewById(R.id.apply).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDefaultState(v);
-                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
-            }
-        });
-
+        configApplyButton(applyChanges);
+        configCancelButton(cancelChanges);
 
         activity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         activity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
@@ -102,11 +95,35 @@ class Conductor {
         activity.findViewById(R.id.imgGallery).setVisibility(View.INVISIBLE);
     }
 
+    private void configCancelButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.getImageView().setImageBitmap(beforeChanges);
+                activity.getImageView().invalidate();
+                // todo: спросить пользователя уверен что изменения не будут применены
+                // todo: не спрашивать если изменений не было
+                setDefaultState(v);
+            }
+        });
+    }
+
+    private void configApplyButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDefaultState(v);
+                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
+            }
+        });
+    }
 
     class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            applyChanges.setEnabled(false);
+            cancelChanges.setEnabled(false);
             activity.switchProgressBarVisibilityVisible();
 //            Toast.makeText(activity.getApplicationContext(), "Thread created", Toast.LENGTH_SHORT).show();
         }
@@ -124,6 +141,8 @@ class Conductor {
             activity.imageChanged = true;
             ImageView imageView = activity.getImageView();
             imageView.setImageBitmap(result);
+            applyChanges.setEnabled(true);
+            cancelChanges.setEnabled(true);
 //            Toast.makeText(activity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();
         }
     }

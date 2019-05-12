@@ -330,14 +330,15 @@ public class MainActivity extends AppCompatActivity {
                 Uri contentURI = data.getData();
                 try {
                     this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    // if photo is too big
+
+                    double c = Math.min(
+                            ((double)imageview.getWidth()/bitmap.getWidth()),
+                            ((double)imageview.getHeight()/bitmap.getHeight()));
+                    bitmap = (new Scaling(this)).algorithm(bitmap, (float) c);
+
                     if (this.bitmap.getByteCount() > 10000000) {
-                        double c = Math.min(
-                                ((double)imageview.getWidth()/bitmap.getWidth()),
-                                ((double)imageview.getHeight()/bitmap.getHeight()));
-                        bitmap = (new Scaling(this)).algorithm(bitmap, (float) c);
                         Toast.makeText(getApplicationContext(), "Your photo is too large!", Toast.LENGTH_SHORT).show();
-//                        return;
+//                       return;
                     }
 //                    this.path = saveImage(bitmap); todo: test: is it correct? (not saved!)
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
@@ -353,6 +354,12 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (requestCode == CAMERA) {
             this.bitmap = (Bitmap) data.getExtras().get("data");
+
+            double c = Math.min(
+                    ((double)imageview.getWidth()/bitmap.getWidth()),
+                    ((double)imageview.getHeight()/bitmap.getHeight()));
+            bitmap = (new Scaling(this)).algorithm(bitmap, (float) c);
+
             imageview.setImageBitmap(this.bitmap);
 //            this.path = saveImage(this.bitmap); todo: 129 _0_0_
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
