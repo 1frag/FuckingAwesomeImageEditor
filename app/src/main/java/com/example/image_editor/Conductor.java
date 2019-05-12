@@ -84,6 +84,7 @@ class Conductor {
             @Override
             public void onClick(View v) {
                 setDefaultState(v);
+                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
             }
         });
 
