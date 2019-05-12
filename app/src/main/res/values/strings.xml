@@ -8,5 +8,12 @@
     <string name="choose_filter">Choose Filter</string>
     <string name="select_or_capture_image">Select or Capture Image</string>
     <string name="HINT">HINT: do something ;)</string>
+    <string name="heuristic">Heuristic: </string>
+    <string name="four">Four</string>
+    <string name="eight">Eight</string>
+    <string name="best">Best</string>
+    <string name="apply">apply</string>
+    <string name="cancel">cancel</string>
+
 
 </resources>

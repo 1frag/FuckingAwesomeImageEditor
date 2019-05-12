@@ -11,56 +11,90 @@
         android:layout_width="match_parent"
         android:layout_height="76dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/start"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/start"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_start"
+        app:layout_constraintStart_toEndOf="@+id/settings"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/finish"
-            android:onClick="click_finish"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_finish"
-            app:layout_constraintStart_toEndOf="@+id/start"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/finish"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:onClick="click_finish"
+        android:src="@drawable/ic_finish"
+        app:layout_constraintStart_toEndOf="@+id/start"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/wall"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_wall"
-            app:layout_constraintStart_toEndOf="@+id/finish"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/wall"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_wall"
+        app:layout_constraintStart_toEndOf="@+id/finish"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/algo_a_star"
-            android:layout_width="102dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:text="Start algo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/wall"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/settings"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintBottom_toBottomOf="@+id/start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/start"
+        android:onClick="showSettings" />
+
+    <Button
+        android:id="@+id/algo_a_star"
+        android:layout_width="102dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Start algo"
+        app:layout_constraintEnd_toEndOf="@+id/a_star_view"
+        app:layout_constraintStart_toEndOf="@+id/wall"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="Set START"
+        android:gravity="center"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/start"
+        app:layout_constraintStart_toStartOf="@+id/start"
+        app:layout_constraintTop_toBottomOf="@+id/start" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Set FINISH"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/finish"
+        app:layout_constraintStart_toStartOf="@+id/finish"
+        app:layout_constraintTop_toBottomOf="@+id/finish" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="Set WALLs"
+        android:gravity="center"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/wall"
+        app:layout_constraintStart_toStartOf="@+id/wall"
+        app:layout_constraintTop_toBottomOf="@+id/wall" />
 
 
 
