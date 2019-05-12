@@ -26,6 +26,5 @@
         android:id="@+id/circle"
         android:layout_width="@dimen/shape_size"
         android:layout_height="@dimen/shape_size"
-        android:layout_gravity="center"
-        android:background="@color/Mv_color"/>
+        android:background="@color/Mv_color" />
 </com.example.image_editor.DragFrameLayout>

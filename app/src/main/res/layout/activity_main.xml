@@ -148,10 +148,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="0dp"
-            android:foregroundGravity="center"
-            android:scaleType="centerInside"
             android:adjustViewBounds="true"
+            android:foregroundGravity="center"
             android:maxHeight="400dp"
+            android:scaleType="centerInside"
             android:src="@drawable/default_img" />
     </FrameLayout>
 

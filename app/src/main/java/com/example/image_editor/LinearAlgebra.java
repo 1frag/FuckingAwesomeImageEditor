@@ -3,12 +3,18 @@ package com.example.image_editor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
@@ -51,6 +57,19 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();
+
+        FrameLayout layout = activity.findViewById(R.id.sample_content_fragment);
+        View circle = new View(activity);
+        circle.setBackgroundColor(0x00FF00);
+        layout.addView(circle, 100, 100);
+        // todo: я не понимаю ну вот создал я его, где он появляется то? =/
+
+//        android:id="@+id/circle"
+//        android:layout_width="@dimen/shape_size"
+//        android:layout_height="@dimen/shape_size"
+//        android:background="@color/Mv_color"
+
+
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
