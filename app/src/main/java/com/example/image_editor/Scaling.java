@@ -35,6 +35,8 @@ public class Scaling extends Conductor {
     private MainActivity activity;
 
     private TextView textViewScaling;
+    private TextView textWidth;
+    private TextView textHeight;
 
     private Button resetScaling;
     private Button applyScaling;
@@ -59,6 +61,11 @@ public class Scaling extends Conductor {
         resetScaling = activity.findViewById(R.id.btn_reset_scaling);
         applyScaling = activity.findViewById(R.id.btn_apply_scaling);
         textViewScaling = activity.findViewById(R.id.text_view_scale_size);
+        textHeight = activity.findViewById(R.id.current_height);
+        textWidth = activity.findViewById(R.id.current_width);
+
+        textWidth.setText("Width: " + bitmap.getWidth());
+        textHeight.setText("Height: " + bitmap.getHeight());
 
         seekBarScaling = activity.findViewById(R.id.seek_bar_scaling);
         seekBarScaling.setMax(200);
@@ -114,6 +121,8 @@ public class Scaling extends Conductor {
                             @Override
                             public void run() {
                                 imageView.setImageBitmap(bitmap);
+                                textWidth.setText("Width: " + bitmap.getWidth());
+                                textHeight.setText("Height: " + bitmap.getHeight());
                                 button.setEnabled(true);
                             }
                         });
