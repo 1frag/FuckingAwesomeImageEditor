@@ -3,6 +3,7 @@ package com.example.image_editor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,6 +48,11 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.linear_algebra_menu);
+
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        ElevationDragFragment fragment = new ElevationDragFragment();
+        transaction.replace(R.id.sample_content_fragment, fragment);
+        transaction.commit();
 
         Button btn_start = activity.findViewById(R.id.algo_start);
         btn_start.setOnClickListener(new View.OnClickListener() {
