@@ -138,7 +138,10 @@ public class Scaling extends Conductor {
         int w = now.getWidth();
         int h = now.getHeight();
 
-        now = ColorFIltersCollection.resizeBilinear(now, w, h, (int)(w*coef), (int)(h*coef));
+        if (coef > 1) now = ColorFIltersCollection.resizeBilinear(now, w, h, (int)(w*coef), (int)(h*coef));
+
+        else now = ColorFIltersCollection.resizeBicubic(now, (int)(w*coef), activity.getApplicationContext());  // test
+
         return now;
     }
 }

@@ -1,11 +1,17 @@
 package com.example.image_editor;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.renderscript.ScriptIntrinsicResize;
+import android.renderscript.Type;
 import android.util.Log;
 
 import java.util.Random;
@@ -566,5 +572,63 @@ public class ColorFIltersCollection {
                     (a20 + a21 * y + a22 * y2 + a23 * y3) * x2 +
                     (a30 + a31 * y + a32 * y2 + a33 * y3) * x3;
         }
+    }
+
+
+
+
+
+
+
+
+    // link: https://medium.com/@petrakeas/alias-free-resize-with-renderscript-5bf15a86ce3
+    // firstly apply Gaussian blur to the image
+    // and then subsample it using bicubic interpolation
+
+    public static Bitmap resizeBicubic(Bitmap src, int dstWidth, Context context) {
+        RenderScript rs = RenderScript.create(context);
+
+        Bitmap.Config  bitmapConfig = src.getConfig();
+        int srcWidth = src.getWidth();
+        int srcHeight = src.getHeight();
+        float srcAspectRatio = (float) srcWidth / srcHeight;
+        int dstHeight = (int) (dstWidth / srcAspectRatio);
+
+        float resizeRatio = (float) srcWidth / dstWidth;
+
+        /* Calculate gaussian's radius */
+        float sigma = resizeRatio / (float) Math.PI;
+        // https://android.googlesource.com/platform/frameworks/rs/+/master/cpu_ref/rsCpuIntrinsicBlur.cpp
+        float radius = 2.5f * sigma - 1.5f;
+        radius = Math.min(25, Math.max(0.0001f, radius));
+
+        /* Gaussian filter */
+        Allocation tmpIn = Allocation.createFromBitmap(rs, src);
+        Allocation tmpFiltered = Allocation.createTyped(rs, tmpIn.getType());
+        ScriptIntrinsicBlur blurInstrinsic = ScriptIntrinsicBlur.create(rs, tmpIn.getElement());
+
+        blurInstrinsic.setRadius(radius);
+        blurInstrinsic.setInput(tmpIn);
+        blurInstrinsic.forEach(tmpFiltered);
+
+        tmpIn.destroy();
+        blurInstrinsic.destroy();
+
+        /* Resize */
+        Bitmap dst = Bitmap.createBitmap(dstWidth, dstHeight, bitmapConfig);
+        Type t = Type.createXY(rs, tmpFiltered.getElement(), dstWidth, dstHeight);
+        Allocation tmpOut = Allocation.createTyped(rs, t);
+        // ScriptIntrinsicResize uses bicubic interpolation
+        ScriptIntrinsicResize resizeIntrinsic = ScriptIntrinsicResize.create(rs);
+
+        resizeIntrinsic.setInput(tmpFiltered);
+        resizeIntrinsic.forEach_bicubic(tmpOut);
+        tmpOut.copyTo(dst);
+
+        tmpFiltered.destroy();
+        tmpOut.destroy();
+        resizeIntrinsic.destroy();
+
+        return dst;
     }
 }
