@@ -84,6 +84,7 @@ class Conductor {
             @Override
             public void onClick(View v) {
                 setDefaultState(v);
+                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
             }
         });
 
@@ -103,7 +104,7 @@ class Conductor {
         protected void onPreExecute() {
             super.onPreExecute();
             activity.switchProgressBarVisibilityVisible();
-            Toast.makeText(activity.getApplicationContext(), "Thread created", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(activity.getApplicationContext(), "Thread created", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -119,7 +120,7 @@ class Conductor {
             activity.imageChanged = true;
             ImageView imageView = activity.getImageView();
             imageView.setImageBitmap(result);
-            Toast.makeText(activity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(activity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();
         }
     }
 

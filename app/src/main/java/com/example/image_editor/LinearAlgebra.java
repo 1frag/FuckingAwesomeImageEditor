@@ -54,12 +54,32 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
-        Button btn_start = activity.findViewById(R.id.algo_start);
+        final Button btn_start = activity.findViewById(R.id.algo_start);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initParams();
-                algorithm();
+                AsyncTaskConductor algemAsync = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_start.setEnabled(false);
+                            }
+                        });
+                        algorithm();
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                                btn_start.setEnabled(true);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                algemAsync.execute();
                 imageView.invalidate();
             }
         });
@@ -153,7 +173,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                         getFirstPoints(),
                         getSecondInBDF()));
 
-        Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888,
+        final Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888,
                 true);
         btmp.eraseColor(Color.WHITE);
 
@@ -167,9 +187,13 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                 btmp.setPixel(i, j, bitmap.getPixel(w, h));
             }
         }
-        imageView.setImageBitmap(btmp);
-        imageView.invalidate();
-
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                imageView.setImageBitmap(btmp);
+                imageView.invalidate();
+            }
+        });
     }
 
     @Override

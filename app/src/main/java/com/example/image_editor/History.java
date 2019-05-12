@@ -4,11 +4,11 @@ import android.graphics.Bitmap;
 
 import java.util.Stack;
 
-// a lot of null exceptions here
 public class History {
 
     private Stack<Bitmap> history;
     private Stack<Bitmap> buffer;
+    private Bitmap originalBitmap;
 
     public History() {
         history = new Stack<Bitmap>();
@@ -21,15 +21,15 @@ public class History {
     }
 
     // put current bitmap in buffer
-    public Bitmap popBitmap(Bitmap currentBitmap){
+    public Bitmap popBitmap(){
         Bitmap bitmap;
         try {
-            bitmap = history.pop();
-        }
+            bitmap = history.pop(); // if history is empty
+        }                           // return original
         catch (Exception e){
-            return null;
+            return originalBitmap;
         }
-        buffer.push(currentBitmap);
+        buffer.push(bitmap);
 
         return bitmap;
     }
@@ -41,11 +41,18 @@ public class History {
         }catch (Exception e){
             return null;
         }
+        history.push(bitmap);
         return bitmap;
     }
 
     public Bitmap showHead(){
         Bitmap bitmap = history.peek();
         return bitmap;
+    }
+
+    public void clearAllAndSetOriginal(Bitmap bitmap){
+        history.clear();
+        buffer.clear();
+        originalBitmap = bitmap;
     }
 }

@@ -134,9 +134,10 @@ public class MainActivity extends AppCompatActivity {
 //        recyclerView.setLayoutParams(params);
 
         this.progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
-        switchProgressBarVisibilityInvisible();;
+        switchProgressBarVisibilityInvisible();
 
         history = new History();
+        history.clearAllAndSetOriginal(((BitmapDrawable) imageview.getDrawable()).getBitmap());
 
         getLayoutInflater().inflate(
                 R.layout.apply_menu,
@@ -226,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
         undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bitmap = history.popBitmap(((BitmapDrawable)imageview.getDrawable()).getBitmap());
+                bitmap = history.popBitmap();
                 if (bitmap == null){
-                    Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Whoops, something went wrong", Toast.LENGTH_SHORT).show();
                 }
                 else imageview.setImageBitmap(bitmap);
             }
@@ -342,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     imageview.setImageBitmap(bitmap);
                     photoChosen = true;
+                    history.clearAllAndSetOriginal(bitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -355,6 +357,7 @@ public class MainActivity extends AppCompatActivity {
 //            this.path = saveImage(this.bitmap); todo: 129 _0_0_
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
             photoChosen = true;
+            history.clearAllAndSetOriginal(bitmap);
         }
     }
 

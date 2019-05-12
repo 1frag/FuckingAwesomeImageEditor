@@ -54,7 +54,6 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             String which = params[0];
 
             Bitmap bufferedBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-            mactivity.history.addBitmap(bitmap);
             switch (which) {
                 case "Original":
                     bufferedBitmap = bitmap;
