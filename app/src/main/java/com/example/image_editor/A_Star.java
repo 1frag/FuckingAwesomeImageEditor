@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,8 +41,22 @@ public class A_Star extends Conductor implements OnTouchListener {
     private Point pnt_start, pnt_finish;
     private Point[][] par;
     private MainActivity activity;
-
     private ImageView imageView;
+
+    class Settings {
+        private int rool, type_wall, size_wall;
+        private int color_wall, size_path, color_path;
+
+        Settings() {
+            rool = 0;
+            type_wall = 0;
+            size_wall = 15;
+            color_wall = 0xFFFFFF;
+            size_path = 5;
+            color_path = 0x00FFFF;
+        }
+
+    }
 
     A_Star(MainActivity activity) {
         super(activity);
@@ -100,7 +115,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         ConfigWallButton(btn_wall);
         ConfigFinishButton(change_end);
         ConfigStartButton(change_start);
-
         ConfigSettingsButton(activity.findViewById(R.id.settings));
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -110,7 +124,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         imageView.setOnTouchListener(this);
     }
 
-    private Dialog onCreateDialog(Bundle savedInstanceState) {
+    private Dialog DialogSettings() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
 
@@ -119,6 +133,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // todo: apply button
+                        Log.i("upd", "mew");
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -133,7 +148,16 @@ public class A_Star extends Conductor implements OnTouchListener {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCreateDialog(null).show();
+                DialogSettings().setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        AlertDialog alertDialog = (AlertDialog) dialog;
+                        //todo
+                        RadioButton rgRool = alertDialog.findViewById(R.id.rgRool);
+//                        rgRool.
+
+                    }
+                });
             }
         });
 
