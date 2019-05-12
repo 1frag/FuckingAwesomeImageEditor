@@ -132,11 +132,13 @@
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/sample_content_fragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="50dp"
         android:orientation="vertical"
+        android:background="@color/Black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -146,17 +148,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="0dp"
-            android:adjustViewBounds="true"
             android:foregroundGravity="center"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
             android:maxHeight="400dp"
             android:src="@drawable/default_img" />
-
-        <FrameLayout
-            android:id="@+id/sample_content_fragment"
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="0px" />
-    </LinearLayout>
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/progressBarMain"

@@ -331,8 +331,12 @@ public class MainActivity extends AppCompatActivity {
                     this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                     // if photo is too big
                     if (this.bitmap.getByteCount() > 10000000) {
+                        double c = Math.min(
+                                ((double)imageview.getWidth()/bitmap.getWidth()),
+                                ((double)imageview.getHeight()/bitmap.getHeight()));
+                        bitmap = (new Scaling(this)).algorithm(bitmap, (float) c);
                         Toast.makeText(getApplicationContext(), "Your photo is too large!", Toast.LENGTH_SHORT).show();
-                        return;
+//                        return;
                     }
 //                    this.path = saveImage(bitmap); todo: test: is it correct? (not saved!)
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();

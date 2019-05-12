@@ -70,7 +70,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         imageView.setOnTouchListener(this);
     }
 
-    void initParams() {
+    private void initParams() {
 //        p11 = new DPoint(152, 377);
 //        p12 = new DPoint(136, 50);
 //        p13 = new DPoint(81, 582);
@@ -170,16 +170,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         imageView.setImageBitmap(btmp);
         imageView.invalidate();
 
-    }
-
-    private void test() {
-        Matrix3x3 a = new Matrix3x3(
-                2, 5, 7,
-                6, 3, 4,
-                5, -2, -3
-        );
-        Matrix3x3 b = inverse(a);
-        Log.i("upd", "qwe");
     }
 
     @Override

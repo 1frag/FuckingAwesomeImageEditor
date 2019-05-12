@@ -213,6 +213,10 @@ public class A_Star extends Conductor implements OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         int mx = (int) event.getX();
         int my = (int) event.getY();
+
+        mx -= (imageView.getWidth() - bitmap.getWidth()) / 2.0;
+        my -= (imageView.getHeight() - bitmap.getHeight()) / 2.0;
+
         Log.i("upd", ((Integer) (mx)).toString() + " " + ((Integer) (my)).toString());
 //        Log.i("UPD", "touch");
         if (typeDraw == 3) {
