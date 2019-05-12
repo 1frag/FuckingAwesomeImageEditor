@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,10 +37,12 @@ import java.util.Calendar;
 
 import static android.app.PendingIntent.getActivity;
 
+
+// TODO: no need of mImageThumbs here
 public class Color_Filters extends Conductor {
 
     private Bitmap bitmap;
-    private Bitmap bufferedBitmap;
+    private Bitmap thumbImage;
 
     private Button selectFilter;
 
@@ -49,7 +53,7 @@ public class Color_Filters extends Conductor {
 
     private ArrayList<String> mNamesUser = new ArrayList<>();
     private ArrayList<String> mNamesProg = new ArrayList<>();
-    private ArrayList<Integer> mImageUrls = new ArrayList<>();
+    private ArrayList<Bitmap> mImageThumbs = new ArrayList<>();
 
     Color_Filters(MainActivity activity) {
         super(activity);
@@ -73,39 +77,39 @@ public class Color_Filters extends Conductor {
         // pick to arrays
         mNamesUser.add("Original"); // 0
         mNamesProg.add("Original");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Movie"); // 1
         mNamesProg.add("Movie");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Blur"); // 2
         mNamesProg.add("Blur");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("B&W"); // 3
         mNamesProg.add("B&W");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Blue laguna"); // 4
         mNamesProg.add("Blue laguna");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Contrast"); // 5
         mNamesProg.add("Contrast");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Sephia"); // 6
         mNamesProg.add("Sephia");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Noise"); // 7
         mNamesProg.add("Noise");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         mNamesUser.add("Green grass"); // 8
         mNamesProg.add("Green grass");
-        mImageUrls.add(R.drawable.icon_a_star);
+        mImageThumbs.add(thumbImage);
 
         try {
             initRecyclerView();
@@ -118,7 +122,7 @@ public class Color_Filters extends Conductor {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView filters_bar = activity.findViewById(R.id.filters_bar);
         filters_bar.setLayoutManager(layoutManager);
-        FiltersAdapter adapter = new FiltersAdapter(activity, mNamesUser, mNamesProg, mImageUrls);
+        FiltersAdapter adapter = new FiltersAdapter(activity, mNamesUser, mNamesProg, mImageThumbs);
         filters_bar.setAdapter(adapter);
     }
 
