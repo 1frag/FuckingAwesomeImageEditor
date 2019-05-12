@@ -1,5 +1,7 @@
 package com.example.image_editor;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -99,11 +101,9 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.getImageView().setImageBitmap(beforeChanges);
-                activity.getImageView().invalidate();
-                // todo: спросить пользователя уверен что изменения не будут применены
-                // todo: не спрашивать если изменений не было
-                setDefaultState(v);
+                if (activity.imageChanged) {
+                    openCancelDialog(v);
+                } else setDefaultState(v);
             }
         });
     }
@@ -112,10 +112,58 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDefaultState(v);
-                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
+                if (activity.imageChanged) {
+                    openApplyDialog(v);
+                } else setDefaultState(v);
             }
         });
+    }
+
+    private void openCancelDialog(final View v) {
+        // todo: UI че писать?)
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(activity);
+        quitDialog.setTitle("Изменения НЕ будут применены. Продолжить?");
+
+        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activity.getImageView().setImageBitmap(beforeChanges);
+                activity.getImageView().invalidate();
+                setDefaultState(v);
+            }
+        });
+
+        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+
+        quitDialog.show();
+    }
+
+    private void openApplyDialog(final View v) {
+        // todo: UI че писать?)
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(activity);
+        quitDialog.setTitle("Изменения будут применены. Продолжить?");
+
+        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
+                setDefaultState(v);
+            }
+        });
+
+        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        quitDialog.show();
     }
 
     class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
@@ -125,7 +173,6 @@ class Conductor {
             applyChanges.setEnabled(false);
             cancelChanges.setEnabled(false);
             activity.switchProgressBarVisibilityVisible();
-//            Toast.makeText(activity.getApplicationContext(), "Thread created", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -143,7 +190,6 @@ class Conductor {
             imageView.setImageBitmap(result);
             applyChanges.setEnabled(true);
             cancelChanges.setEnabled(true);
-//            Toast.makeText(activity.getApplicationContext(), "NICE", Toast.LENGTH_SHORT).show();
         }
     }
 
