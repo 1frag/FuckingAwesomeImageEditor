@@ -18,6 +18,7 @@ import android.widget.Toast;
 public class Rotation extends Conductor {
 
     private Bitmap bitmap;
+    private Bitmap original;
 
     private ImageButton btn_rotate90;
     private Button btn_reset;
@@ -55,36 +56,54 @@ public class Rotation extends Conductor {
         configRotate90Button(btn_rotate90);
         configResetButton(btn_reset);
 
-        // Initialize the textview with '0'.
         textViewAngle.setText("Current angle: " + (angleSeekBar.getProgress()-90));
 
-        // TODO: really need async
         angleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 progress = progresValue;
-                Toast.makeText(activity.getApplicationContext(), "Changing seekbar's progress", Toast.LENGTH_SHORT).show();
+                textViewAngle.setText("Current angle: " + ((angleSeekBar.getProgress()+progress-180)/2));
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(activity.getApplicationContext(), "Started tracking seekbar", Toast.LENGTH_SHORT).show();
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { return; }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 seekBar.setEnabled(false);
-                textViewAngle.setText("Current angle: " + ((angleSeekBar.getProgress()+progress-180)/2));
-                Toast.makeText(activity.getApplicationContext(), "Stopped tracking seekbar", Toast.LENGTH_SHORT).show();
                 System.out.println(progress);
-                rotateOnAngle(progress-90);
+                AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_rotate90.setEnabled(false);
+                                btn_reset.setEnabled(false);
+                                angleSeekBar.setEnabled(false);
+                            }
+                        });
+                        bitmap = rotateOnAngle(progress - 90);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn_rotate90.setEnabled(true);
+                                btn_reset.setEnabled(true);
+                                angleSeekBar.setEnabled(true);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                asyncRotate.execute();
                 seekBar.setEnabled(true);
             }
         });
         
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        original = bitmap.copy(Bitmap.Config.ARGB_8888, false);
 
         imageView.setImageBitmap(bitmap);
 
@@ -94,7 +113,7 @@ public class Rotation extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(original);
                 currentAngle = 0;
                 angleSeekBar.setProgress(90);
                 textViewAngle.setText("Current angle: " + (angleSeekBar.getProgress()-90));
@@ -102,18 +121,47 @@ public class Rotation extends Conductor {
         });
     }
 
-    private void configRotate90Button(ImageButton button){
+    private void configRotate90Button(final ImageButton button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rotateOnAngle(currentAngle + 90);
+                AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(false);
+                                btn_reset.setEnabled(false);
+                                angleSeekBar.setEnabled(false);
+                            }
+                        });
+                        bitmap = rotateOnAngle(currentAngle + 90);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                button.setEnabled(true);
+                                btn_reset.setEnabled(true);
+                                angleSeekBar.setEnabled(true);
+                            }
+                        });
+                        return bitmap;
+                    }
+                };
+                asyncRotate.execute();
                 currentAngle += 90;
-                textViewAngle.setText("Current angle: " + currentAngle);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imageView.invalidate();
+                        textViewAngle.setText("Current angle: " + currentAngle);
+                    }
+                });
             }
         });
     }
 
-    private void rotateOnAngle(int angle) {
+    private Bitmap rotateOnAngle(int angle) {
         Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         if (angle < 0) angle += 360;
         if (((angle / 90) & 1) == 1){
@@ -164,7 +212,6 @@ public class Rotation extends Conductor {
         }
 //        Log.i("UPD", "end");
 
-        imageView.setImageBitmap(btmp);
-        imageView.invalidate();
+        return btmp;
     }
 }
