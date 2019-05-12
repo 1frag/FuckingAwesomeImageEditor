@@ -27,7 +27,7 @@ public class Segmentation extends Conductor{
 
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.movable_view);
+        PrepareToRun(R.layout.segmentatioon_menu);
 
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();

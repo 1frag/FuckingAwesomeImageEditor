@@ -1,13 +1,18 @@
 package com.example.image_editor;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,11 +101,42 @@ public class A_Star extends Conductor implements OnTouchListener {
         ConfigFinishButton(change_end);
         ConfigStartButton(change_start);
 
+        ConfigSettingsButton(activity.findViewById(R.id.settings));
+
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
+    }
+
+    private Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = activity.getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.a_star_settings, null))
+                .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // todo: apply button
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // todo: cancel button
+                    }
+                });
+        return builder.create();
+    }
+
+    private void ConfigSettingsButton(View settings) {
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCreateDialog(null).show();
+            }
+        });
+
     }
 
     private void ConfigDoAlgoButton(Button btn_algo) {
