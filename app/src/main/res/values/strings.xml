@@ -14,6 +14,28 @@
     <string name="best">Best</string>
     <string name="apply">apply</string>
     <string name="cancel">cancel</string>
+    <string name="set_start">Set START</string>
+    <string name="set_finish">Set FINISH</string>
+    <string name="set_walls">Set WALLs</string>
+    <string name="start_algo">Start algo</string>
+    <string name="walls">Walls:</string>
+    <string name="romb">rhombus</string>
+    <string name="square">square</string>
+    <string name="circular">circular</string>
+    <string name="size">Size:</string>
+    <string name="color">Color:</string>
+    <string name="path">Path:</string>
+    <string name="radius">Radius</string>
+    <string name="brush_size">Brush size</string>
+    <string name="current_angle">Angle: 0</string>
+    <string name="scale">Scale</string>
+    <string name="reset">Reset</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="faces">FACES</string>
+    <string name="edit">EDIT</string>
+    <string name="amount">Amount</string>
+    <string name="threshold">Threshold</string>
 
 
 </resources>

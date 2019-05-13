@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Fucking Awesome Editor</string>
+    <string name="title_activity_filters">Фильтры</string>
+    <string name="title_activity_scaling">Масштабирование</string>
+    <string name="title_activity_color__filters">Color_Filters</string>
+    <string name="title_activity_rotation">Поворот</string>
+    <string name="title_activity_a__star">A_Star</string>
+    <string name="choose_filter">Выберите фильтр</string>
+    <string name="select_or_capture_image">Выберите или сделайте фотографию</string>
+    <string name="HINT">HINT: do something ;)</string>
+    <string name="heuristic">Heuristic: </string>
+    <string name="four">Четыре направления</string>
+    <string name="eight">Восемь направлений</string>
+    <string name="best">Лучший вариант</string>
+    <string name="apply">принять</string>
+    <string name="cancel">отмена</string>
+    <string name="set_start">Установите НАЧАЛО</string>
+    <string name="set_finish">Установите КОНЕЦ</string>
+    <string name="set_walls">Установите СТЕНЫ</string>
+    <string name="start_algo">Начать алгоритм</string>
+    <string name="walls">Стены:</string>
+    <string name="romb">ромб</string>
+    <string name="square">квадрат</string>
+    <string name="circular">круг</string>
+    <string name="size">Размер:</string>
+    <string name="color">Цвет:</string>
+    <string name="path">Путь:</string>
+    <string name="radius">Радиус</string>
+    <string name="brush_size">Размер кисти</string>
+    <string name="current_angle">Угол: 0</string>
+    <string name="scale">Масштаб</string>
+    <string name="reset">Сброс</string>
+    <string name="width">Ширина</string>
+    <string name="height">Высота</string>
+    <string name="faces">ЛИЦА</string>
+    <string name="edit">Изменить</string>
+    <string name="amount">Процент</string>
+    <string name="threshold">Порог</string>
+
+</resources>

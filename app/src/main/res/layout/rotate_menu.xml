@@ -13,7 +13,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Angle: 0"
+        android:text="@string/current_angle"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/button_mirrorV"
         app:layout_constraintStart_toEndOf="@+id/button_reset_seekbar"
@@ -116,11 +116,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button_reset_seekbar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:text="0"
+        android:src="@drawable/ic_zero"
         android:textColor="@color/colorAccent"
         android:background="@color/White"
         android:textSize="25sp"

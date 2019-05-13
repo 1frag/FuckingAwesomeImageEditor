@@ -8,16 +8,16 @@
     android:orientation="vertical">
 
 
-    <Button
-        android:id="@+id/button_color"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="428dp"
-        android:onClick="configSelectColorView"
-        android:text="clr"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_camera" />
+    <!--<Button-->
+        <!--android:id="@+id/button_color"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginStart="4dp"-->
+        <!--android:layout_marginTop="428dp"-->
+        <!--android:onClick="configSelectColorView"-->
+        <!--android:text="clr"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/button_camera" />-->
 
     <ImageButton
         android:id="@+id/button_camera"
@@ -25,7 +25,6 @@
         android:layout_height="50dp"
         android:layout_margin="0dp"
         android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
         android:background="@color/White"
         android:onClick="takePhotoFromCamera"
         android:padding="8dp"
@@ -66,7 +65,6 @@
         android:layout_margin="0dp"
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
         android:background="@color/White"
         android:onClick="saveImage"
         android:padding="8dp"
