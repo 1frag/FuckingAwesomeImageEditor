@@ -217,6 +217,32 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.show();
     }
 
+    private void openBigPictureDialog() {
+        AlertDialog.Builder bigPictureDialog = new AlertDialog.Builder(this);
+        bigPictureDialog.setTitle("Пикча большая. Сожмём?");
+
+        bigPictureDialog.setPositiveButton("Да!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap, mBitmap.getWidth()/2, MainActivity.this);
+
+                Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                mImageView.setImageBitmap(mBitmap);
+                mPhotoChosen = true;
+                history.clearAllAndSetOriginal(mBitmap);
+            }
+        });
+
+        bigPictureDialog.setNegativeButton("Я выберу другую", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+
+        bigPictureDialog.show();
+    }
+
     public void switchProgressBarVisibilityVisible(){
         mProgressBar.setVisibility(View.VISIBLE);
     }
@@ -283,18 +309,13 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    this.mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
 
-                    double c = Math.min(
-                            ((double) mImageView.getWidth()/ mBitmap.getWidth()),
-                            ((double) mImageView.getHeight()/ mBitmap.getHeight()));
-                    mBitmap = (new Scaling(this)).algorithm(mBitmap, (float) c);
-
-                    if (this.mBitmap.getByteCount() > 10000000) {
-                        Toast.makeText(getApplicationContext(), "Your photo is too large!", Toast.LENGTH_SHORT).show();
-//                       return;
+                    if (mBitmap.getByteCount() > 10000000) {
+                        openBigPictureDialog();
+                        return;
                     }
-//                    this.path = saveImage(mBitmap); todo: test: is it correct? (not saved!)
+
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     mImageView.setImageBitmap(mBitmap);
                     mPhotoChosen = true;
@@ -309,13 +330,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (requestCode == CAMERA) {
             this.mBitmap = (Bitmap) data.getExtras().get("data");
 
-            double c = Math.min(
-                    ((double) mImageView.getWidth()/ mBitmap.getWidth()),
-                    ((double) mImageView.getHeight()/ mBitmap.getHeight()));
-            mBitmap = (new Scaling(this)).algorithm(mBitmap, (float) c);
-
             mImageView.setImageBitmap(this.mBitmap);
-//            this.path = saveImage(this.mBitmap); todo: 129 _0_0_
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
             mPhotoChosen = true;
             history.clearAllAndSetOriginal(mBitmap);
