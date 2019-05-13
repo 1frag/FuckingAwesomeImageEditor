@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +44,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     private ImageView mImageView;
 
     private Integer mTypeDraw = 0;
-    private boolean mStart = false, mFinish = false;
+    private boolean mStartIsSet = false, mFinishIsSet = false;
 
     A_Star(MainActivity activity) {
         super(activity);
@@ -108,6 +109,11 @@ public class A_Star extends Conductor implements OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!mStartIsSet || !mFinishIsSet){
+                    Toast.makeText(mainActivity.getApplicationContext(),
+                            "You need to set start and finish first!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 touchRun();
             }
         });
@@ -153,27 +159,27 @@ public class A_Star extends Conductor implements OnTouchListener {
     
     private void setFrom(View view) {
         mTypeDraw = 1;
-        if (mStart) {
+        if (mStartIsSet) {
             for (int i = 0; i < mRemStart.size(); i++) {
                 mBitmap.setPixel(mRemStart.get(i).getX(),
                         mRemStart.get(i).getY(),
                         mRemStart.get(i).getColor());
             }
             mRemStart.clear();
-            mStart = false;
+            mStartIsSet = false;
         }
     }
 
     private void setTo(View view) {
         mTypeDraw = 2;
-        if (mFinish) {
+        if (mFinishIsSet) {
             for (int i = 0; i < mRemFinish.size(); i++) {
                 mBitmap.setPixel(mRemFinish.get(i).getX(),
                         mRemFinish.get(i).getY(),
                         mRemFinish.get(i).getColor());
             }
             mRemFinish.clear();
-            mFinish = false;
+            mFinishIsSet = false;
         }
     }
 
@@ -246,7 +252,7 @@ public class A_Star extends Conductor implements OnTouchListener {
 
         } else if (mTypeDraw == 2) {
             int rad = 30;
-            if (mFinish) return false;
+            if (mFinishIsSet) return false;
             if (!canPutRect(rad, mx, my)) {
                 errorTouched();
                 return false;
@@ -267,13 +273,13 @@ public class A_Star extends Conductor implements OnTouchListener {
                 }
             }
             mPointFinish = new Point(mx, my);
-            mFinish = true;
+            mFinishIsSet = true;
             mImageView.invalidate();
             return true;
 
         } else if (mTypeDraw == 1) {
             int rad = 30;
-            if (mStart) return false;
+            if (mStartIsSet) return false;
             if (!canPutRect(rad, mx, my)) {
                 errorTouched();
                 return false;
@@ -294,7 +300,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 }
             }
             mPointStart = new Point(mx, my);
-            mStart = true;
+            mStartIsSet = true;
             mImageView.invalidate();
             return true;
 

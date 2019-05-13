@@ -2,6 +2,7 @@ package com.example.image_editor;
 
 import android.graphics.Bitmap;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 // class to work with bitmap history
@@ -11,6 +12,10 @@ public class History {
     private Stack<Bitmap> mBuffer;
     private Bitmap mOriginalBitmap;
 
+    private int mCounter = 0;
+
+    private static final int STACK_SIZE = 10;
+
     public History() {
         mHistory = new Stack<Bitmap>();
         mBuffer = new Stack<Bitmap>();
@@ -18,6 +23,8 @@ public class History {
 
     public void addBitmap(Bitmap bitmap){
         mHistory.push(bitmap);
+        mCounter += 1;
+        if (mCounter == STACK_SIZE) dropStack();
         mBuffer.clear();
     }
 
@@ -27,10 +34,11 @@ public class History {
         try {
             bitmap = mHistory.pop(); // if mHistory is empty
         }                           // return original
-        catch (Exception e){
+        catch (EmptyStackException e){
             return mOriginalBitmap;
         }
         mBuffer.push(bitmap);
+        mCounter -= 1;
 
         return bitmap;
     }
@@ -39,10 +47,13 @@ public class History {
         Bitmap bitmap;
         try {
             bitmap = mBuffer.pop();
-        }catch (Exception e){
+        }catch (EmptyStackException e){
             return null;
         }
         mHistory.push(bitmap);
+        mCounter += 1;
+        if (mCounter == STACK_SIZE) dropStack();
+
         return bitmap;
     }
 
@@ -55,5 +66,11 @@ public class History {
         mHistory.clear();
         mBuffer.clear();
         mOriginalBitmap = bitmap;
+        mCounter = 1;
+    }
+
+    private void dropStack(){
+        mOriginalBitmap = mHistory.remove(0);
+        mCounter -= 1;
     }
 }
