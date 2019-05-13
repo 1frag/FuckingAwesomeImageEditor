@@ -23,6 +23,8 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     private Bitmap mThumb;
     private Bitmap mBufferedBitmap;
 
+    private boolean mClicked = false;
+
     FiltersAdapter(MainActivity activity,
                    ArrayList<String> namesUser,
                    ArrayList<String> namesProg) throws NoSuchMethodException {
@@ -36,6 +38,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     }
 
     private void lockInterface(){
+        mClicked = true;
         mainActivity.findViewById(R.id.button_apply_changes).setEnabled(false);
         mainActivity.findViewById(R.id.button_cancel_changes).setEnabled(false);
         mainActivity.algoInWork = true;
@@ -43,6 +46,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     }
 
     private void unlockInterface(){
+        mClicked = false;
         mainActivity.findViewById(R.id.button_apply_changes).setEnabled(true);
         mainActivity.findViewById(R.id.button_cancel_changes).setEnabled(true);
         mainActivity.algoInWork = false;
@@ -61,7 +65,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             String which = params[0];
             String type = params[1];
 
-            if (type == "mThumb") mBufferedBitmap = mThumb.copy(Bitmap.Config.ARGB_8888, true);
+            if (type == "thumb") mBufferedBitmap = mThumb.copy(Bitmap.Config.ARGB_8888, true);
             if (type == "image") mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
             switch (which) {
@@ -114,7 +118,6 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         }
     }
 
-
     @Override
     public FiltersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
@@ -125,21 +128,19 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     public void onBindViewHolder(final FiltersAdapter.ViewHolder holder, final int position) {
 
         holder.name.setText(mNamesFilters.get(position));
-
         AsyncTaskFilters thumbAsync = new AsyncTaskFilters(){
             @Override
             protected void onPostExecute(Bitmap result) {
-                mThumb = result;
-                holder.image.setImageBitmap(mThumb);
-
+                holder.image.setImageBitmap(result);
                 unlockInterface();
             }
         };
-        thumbAsync.execute(mNamesProg.get(position), "mThumb");
+        thumbAsync.execute(mNamesProg.get(position), "thumb");
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (mClicked) return;
                 AsyncTaskFilters filterAsync = new AsyncTaskFilters();
                 filterAsync.execute(mNamesProg.get(position), "image");
             }
