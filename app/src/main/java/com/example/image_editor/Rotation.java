@@ -16,8 +16,8 @@ public class Rotation extends Conductor {
     private Bitmap mBitmap;
     private Bitmap mOriginal;
 
-    private Button mResetRotateButton;
     private Button mApplyRotateButton;
+    private ImageButton mResetRotateButton;
     private ImageButton mRotate90Button;
     private ImageButton mMirrorVButton;
     private ImageButton mMirrorHButton;
@@ -88,7 +88,7 @@ public class Rotation extends Conductor {
 
     }
 
-    private void configResetButton(Button button){
+    private void configResetButton(ImageButton button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
