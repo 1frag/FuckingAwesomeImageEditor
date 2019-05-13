@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    private void initClasses(int ID) {
+    public void initClasses(int ID) {
         if (mClasses.size() == 0) {
             for (int i = 0; i < 9; i++)
                 mClasses.add(new Conductor(this));

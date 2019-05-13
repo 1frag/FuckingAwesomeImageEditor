@@ -4,37 +4,26 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-import static android.app.PendingIntent.getActivity;
 
-
-// TODO: no need of mImageThumbs here
 public class Color_Filters extends Conductor {
 
-    private Bitmap bitmap;
-    private Bitmap thumbImage;
+    private Bitmap mBitmap;
 
-    private Button selectFilter;
+    private ImageView mImageView;
+    private MainActivity mainActivity;
 
-    private String IMAGE_DIRECTORY = "/demonuts";
-
-    private ImageView imageView;
-    private MainActivity activity;
-
-    private ArrayList<String> mNamesUser = new ArrayList<>();
+    private ArrayList<String> mNamesFilters = new ArrayList<>();
     private ArrayList<String> mNamesProg = new ArrayList<>();
-    private ArrayList<Bitmap> mImageThumbs = new ArrayList<>();
 
     Color_Filters(MainActivity activity) {
         super(activity);
         // work only with activity_main.xml
-        this.activity = activity;
-        this.imageView = activity.getImageView();
-
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
@@ -42,48 +31,39 @@ public class Color_Filters extends Conductor {
         PrepareToRun(R.layout.filters_menu);
         pickFilters();
 
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
 
-        imageView.setImageBitmap(bitmap);
+        mImageView.setImageBitmap(mBitmap);
     }
 
     private void pickFilters() {
         // pick to arrays
-        mNamesUser.add("Original"); // 0
+        mNamesFilters.add("Original"); // 0
         mNamesProg.add("Original");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Movie"); // 1
+        mNamesFilters.add("Movie"); // 1
         mNamesProg.add("Movie");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Blur"); // 2
+        mNamesFilters.add("Blur"); // 2
         mNamesProg.add("Blur");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("B&W"); // 3
+        mNamesFilters.add("B&W"); // 3
         mNamesProg.add("B&W");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Blue laguna"); // 4
+        mNamesFilters.add("Blue laguna"); // 4
         mNamesProg.add("Blue laguna");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Contrast"); // 5
+        mNamesFilters.add("Contrast"); // 5
         mNamesProg.add("Contrast");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Sephia"); // 6
+        mNamesFilters.add("Sephia"); // 6
         mNamesProg.add("Sephia");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Noise"); // 7
+        mNamesFilters.add("Noise"); // 7
         mNamesProg.add("Noise");
-        mImageThumbs.add(thumbImage);
 
-        mNamesUser.add("Green grass"); // 8
+        mNamesFilters.add("Green grass"); // 8
         mNamesProg.add("Green grass");
-        mImageThumbs.add(thumbImage);
 
         try {
             initRecyclerView();
@@ -93,10 +73,10 @@ public class Color_Filters extends Conductor {
     }
 
     private void initRecyclerView() throws NoSuchMethodException {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView filters_bar = activity.findViewById(R.id.bar_filters);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView filters_bar = mainActivity.findViewById(R.id.bar_filters);
         filters_bar.setLayoutManager(layoutManager);
-        FiltersAdapter adapter = new FiltersAdapter(activity, mNamesUser, mNamesProg, mImageThumbs);
+        FiltersAdapter adapter = new FiltersAdapter(mainActivity, mNamesFilters, mNamesProg);
         filters_bar.setAdapter(adapter);
     }
 

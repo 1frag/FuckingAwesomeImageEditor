@@ -1,110 +1,118 @@
 package com.example.image_editor;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import java.util.ArrayList;
 
-// TODO; optimize async here
 public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHolder> {
 
-    private MainActivity mactivity;
-    private ArrayList<String> mNamesUser = new ArrayList<>();
-    private ArrayList<String> mNamesProg = new ArrayList<>();
-    private ArrayList<Bitmap> mImageThumbs = new ArrayList<>();
+    private MainActivity mainActivity;
+    private ArrayList<String> mNamesFilters;
+    private ArrayList<String> mNamesProg;
 
-    private Bitmap bitmap;
-    private Bitmap thumb;
-
-    private int THUMBSIZE = 128;
+    private Bitmap mBitmap;
+    private Bitmap mThumb;
+    private Bitmap mBufferedBitmap;
 
     FiltersAdapter(MainActivity activity,
                    ArrayList<String> namesUser,
-                   ArrayList<String> namesProg,
-                   ArrayList<Bitmap> imageThumbs) throws NoSuchMethodException {
-        mactivity = activity;
-        mNamesUser = namesUser;
+                   ArrayList<String> namesProg) throws NoSuchMethodException {
+        mainActivity = activity;
+        mNamesFilters = namesUser;
         mNamesProg = namesProg;
-        mImageThumbs = imageThumbs;
-        bitmap = ((BitmapDrawable)mactivity.getImageView().getDrawable()).getBitmap();
-        thumb = ThumbnailUtils.extractThumbnail(bitmap, THUMBSIZE, THUMBSIZE);
+        mBitmap = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
+
+        int THUMBSIZE = 128;
+        mThumb = ThumbnailUtils.extractThumbnail(mBitmap, THUMBSIZE, THUMBSIZE);
     }
 
-    /* it is copy-paste-code */
-    class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
+    private void lockInterface(){
+        mainActivity.findViewById(R.id.button_apply_changes).setEnabled(false);
+        mainActivity.findViewById(R.id.button_cancel_changes).setEnabled(false);
+        mainActivity.algoInWork = true;
+        mainActivity.switchProgressBarVisibilityVisible();
+    }
+
+    private void unlockInterface(){
+        mainActivity.findViewById(R.id.button_apply_changes).setEnabled(true);
+        mainActivity.findViewById(R.id.button_cancel_changes).setEnabled(true);
+        mainActivity.algoInWork = false;
+        mainActivity.switchProgressBarVisibilityInvisible();
+    }
+
+    class AsyncTaskFilters extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mactivity.switchProgressBarVisibilityVisible();
+            lockInterface();
         }
 
         @Override
         protected Bitmap doInBackground(String... params) {
-
             String which = params[0];
+            String type = params[1];
 
-            Bitmap bufferedBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            if (type == "mThumb") mBufferedBitmap = mThumb.copy(Bitmap.Config.ARGB_8888, true);
+            if (type == "image") mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
             switch (which) {
                 case "Original":
-                    bufferedBitmap = bitmap;
                     break;
                 case "Movie":
-                    bufferedBitmap = ColorFIltersCollection.movieFilter(bitmap);
+                    mBufferedBitmap = ColorFIltersCollection.movieFilter(mBufferedBitmap);
                     break;
                 case "Blur":
-                    bufferedBitmap = ColorFIltersCollection.fastBlur(bitmap, 5, 1);
+                    mBufferedBitmap = ColorFIltersCollection.fastBlur(mBufferedBitmap, 5, 1);
                     break;
                 case "B&W":
-                    bufferedBitmap = ColorFIltersCollection.createGrayScale(bitmap);
+                    mBufferedBitmap = ColorFIltersCollection.createGrayScale(mBufferedBitmap);
                     break;
                 case "Blue laguna":
-                    bufferedBitmap = ColorFIltersCollection.lagunaFilter(bitmap);
+                    mBufferedBitmap = ColorFIltersCollection.lagunaFilter(mBufferedBitmap);
                     break;
                 case "Contrast":
-                    bufferedBitmap = ColorFIltersCollection.adjustedContrast(bitmap, 3);
+                    mBufferedBitmap = ColorFIltersCollection.adjustedContrast(mBufferedBitmap, 3);
                     break;
                 case "Sephia":
-                    bufferedBitmap = ColorFIltersCollection.sephiaFilter(bitmap);
+                    mBufferedBitmap = ColorFIltersCollection.sephiaFilter(mBufferedBitmap);
                     break;
                 case "Noise":
-                    bufferedBitmap = ColorFIltersCollection.fleaEffect(bitmap);
+                    mBufferedBitmap = ColorFIltersCollection.fleaEffect(mBufferedBitmap);
                     break;
                 case "Green grass":
-                    bufferedBitmap = ColorFIltersCollection.grassFilter(bitmap);
+                    mBufferedBitmap = ColorFIltersCollection.grassFilter(mBufferedBitmap);
                     break;
             }
-            if (bufferedBitmap == null){
-                Toast.makeText(mactivity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
-                return bitmap;
-            }
-            return bufferedBitmap;
+            return mBufferedBitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
-            ImageView imageView = mactivity.getImageView();
-            mactivity.switchProgressBarVisibilityInvisible();
+            mainActivity.imageChanged = true;
+            final ImageView imageView = mainActivity.getImageView();
             imageView.setImageBitmap(result);
+
+            // invalidate changes once
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.invalidate();
+                }
+            });
+
+            unlockInterface();
         }
     }
-    /* end CPC*/
-
 
 
     @Override
@@ -116,76 +124,31 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     @Override
     public void onBindViewHolder(final FiltersAdapter.ViewHolder holder, final int position) {
 
-        holder.name.setText(mNamesUser.get(position));
+        holder.name.setText(mNamesFilters.get(position));
 
-        AsyncTaskConductor thumbAsync = new AsyncTaskConductor(){
-            @Override
-            protected void onPreExecute() {
-                return;
-            }
-
-            @Override
-            protected Bitmap doInBackground(String... params) {
-                String which = params[0];
-
-                Bitmap bufferedBitmap = thumb.copy(Bitmap.Config.ARGB_8888, true);
-                switch (which) {
-                    case "Original":
-                        bufferedBitmap = thumb;
-                        break;
-                    case "Movie":
-                        bufferedBitmap = ColorFIltersCollection.movieFilter(thumb);
-                        break;
-                    case "Blur":
-                        bufferedBitmap = ColorFIltersCollection.fastBlur(thumb, 5, 1);
-                        break;
-                    case "B&W":
-                        bufferedBitmap = ColorFIltersCollection.createGrayScale(thumb);
-                        break;
-                    case "Blue laguna":
-                        bufferedBitmap = ColorFIltersCollection.lagunaFilter(thumb);
-                        break;
-                    case "Contrast":
-                        bufferedBitmap = ColorFIltersCollection.adjustedContrast(thumb, 3);
-                        break;
-                    case "Sephia":
-                        bufferedBitmap = ColorFIltersCollection.sephiaFilter(thumb);
-                        break;
-                    case "Noise":
-                        bufferedBitmap = ColorFIltersCollection.fleaEffect(thumb);
-                        break;
-                    case "Green grass":
-                        bufferedBitmap = ColorFIltersCollection.grassFilter(thumb);
-                        break;
-                }
-                if (bufferedBitmap == null){
-                    Toast.makeText(mactivity.getApplicationContext(), "This wasn't supposed to happen.", Toast.LENGTH_LONG).show();
-                    return thumb;
-                }
-                return bufferedBitmap;
-            }
-
+        AsyncTaskFilters thumbAsync = new AsyncTaskFilters(){
             @Override
             protected void onPostExecute(Bitmap result) {
-                thumb = result;
-                holder.image.setImageBitmap(thumb);
+                mThumb = result;
+                holder.image.setImageBitmap(mThumb);
+
+                unlockInterface();
             }
         };
-        thumbAsync.execute(mNamesProg.get(position));
-
+        thumbAsync.execute(mNamesProg.get(position), "mThumb");
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AsyncTaskConductor filterAsync = new AsyncTaskConductor();
-                filterAsync.execute(mNamesProg.get(position));
+                AsyncTaskFilters filterAsync = new AsyncTaskFilters();
+                filterAsync.execute(mNamesProg.get(position), "image");
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mImageThumbs.size();
+        return mNamesFilters.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
