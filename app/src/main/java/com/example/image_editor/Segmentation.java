@@ -10,18 +10,18 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-public class Segmentation extends Conductor{
+class Segmentation extends Conductor{
 
-    ImageView imageView;
-    MainActivity activity;
-    Bitmap bitmap;
+    private ImageView imageView;
+    private MainActivity activity;
+    private Bitmap bitmap;
     private FaceDetector detector;
-    Bitmap editedBitmap;
     private String TAG = "Detect Faces";
 
     Segmentation(MainActivity activity) {
@@ -64,7 +64,7 @@ public class Segmentation extends Conductor{
 
     private void scanFaces() {
         if (detector.isOperational() && bitmap != null) {
-            editedBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+            Bitmap editedBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap
                     .getHeight(), bitmap.getConfig());
             float scale = activity.getResources().getDisplayMetrics().density;
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -84,30 +84,12 @@ public class Segmentation extends Conductor{
                         face.getPosition().y,
                         face.getPosition().x + face.getWidth(),
                         face.getPosition().y + face.getHeight(), paint);
-//                Log.i(TAG, "Face " + (index + 1));
-//                Log.i(TAG, "Smile probability:");
-//                Log.i(TAG, String.valueOf(face.getIsSmilingProbability()));
-//                Log.i(TAG, "Left Eye Open Probability: ");
-//                Log.i(TAG, String.valueOf(face.getIsLeftEyeOpenProbability()));
-//                Log.i(TAG, "Right Eye Open Probability: ");
-//                Log.i(TAG, String.valueOf(face.getIsRightEyeOpenProbability()));
-//                Log.i(TAG, "---------");
-//
-//                for (Landmark landmark : face.getLandmarks()) {
-//                    int cx = (int) (landmark.getPosition().x);
-//                    int cy = (int) (landmark.getPosition().y);
-//                    canvas.drawCircle(cx, cy, 5, paint);
-//                }
             }
 
-            if (faces.size() == 0) {
-                Log.i(TAG, "Scan Failed: Found nothing to scan");
-            } else {
-                imageView.setImageBitmap(editedBitmap);
-                Log.i(TAG, "No of Faces Detected: ");
-                Log.i(TAG, String.valueOf(faces.size()));
-                Log.i(TAG, "---------");
-            }
+            imageView.setImageBitmap(editedBitmap);
+            Toast.makeText(activity.getApplicationContext(),
+                    String.format("%s faces found", faces.size()),
+                    Toast.LENGTH_SHORT).show();
         } else {
             Log.i(TAG, "Could not set up the detector!");
         }
