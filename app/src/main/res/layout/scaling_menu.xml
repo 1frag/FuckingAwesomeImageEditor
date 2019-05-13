@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Scale"
+        android:text="@string/scale"
         app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
         app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.022"
@@ -30,12 +31,41 @@
         app:layout_constraintTop_toBottomOf="@+id/seekbar_scaling"
         app:layout_constraintVertical_bias="0.681" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="28dp"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@+id/seekbar_scaling"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:text="1"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="28dp"
+        android:text="2"
+        app:layout_constraintEnd_toEndOf="@+id/seekbar_scaling"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/button_reset_scaling"
         android:layout_width="91dp"
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
-        android:text="Reset"
+        android:text="@string/reset"
         app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
         app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.942"
@@ -61,7 +91,7 @@
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Apply"
+        android:text="@string/apply"
         app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
         app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.775"
@@ -75,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Width"
+        android:text="@string/width"
         app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
         app:layout_constraintEnd_toStartOf="@+id/text_current_height"
         app:layout_constraintHorizontal_bias="0.34"
@@ -89,7 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="68dp"
-        android:text="Height"
+        android:text="@string/height"
         app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
         app:layout_constraintEnd_toStartOf="@+id/button_apply_scaling"
         app:layout_constraintTop_toTopOf="@+id/view_rotation"
