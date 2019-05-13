@@ -34,5 +34,7 @@
     <string name="height">Высота</string>
     <string name="faces">ЛИЦА</string>
     <string name="edit">Изменить</string>
+    <string name="amount">Процент</string>
+    <string name="threshold">Порог</string>
 
 </resources>
