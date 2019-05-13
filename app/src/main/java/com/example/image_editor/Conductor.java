@@ -9,9 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.widget.ImageButton;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -47,7 +45,7 @@ class Conductor {
         mainActivity.findViewById(R.id.button_save_image).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.button_camera).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.button_gallery).setVisibility(View.VISIBLE);
-        mainActivity.initClasses((1 << 9) - 1);
+        mainActivity.initClasses();
         mainActivity.getImageView().setOnTouchListener(null);
     }
 

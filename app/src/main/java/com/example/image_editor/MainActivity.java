@@ -3,14 +3,23 @@ package com.example.image_editor;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.AppCompatActivity;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,24 +32,12 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.io.IOException;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import java.util.List;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -115,20 +112,20 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    public void initClasses(int ID) {
+    public void initClasses() {
         if (mClasses.size() == 0) {
             for (int i = 0; i < 9; i++)
                 mClasses.add(new Conductor(this));
         }
-        if ((ID & (1 << 0)) > 0) mClasses.set(0, new A_Star(this));
-        if ((ID & (1 << 1)) > 0) mClasses.set(1, new Algem(this));
-        if ((ID & (1 << 2)) > 0) mClasses.set(2, new Rotation(this));
-        if ((ID & (1 << 3)) > 0) mClasses.set(3, new LinearAlgebra(this));
-        if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));
-        if ((ID & (1 << 5)) > 0) mClasses.set(5, new Retouch(this));
-        if ((ID & (1 << 6)) > 0) mClasses.set(6, new Scaling(this));
-        if ((ID & (1 << 7)) > 0) mClasses.set(7, new Segmentation(this));
-        if ((ID & (1 << 8)) > 0) mClasses.set(8, new Usm(this));
+        mClasses.set(0, new A_Star(this));
+        mClasses.set(1, new Algem(this));
+        mClasses.set(2, new Rotation(this));
+        mClasses.set(3, new LinearAlgebra(this));
+        mClasses.set(4, new Color_Filters(this));
+        mClasses.set(5, new Retouch(this));
+        mClasses.set(6, new Scaling(this));
+        mClasses.set(7, new Segmentation(this));
+        mClasses.set(8, new Usm(this));
         initRecyclerView();
     }
 
@@ -253,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getImages() {
         Log.d("upd", "initImageBitmaps: preparing bitmaps.");
-        initClasses((1 << 9) - 1);
+        initClasses();
 
         mImageUrls.add(R.drawable.icon_a_star); // 0
         mNames.add("A*");
