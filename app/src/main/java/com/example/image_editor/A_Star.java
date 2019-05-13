@@ -35,7 +35,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     private Button mStartAlgoButton;
     private AppCompatImageButton mSettingsButton;
 
-    private Point pnt_start, pnt_finish;
+    private Point mPointStart, mPointFinish;
     private Point[][] mPar;
     private ArrayList<Pixel> mRemStart, mRemFinish;
 
@@ -182,10 +182,10 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private boolean canPutRect(int rad, int mx, int my) {
-        if ((pnt_finish == null) ||
-                ((mx - pnt_finish.x) * (mx - pnt_finish.x) + (my - pnt_finish.y) + (my - pnt_finish.y) >= 45 * 45)) {
-            if ((pnt_start == null) ||
-                    ((mx - pnt_start.x) * (mx - pnt_start.x) + (my - pnt_start.y) + (my - pnt_start.y) >= 45 * 45)) {
+        if ((mPointFinish == null) ||
+                ((mx - mPointFinish.x) * (mx - mPointFinish.x) + (my - mPointFinish.y) + (my - mPointFinish.y) >= 45 * 45)) {
+            if ((mPointStart == null) ||
+                    ((mx - mPointStart.x) * (mx - mPointStart.x) + (my - mPointStart.y) + (my - mPointStart.y) >= 45 * 45)) {
                 return true;
             }
         }
@@ -266,7 +266,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     }
                 }
             }
-            pnt_finish = new Point(mx, my);
+            mPointFinish = new Point(mx, my);
             mFinish = true;
             mImageView.invalidate();
             return true;
@@ -293,7 +293,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     }
                 }
             }
-            pnt_start = new Point(mx, my);
+            mPointStart = new Point(mx, my);
             mStart = true;
             mImageView.invalidate();
             return true;
@@ -315,12 +315,12 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     private ArrayList<Point> reconstructPath() {
         ArrayList<Point> res = new ArrayList<>();
-        Point now = pnt_finish;
-        while (now != pnt_start) {
+        Point now = mPointFinish;
+        while (now != mPointStart) {
             res.add(now);
             now = mPar[now.x][now.y];
         }
-        res.add(pnt_start);
+        res.add(mPointStart);
         Collections.reverse(res);
         return res;
     }
@@ -339,16 +339,16 @@ public class A_Star extends Conductor implements OnTouchListener {
         int[] diry = {1, -1, 0, 0};
 
         HashSet<Point> closedset = new HashSet<>();
-        PointComparator myComp = new PointComparator(pnt_finish, n, m);
+        PointComparator myComp = new PointComparator(mPointFinish, n, m);
         PriorityQueue<Point> openset =
                 new PriorityQueue<>(10, myComp);
-        openset.add(pnt_start);
-        myComp.setInG(pnt_start, 0);
+        openset.add(mPointStart);
+        myComp.setInG(mPointStart, 0);
 
         while (!openset.isEmpty()) {
             Point x = openset.poll();
 
-            if (x.x == pnt_finish.x && x.y == pnt_finish.y) {
+            if (x.x == mPointFinish.x && x.y == mPointFinish.y) {
                 return reconstructPath();
             }
             closedset.add(x);

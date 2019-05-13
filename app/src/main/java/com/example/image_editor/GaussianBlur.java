@@ -7,11 +7,12 @@ import java.util.ArrayList;
 
 public class GaussianBlur {
 
-    private Bitmap source;
-    private Bitmap target;
-    private double radius;
-    private int h;
-    private int w;
+    private Bitmap mSource;
+    private Bitmap mTarget;
+
+    private double mRadius;
+    private int mHeight;
+    private int mWidth;
 
     private ArrayList<Double> boxesForGauss(double sigma, int n)  // standard deviation, number of boxes
     {
@@ -30,26 +31,26 @@ public class GaussianBlur {
     private void boxBlurH(double r) {
         double iarr = 1 / (r + r + 1);
 
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i < mHeight; i++) {
             int tix = 0;
             int lix = 0;
             int rix = tix + (int) r, riy = i;
-            int fv = source.getPixel(tix, i);
-            int lv = source.getPixel(tix + w - 1, i);
+            int fv = mSource.getPixel(tix, i);
+            int lv = mSource.getPixel(tix + mWidth - 1, i);
             int val = ((int) r + 1) * fv;
             for (int j = 0; j < (int) r; j++)
-                val += source.getPixel(tix + j, i);
+                val += mSource.getPixel(tix + j, i);
             for (int j = 0; j <= (int) r; j++) {
-                val += source.getPixel(rix++, riy) - fv;
-                target.setPixel(tix++, i, (int) Math.round(val * iarr));
+                val += mSource.getPixel(rix++, riy) - fv;
+                mTarget.setPixel(tix++, i, (int) Math.round(val * iarr));
             }
-            for (int j = (int) r + 1; j < w - r; j++) {
-                val += source.getPixel(rix++, riy) - source.getPixel(lix++, i);
-                target.setPixel(tix++, i, (int) Math.round(val * iarr));
+            for (int j = (int) r + 1; j < mWidth - r; j++) {
+                val += mSource.getPixel(rix++, riy) - mSource.getPixel(lix++, i);
+                mTarget.setPixel(tix++, i, (int) Math.round(val * iarr));
             }
-            for (int j = w - (int) r; j < w; j++) {
-                val += lv - source.getPixel(lix++, i);
-                target.setPixel(tix++, i, (int) Math.round(val * iarr));
+            for (int j = mWidth - (int) r; j < mWidth; j++) {
+                val += lv - mSource.getPixel(lix++, i);
+                mTarget.setPixel(tix++, i, (int) Math.round(val * iarr));
             }
         }
     }
@@ -57,37 +58,37 @@ public class GaussianBlur {
     private void boxBlurT(double r) {
         double iarr = 1 / (r + r + 1);
 
-        for (int i = 0; i < w; i++) {
+        for (int i = 0; i < mWidth; i++) {
             int tiy = 0;
             int liy = 0;
             int riy = (int) r;
-            int fv = source.getPixel(i, tiy);
-            int lv = source.getPixel(i, h - 1);
+            int fv = mSource.getPixel(i, tiy);
+            int lv = mSource.getPixel(i, mHeight - 1);
             int val = ((int) r + 1) * fv;
             for (int j = 0; j < r; j++)
-                val += source.getPixel(i, j);
+                val += mSource.getPixel(i, j);
             for (int j = 0; j <= r; j++, riy++, tiy++) {
-                val += source.getPixel(i, riy) - fv;
-                target.setPixel(i, tiy, (int) Math.round(val * iarr));
+                val += mSource.getPixel(i, riy) - fv;
+                mTarget.setPixel(i, tiy, (int) Math.round(val * iarr));
             }
-            for (int j = (int) r + 1; j < h - r; j++, liy++, riy++, tiy++) {
-                val += source.getPixel(i, riy) - source.getPixel(i, liy);
-                target.setPixel(i, tiy, (int) Math.round(val * iarr));
+            for (int j = (int) r + 1; j < mHeight - r; j++, liy++, riy++, tiy++) {
+                val += mSource.getPixel(i, riy) - mSource.getPixel(i, liy);
+                mTarget.setPixel(i, tiy, (int) Math.round(val * iarr));
             }
-            for (int j = h - (int) r; j < h; j++, liy++, tiy++) {
-                val += lv - source.getPixel(i, liy);
-                target.setPixel(i, tiy, (int) Math.round(val * iarr));
+            for (int j = mHeight - (int) r; j < mHeight; j++, liy++, tiy++) {
+                val += lv - mSource.getPixel(i, liy);
+                mTarget.setPixel(i, tiy, (int) Math.round(val * iarr));
             }
         }
     }
 
 
     private void boxBlur(double r) {
-        for (int i = 0; i < h; i++)
-            for (int j = 0; j < w; j++)
+        for (int i = 0; i < mHeight; i++)
+            for (int j = 0; j < mWidth; j++)
                 // wtf exception here
                 try {
-                    target.setPixel(i, j, source.getPixel(i, j));
+                    mTarget.setPixel(i, j, mSource.getPixel(i, j));
                 }
                 catch (Exception e){
                     continue;
@@ -97,9 +98,9 @@ public class GaussianBlur {
     }
 
     public Bitmap algorithm() {
-        h = this.source.getHeight();
-        w = this.source.getWidth();
-        ArrayList<Double> bxs = boxesForGauss(radius, 3);
+        mHeight = this.mSource.getHeight();
+        mWidth = this.mSource.getWidth();
+        ArrayList<Double> bxs = boxesForGauss(mRadius, 3);
         Log.i("upd", "ok1");
         boxBlur((bxs.get(0) - 1) / 2);
         Log.i("upd", "ok1");
@@ -107,12 +108,12 @@ public class GaussianBlur {
         Log.i("upd", "ok1");
         boxBlur((bxs.get(2) - 1) / 2);
         Log.i("upd", "ok1");
-        return this.target;
+        return this.mTarget;
     }
 
     GaussianBlur(Bitmap source, double radius) {
-        this.source = source;
-        this.radius = radius;
-        this.target = source.copy(Bitmap.Config.ARGB_8888, true);
+        this.mSource = source;
+        this.mRadius = radius;
+        this.mTarget = source.copy(Bitmap.Config.ARGB_8888, true);
     }
 }

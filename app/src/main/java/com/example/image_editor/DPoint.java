@@ -1,7 +1,5 @@
 package com.example.image_editor;
 
-import android.graphics.Point;
-
 class DPoint {
     public double x;
     public double y;

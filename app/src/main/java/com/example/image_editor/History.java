@@ -4,32 +4,33 @@ import android.graphics.Bitmap;
 
 import java.util.Stack;
 
+// class to work with bitmap history
 public class History {
 
-    private Stack<Bitmap> history;
-    private Stack<Bitmap> buffer;
-    private Bitmap originalBitmap;
+    private Stack<Bitmap> mHistory;
+    private Stack<Bitmap> mBuffer;
+    private Bitmap mOriginalBitmap;
 
     public History() {
-        history = new Stack<Bitmap>();
-        buffer = new Stack<Bitmap>();
+        mHistory = new Stack<Bitmap>();
+        mBuffer = new Stack<Bitmap>();
     }
 
     public void addBitmap(Bitmap bitmap){
-        history.push(bitmap);
-        buffer.clear();
+        mHistory.push(bitmap);
+        mBuffer.clear();
     }
 
-    // put current bitmap in buffer
+    // put current bitmap in mBuffer
     public Bitmap popBitmap(){
         Bitmap bitmap;
         try {
-            bitmap = history.pop(); // if history is empty
+            bitmap = mHistory.pop(); // if mHistory is empty
         }                           // return original
         catch (Exception e){
-            return originalBitmap;
+            return mOriginalBitmap;
         }
-        buffer.push(bitmap);
+        mBuffer.push(bitmap);
 
         return bitmap;
     }
@@ -37,22 +38,22 @@ public class History {
     public Bitmap takeFromBuffer(){
         Bitmap bitmap;
         try {
-            bitmap = buffer.pop();
+            bitmap = mBuffer.pop();
         }catch (Exception e){
             return null;
         }
-        history.push(bitmap);
+        mHistory.push(bitmap);
         return bitmap;
     }
 
     public Bitmap showHead(){
-        Bitmap bitmap = history.peek();
+        Bitmap bitmap = mHistory.peek();
         return bitmap;
     }
 
     public void clearAllAndSetOriginal(Bitmap bitmap){
-        history.clear();
-        buffer.clear();
-        originalBitmap = bitmap;
+        mHistory.clear();
+        mBuffer.clear();
+        mOriginalBitmap = bitmap;
     }
 }

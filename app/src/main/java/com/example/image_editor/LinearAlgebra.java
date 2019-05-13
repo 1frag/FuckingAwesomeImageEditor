@@ -13,12 +13,14 @@ import android.widget.ImageView;
 
 public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
-    private ImageView imageView;
-    private Bitmap bitmap;
-    private MainActivity activity;
+    private Bitmap mBitmap;
+    private ImageView mImageView;
+    private MainActivity mainActivity;
+
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
-    private int cntfix=0;
+
+    private int cntfix = 0;
 
     class Solver {
         private Double a, b, c, d, e, f;
@@ -42,19 +44,19 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
     LinearAlgebra(MainActivity activity) {
         super(activity);
-        this.activity = activity;
-        this.imageView = activity.getImageView();
+        this.mainActivity = activity;
+        this.mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.linear_algebra_menu);
 
-        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();
 
-        FrameLayout layout = activity.findViewById(R.id.sample_content_fragment);
-        View circle = new View(activity);
+        FrameLayout layout = mainActivity.findViewById(R.id.sample_content_fragment);
+        View circle = new View(mainActivity);
         circle.setBackgroundColor(0x00FF00);
         layout.addView(circle, 100, 100);
         // todo: я не понимаю ну вот создал я его, где он появляется то? =/
@@ -68,7 +70,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
-        final Button btn_start = activity.findViewById(R.id.button_start_linear_algebra);
+        final Button btn_start = mainActivity.findViewById(R.id.button_start_linear_algebra);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,32 +78,32 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                 AsyncTaskConductor algemAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 btn_start.setEnabled(false);
                             }
                         });
                         algorithm();
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imageView.setImageBitmap(bitmap);
+                                mImageView.setImageBitmap(mBitmap);
                                 btn_start.setEnabled(true);
                             }
                         });
-                        return bitmap;
+                        return mBitmap;
                     }
                 };
                 algemAsync.execute();
-                imageView.invalidate();
+                mImageView.invalidate();
             }
         });
 
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        imageView.setImageBitmap(bitmap);
-        imageView.setOnTouchListener(this);
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
+        mImageView.setOnTouchListener(this);
     }
 
     private void initParams() {
@@ -187,25 +189,25 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                         getFirstPoints(),
                         getSecondInBDF()));
 
-        final Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888,
+        final Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888,
                 true);
         btmp.eraseColor(Color.WHITE);
 
-        for (int i = 0; i < bitmap.getWidth(); i++) {
-            for (int j = 0; j < bitmap.getHeight(); j++) {
+        for (int i = 0; i < mBitmap.getWidth(); i++) {
+            for (int j = 0; j < mBitmap.getHeight(); j++) {
                 DPoint image = solver.calc(new DPoint(i, j));
                 int w = (int) image.x;
                 int h = (int) image.y;
                 if (0 > w || w >= btmp.getWidth()) continue;
                 if (0 > h || h >= btmp.getHeight()) continue;
-                btmp.setPixel(i, j, bitmap.getPixel(w, h));
+                btmp.setPixel(i, j, mBitmap.getPixel(w, h));
             }
         }
-        activity.runOnUiThread(new Runnable() {
+        mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                imageView.setImageBitmap(btmp);
-                imageView.invalidate();
+                mImageView.setImageBitmap(btmp);
+                mImageView.invalidate();
             }
         });
     }
@@ -224,17 +226,17 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         if(cntfix<3){
             for(int i=-10;i<=10;i++){
                 for(int j=-10;j<=10;j++){
-                    bitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
+                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
                 }
             }
         }else if(cntfix<6){
             for(int i=-10;i<=10;i++){
                 for(int j=-10;j<=10;j++){
-                    bitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
+                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
                 }
             }
         }
-        imageView.invalidate();
+        mImageView.invalidate();
         cntfix++;
         return true;
     }

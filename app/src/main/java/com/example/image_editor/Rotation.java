@@ -13,21 +13,21 @@ import android.widget.TextView;
 
 public class Rotation extends Conductor {
 
-    private Bitmap bitmap;
-    private Bitmap original;
+    private Bitmap mBitmap;
+    private Bitmap mOriginal;
 
-    private ImageButton btn_rotate90;
-    private Button btn_reset;
-    private Button btn_apply;
-    private ImageButton btn_mirrorV;
-    private ImageButton btn_mirrorH;
-    private ImageButton btn_crop;
-    private SeekBar angleSeekBar;
+    private Button mResetRotateButton;
+    private Button mApplyRotateButton;
+    private ImageButton mRotate90Button;
+    private ImageButton mMirrorVButton;
+    private ImageButton mMirrorHButton;
+    private ImageButton mCropButton;
+    private SeekBar mSeekBarAngle;
 
-    private ImageView imageView;
-    private MainActivity activity;
+    private ImageView mImageView;
+    private MainActivity mainActivity;
 
-    private TextView textViewAngle;
+    private TextView mTextViewAngle;
 
     private int mCurrentAngle = 0;
     private int mProgress = 45;
@@ -35,41 +35,41 @@ public class Rotation extends Conductor {
     Rotation(MainActivity activity) {
         super(activity);
         // work only with activity_main.xml
-        this.activity = activity;
-        this.imageView = activity.getImageView();
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.rotate_menu);
 
-        btn_rotate90 = activity.findViewById(R.id.button_rotate90);
-        btn_reset = activity.findViewById(R.id.button_reset_seekbar);
-        btn_apply = activity.findViewById(R.id.button_apply_rotate);
-        btn_mirrorH = activity.findViewById(R.id.button_mirrorH);
-        btn_mirrorV = activity.findViewById(R.id.button_mirrorV);
-        btn_crop = activity.findViewById(R.id.button_crop);
+        mRotate90Button = mainActivity.findViewById(R.id.button_rotate90);
+        mResetRotateButton = mainActivity.findViewById(R.id.button_reset_seekbar);
+        mApplyRotateButton = mainActivity.findViewById(R.id.button_apply_rotate);
+        mMirrorHButton = mainActivity.findViewById(R.id.button_mirrorH);
+        mMirrorVButton = mainActivity.findViewById(R.id.button_mirrorV);
+        mCropButton = mainActivity.findViewById(R.id.button_crop);
 
-        textViewAngle = activity.findViewById(R.id.text_angle);
+        mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
-        angleSeekBar = activity.findViewById(R.id.seekbar_rotate);
-        angleSeekBar.setProgress(45);
-        angleSeekBar.setMax(90);
+        mSeekBarAngle = mainActivity.findViewById(R.id.seekbar_rotate);
+        mSeekBarAngle.setProgress(45);
+        mSeekBarAngle.setMax(90);
 
-        configRotate90Button(btn_rotate90);
-        configResetButton(btn_reset);
-        configApplyButton(btn_apply);
-        configMirrorHorizontalButton(btn_mirrorH);
-        configMirrorVerticalButton(btn_mirrorV);
-        configCropButton(btn_crop);
+        configRotate90Button(mRotate90Button);
+        configResetButton(mResetRotateButton);
+        configApplyButton(mApplyRotateButton);
+        configMirrorHorizontalButton(mMirrorHButton);
+        configMirrorVerticalButton(mMirrorVButton);
+        configCropButton(mCropButton);
 
-        textViewAngle.setText("Angle: " + (angleSeekBar.getProgress()-45));
+        mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress()-45));
 
-        angleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSeekBarAngle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 mProgress = progressValue;
-                textViewAngle.setText("Angle: " + (mProgress - 45));
+                mTextViewAngle.setText("Angle: " + (mProgress - 45));
             }
 
             @Override
@@ -81,10 +81,10 @@ public class Rotation extends Conductor {
             }
         });
         
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        original = bitmap.copy(Bitmap.Config.ARGB_8888, false);
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, false);
 
-        imageView.setImageBitmap(bitmap);
+        mImageView.setImageBitmap(mBitmap);
 
     }
 
@@ -92,10 +92,10 @@ public class Rotation extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(original);
+                mImageView.setImageBitmap(mOriginal);
                 mCurrentAngle = 0;
-                angleSeekBar.setProgress(45);
-                textViewAngle.setText("Angle: " + (angleSeekBar.getProgress()-45));
+                mSeekBarAngle.setProgress(45);
+                mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress()-45));
             }
         });
     }
@@ -107,21 +107,21 @@ public class Rotation extends Conductor {
                 AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 lockButtons();
                             }
                         });
-                        bitmap = rotateOnAngle(mProgress - 45);
-                        activity.runOnUiThread(new Runnable() {
+                        mBitmap = rotateOnAngle(mProgress - 45);
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 unlockButtons();
-                                imageView.invalidate();
+                                mImageView.invalidate();
                             }
                         });
-                        return bitmap;
+                        return mBitmap;
                     }
                 };
                 asyncRotate.execute();
@@ -137,22 +137,22 @@ public class Rotation extends Conductor {
                 AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 lockButtons();
                             }
                         });
-                        bitmap = rotateOnAngle(mCurrentAngle + 90);
-                        activity.runOnUiThread(new Runnable() {
+                        mBitmap = rotateOnAngle(mCurrentAngle + 90);
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 unlockButtons();
-                                textViewAngle.setText("Angle: " + mCurrentAngle);
-                                imageView.invalidate();
+                                mTextViewAngle.setText("Angle: " + mCurrentAngle);
+                                mImageView.invalidate();
                             }
                         });
-                        return bitmap;
+                        return mBitmap;
                     }
                 };
                 asyncRotate.execute();
@@ -176,46 +176,46 @@ public class Rotation extends Conductor {
 
     // secure algo running
     private void lockButtons(){
-        btn_rotate90.setEnabled(false);
-        btn_reset.setEnabled(false);
-        angleSeekBar.setEnabled(false);
-        btn_apply.setEnabled(false);
+        mRotate90Button.setEnabled(false);
+        mResetRotateButton.setEnabled(false);
+        mSeekBarAngle.setEnabled(false);
+        mApplyRotateButton.setEnabled(false);
     }
 
     private void unlockButtons(){
-        btn_rotate90.setEnabled(true);
-        btn_reset.setEnabled(true);
-        angleSeekBar.setEnabled(true);
-        btn_apply.setEnabled(true);
+        mRotate90Button.setEnabled(true);
+        mResetRotateButton.setEnabled(true);
+        mSeekBarAngle.setEnabled(true);
+        mApplyRotateButton.setEnabled(true);
     }
 
     private Bitmap rotateOnAngle(int angle) {
-        Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         if (angle < 0) angle += 360;
         if (((angle / 90) & 1) == 1){
-            btmp = Bitmap.createBitmap(bitmap.getHeight(),
-                    bitmap.getWidth(),
+            btmp = Bitmap.createBitmap(mBitmap.getHeight(),
+                    mBitmap.getWidth(),
                     Bitmap.Config.ARGB_8888);
             btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
         }
 
-        for(int w=0;w<bitmap.getWidth();w++){
-            for(int h=0;h<bitmap.getHeight();h++){
+        for(int w = 0; w< mBitmap.getWidth(); w++){
+            for(int h = 0; h< mBitmap.getHeight(); h++){
                 int a = w, b = h;
                 if(((angle / 90) & 1) == 1){
-                    a = bitmap.getHeight() - h;
+                    a = mBitmap.getHeight() - h;
                     b = w;
                 }
                 if(((angle / 90) & 2) == 2){
-                    a = bitmap.getHeight() - h;
-                    b = bitmap.getWidth() - w;
+                    a = mBitmap.getHeight() - h;
+                    b = mBitmap.getWidth() - w;
                 }
                 if(a<0 || a>=btmp.getWidth())continue;
                 if(b<0 || b>=btmp.getHeight())continue;
-                btmp.setPixel(a, b, bitmap.getPixel(w, h));
+                btmp.setPixel(a, b, mBitmap.getPixel(w, h));
             }
         }
-        bitmap = btmp;
+        mBitmap = btmp;
         int x = btmp.getWidth();
         int y = btmp.getHeight();
         double a = (double) (90 - angle % 90) * Math.PI / 180.0;
@@ -233,9 +233,9 @@ public class Rotation extends Conductor {
                 int w = (int) (nx * sina - ny * cosa + x * cosa * cosa);
                 int h = (int) (nx * cosa + ny * sina - x * sina * cosa);
 
-                if(w<0 || w>=bitmap.getWidth())continue;
-                if(h<0 || h>=bitmap.getHeight())continue;
-                btmp.setPixel(nx, ny, bitmap.getPixel(w, h));
+                if(w<0 || w>= mBitmap.getWidth())continue;
+                if(h<0 || h>= mBitmap.getHeight())continue;
+                btmp.setPixel(nx, ny, mBitmap.getPixel(w, h));
             }
         }
 //        Log.i("UPD", "end");

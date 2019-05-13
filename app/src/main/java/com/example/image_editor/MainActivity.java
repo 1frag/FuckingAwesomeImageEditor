@@ -50,20 +50,20 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
     private Bitmap mBitmap;
 
-    private RecyclerView recyclerView;
-    private LinearLayout placeHolder;
+    private RecyclerView mRecyclerView;
+    private LinearLayout mPlaceHolder;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
 
-    private ImageButton UndoButton;
-    private ImageButton RedoButton;
+    private ImageButton mUndoButton;
+    private ImageButton mRedoButton;
 
-    private ProgressBar progressBar;
+    private ProgressBar mProgressBar;
 
     private static final String IMAGE_DIRECTORY = "/awesome";
-    private int GALLERY = 1, CAMERA = 2;
+    private final int GALLERY = 1, CAMERA = 2;
     private int mInitialColor;
 
     public boolean inMethod = false; // set true if you in method
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
 
     public History history;
 
-    public LinearLayout getPlaceHolder() {
-        return placeHolder;
+    public LinearLayout getmPlaceHolder() {
+        return mPlaceHolder;
     }
 
     @Override
@@ -91,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
 
         this.mImageView = findViewById(R.id.iv);
 
-        this.placeHolder = findViewById(R.id.method_layout);
-        this.recyclerView = findViewById(R.id.recyclerView);
+        this.mPlaceHolder = findViewById(R.id.method_layout);
+        this.mRecyclerView = findViewById(R.id.recyclerView);
 
         mImageView.setMaxHeight((int) (height * 0.585));
 
-        this.progressBar = (ProgressBar) findViewById(R.id.progressbar_main);
+        this.mProgressBar = (ProgressBar) findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
 
         history = new History();
@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.apply_menu,
                 (LinearLayout)findViewById(R.id.apply_layout));
 
-        UndoButton = (ImageButton) findViewById(R.id.button_undo);
-        RedoButton = (ImageButton) findViewById(R.id.button_redo);
+        mUndoButton = (ImageButton) findViewById(R.id.button_undo);
+        mRedoButton = (ImageButton) findViewById(R.id.button_redo);
 
         configRedoButton();
         configUndoButton();
@@ -136,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("upd", "initRecyclerView: init recyclerview");
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls, mClasses);
-        recyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configRedoButton(){
-        RedoButton.setOnClickListener(new View.OnClickListener() {
+        mRedoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("REDO");
@@ -166,14 +166,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configUndoButton(){
-        UndoButton.setOnClickListener(new View.OnClickListener() {
+        mUndoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mBitmap = history.popBitmap();
-                if (mBitmap == null){
-                    Toast.makeText(getApplicationContext(), "Whoops, something went wrong", Toast.LENGTH_SHORT).show();
-                }
-                else mImageView.setImageBitmap(mBitmap);
+                mImageView.setImageBitmap(mBitmap);
             }
         });
     }
@@ -221,11 +218,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchProgressBarVisibilityVisible(){
-        this.progressBar.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     public void switchProgressBarVisibilityInvisible(){
-        this.progressBar.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     private void getImages() {

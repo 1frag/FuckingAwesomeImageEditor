@@ -346,8 +346,7 @@ public class ColorFIltersCollection {
         return bmOut;
     }
 
-    static public Bitmap adjustedContrast(Bitmap src, double value)
-    {
+    static public Bitmap adjustedContrast(Bitmap src, double value) {
         // image size
         int width = src.getWidth();
         int height = src.getHeight();
@@ -443,25 +442,24 @@ public class ColorFIltersCollection {
         Bitmap temp = Bitmap.createBitmap(w2, h2, Bitmap.Config.ARGB_8888);
         System.out.println(w);
         System.out.println(h);
-        int a, b, c, d, x, y, index ;
+        int a, b, c, d, x, y;
         float x_ratio = ((float)(w-1))/w2 ;
         float y_ratio = ((float)(h-1))/h2 ;
         float x_diff, y_diff, blue, red, green ;
         int offset = 0 ;
         for (int i=0;i<h2;i++) {
             for (int j=0;j<w2;j++) {
-                x = (int)(x_ratio * j) ;
-                y = (int)(y_ratio * i) ;
-                x_diff = (x_ratio * j) - x ;
-                y_diff = (y_ratio * i) - y ;
-                index = (y*w+x) ;
+                x = (int)(x_ratio * j);
+                y = (int)(y_ratio * i);
+                x_diff = (x_ratio * j) - x;
+                y_diff = (y_ratio * i) - y;
 
                 try {
                     a = pixels.getPixel(x, y);
                     b = pixels.getPixel(x + 1, y);
                     c = pixels.getPixel(x, y + 1);
                     d = pixels.getPixel(x + 1, y + 1);
-                }catch (Exception e){
+                }catch (Exception ArrayIndexOutOfRangeException){
                     a = pixels.getPixel(x, y);
                     b = pixels.getPixel(x, y);
                     c = pixels.getPixel(x, y);
@@ -483,7 +481,7 @@ public class ColorFIltersCollection {
                 red = ((a>>16)&0xff)*(1-x_diff)*(1-y_diff) + ((b>>16)&0xff)*(x_diff)*(1-y_diff) +
                         ((c>>16)&0xff)*(y_diff)*(1-x_diff)   + ((d>>16)&0xff)*(x_diff*y_diff);
 
-
+                
                 temp.setPixel(j, i, 0xff000000 |
                         ((((int) red) << 16) & 0xff0000) |
                         ((((int) green) << 8) & 0xff00) |
