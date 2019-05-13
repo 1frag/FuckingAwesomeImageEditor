@@ -111,12 +111,12 @@
         android:id="@+id/crop"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginEnd="36dp"
         android:background="@color/White"
         android:src="@drawable/ic_crop"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apply" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_apply_rotate" />
 
     <ImageButton
         android:id="@+id/mirrorH"
@@ -129,20 +129,6 @@
         android:background="@color/White"
         app:layout_constraintEnd_toEndOf="@+id/seekBar"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
-    <Button
-        android:id="@+id/apply"
-        android:layout_width="wrap_content"
-        android:layout_height="47dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="APPLY"
-        android:textColor="@color/darkGrey"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.384"
-        app:layout_constraintStart_toEndOf="@+id/seekBar"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <View
@@ -162,10 +148,27 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Angle: 0"
-        android:textSize="25sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/mirrorV"
         app:layout_constraintStart_toEndOf="@+id/reset_seekbar"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <Button
+        android:id="@+id/btn_apply_rotate"
+        android:layout_width="65dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/apply"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintStart_toEndOf="@+id/seekBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115" />
 
 
 </android.support.constraint.ConstraintLayout>
