@@ -28,5 +28,16 @@ public class Segmentation extends Conductor{
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.segmentatioon_menu);
+
+        ConfigFaceBtn(activity.findViewById(R.id.faces));
+    }
+
+    private void ConfigFaceBtn(View btn) {
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("upd", "mes");
+            }
+        });
     }
 }
