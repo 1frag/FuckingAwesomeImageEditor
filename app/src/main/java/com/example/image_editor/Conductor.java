@@ -17,80 +17,70 @@ import android.widget.LinearLayout;
 
 class Conductor {
 
-    private MainActivity activity;
-    private Bitmap beforeChanges;
+    private MainActivity mainActivity;
+    private Bitmap mBeforeChanges;
 
-    private ImageButton applyChanges;
-    private ImageButton cancelChanges;
+    private ImageButton mApplyChangesButton;
+    private ImageButton mCancelChangesButton;
 
     Conductor(MainActivity activity) {
-        this.activity = activity;
+        mainActivity = activity;
     }
 
     void touchToolbar() {
         Log.i("upd", "touchToolbar");
-        beforeChanges = ((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap();
+        mBeforeChanges = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
     }
 
+    // TODO: maybe refactor this too?
     public void setDefaultState(View view) {
-        activity.inMethod = false;
-        activity.imageChanged = false;
-        LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
-        RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
+        mainActivity.inMethod = false;
+        mainActivity.imageChanged = false;
+        LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
+        RecyclerView recyclerView = mainActivity.findViewById(R.id.recyclerView);
 
         placeHolder.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.button_undo).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.button_redo).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.button_save_image).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.button_camera).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.button_gallery).setVisibility(View.VISIBLE);
-        activity.initClasses((1 << 9) - 1);
-        activity.getImageView().setOnTouchListener(null);
+        mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.button_undo).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.button_redo).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.button_save_image).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.button_camera).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.button_gallery).setVisibility(View.VISIBLE);
+        mainActivity.initClasses((1 << 9) - 1);
+        mainActivity.getImageView().setOnTouchListener(null);
     }
 
     void PrepareToRun(int resourse) {
-        activity.inMethod = true;
-        LinearLayout placeHolder = activity.findViewById(R.id.method_layout);
-        RecyclerView recyclerView = activity.findViewById(R.id.recyclerView);
-        ImageView imageview = activity.getImageView();
-
-//        LinearLayout ltiv = activity.findViewById(R.id.ltiv);
-//        ViewGroup.MarginLayoutParams marginParams = new ViewGroup.MarginLayoutParams(imageview.getLayoutParams());;
-//        marginParams.setMargins(0, 10, 0, 0);
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(marginParams);
-//        ltiv.setLayoutParams(layoutParams);
-//        FrameLayout fl = activity.findViewById(R.id.sample_content_fragment);
-//        fl.setForegroundGravity(30);
-
+        mainActivity.inMethod = true;
+        LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
 
         placeHolder.setVisibility(View.VISIBLE);
 
-        final LayoutInflater factory = activity.getLayoutInflater();
+        final LayoutInflater factory = mainActivity.getLayoutInflater();
         final View menu = factory.inflate(resourse, null);
         placeHolder.addView(menu, 0);
 
-        cancelChanges = activity.findViewById(R.id.button_cancel_changes);
-        applyChanges = activity.findViewById(R.id.button_apply_changes);
+        mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);
+        mApplyChangesButton = mainActivity.findViewById(R.id.button_apply_changes);
 
-        configApplyButton(applyChanges);
-        configCancelButton(cancelChanges);
+        configApplyButton(mApplyChangesButton);
+        configCancelButton(mCancelChangesButton);
 
-        activity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.button_undo).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.button_redo).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.button_save_image).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.button_camera).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.button_gallery).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.button_undo).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.button_redo).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.button_save_image).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.button_camera).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.button_gallery).setVisibility(View.INVISIBLE);
     }
 
     private void configCancelButton(ImageButton button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activity.imageChanged) {
+                if (mainActivity.imageChanged) {
                     openCancelDialog(v);
                 } else setDefaultState(v);
             }
@@ -101,7 +91,7 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (activity.imageChanged) {
+                if (mainActivity.imageChanged) {
                     openApplyDialog(v);
                 } else setDefaultState(v);
             }
@@ -109,76 +99,92 @@ class Conductor {
     }
 
     private void openCancelDialog(final View v) {
-        // todo: UI че писать?)
-        AlertDialog.Builder quitDialog = new AlertDialog.Builder(activity);
-        quitDialog.setTitle("Изменения НЕ будут применены. Продолжить?");
+        AlertDialog.Builder cancelDialog = new AlertDialog.Builder(mainActivity);
+        cancelDialog.setTitle("Изменения будут утрачены. Продолжить?");
 
-        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+        cancelDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activity.getImageView().setImageBitmap(beforeChanges);
-                activity.getImageView().invalidate();
+                mainActivity.getImageView().setImageBitmap(mBeforeChanges);
+                mainActivity.getImageView().invalidate();
                 setDefaultState(v);
             }
         });
 
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+        cancelDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
             }
         });
 
-        quitDialog.show();
+        cancelDialog.show();
     }
 
+    // TODO: pretty useless dialog tho
     private void openApplyDialog(final View v) {
-        // todo: UI че писать?)
-        AlertDialog.Builder quitDialog = new AlertDialog.Builder(activity);
-        quitDialog.setTitle("Изменения будут применены. Продолжить?");
+        AlertDialog.Builder applyDialog = new AlertDialog.Builder(mainActivity);
+        applyDialog.setTitle("Изменения будут применены. Продолжить?");
 
-        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+        applyDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activity.history.addBitmap(((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap());
+                mainActivity.history.addBitmap(((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap());
                 setDefaultState(v);
             }
         });
 
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+        applyDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                return;
             }
         });
 
-        quitDialog.show();
+        applyDialog.show();
+    }
+
+    private void lockInterface(){
+        mApplyChangesButton.setEnabled(false);
+        mCancelChangesButton.setEnabled(false);
+        mainActivity.switchProgressBarVisibilityVisible();
+    }
+
+    private void unlockInterface(){
+        mApplyChangesButton.setEnabled(true);
+        mCancelChangesButton.setEnabled(true);
+        mainActivity.switchProgressBarVisibilityInvisible();
     }
 
     class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            applyChanges.setEnabled(false);
-            cancelChanges.setEnabled(false);
-            activity.switchProgressBarVisibilityVisible();
+            lockInterface();
         }
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = ((BitmapDrawable) activity.getImageView().getDrawable()).getBitmap();
+            Bitmap bitmap = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
             return bitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
-            activity.switchProgressBarVisibilityInvisible();
-            activity.imageChanged = true;
-            ImageView imageView = activity.getImageView();
+            mainActivity.imageChanged = true;
+            final ImageView imageView = mainActivity.getImageView();
             imageView.setImageBitmap(result);
-            applyChanges.setEnabled(true);
-            cancelChanges.setEnabled(true);
+
+            // invalidate changes once
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.invalidate();
+                }
+            });
+
+            unlockInterface();
         }
     }
 
