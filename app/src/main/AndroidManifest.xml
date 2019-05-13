@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,27 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".Algem"
-            android:label="Algem"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".A_Star"
-            android:label="@string/title_activity_a__star"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Rotation"
-            android:label="@string/title_activity_rotation"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Color_Filters"
-            android:label="@string/title_activity_color__filters"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Scaling"
-            android:label="@string/title_activity_scaling"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
