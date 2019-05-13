@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,139 +27,85 @@ import static java.lang.Math.abs;
 
 public class A_Star extends Conductor implements OnTouchListener {
 
-    private Integer typeDraw = 0;
-    private Bitmap bitmap;
-    private ArrayList<Pixel> remstart, remfinish;
-    private boolean start = false, finish = false;
-    private ImageButton change_start;
-    private ImageButton change_end;
+    private Bitmap mBitmap;
+
+    private ImageButton mChangeStartButton;
+    private ImageButton mChangeEndButton;
+    private ImageButton mSetWallButton;
+    private Button mStartAlgoButton;
+    private AppCompatImageButton mSettingsButton;
+
     private Point pnt_start, pnt_finish;
-    private Point[][] par;
-    private MainActivity activity;
-    private ImageView imageView;
+    private Point[][] mPar;
+    private ArrayList<Pixel> mRemStart, mRemFinish;
 
-    class Settings {
-        private int rool, type_wall, size_wall;
-        private int color_wall, size_path, color_path;
+    private MainActivity mainActivity;
+    private ImageView mImageView;
 
-        Settings() {
-            rool = 0;
-            type_wall = 0;
-            size_wall = 15;
-            color_wall = 0xFFFFFF;
-            size_path = 5;
-            color_path = 0x00FFFF;
-        }
-
-    }
+    private Integer mTypeDraw = 0;
+    private boolean mStart = false, mFinish = false;
 
     A_Star(MainActivity activity) {
         super(activity);
         // work only with activity_main.xml
-        this.activity = activity;
-        this.imageView = activity.getImageView();
-        remstart = new ArrayList<>();
-        remfinish = new ArrayList<>();
-
-    }
-
-    private void ConfigWallButton(ImageButton button) {
-//        button.setText("set wall");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnsetwall(v);
-            }
-        });
-    }
-
-    private void ConfigFinishButton(ImageButton button) {
-//        button.setText("Set finish");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnsetto(v);
-            }
-        });
-    }
-
-    private void ConfigStartButton(ImageButton button) {
-//        button.setText("Set start");
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btnsetfrom(v);
-            }
-        });
-    }
-
-    public void click_finish(View view) {
-        Log.i("upd", "complete");
+        mainActivity = activity;
+        mImageView = activity.getImageView();
+        mRemStart = new ArrayList<>();
+        mRemFinish = new ArrayList<>();
     }
 
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.a_star_menu);
 
-        this.change_start = activity.findViewById(R.id.button_start_a_star);
-        this.change_end = activity.findViewById(R.id.button_finish_a_star);
-        ImageButton btn_wall = activity.findViewById(R.id.button_set_wall);
-        Button btn_algo = activity.findViewById(R.id.button_start_algo_a_star);
+        mChangeStartButton = mainActivity.findViewById(R.id.button_start_a_star);
+        mChangeEndButton = mainActivity.findViewById(R.id.button_finish_a_star);
+        mSetWallButton = mainActivity.findViewById(R.id.button_set_wall);
+        mStartAlgoButton = mainActivity.findViewById(R.id.button_start_algo_a_star);
+        mSettingsButton = mainActivity.findViewById(R.id.button_settings_a_star);
 
-        ConfigDoAlgoButton(btn_algo);
-        ConfigWallButton(btn_wall);
-        ConfigFinishButton(change_end);
-        ConfigStartButton(change_start);
-        ConfigSettingsButton(activity.findViewById(R.id.button_settings_a_star));
+        configDoAlgoButton(mStartAlgoButton);
+        configWallButton(mSetWallButton);
+        configFinishButton(mChangeEndButton);
+        configStartButton(mChangeStartButton);
+        configSettingsButton(mSettingsButton);
 
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
 
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        imageView.setImageBitmap(bitmap);
-        imageView.setOnTouchListener(this);
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
+        mImageView.setOnTouchListener(this);
     }
 
-    private Dialog DialogSettings() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        LayoutInflater inflater = activity.getLayoutInflater();
-
-        builder.setView(inflater.inflate(R.layout.a_star_settings, null))
-                .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // todo: apply button
-                        Log.i("upd", "mew");
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // todo: cancel button
-                    }
-                });
-        return builder.create();
-    }
-
-    private void ConfigSettingsButton(View settings) {
-        settings.setOnClickListener(new View.OnClickListener() {
+    private void configWallButton(ImageButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogSettings().setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        AlertDialog alertDialog = (AlertDialog) dialog;
-                        //todo
-                        RadioButton rgRool = alertDialog.findViewById(R.id.rgRool);
-//                        rgRool.
-
-                    }
-                });
+                setWall(v);
             }
         });
-
     }
 
-    private void ConfigDoAlgoButton(Button btn_algo) {
-        btn_algo.setOnClickListener(new View.OnClickListener() {
+    private void configFinishButton(ImageButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTo(v);
+            }
+        });
+    }
+
+    private void configStartButton(ImageButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFrom(v);
+            }
+        });
+    }
+
+    private void configDoAlgoButton(Button button) {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 touchRun();
@@ -166,36 +113,72 @@ public class A_Star extends Conductor implements OnTouchListener {
         });
     }
 
-    private void btnsetfrom(View view) {
-        typeDraw = 1;
-        if (start) {
-            for (int i = 0; i < remstart.size(); i++) {
-                bitmap.setPixel(remstart.get(i).getX(),
-                        remstart.get(i).getY(),
-                        remstart.get(i).getColor());
+    private void configSettingsButton(View settings) {
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSettingsDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        AlertDialog alertDialog = (AlertDialog) dialog;
+                        //TODO: here
+                        RadioButton rgRool = alertDialog.findViewById(R.id.rgRool);
+//                        rgRool.
+
+                    }
+                });
             }
-            remstart.clear();
-//            change_start.setText("set from");
-            start = false;
+        });
+    }
+
+    private Dialog openSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        LayoutInflater inflater = mainActivity.getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.a_star_settings, null))
+                .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // TODO: apply button
+                        Log.i("upd", "mew");
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // TODO: cancel button
+                    }
+                });
+        return builder.create();
+    }
+    
+    private void setFrom(View view) {
+        mTypeDraw = 1;
+        if (mStart) {
+            for (int i = 0; i < mRemStart.size(); i++) {
+                mBitmap.setPixel(mRemStart.get(i).getX(),
+                        mRemStart.get(i).getY(),
+                        mRemStart.get(i).getColor());
+            }
+            mRemStart.clear();
+            mStart = false;
         }
     }
 
-    private void btnsetto(View view) {
-        typeDraw = 2;
-        if (finish) {
-            for (int i = 0; i < remfinish.size(); i++) {
-                bitmap.setPixel(remfinish.get(i).getX(),
-                        remfinish.get(i).getY(),
-                        remfinish.get(i).getColor());
+    private void setTo(View view) {
+        mTypeDraw = 2;
+        if (mFinish) {
+            for (int i = 0; i < mRemFinish.size(); i++) {
+                mBitmap.setPixel(mRemFinish.get(i).getX(),
+                        mRemFinish.get(i).getY(),
+                        mRemFinish.get(i).getColor());
             }
-            remfinish.clear();
-//            change_end.setText("set to");
-            finish = false;
+            mRemFinish.clear();
+            mFinish = false;
         }
     }
 
-    private void btnsetwall(View view) {
-        typeDraw = 3;
+    private void setWall(View view) {
+        mTypeDraw = 3;
     }
 
     private boolean canPutRect(int rad, int mx, int my) {
@@ -208,13 +191,13 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= bitmap.getWidth() ||
-                        0 > my + j || my + j >= bitmap.getHeight()) {
+                if (0 > mx + i || mx + i >= mBitmap.getWidth() ||
+                        0 > my + j || my + j >= mBitmap.getHeight()) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
-                    if (bitmap.getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
-                            bitmap.getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
+                    if (mBitmap.getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
+                            mBitmap.getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
                         return false;
                     }
                 }
@@ -224,20 +207,20 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private void errorTouched() {
-        // todo: hand this
+        // TODO: handle this
     }
 
+    // algorithm part goes here
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         int mx = (int) event.getX();
         int my = (int) event.getY();
 
-        mx -= (imageView.getWidth() - bitmap.getWidth()) / 2.0;
-        my -= (imageView.getHeight() - bitmap.getHeight()) / 2.0;
+        mx -= (mImageView.getWidth() - mBitmap.getWidth()) / 2.0;
+        my -= (mImageView.getHeight() - mBitmap.getHeight()) / 2.0;
 
         Log.i("upd", ((Integer) (mx)).toString() + " " + ((Integer) (my)).toString());
-//        Log.i("UPD", "touch");
-        if (typeDraw == 3) {
+        if (mTypeDraw == 3) {
             int rad = 15;
             if (!canPutRect(rad, mx, my)) {
                 errorTouched();
@@ -245,75 +228,76 @@ public class A_Star extends Conductor implements OnTouchListener {
             }
             for (int i = -rad; i <= rad; i++) {
                 for (int j = -rad; j <= rad; j++) {
-                    if (0 > mx + i || mx + i >= bitmap.getWidth()) {
+                    if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
                         continue;
                     }
-                    if (0 > my + j || my + j >= bitmap.getHeight()) {
+                    if (0 > my + j || my + j >= mBitmap.getHeight()) {
                         continue;
                     }
                     if (abs(i) + abs(j) <= rad) {
-                        Pixel now = new Pixel(mx + i, my + j, bitmap.getPixel(mx + i, my + j));
-                        remfinish.add(now);
-                        bitmap.setPixel(mx + i, my + j, Color.WHITE);
+                        Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
+                        mRemFinish.add(now);
+                        mBitmap.setPixel(mx + i, my + j, Color.WHITE);
                     }
                 }
             }
-            imageView.invalidate();
+            mImageView.invalidate();
             return true;
-        } else if (typeDraw == 2) {
+
+        } else if (mTypeDraw == 2) {
             int rad = 30;
-            if (finish) return false;
+            if (mFinish) return false;
             if (!canPutRect(rad, mx, my)) {
                 errorTouched();
                 return false;
             }
             for (int i = -rad; i <= rad; i++) {
                 for (int j = -rad; j <= rad; j++) {
-                    if (0 > mx + i || mx + i >= bitmap.getWidth()) {
+                    if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
                         continue;
                     }
-                    if (0 > my + j || my + j >= bitmap.getHeight()) {
+                    if (0 > my + j || my + j >= mBitmap.getHeight()) {
                         continue;
                     }
                     if (abs(i) + abs(j) <= rad) {
-                        Pixel now = new Pixel(mx + i, my + j, bitmap.getPixel(mx + i, my + j));
-                        remfinish.add(now);
-                        bitmap.setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
+                        Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
+                        mRemFinish.add(now);
+                        mBitmap.setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
                     }
                 }
             }
             pnt_finish = new Point(mx, my);
-            finish = true;
-            imageView.invalidate();
-//            change_end.setText("delete to");
+            mFinish = true;
+            mImageView.invalidate();
             return true;
-        } else if (typeDraw == 1) {
+
+        } else if (mTypeDraw == 1) {
             int rad = 30;
-            if (start) return false;
+            if (mStart) return false;
             if (!canPutRect(rad, mx, my)) {
                 errorTouched();
                 return false;
             }
             for (int i = -rad; i <= rad; i++) {
                 for (int j = -rad; j <= rad; j++) {
-                    if (0 > mx + i || mx + i >= bitmap.getWidth()) {
+                    if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
                         continue;
                     }
-                    if (0 > my + j || my + j >= bitmap.getHeight()) {
+                    if (0 > my + j || my + j >= mBitmap.getHeight()) {
                         continue;
                     }
                     if (abs(i) + abs(j) <= rad) {
-                        Pixel now = new Pixel(mx + i, my + j, bitmap.getPixel(mx + i, my + j));
-                        remstart.add(now);
-                        bitmap.setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
+                        Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
+                        mRemStart.add(now);
+                        mBitmap.setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
                     }
                 }
             }
             pnt_start = new Point(mx, my);
-            start = true;
-            imageView.invalidate();
-//            change_start.setText("delete from");
+            mStart = true;
+            mImageView.invalidate();
             return true;
+
         } else {
             // TODO: message: wtf u don't click button
         }
@@ -321,20 +305,20 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private boolean check() {
-        // todo: hand this
+        // TODO: handle this
         return true;
     }
 
     private boolean cor(Point a) {
-        return bitmap.getPixel(a.x, a.y) != Color.WHITE;
+        return mBitmap.getPixel(a.x, a.y) != Color.WHITE;
     }
 
-    private ArrayList<Point> reconstruct_path() {
+    private ArrayList<Point> reconstructPath() {
         ArrayList<Point> res = new ArrayList<>();
         Point now = pnt_finish;
         while (now != pnt_start) {
             res.add(now);
-            now = par[now.x][now.y];
+            now = mPar[now.x][now.y];
         }
         res.add(pnt_start);
         Collections.reverse(res);
@@ -344,7 +328,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     public ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
-        par = new Point[n][m];
+        mPar = new Point[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 in_open[i][j] = false;
@@ -365,7 +349,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             Point x = openset.poll();
 
             if (x.x == pnt_finish.x && x.y == pnt_finish.y) {
-                return reconstruct_path();
+                return reconstructPath();
             }
             closedset.add(x);
             for (int i = 0; i < 4; i++) {
@@ -384,7 +368,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     tentative_is_better = true;
                 }
                 if (tentative_is_better) {
-                    par[y.x][y.y] = x;
+                    mPar[y.x][y.y] = x;
                     myComp.setInG(y, tentative_g_score);
                 }
             }
@@ -393,49 +377,43 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     void touchRun() {
-
         if (!check()) {
             return;
         }
-        int n = bitmap.getWidth();
-        int m = bitmap.getHeight();
 
+        final int n = mBitmap.getWidth();
+        final int m = mBitmap.getHeight();
 
-        AsyncTaskConductor task = new AsyncTaskConductor() {
+        AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
             @Override
             protected Bitmap doInBackground(String... params) {
-                int n = Integer.parseInt(params[1]);
-                int m = Integer.parseInt(params[2]);
-
                 ArrayList<Point> answer = algorithm(n, m);
 
                 for (int i = 0; i < answer.size(); i++) {
-                    bitmap.setPixel(answer.get(i).x,
+                    mBitmap.setPixel(answer.get(i).x,
                             answer.get(i).y,
                             Color.YELLOW);
                 }
 
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        imageView.invalidate();
-                    }
-                });
-
-                return bitmap;
+                return mBitmap;
             }
         };
 
-        task.execute("A*", Integer.toString(n), Integer.toString(m));
-//        ArrayList<Point> answer = algorithm(n, m);
-//
-//        for (int i = 0; i < answer.size(); i++) {
-//            bitmap.setPixel(answer.get(i).x,
-//                    answer.get(i).y,
-//                    Color.YELLOW);
-//        }
-//
-//        imageView.invalidate();
+        asyncTask.execute();
     }
 
+    // TODO: below
+    class Settings {
+        private int rool, type_wall, size_wall;
+        private int color_wall, size_path, color_path;
+
+        Settings() {
+            rool = 0;
+            type_wall = 0;
+            size_wall = 15;
+            color_wall = 0xFFFFFF;
+            size_path = 5;
+            color_path = 0x00FFFF;
+        }
+    }
 }
