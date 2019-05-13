@@ -108,6 +108,17 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <ImageButton
+        android:id="@+id/crop"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="28dp"
+        android:background="@color/White"
+        android:src="@drawable/ic_crop"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apply" />
+
+    <ImageButton
         android:id="@+id/mirrorH"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -122,13 +133,12 @@
     <Button
         android:id="@+id/apply"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="47dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="APPLY"
         android:textColor="@color/darkGrey"
-        android:textSize="23sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toEndOf="@+id/seekBar"
@@ -140,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
