@@ -18,161 +18,146 @@ import android.view.View.OnTouchListener;
 import static java.lang.Math.abs;
 
 public class Retouch extends Conductor implements OnTouchListener {
-    private MainActivity activity;
 
-    private Bitmap bitmap;
-    private Bitmap mask;
-    private Bitmap bufferedBitmap;
-    private Bitmap original;
+    private Bitmap mBufferedBitmap;
+    private Bitmap mBitmap;
+    private Bitmap mMask;
+    private Bitmap mOriginal;
 
-    private Button applyRetouch;
+    private Button mApplyRetouchButton;
 
-    private ImageView imageView;
+    private Canvas mBufferCanvas;
 
-    private TextView textViewBrushSize;
-    private TextView textViewBlurRadius;
+    private TextView mTextViewBrushSize;
+    private TextView mTextViewBlurRadius;
 
-    private SeekBar seekBarBrushSize;
-    private SeekBar seekBarBlurRadius;
+    private SeekBar mSeekBarBrushSize;
+    private SeekBar mSeekBarBlurRadius;
 
-    private int brushSize = 1;
-    private int blurRadius = 1;
+    private ImageView mImageView;
+    private MainActivity mainActivity;
 
-    private Canvas bufferCanvas;
+    private int mBrushSize = 1;
+    private int mBlurRadius = 1;
 
     Retouch(MainActivity activity) {
         super(activity);
         // work only with activity_main.xml
-        this.activity = activity;
-        this.imageView = activity.getImageView();
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.retouch_menu);
 
-        applyRetouch = activity.findViewById(R.id.button_apply_retouch);
+        mApplyRetouchButton = mainActivity.findViewById(R.id.button_apply_retouch);
 
-        textViewBrushSize = activity.findViewById(R.id.text_brush);
-        textViewBlurRadius = activity.findViewById(R.id.text_radius);
+        mTextViewBrushSize = mainActivity.findViewById(R.id.text_brush);
+        mTextViewBlurRadius = mainActivity.findViewById(R.id.text_radius);
 
-        seekBarBlurRadius = activity.findViewById(R.id.seek_bar_blur_radius);
-        seekBarBlurRadius.setMax(20);
+        mSeekBarBlurRadius = mainActivity.findViewById(R.id.seek_bar_blur_radius);
+        mSeekBarBlurRadius.setMax(20);
 
-        seekBarBrushSize = activity.findViewById(R.id.seek_bar_brush_sIze);
-        seekBarBrushSize.setMax(50);
+        mSeekBarBrushSize = mainActivity.findViewById(R.id.seek_bar_brush_sIze);
+        mSeekBarBrushSize.setMax(50);
 
-        configApplyButton(applyRetouch);
+        configApplyButton(mApplyRetouchButton);
+        configRadiusSeekBar(mSeekBarBlurRadius);
+        configBrushSeekBar(mSeekBarBrushSize);
 
-        seekBarBlurRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mMask = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                blurRadius = progresValue + 1;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                textViewBlurRadius.setText("Radius: " + blurRadius);
-                System.out.println(blurRadius);
-            }
-        });
-
-        seekBarBrushSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                brushSize = progresValue + 1;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                textViewBrushSize.setText("Brush: " + brushSize);
-                System.out.println(brushSize);
-            }
-        });
-
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        original = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        bufferedBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mask = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-//        canvas = new Canvas(original);
-
-        imageView.setImageBitmap(bitmap);
-        imageView.setOnTouchListener(this);
+        mImageView.setImageBitmap(mBitmap);
+        mImageView.setOnTouchListener(this);
     }
 
     private void configApplyButton(final Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor retouchAsync = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 button.setEnabled(false);
                             }
                         });
                         algorithm();
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                imageView.setImageBitmap(bitmap);
+                                mImageView.setImageBitmap(mBitmap);
                                 button.setEnabled(true);
                             }
                         });
-                        return bitmap;
+                        return mBitmap;
                     }
                 };
-                retouchAsync.execute();
+                asyncTask.execute();
             }
         });
     }
 
-    private void algorithm(){
-        // PorterDuff mode
-        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+    private void configRadiusSeekBar(SeekBar seekBar){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-        Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode(mode));
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                mBlurRadius = progresValue + 1;
+            }
 
-        PorterDuff.Mode mode2 = PorterDuff.Mode.DST_ATOP;
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                return;
+            }
 
-        Paint paint2 = new Paint();
-        paint2.setXfermode(new PorterDuffXfermode(mode2));
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mTextViewBlurRadius.setText("Radius: " + mBlurRadius);
+                System.out.println(mBlurRadius);
+            }
+        });
 
-        // blurred bitmap
-        bufferedBitmap = ColorFIltersCollection.fastBlur(original, blurRadius, 1);
+    }
 
-        bitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        bufferCanvas = new Canvas(bitmap);
+    private void configBrushSeekBar(SeekBar seekBar){
+        mSeekBarBrushSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-        bufferCanvas.drawBitmap(mask, 0, 0, null);
-        bufferCanvas.drawBitmap(bufferedBitmap, 0, 0, paint);
-        bufferCanvas.drawBitmap(original, 0, 0, paint2);
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                mBrushSize = progresValue + 1;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                return;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mTextViewBrushSize.setText("Brush: " + mBrushSize);
+                System.out.println(mBrushSize);
+            }
+        });
     }
 
     private boolean canPutRect(int rad, int mx, int my) {
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= bitmap.getWidth() ||
-                        0 > my + j || my + j >= bitmap.getHeight()) {
+                if (0 > mx + i || mx + i >= mBitmap.getWidth() ||
+                        0 > my + j || my + j >= mBitmap.getHeight()) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
-                    if (bitmap.getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
-                            bitmap.getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
+                    if (mBitmap.getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
+                            mBitmap.getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
                         return false;
                     }
                 }
@@ -182,7 +167,7 @@ public class Retouch extends Conductor implements OnTouchListener {
     }
 
     private void errorTouched() {
-        // todo: hand this
+        // TODO: handle this
         return;
     }
 
@@ -191,7 +176,7 @@ public class Retouch extends Conductor implements OnTouchListener {
         int mx = (int) event.getX();
         int my = (int) event.getY();
 
-        int rad = brushSize;
+        int rad = mBrushSize;
         if (!canPutRect(rad, mx, my)) {
             errorTouched();
             return false;
@@ -199,27 +184,49 @@ public class Retouch extends Conductor implements OnTouchListener {
 
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= bitmap.getWidth()) {
+                if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
                     continue;
                 }
-                if (0 > my + j || my + j >= bitmap.getHeight()) {
+                if (0 > my + j || my + j >= mBitmap.getHeight()) {
                     continue;
                 }
                 if (Math.sqrt(i*i + j*j) <= rad) {
-                    bitmap.setPixel(mx + i, my + j, Color.RED);
-                    mask.setPixel(mx + i, my + j, Color.BLUE);
+                    mBitmap.setPixel(mx + i, my + j, Color.RED);
+                    mMask.setPixel(mx + i, my + j, Color.BLUE);
                 }
             }
         }
 
-        activity.runOnUiThread(new Runnable() {
+        mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                imageView.invalidate();
+                mImageView.invalidate();
             }
         });
 
         return true;
     }
 
+    private void algorithm(){
+        // PorterDuff mode
+        PorterDuff.Mode mode = PorterDuff.Mode.SRC_IN;
+
+        Paint paintSRC_IN = new Paint();
+        paintSRC_IN.setXfermode(new PorterDuffXfermode(mode));
+
+        PorterDuff.Mode mode2 = PorterDuff.Mode.DST_ATOP;
+
+        Paint paintATOP = new Paint();
+        paintATOP.setXfermode(new PorterDuffXfermode(mode2));
+
+        // blurred mBitmap
+        mBufferedBitmap = ColorFIltersCollection.fastBlur(mOriginal, mBlurRadius, 1);
+
+        mBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mBufferCanvas = new Canvas(mBitmap);
+
+        mBufferCanvas.drawBitmap(mMask, 0, 0, null);
+        mBufferCanvas.drawBitmap(mBufferedBitmap, 0, 0, paintSRC_IN);
+        mBufferCanvas.drawBitmap(mOriginal, 0, 0, paintATOP);
+    }
 }
