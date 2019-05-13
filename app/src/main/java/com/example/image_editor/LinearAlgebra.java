@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class LinearAlgebra extends Conductor {
 
@@ -17,6 +18,9 @@ public class LinearAlgebra extends Conductor {
 
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
+
+    private boolean mStartPointsSet = false;
+    private boolean mFinishPointsSet = false;
 
     class Solver {
         private Double a, b, c, d, e, f;
@@ -74,7 +78,7 @@ public class LinearAlgebra extends Conductor {
             @Override
             public void onClick(View v) {
                 initParams();
-                AsyncTaskConductor algemAsync = new AsyncTaskConductor() {
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.runOnUiThread(new Runnable() {
@@ -83,19 +87,17 @@ public class LinearAlgebra extends Conductor {
                                 btn_start.setEnabled(false);
                             }
                         });
-                        algorithm();
+                        mBitmap = algorithm();
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mImageView.setImageBitmap(mBitmap);
                                 btn_start.setEnabled(true);
                             }
                         });
                         return mBitmap;
                     }
                 };
-                algemAsync.execute();
-                mImageView.invalidate();
+                asyncTask.execute();
             }
         });
 
@@ -205,15 +207,27 @@ public class LinearAlgebra extends Conductor {
         return new Matrix3x1(p21.y, p22.y, p23.y);
     }
 
-    private void algorithm() {
+    private Bitmap algorithm() {
+        Solver solver;
+        try {
+            solver = new Solver(
+                    mulMatrix(
+                            getFirstPoints(),
+                            getSecondInACE()),
+                    mulMatrix(
+                            getFirstPoints(),
+                            getSecondInBDF()));
 
-        Solver solver = new Solver(
-                mulMatrix(
-                        getFirstPoints(),
-                        getSecondInACE()),
-                mulMatrix(
-                        getFirstPoints(),
-                        getSecondInBDF()));
+            } catch (NullPointerException e) {
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mainActivity.getApplicationContext(),
+                            "Bad point setting", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return mBitmap;
+        }
 
         final Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888,
                 true);
@@ -232,7 +246,8 @@ public class LinearAlgebra extends Conductor {
                     cnt++;
             }
         }
-        mBitmap = btmp;
         Log.i("upd", String.format("%s", cnt));
+
+        return btmp;
     }
 }
