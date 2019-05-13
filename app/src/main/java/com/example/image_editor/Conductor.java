@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -147,12 +148,14 @@ class Conductor {
     private void lockInterface(){
         mApplyChangesButton.setEnabled(false);
         mCancelChangesButton.setEnabled(false);
+        mainActivity.algoInWork = true;
         mainActivity.switchProgressBarVisibilityVisible();
     }
 
     private void unlockInterface(){
         mApplyChangesButton.setEnabled(true);
         mCancelChangesButton.setEnabled(true);
+        mainActivity.algoInWork = false;
         mainActivity.switchProgressBarVisibilityInvisible();
     }
 

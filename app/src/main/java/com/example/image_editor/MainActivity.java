@@ -13,7 +13,6 @@ import android.view.Display;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
@@ -34,7 +33,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -49,52 +47,31 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btn;
-    private ImageView imageview;
-    private TextView textview;
-    private Bitmap bitmap;
-    private String path;
-    private static final String IMAGE_DIRECTORY = "/demonuts";
-    private int GALLERY = 1, CAMERA = 2;
-    private boolean photoChosen = false;
+    private ImageView mImageView;
+    private Bitmap mBitmap;
+
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private ArrayList myDataset = new ArrayList();
     private LinearLayout placeHolder;
-    public boolean inMethod = false;
-    public boolean imageChanged = false;
-    private int initialColor;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
 
+    private ImageButton UndoButton;
+    private ImageButton RedoButton;
+
     private ProgressBar progressBar;
 
-//    private DesignerSingleton managerDesign;
-//    private Button load_from_cam;
-//    private Button load_from_gallery;
-//    private ImageView imageView;
-//    private RecyclerView methods;
-    private ImageButton undo;
-    private ImageButton redo;
+    private static final String IMAGE_DIRECTORY = "/awesome";
+    private int GALLERY = 1, CAMERA = 2;
+    private int mInitialColor;
+
+    public boolean inMethod = false; // set true if you in method
+    public boolean imageChanged = false; // check image for changes
+    public boolean algoInWork = false; // check task in background
+    private boolean mPhotoChosen = false; // false if photo is default
 
     public History history;
-//    private Button download;
-//    private TextView hint;
-//
-//    Defolt_station(DesignerSingleton managerDesign) {
-//        this.managerDesign = managerDesign;
-//        this.load_from_cam = managerDesign.imgCamera;
-//        this.load_from_gallery = managerDesign.imgGallery;
-//        this.imageView = managerDesign.iv;
-//        this.methods = managerDesign.recyclerView;
-//        this.undo = managerDesign.imgUndo;
-//        this.redo = managerDesign.imgRedo;
-//        this.download = managerDesign.imgDownload;
-//        this.hint = managerDesign.logger;
-//    }
 
     public LinearLayout getPlaceHolder() {
         return placeHolder;
@@ -102,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // todo: what is rool good tone this. or it is redundant?)
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -113,36 +89,25 @@ public class MainActivity extends AppCompatActivity {
         int width = size.x;
         int height = size.y;
 
-        this.imageview = findViewById(R.id.iv);
+        this.mImageView = findViewById(R.id.iv);
 
         this.placeHolder = findViewById(R.id.method_layout);
         this.recyclerView = findViewById(R.id.recyclerView);
 
-//        LinearLayout ltiv = findViewById(R.id.ltiv);
-
-        imageview.setMaxHeight((int) (height * 0.585));
-
-//        LinearLayout.LayoutParams params = new
-//                LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-//                ViewGroup.LayoutParams.WRAP_CONTENT);
-        // Set the height by params
-//        params.height=100;
-        // set height of RecyclerView
-//        recyclerView.setLayoutParams(params);
+        mImageView.setMaxHeight((int) (height * 0.585));
 
         this.progressBar = (ProgressBar) findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
 
         history = new History();
-        history.clearAllAndSetOriginal(((BitmapDrawable) imageview.getDrawable()).getBitmap());
+        history.clearAllAndSetOriginal(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
 
         getLayoutInflater().inflate(
                 R.layout.apply_menu,
                 (LinearLayout)findViewById(R.id.apply_layout));
 
-
-        undo = (ImageButton) findViewById(R.id.button_undo);
-        redo = (ImageButton) findViewById(R.id.button_redo);
+        UndoButton = (ImageButton) findViewById(R.id.button_undo);
+        RedoButton = (ImageButton) findViewById(R.id.button_redo);
 
         configRedoButton();
         configUndoButton();
@@ -150,40 +115,76 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    private void configRedoButton(){
-        redo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("REDO");
-                bitmap = history.takeFromBuffer();
-                if (bitmap == null){
-                    Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
-                }
-                else imageview.setImageBitmap(bitmap);
-            }
-        });
+    private void initClasses(int ID) {
+        if (mClasses.size() == 0) {
+            for (int i = 0; i < 9; i++)
+                mClasses.add(new Conductor(this));
+        }
+        if ((ID & (1 << 0)) > 0) mClasses.set(0, new A_Star(this));
+        if ((ID & (1 << 1)) > 0) mClasses.set(1, new Algem(this));
+        if ((ID & (1 << 2)) > 0) mClasses.set(2, new Rotation(this));
+        if ((ID & (1 << 3)) > 0) mClasses.set(3, new LinearAlgebra(this));
+        if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));
+        if ((ID & (1 << 5)) > 0) mClasses.set(5, new Retouch(this));
+        if ((ID & (1 << 6)) > 0) mClasses.set(6, new Scaling(this));
+        if ((ID & (1 << 7)) > 0) mClasses.set(7, new Segmentation(this));
+        if ((ID & (1 << 8)) > 0) mClasses.set(8, new Usm(this));
+        initRecyclerView();
     }
 
-    // TODO: проверка, были ли изменения
+    private void initRecyclerView() {
+        Log.d("upd", "initRecyclerView: init recyclerview");
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls, mClasses);
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void onBackPressed() {
-//         super.onBackPressed();
         if (inMethod){
-            if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
+            if (algoInWork) return; // алгоритм ещё работает!
+            else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else (new Conductor(MainActivity.this)).setDefaultState(null); // выход из метода, если изменений не было
         }
         else openQuitDialog(); // уверен, что выйти из приложения
     }
 
+    private void configRedoButton(){
+        RedoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("REDO");
+                mBitmap = history.takeFromBuffer();
+                if (mBitmap == null){
+                    Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
+                }
+                else mImageView.setImageBitmap(mBitmap);
+            }
+        });
+    }
+
+    private void configUndoButton(){
+        UndoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBitmap = history.popBitmap();
+                if (mBitmap == null){
+                    Toast.makeText(getApplicationContext(), "Whoops, something went wrong", Toast.LENGTH_SHORT).show();
+                }
+                else mImageView.setImageBitmap(mBitmap);
+            }
+        });
+    }
+
     private void openQuitDialog() {
-        // todo: UI че писать?)
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
         quitDialog.setTitle("Выход: Вы уверены?");
 
         quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 finish();
             }
         });
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+                return;
             }
         });
 
@@ -199,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openQuitFromMethodDialog() {
-        // todo: UI че писать?)
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
         quitDialog.setTitle("Изменения будут применены. Продолжить?");
 
@@ -220,42 +220,12 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.show();
     }
 
-    private void configUndoButton(){
-        undo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bitmap = history.popBitmap();
-                if (bitmap == null){
-                    Toast.makeText(getApplicationContext(), "Whoops, something went wrong", Toast.LENGTH_SHORT).show();
-                }
-                else imageview.setImageBitmap(bitmap);
-            }
-        });
-    }
-
     public void switchProgressBarVisibilityVisible(){
         this.progressBar.setVisibility(View.VISIBLE);
     }
 
     public void switchProgressBarVisibilityInvisible(){
         this.progressBar.setVisibility(View.GONE);
-    }
-
-    void initClasses(int ID) {
-        if (mClasses.size() == 0) {
-            for (int i = 0; i < 9; i++)
-                mClasses.add(new Conductor(this));
-        }
-        if ((ID & (1 << 0)) > 0) mClasses.set(0, new A_Star(this));
-        if ((ID & (1 << 1)) > 0) mClasses.set(1, new Algem(this));
-        if ((ID & (1 << 2)) > 0) mClasses.set(2, new Rotation(this));
-        if ((ID & (1 << 3)) > 0) mClasses.set(3, new LinearAlgebra(this));
-        if ((ID & (1 << 4)) > 0) mClasses.set(4, new Color_Filters(this));
-        if ((ID & (1 << 5)) > 0) mClasses.set(5, new Retouch(this));
-        if ((ID & (1 << 6)) > 0) mClasses.set(6, new Scaling(this));
-        if ((ID & (1 << 7)) > 0) mClasses.set(7, new Segmentation(this));
-        if ((ID & (1 << 8)) > 0) mClasses.set(8, new Usm(this));
-        initRecyclerView();
     }
 
     private void getImages() {
@@ -290,18 +260,7 @@ public class MainActivity extends AppCompatActivity {
         mNames.add("Sharpness");
 
         initRecyclerView();
-
     }
-
-    private void initRecyclerView() {
-        Log.d("upd", "initRecyclerView: init recyclerview");
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls, mClasses);
-        recyclerView.setAdapter(adapter);
-    }
-
 
     public void choosePhotoFromGallery(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
@@ -315,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, CAMERA);
     }
 
+    /* legacy code starts here */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -326,22 +286,22 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 Uri contentURI = data.getData();
                 try {
-                    this.bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    this.mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
 
                     double c = Math.min(
-                            ((double)imageview.getWidth()/bitmap.getWidth()),
-                            ((double)imageview.getHeight()/bitmap.getHeight()));
-                    bitmap = (new Scaling(this)).algorithm(bitmap, (float) c);
+                            ((double) mImageView.getWidth()/ mBitmap.getWidth()),
+                            ((double) mImageView.getHeight()/ mBitmap.getHeight()));
+                    mBitmap = (new Scaling(this)).algorithm(mBitmap, (float) c);
 
-                    if (this.bitmap.getByteCount() > 10000000) {
+                    if (this.mBitmap.getByteCount() > 10000000) {
                         Toast.makeText(getApplicationContext(), "Your photo is too large!", Toast.LENGTH_SHORT).show();
 //                       return;
                     }
-//                    this.path = saveImage(bitmap); todo: test: is it correct? (not saved!)
+//                    this.path = saveImage(mBitmap); todo: test: is it correct? (not saved!)
                     Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-                    imageview.setImageBitmap(bitmap);
-                    photoChosen = true;
-                    history.clearAllAndSetOriginal(bitmap);
+                    mImageView.setImageBitmap(mBitmap);
+                    mPhotoChosen = true;
+                    history.clearAllAndSetOriginal(mBitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -350,26 +310,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (requestCode == CAMERA) {
-            this.bitmap = (Bitmap) data.getExtras().get("data");
+            this.mBitmap = (Bitmap) data.getExtras().get("data");
 
             double c = Math.min(
-                    ((double)imageview.getWidth()/bitmap.getWidth()),
-                    ((double)imageview.getHeight()/bitmap.getHeight()));
-            bitmap = (new Scaling(this)).algorithm(bitmap, (float) c);
+                    ((double) mImageView.getWidth()/ mBitmap.getWidth()),
+                    ((double) mImageView.getHeight()/ mBitmap.getHeight()));
+            mBitmap = (new Scaling(this)).algorithm(mBitmap, (float) c);
 
-            imageview.setImageBitmap(this.bitmap);
-//            this.path = saveImage(this.bitmap); todo: 129 _0_0_
+            mImageView.setImageBitmap(this.mBitmap);
+//            this.path = saveImage(this.mBitmap); todo: 129 _0_0_
             Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-            photoChosen = true;
-            history.clearAllAndSetOriginal(bitmap);
+            mPhotoChosen = true;
+            history.clearAllAndSetOriginal(mBitmap);
         }
     }
 
     public void saveImage(View view) {
-        // todo: think about loading from private bitmap or imageview??
+        // todo: think about loading from private mBitmap or mImageView??
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
         // have the object build the directory structure, if needed.
@@ -432,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public ImageView getImageView() {
-        return imageview;
+        return mImageView;
     }
 
     public void click_finish(View view) {
@@ -442,10 +402,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void btnSelectColor(View view) {
-        AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, initialColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+        AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, mInitialColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
-                initialColor = color;
+                mInitialColor = color;
 
             }
 
@@ -456,4 +416,5 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.show();
     }
+    /* legacy code finish here */
 }
