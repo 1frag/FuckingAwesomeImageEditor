@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <View
-        android:id="@+id/a_star_view"
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="76dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/algo_start"
+        android:id="@+id/button_start_linear_algebra"
         android:layout_width="102dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -23,7 +23,7 @@
         android:layout_marginEnd="16dp"
         android:text="Start algo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/a_star_view"
+        app:layout_constraintStart_toStartOf="@+id/view"
         app:layout_constraintTop_toTopOf="parent" />
 
 

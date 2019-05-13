@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,11 +41,11 @@ class Conductor {
         placeHolder.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
         activity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.imgUndo).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.imgRedo).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.imgDownload).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.imgCamera).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.imgGallery).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.button_undo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.button_redo).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.button_save_image).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.button_camera).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.button_gallery).setVisibility(View.VISIBLE);
         activity.initClasses((1 << 9) - 1);
         activity.getImageView().setOnTouchListener(null);
     }
@@ -72,19 +71,19 @@ class Conductor {
         final View menu = factory.inflate(resourse, null);
         placeHolder.addView(menu, 0);
 
-        cancelChanges = activity.findViewById(R.id.cancel);
-        applyChanges = activity.findViewById(R.id.apply);
+        cancelChanges = activity.findViewById(R.id.button_cancel_changes);
+        applyChanges = activity.findViewById(R.id.button_apply_changes);
 
         configApplyButton(applyChanges);
         configCancelButton(cancelChanges);
 
         activity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         activity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.imgUndo).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.imgRedo).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.imgDownload).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.imgCamera).setVisibility(View.INVISIBLE);
-        activity.findViewById(R.id.imgGallery).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.button_undo).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.button_redo).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.button_save_image).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.button_camera).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.button_gallery).setVisibility(View.INVISIBLE);
     }
 
     private void configCancelButton(ImageButton button){

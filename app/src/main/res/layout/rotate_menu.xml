@@ -7,35 +7,49 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/text_angle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Angle: 0"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/button_mirrorV"
+        app:layout_constraintStart_toEndOf="@+id/button_reset_seekbar"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+
+    <TextView
+        android:id="@+id/text_minus45"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:text="-45"
-        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        app:layout_constraintStart_toStartOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/text_plus45"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:text="+45"
-        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/text_zero"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="0"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/text_plus45"
+        app:layout_constraintStart_toEndOf="@+id/text_minus45"
         app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/seekbar_rotate"
         android:layout_width="302dp"
         android:layout_height="30dp"
         android:layout_marginStart="12dp"
@@ -75,86 +89,8 @@
     <!--app:layout_constraintEnd_toEndOf="parent"-->
     <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageButton
-        android:id="@+id/rotate90"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:src="@drawable/ic_rotate_90"
-        android:background="@color/White"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
     <Button
-        android:id="@+id/reset_seekbar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="0"
-        android:textColor="@color/colorAccent"
-        android:background="@color/White"
-        android:textSize="25sp"
-        app:layout_constraintStart_toEndOf="@+id/rotate90"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
-    <ImageButton
-        android:id="@+id/mirrorV"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_flip"
-        android:textColor="@color/colorPrimary"
-        android:textSize="25sp"
-        android:background="@color/White"
-        app:layout_constraintEnd_toStartOf="@+id/mirrorH"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
-    <ImageButton
-        android:id="@+id/crop"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="36dp"
-        android:background="@color/White"
-        android:src="@drawable/ic_crop"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_apply_rotate" />
-
-    <ImageButton
-        android:id="@+id/mirrorH"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_flip"
-        android:rotation="90"
-        android:textColor="@color/colorPrimary"
-        android:textSize="25sp"
-        android:background="@color/White"
-        app:layout_constraintEnd_toEndOf="@+id/seekBar"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/text_view_angle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Angle: 0"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/mirrorV"
-        app:layout_constraintStart_toEndOf="@+id/reset_seekbar"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
-
-    <Button
-        android:id="@+id/btn_apply_rotate"
+        android:id="@+id/button_apply_rotate"
         android:layout_width="65dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
@@ -163,12 +99,77 @@
         android:layout_marginBottom="8dp"
         android:text="@string/apply"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.187"
-        app:layout_constraintStart_toEndOf="@+id/seekBar"
+        app:layout_constraintStart_toEndOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.115" />
+
+    <ImageButton
+        android:id="@+id/button_rotate90"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_rotate_90"
+        android:background="@color/White"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+
+    <Button
+        android:id="@+id/button_reset_seekbar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="0"
+        android:textColor="@color/colorAccent"
+        android:background="@color/White"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@+id/button_rotate90"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+
+    <ImageButton
+        android:id="@+id/button_mirrorV"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_flip"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25sp"
+        android:background="@color/White"
+        app:layout_constraintEnd_toStartOf="@+id/button_mirrorH"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+
+    <ImageButton
+        android:id="@+id/button_crop"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="36dp"
+        android:background="@color/White"
+        android:src="@drawable/ic_crop"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_apply_rotate" />
+
+    <ImageButton
+        android:id="@+id/button_mirrorH"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_flip"
+        android:rotation="90"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25sp"
+        android:background="@color/White"
+        app:layout_constraintEnd_toEndOf="@+id/seekbar_rotate"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+
+
+    <View
+        android:id="@+id/view_rotation"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

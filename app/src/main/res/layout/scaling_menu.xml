@@ -8,7 +8,7 @@
 
 
     <View
-        android:id="@+id/view2"
+        android:id="@+id/view_rotation"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,83 +16,83 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_view_scale_size"
+        android:id="@+id/text_scale_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Scale"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.022"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_bar_scaling"
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_scaling"
         app:layout_constraintVertical_bias="0.681" />
 
     <Button
-        android:id="@+id/btn_reset_scaling"
+        android:id="@+id/button_reset_scaling"
         android:layout_width="91dp"
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:text="Reset"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.942"
-        app:layout_constraintStart_toStartOf="@+id/view2"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/view_rotation"
+        app:layout_constraintTop_toTopOf="@+id/view_rotation"
         app:layout_constraintVertical_bias="0.897" />
 
     <SeekBar
-        android:id="@+id/seek_bar_scaling"
+        android:id="@+id/seekbar_scaling"
         android:layout_width="209dp"
         android:layout_height="28dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/view_rotation"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_apply_scaling"
+        android:id="@+id/button_apply_scaling"
         android:layout_width="91dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="Apply"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.775"
-        app:layout_constraintStart_toEndOf="@+id/seek_bar_scaling"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/seekbar_scaling"
+        app:layout_constraintTop_toTopOf="@+id/view_rotation"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/current_width"
+        android:id="@+id/text_current_width"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="Width"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toStartOf="@+id/current_height"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toStartOf="@+id/text_current_height"
         app:layout_constraintHorizontal_bias="0.34"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/view_rotation"
         app:layout_constraintVertical_bias="0.098" />
 
     <TextView
-        android:id="@+id/current_height"
+        android:id="@+id/text_current_height"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="68dp"
         android:text="Height"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toStartOf="@+id/btn_apply_scaling"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintEnd_toStartOf="@+id/button_apply_scaling"
+        app:layout_constraintTop_toTopOf="@+id/view_rotation"
         app:layout_constraintVertical_bias="0.0" />
 
 

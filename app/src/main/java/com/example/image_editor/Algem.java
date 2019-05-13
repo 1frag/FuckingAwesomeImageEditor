@@ -1,19 +1,13 @@
 package com.example.image_editor;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -40,9 +34,9 @@ public class Algem extends Conductor implements View.OnTouchListener {
         super.touchToolbar();
         PrepareToRun(R.layout.spline_menu);
 
-        startAlgo = activity.findViewById(R.id.algo_spline);
+        startAlgo = activity.findViewById(R.id.button_start_splain);
 
-        configDrawPointsButton((ImageButton) activity.findViewById(R.id.add_points));
+        configDrawPointsButton((ImageButton) activity.findViewById(R.id.button_add_points));
         configStartAlgoButton(startAlgo);
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();

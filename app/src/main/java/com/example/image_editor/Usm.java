@@ -34,14 +34,14 @@ public class Usm extends Conductor {
         super.touchToolbar();
         PrepareToRun(R.layout.sharpness_menu);
 
-        seekBarAmount = activity.findViewById(R.id.seek_bar_amount);
+        seekBarAmount = activity.findViewById(R.id.seekbar_amount);
         seekBarAmount.setMax(100);
-        seekBarThreshold = activity.findViewById(R.id.seek_bar_threshold);
+        seekBarThreshold = activity.findViewById(R.id.seekbar_threshold);
         seekBarThreshold.setMax(255);
-        seekBarRadius = activity.findViewById(R.id.seek_bar_radius);
+        seekBarRadius = activity.findViewById(R.id.seekbar_radius);
         seekBarRadius.setMax(50);
 
-        final Button runUSM = activity.findViewById(R.id.button);
+        final Button runUSM = activity.findViewById(R.id.button_start_usm);
 
         runUSM.setOnClickListener(new View.OnClickListener() {
             @Override

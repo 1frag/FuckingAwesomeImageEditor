@@ -9,7 +9,7 @@
 
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button_color"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="4dp"
@@ -17,10 +17,10 @@
         android:onClick="btnSelectColor"
         android:text="clr"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgCamera" />
+        app:layout_constraintTop_toBottomOf="@+id/button_camera" />
 
     <ImageButton
-        android:id="@+id/imgCamera"
+        android:id="@+id/button_camera"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="0dp"
@@ -35,7 +35,7 @@
         tools:ignore="ContentDescription" />
 
     <ImageButton
-        android:id="@+id/imgGallery"
+        android:id="@+id/button_gallery"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="0dp"
@@ -43,24 +43,24 @@
         android:onClick="choosePhotoFromGallery"
         android:padding="8dp"
         android:src="@drawable/ic_library"
-        app:layout_constraintStart_toEndOf="@+id/imgCamera"
+        app:layout_constraintStart_toEndOf="@+id/button_camera"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <ImageButton
-        android:id="@+id/imgRedo"
+        android:id="@+id/button_redo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="0dp"
         android:background="@color/White"
         android:padding="8dp"
         android:src="@drawable/ic_redo"
-        app:layout_constraintEnd_toStartOf="@+id/imgDownload"
+        app:layout_constraintEnd_toStartOf="@+id/button_save_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <ImageButton
-        android:id="@+id/imgDownload"
+        android:id="@+id/button_save_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="0dp"
@@ -76,7 +76,7 @@
         tools:ignore="ContentDescription" />
 
     <ImageButton
-        android:id="@+id/imgUndo"
+        android:id="@+id/button_undo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="0dp"
@@ -84,7 +84,7 @@
         android:background="@color/White"
         android:padding="8dp"
         android:src="@drawable/ic_undo"
-        app:layout_constraintEnd_toStartOf="@+id/imgRedo"
+        app:layout_constraintEnd_toStartOf="@+id/button_redo"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
@@ -156,7 +156,7 @@
     </FrameLayout>
 
     <ProgressBar
-        android:id="@+id/progressBarMain"
+        android:id="@+id/progressbar_main"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

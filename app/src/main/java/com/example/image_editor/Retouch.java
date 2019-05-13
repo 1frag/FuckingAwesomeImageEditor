@@ -7,14 +7,12 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.View.OnTouchListener;
 
 import static java.lang.Math.abs;
@@ -53,10 +51,10 @@ public class Retouch extends Conductor implements OnTouchListener {
         super.touchToolbar();
         PrepareToRun(R.layout.retouch_menu);
 
-        applyRetouch = activity.findViewById(R.id.btn_apply_retouch);
+        applyRetouch = activity.findViewById(R.id.button_apply_retouch);
 
-        textViewBrushSize = activity.findViewById(R.id.text_view_brush_size);
-        textViewBlurRadius = activity.findViewById(R.id.text_view_radius);
+        textViewBrushSize = activity.findViewById(R.id.text_brush);
+        textViewBlurRadius = activity.findViewById(R.id.text_radius);
 
         seekBarBlurRadius = activity.findViewById(R.id.seek_bar_blur_radius);
         seekBarBlurRadius.setMax(20);

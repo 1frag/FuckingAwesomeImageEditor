@@ -1,19 +1,14 @@
 package com.example.image_editor;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.provider.ContactsContract;
-import android.support.v7.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class Rotation extends Conductor {
@@ -48,16 +43,16 @@ public class Rotation extends Conductor {
         super.touchToolbar();
         PrepareToRun(R.layout.rotate_menu);
 
-        btn_rotate90 = activity.findViewById(R.id.rotate90);
-        btn_reset = activity.findViewById(R.id.reset_seekbar);
-        btn_apply = activity.findViewById(R.id.btn_apply_rotate);
-        btn_mirrorH = activity.findViewById(R.id.mirrorH);
-        btn_mirrorV = activity.findViewById(R.id.mirrorV);
-        btn_crop = activity.findViewById(R.id.crop);
+        btn_rotate90 = activity.findViewById(R.id.button_rotate90);
+        btn_reset = activity.findViewById(R.id.button_reset_seekbar);
+        btn_apply = activity.findViewById(R.id.button_apply_rotate);
+        btn_mirrorH = activity.findViewById(R.id.button_mirrorH);
+        btn_mirrorV = activity.findViewById(R.id.button_mirrorV);
+        btn_crop = activity.findViewById(R.id.button_crop);
 
-        textViewAngle = activity.findViewById(R.id.text_view_angle);
+        textViewAngle = activity.findViewById(R.id.text_angle);
 
-        angleSeekBar = activity.findViewById(R.id.seekBar);
+        angleSeekBar = activity.findViewById(R.id.seekbar_rotate);
         angleSeekBar.setProgress(45);
         angleSeekBar.setMax(90);
 

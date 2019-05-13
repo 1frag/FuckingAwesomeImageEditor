@@ -3,7 +3,6 @@ package com.example.image_editor;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +10,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         // set height of RecyclerView
 //        recyclerView.setLayoutParams(params);
 
-        this.progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
+        this.progressBar = (ProgressBar) findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
 
         history = new History();
@@ -144,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 (LinearLayout)findViewById(R.id.apply_layout));
 
 
-        undo = (ImageButton) findViewById(R.id.imgUndo);
-        redo = (ImageButton) findViewById(R.id.imgRedo);
+        undo = (ImageButton) findViewById(R.id.button_undo);
+        redo = (ImageButton) findViewById(R.id.button_redo);
 
         configRedoButton();
         configUndoButton();
@@ -440,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void click_finish(View view) {
         Log.i("upd", ((Integer) view.getId()).toString());
-        Log.i("upd", ((Integer) R.id.finish).toString());
+        Log.i("upd", ((Integer) R.id.button_finish_a_star).toString());
     }
 
 

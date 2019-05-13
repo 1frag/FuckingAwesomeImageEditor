@@ -1,26 +1,20 @@
 package com.example.image_editor;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.view.View.OnTouchListener;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import java.util.ArrayList;
@@ -106,16 +100,16 @@ public class A_Star extends Conductor implements OnTouchListener {
         super.touchToolbar();
         PrepareToRun(R.layout.a_star_menu);
 
-        this.change_start = activity.findViewById(R.id.start);
-        this.change_end = activity.findViewById(R.id.finish);
-        ImageButton btn_wall = activity.findViewById(R.id.wall);
-        Button btn_algo = activity.findViewById(R.id.algo_a_star);
+        this.change_start = activity.findViewById(R.id.button_start_a_star);
+        this.change_end = activity.findViewById(R.id.button_finish_a_star);
+        ImageButton btn_wall = activity.findViewById(R.id.button_set_wall);
+        Button btn_algo = activity.findViewById(R.id.button_start_algo_a_star);
 
         ConfigDoAlgoButton(btn_algo);
         ConfigWallButton(btn_wall);
         ConfigFinishButton(change_end);
         ConfigStartButton(change_start);
-        ConfigSettingsButton(activity.findViewById(R.id.settings));
+        ConfigSettingsButton(activity.findViewById(R.id.button_settings_a_star));
 
         bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 

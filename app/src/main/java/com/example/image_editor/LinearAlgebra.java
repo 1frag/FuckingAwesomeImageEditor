@@ -3,7 +3,6 @@ package com.example.image_editor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -11,10 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
@@ -73,7 +68,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
-        final Button btn_start = activity.findViewById(R.id.algo_start);
+        final Button btn_start = activity.findViewById(R.id.button_start_linear_algebra);
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

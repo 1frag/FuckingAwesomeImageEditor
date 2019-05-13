@@ -1,31 +1,13 @@
 package com.example.image_editor;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Calendar;
 
 public class Scaling extends Conductor {
 
@@ -58,16 +40,16 @@ public class Scaling extends Conductor {
         original = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         bitmap = original.copy(Bitmap.Config.ARGB_8888, true);
 
-        resetScaling = activity.findViewById(R.id.btn_reset_scaling);
-        applyScaling = activity.findViewById(R.id.btn_apply_scaling);
-        textViewScaling = activity.findViewById(R.id.text_view_scale_size);
-        textHeight = activity.findViewById(R.id.current_height);
-        textWidth = activity.findViewById(R.id.current_width);
+        resetScaling = activity.findViewById(R.id.button_reset_scaling);
+        applyScaling = activity.findViewById(R.id.button_apply_scaling);
+        textViewScaling = activity.findViewById(R.id.text_scale_size);
+        textHeight = activity.findViewById(R.id.text_current_height);
+        textWidth = activity.findViewById(R.id.text_current_width);
 
         textWidth.setText("Width: " + bitmap.getWidth());
         textHeight.setText("Height: " + bitmap.getHeight());
 
-        seekBarScaling = activity.findViewById(R.id.seek_bar_scaling);
+        seekBarScaling = activity.findViewById(R.id.seekbar_scaling);
         seekBarScaling.setMax(200);
         seekBarScaling.setProgress(100);
 
