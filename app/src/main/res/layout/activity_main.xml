@@ -14,7 +14,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="428dp"
-        android:onClick="btnSelectColor"
+        android:onClick="configSelectColorView"
         android:text="clr"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_camera" />

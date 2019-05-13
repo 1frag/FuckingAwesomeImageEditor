@@ -443,10 +443,10 @@ public class ColorFIltersCollection {
         System.out.println(w);
         System.out.println(h);
         int a, b, c, d, x, y;
-        float x_ratio = ((float)(w-1))/w2 ;
-        float y_ratio = ((float)(h-1))/h2 ;
-        float x_diff, y_diff, blue, red, green ;
-        int offset = 0 ;
+        float x_ratio = ((float)(w-1))/w2;
+        float y_ratio = ((float)(h-1))/h2;
+        float x_diff, y_diff, blue, red, green;
+
         for (int i=0;i<h2;i++) {
             for (int j=0;j<w2;j++) {
                 x = (int)(x_ratio * j);
@@ -459,7 +459,7 @@ public class ColorFIltersCollection {
                     b = pixels.getPixel(x + 1, y);
                     c = pixels.getPixel(x, y + 1);
                     d = pixels.getPixel(x + 1, y + 1);
-                }catch (Exception ArrayIndexOutOfRangeException){
+                }catch (ArrayIndexOutOfBoundsException e){
                     a = pixels.getPixel(x, y);
                     b = pixels.getPixel(x, y);
                     c = pixels.getPixel(x, y);

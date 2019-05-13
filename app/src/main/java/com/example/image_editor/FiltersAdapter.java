@@ -70,6 +70,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
 
             switch (which) {
                 case "Original":
+                    mainActivity.imageChanged = false;
                     break;
                 case "Movie":
                     mBufferedBitmap = ColorFIltersCollection.movieFilter(mBufferedBitmap);
