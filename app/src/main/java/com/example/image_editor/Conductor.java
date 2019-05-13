@@ -34,8 +34,6 @@ class Conductor {
 
     // TODO: maybe refactor this too?
     public void setDefaultState(View view) {
-        mainActivity.inMethod = false;
-        mainActivity.imageChanged = false;
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = mainActivity.findViewById(R.id.recyclerView);
 
@@ -48,7 +46,13 @@ class Conductor {
         mainActivity.findViewById(R.id.button_camera).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.button_gallery).setVisibility(View.VISIBLE);
         mainActivity.initClasses((1 << 9) - 1);
-        mainActivity.getImageView().setImageBitmap(mBeforeChanges);
+
+        // to discard some possible drawings on bitmap
+        if (!mainActivity.imageChanged) mainActivity.getImageView().setImageBitmap(mBeforeChanges);
+
+        mainActivity.inMethod = false;
+        mainActivity.imageChanged = false;
+
         mainActivity.getImageView().setOnTouchListener(null);
     }
 

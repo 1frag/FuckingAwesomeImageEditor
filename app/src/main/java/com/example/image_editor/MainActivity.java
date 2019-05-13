@@ -59,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton mUndoButton;
     private ImageButton mRedoButton;
+    private ImageButton mSaveButton;
 
     private ProgressBar mProgressBar;
 
-    private static final String IMAGE_DIRECTORY = "/awesome";
+    private static final String IMAGE_DIRECTORY = "/Awesome";
     private final int GALLERY = 1, CAMERA = 2;
     private int mInitialColor;
 
@@ -89,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
         int width = size.x;
         int height = size.y;
 
-        this.mImageView = findViewById(R.id.iv);
+        mImageView = findViewById(R.id.iv);
 
-        this.mPlaceHolder = findViewById(R.id.method_layout);
-        this.mRecyclerView = findViewById(R.id.recyclerView);
+        mPlaceHolder = findViewById(R.id.method_layout);
+        mRecyclerView = findViewById(R.id.recyclerView);
 
         mImageView.setMaxHeight((int) (height * 0.585));
 
-        this.mProgressBar = (ProgressBar) findViewById(R.id.progressbar_main);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
 
         history = new History();
@@ -108,9 +109,11 @@ public class MainActivity extends AppCompatActivity {
 
         mUndoButton = (ImageButton) findViewById(R.id.button_undo);
         mRedoButton = (ImageButton) findViewById(R.id.button_redo);
+        mSaveButton = (ImageButton) findViewById(R.id.button_save_image);
 
-        configRedoButton();
-        configUndoButton();
+        configRedoButton(mRedoButton);
+        configUndoButton(mUndoButton);
+        configSaveButton(mSaveButton);
 
         getImages();
     }
@@ -151,8 +154,17 @@ public class MainActivity extends AppCompatActivity {
         else openQuitDialog(); // уверен, что выйти из приложения
     }
 
-    private void configRedoButton(){
-        mRedoButton.setOnClickListener(new View.OnClickListener() {
+    private void configSaveButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImage(v);
+            }
+        });
+    }
+
+    private void configRedoButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("REDO");
@@ -165,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void configUndoButton(){
-        mUndoButton.setOnClickListener(new View.OnClickListener() {
+    private void configUndoButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mBitmap = history.popBitmap();
@@ -328,17 +340,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
         } else if (requestCode == CAMERA) {
-            this.mBitmap = (Bitmap) data.getExtras().get("data");
+            mBitmap = (Bitmap) data.getExtras().get("data");
 
-            mImageView.setImageBitmap(this.mBitmap);
-            Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            mImageView.setImageBitmap(mBitmap);
             mPhotoChosen = true;
             history.clearAllAndSetOriginal(mBitmap);
         }
     }
 
     public void saveImage(View view) {
-        // todo: think about loading from private mBitmap or mImageView??
+        // TODO: think about loading from private mBitmap or mImageView??
+        // I prefer second option. P.S. Sasha
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
@@ -363,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        // todo: toast or logs
+        Toast.makeText(getApplicationContext(), "Image saved in " + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
     }
 
     private void requestMultiplePermissions() {
@@ -413,12 +426,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void btnSelectColor(View view) {
+    public void configSelectColorView(View view) {
         AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, mInitialColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 mInitialColor = color;
-
             }
 
             @Override
