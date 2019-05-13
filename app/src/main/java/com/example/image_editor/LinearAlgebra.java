@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
+    private Button startAlgoButton;
     private Bitmap mBitmap;
     private ImageView mImageView;
     private MainActivity mainActivity;
@@ -21,26 +22,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
     private DPoint p21, p22, p23;
 
     private int cntfix = 0;
-
-    class Solver {
-        private Double a, b, c, d, e, f;
-
-        public DPoint calc(DPoint m) {
-            return new DPoint(
-                    a * m.x + c * m.y + e,
-                    b * m.x + d * m.y + f
-            );
-        }
-
-        Solver(Matrix3x1 ace, Matrix3x1 bdf) {
-            this.a = ace.get(0);
-            this.c = ace.get(1);
-            this.e = ace.get(2);
-            this.b = bdf.get(0);
-            this.d = bdf.get(1);
-            this.f = bdf.get(2);
-        }
-    }
 
     LinearAlgebra(MainActivity activity) {
         super(activity);
@@ -65,40 +46,13 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 //        android:layout_width="@dimen/shape_size"
 //        android:layout_height="@dimen/shape_size"
 //        android:background="@color/Mv_color"
-
-
+        
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
-        final Button btn_start = mainActivity.findViewById(R.id.button_start_linear_algebra);
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initParams();
-                AsyncTaskConductor algemAsync = new AsyncTaskConductor() {
-                    @Override
-                    protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn_start.setEnabled(false);
-                            }
-                        });
-                        algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mImageView.setImageBitmap(mBitmap);
-                                btn_start.setEnabled(true);
-                            }
-                        });
-                        return mBitmap;
-                    }
-                };
-                algemAsync.execute();
-                mImageView.invalidate();
-            }
-        });
+        startAlgoButton = mainActivity.findViewById(R.id.button_start_linear_algebra);
+
+        configStartAlgoButton(startAlgoButton);
 
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -106,7 +60,58 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         mImageView.setOnTouchListener(this);
     }
 
+    // TODO; адекватно кнопки блокировать, а не как сейчас
+    private void configStartAlgoButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initParams();
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startAlgoButton.setEnabled(false);
+                            }
+                        });
+                        mBitmap = algorithm();
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startAlgoButton.setEnabled(true);
+                            }
+                        });
+                        return mBitmap;
+                    }
+                };
+                asyncTask.execute();
+            }
+        });
+    }
+
+    class Solver {
+        private Double a, b, c, d, e, f;
+
+        public DPoint calc(DPoint m) {
+            return new DPoint(
+                    a * m.x + c * m.y + e,
+                    b * m.x + d * m.y + f
+            );
+        }
+
+        Solver(Matrix3x1 ace, Matrix3x1 bdf) {
+            this.a = ace.get(0);
+            this.c = ace.get(1);
+            this.e = ace.get(2);
+            this.b = bdf.get(0);
+            this.d = bdf.get(1);
+            this.f = bdf.get(2);
+        }
+    }
+
     private void initParams() {
+        // debug
         p11 = new DPoint(152, 377);
         p12 = new DPoint(136, 50);
         p13 = new DPoint(81, 582);
@@ -179,7 +184,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         return new Matrix3x1(p21.y, p22.y, p23.y);
     }
 
-    private void algorithm() {
+    private Bitmap algorithm() {
 
         Solver solver = new Solver(
                 mulMatrix(
@@ -189,8 +194,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                         getFirstPoints(),
                         getSecondInBDF()));
 
-        final Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888,
-                true);
+        final Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         btmp.eraseColor(Color.WHITE);
         int cnt = 0;
 
@@ -206,8 +210,9 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                     cnt++;
             }
         }
-        mBitmap = btmp;
+
         Log.i("upd", String.format("%s", cnt));
+        return btmp;
     }
 
     @Override
