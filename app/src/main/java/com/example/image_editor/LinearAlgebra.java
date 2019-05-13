@@ -75,9 +75,9 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
             @Override
             public void onClick(View v) {
                 initParams();
-                AsyncTaskConductor algemAsync = new AsyncTaskConductor(){
+                AsyncTaskConductor algemAsync = new AsyncTaskConductor() {
                     @Override
-                    protected Bitmap doInBackground(String... params){
+                    protected Bitmap doInBackground(String... params) {
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -89,6 +89,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                             @Override
                             public void run() {
                                 mImageView.setImageBitmap(mBitmap);
+                                mImageView.invalidate();
                                 btn_start.setEnabled(true);
                             }
                         });
@@ -107,13 +108,13 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
     }
 
     private void initParams() {
-//        p11 = new DPoint(152, 377);
-//        p12 = new DPoint(136, 50);
-//        p13 = new DPoint(81, 582);
-//
-//        p21 = new DPoint(101, 309);
-//        p22 = new DPoint(142, 502);
-//        p23 = new DPoint(80, 101);
+        p11 = new DPoint(152, 377);
+        p12 = new DPoint(136, 50);
+        p13 = new DPoint(81, 582);
+
+        p21 = new DPoint(101, 309);
+        p22 = new DPoint(142, 502);
+        p23 = new DPoint(80, 101);
     }
 
     //matrix of algebraic complements
@@ -192,6 +193,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         final Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888,
                 true);
         btmp.eraseColor(Color.WHITE);
+        int cnt = 0;
 
         for (int i = 0; i < mBitmap.getWidth(); i++) {
             for (int j = 0; j < mBitmap.getHeight(); j++) {
@@ -201,11 +203,16 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                 if (0 > w || w >= btmp.getWidth()) continue;
                 if (0 > h || h >= btmp.getHeight()) continue;
                 btmp.setPixel(i, j, mBitmap.getPixel(w, h));
+                if (w != i && h != j)
+                    cnt++;
             }
         }
+        Log.i("upd", String.format("%s", cnt));
+
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mBitmap = btmp;
                 mImageView.setImageBitmap(btmp);
                 mImageView.invalidate();
             }
@@ -214,30 +221,35 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() != 0)return false;
-
-        if(cntfix==0)p11 = new DPoint(event.getX(), event.getY());
-        if(cntfix==1)p12 = new DPoint(event.getX(), event.getY());
-        if(cntfix==2)p13 = new DPoint(event.getX(), event.getY());
-        if(cntfix==3)p21 = new DPoint(event.getX(), event.getY());
-        if(cntfix==4)p22 = new DPoint(event.getX(), event.getY());
-        if(cntfix==5)p23 = new DPoint(event.getX(), event.getY());
-
-        if(cntfix<3){
-            for(int i=-10;i<=10;i++){
-                for(int j=-10;j<=10;j++){
-                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
-                }
-            }
-        }else if(cntfix<6){
-            for(int i=-10;i<=10;i++){
-                for(int j=-10;j<=10;j++){
-                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
-                }
-            }
-        }
-        mImageView.invalidate();
-        cntfix++;
-        return true;
+        int cnt = 0;
+        cnt++;
+        if (cnt < -10) return true;
+        return false;
+//        todo: delete me after 16.05
+//        if(event.getAction() != 0)return false;
+//
+//        if(cntfix==0)p11 = new DPoint(event.getX(), event.getY());
+//        if(cntfix==1)p12 = new DPoint(event.getX(), event.getY());
+//        if(cntfix==2)p13 = new DPoint(event.getX(), event.getY());
+//        if(cntfix==3)p21 = new DPoint(event.getX(), event.getY());
+//        if(cntfix==4)p22 = new DPoint(event.getX(), event.getY());
+//        if(cntfix==5)p23 = new DPoint(event.getX(), event.getY());
+//
+//        if(cntfix<3){
+//            for(int i=-10;i<=10;i++){
+//                for(int j=-10;j<=10;j++){
+//                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
+//                }
+//            }
+//        }else if(cntfix<6){
+//            for(int i=-10;i<=10;i++){
+//                for(int j=-10;j<=10;j++){
+//                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
+//                }
+//            }
+//        }
+//        mImageView.invalidate();
+//        cntfix++;
+//        return true;
     }
 }

@@ -54,13 +54,19 @@ public class ElevationDragFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.ztranslation, container, false);
 
         /* Find the {@link View} to apply z-translation to. */
-        final View floatingShape = rootView.findViewById(R.id.circle);
+        final View floatingShape1 = rootView.findViewById(R.id.circle1);
+        final View floatingShape2 = rootView.findViewById(R.id.circle2);
+        final View floatingShape3 = rootView.findViewById(R.id.circle3);
 
         /* Define the shape of the {@link View}'s shadow by setting one of the {@link Outline}s. */
-        floatingShape.setOutlineProvider(mOutlineProviderCircle);
+        floatingShape1.setOutlineProvider(mOutlineProviderCircle);
+        floatingShape2.setOutlineProvider(mOutlineProviderCircle);
+        floatingShape3.setOutlineProvider(mOutlineProviderCircle);
 
         /* Clip the {@link View} with its outline. */
-        floatingShape.setClipToOutline(true);
+        floatingShape1.setClipToOutline(true);
+        floatingShape2.setClipToOutline(true);
+        floatingShape3.setClipToOutline(true);
 
         DragFrameLayout dragLayout = ((DragFrameLayout) rootView.findViewById(R.id.circle_main_layout));
 
@@ -70,14 +76,22 @@ public class ElevationDragFragment extends Fragment {
             public void onDragDrop(boolean captured) {
                 /* Animate the translation of the {@link View}. Note that the translation
                  is being modified, not the elevation. */
-                floatingShape.animate()
+                floatingShape1.animate()
+                        .translationZ(captured ? 50 : 0)
+                        .setDuration(100);
+                floatingShape2.animate()
+                        .translationZ(captured ? 50 : 0)
+                        .setDuration(100);
+                floatingShape3.animate()
                         .translationZ(captured ? 50 : 0)
                         .setDuration(100);
                 Log.i(TAG, captured ? "Drag" : "Drop");
             }
         });
 
-        dragLayout.addDragView(floatingShape);
+        dragLayout.addDragView(floatingShape1);
+        dragLayout.addDragView(floatingShape2);
+        dragLayout.addDragView(floatingShape3);
 
         return rootView;
     }

@@ -23,7 +23,19 @@
     tools:context=".MainActivity">
 
     <View
-        android:id="@+id/circle"
+        android:id="@+id/circle1"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:background="@color/Mv_color" />
+
+    <View
+        android:id="@+id/circle2"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:background="@color/Mv_color" />
+
+    <View
+        android:id="@+id/circle3"
         android:layout_width="@dimen/shape_size"
         android:layout_height="@dimen/shape_size"
         android:background="@color/Mv_color" />
