@@ -57,6 +57,7 @@ public class Scaling extends Conductor {
 
         mTextWidth.setText("Width: " + mBitmap.getWidth());
         mTextHeight.setText("Height: " + mBitmap.getHeight());
+        mTextScaling.setText("Scale: 1");
     }
 
     // TODO: lock buttons
@@ -65,6 +66,10 @@ public class Scaling extends Conductor {
             @Override
             public void onClick(View v) {
                 mImageView.setImageBitmap(mOriginal);
+                mTextWidth.setText("Width: " + mOriginal.getWidth());
+                mTextHeight.setText("Height: " + mOriginal.getHeight());
+                mTextScaling.setText("Scale: 1");
+                mSeekBarScaling.setProgress(100);
             }
         });
     }
