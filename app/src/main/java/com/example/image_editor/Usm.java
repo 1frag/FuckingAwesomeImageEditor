@@ -11,21 +11,25 @@ import android.widget.SeekBar;
 
 public class Usm extends Conductor {
 
-    private Bitmap bitmap;
-    private MainActivity activity;
-    private ImageView imageView;
-    private double amount;
-    private double radius;
-    private int threshold;
+    private Bitmap mBitmap;
 
-    private SeekBar seekBarAmount;
-    private SeekBar seekBarRadius;
-    private SeekBar seekBarThreshold;
+    private SeekBar mSeekBarAmount;
+    private SeekBar mSeekBarRadius;
+    private SeekBar mSeekBarThreshold;
+
+    private Button runUsmButton;
+
+    private MainActivity mainActivity;
+    private ImageView mImageView;
+
+    private double mAmount = 1;
+    private double mRadius = 1;
+    private int mThreshold = 0;
 
     Usm(MainActivity activity) {
         super(activity);
-        this.activity = activity;
-        this.imageView = activity.getImageView();
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
@@ -34,52 +38,54 @@ public class Usm extends Conductor {
         super.touchToolbar();
         PrepareToRun(R.layout.sharpness_menu);
 
-        seekBarAmount = activity.findViewById(R.id.seekbar_amount);
-        seekBarAmount.setMax(100);
-        seekBarThreshold = activity.findViewById(R.id.seekbar_threshold);
-        seekBarThreshold.setMax(255);
-        seekBarRadius = activity.findViewById(R.id.seekbar_radius);
-        seekBarRadius.setMax(50);
+        mSeekBarAmount = mainActivity.findViewById(R.id.seekbar_amount);
+        mSeekBarAmount.setMax(100);
+        mSeekBarThreshold = mainActivity.findViewById(R.id.seekbar_threshold);
+        mSeekBarThreshold.setMax(255);
+        mSeekBarRadius = mainActivity.findViewById(R.id.seekbar_radius);
+        mSeekBarRadius.setMax(50);
 
-        final Button runUSM = activity.findViewById(R.id.button_start_usm);
+        runUsmButton = mainActivity.findViewById(R.id.button_start_usm);
 
-        runUSM.setOnClickListener(new View.OnClickListener() {
+        configRunUsmButton(runUsmButton);
+
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, true);
+        mImageView.setImageBitmap(mBitmap);
+    }
+
+    private void configRunUsmButton(final Button button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long startTime = System.currentTimeMillis();
-                AsyncTaskConductor usmAsync = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                runUSM.setEnabled(false);
+                                button.setEnabled(false);
                             }
                         });
                         algorithm();
-                        activity.runOnUiThread(new Runnable() {
+                        mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                runUSM.setEnabled(true);
+                                button.setEnabled(true);
                             }
                         });
-                        return bitmap;
+                        return mBitmap;
                     }
                 };
-                usmAsync.execute();
+                asyncTask.execute();
                 long endTime = System.currentTimeMillis();
-                imageView.invalidate();
                 Log.i("upd", "already");
                 System.out.println("That took " + (endTime - startTime) + " milliseconds");
             }
         });
 
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        bitmap = bitmap.copy(Bitmap.Config.RGB_565, true);
-        imageView.setImageBitmap(bitmap);
-
     }
-
     private int getR(int color){
         return ((1 << 8) - 1) & color;
     }
@@ -97,17 +103,17 @@ public class Usm extends Conductor {
         int G = getG(origColor);
         int B = getB(origColor);
 
-        int difR = (int) ((255 - getR(blurColor)) / amount);
+        int difR = (int) ((255 - getR(blurColor)) / mAmount);
         double dR = Math.abs(difR - R);
-        if(dR > threshold)R += difR;
+        if(dR > mThreshold)R += difR;
 
-        int difG = (int) ((255 - getG(blurColor)) / amount);
+        int difG = (int) ((255 - getG(blurColor)) / mAmount);
         double dG = Math.abs(difG - G);
-        if(dG > threshold)G += difG;
+        if(dG > mThreshold)G += difG;
 
-        int difB = (int) ((255 - getB(blurColor)) / amount);
+        int difB = (int) ((255 - getB(blurColor)) / mAmount);
         double dB = Math.abs(difB - B);
-        if(dB > threshold)B += difB;
+        if(dB > mThreshold)B += difB;
 
         if(R>255)R=255;if(R<0)R=0;
         if(G>255)G=255;if(G<0)G=0;
@@ -119,48 +125,48 @@ public class Usm extends Conductor {
     private void algorithm() {
         InitParams();
 
-        Log.i("upd", ((Integer)bitmap.getWidth()).toString() + " x " +
-                ((Integer)bitmap.getHeight()).toString());
+        Log.i("upd", ((Integer) mBitmap.getWidth()).toString() + " x " +
+                ((Integer) mBitmap.getHeight()).toString());
 
-//        Bitmap blurred = (new GaussianBlur(bitmap, radius)).algorithm();
-        Bitmap blurred = ColorFIltersCollection.fastBlur(bitmap, (int)radius, 1);
+//        Bitmap blurred = (new GaussianBlur(mBitmap, mRadius)).algorithm();
+        Bitmap blurred = ColorFIltersCollection.fastBlur(mBitmap, (int) mRadius, 1);
 
 //        for (int w = 0; w < blurred.getWidth(); w++) {
 //            for (int h = 0; h < blurred.getHeight(); h++) {
-//                int now = bitmap.getPixel(w, h);
-//                int R = (int) ((255 - Color.red(now)) / amount);
-//                int G = (int) ((255 - Color.green(now)) / amount);
-//                int B = (int) ((255 - Color.blue(now)) / amount);
+//                int now = mBitmap.getPixel(w, h);
+//                int R = (int) ((255 - Color.red(now)) / mAmount);
+//                int G = (int) ((255 - Color.green(now)) / mAmount);
+//                int B = (int) ((255 - Color.blue(now)) / mAmount);
 //                blurred.setPixel(w, h,
 //                        Color.rgb(R, G, B));
 //            }
 //        }
 //
-//        Bitmap unsharpMask = difference(bitmap, blurred);
-//        Bitmap highContrast = increaseContrast(bitmap, amount);
+//        Bitmap unsharpMask = difference(mBitmap, blurred);
+//        Bitmap highContrast = increaseContrast(mBitmap, mAmount);
 
-        for (int w = 0; w < bitmap.getWidth(); w++) {
-            for (int h = 0; h < bitmap.getHeight(); h++) {
-                int origColor = bitmap.getPixel(w, h);
+        for (int w = 0; w < mBitmap.getWidth(); w++) {
+            for (int h = 0; h < mBitmap.getHeight(); h++) {
+                int origColor = mBitmap.getPixel(w, h);
                 int blurColor = blurred.getPixel(w, h);
 //                int contrastColor = highContrast.getPixel(w, h);
 
-                bitmap.setPixel(w, h, fixColor(origColor, blurColor));
+                mBitmap.setPixel(w, h, fixColor(origColor, blurColor));
             }
         }
     }
 
     private void InitParams() {
 
-        this.amount = seekBarAmount.getProgress();
-        this.radius = 1 + seekBarRadius.getProgress();
-        this.threshold = seekBarThreshold.getProgress();
+        this.mAmount = mSeekBarAmount.getProgress();
+        this.mRadius = 1 + mSeekBarRadius.getProgress();
+        this.mThreshold = mSeekBarThreshold.getProgress();
 
         // debug information
         System.out.println();
-        System.out.println(amount);
-        System.out.println(radius);
-        System.out.println(threshold);
+        System.out.println(mAmount);
+        System.out.println(mRadius);
+        System.out.println(mThreshold);
 
     }
 
