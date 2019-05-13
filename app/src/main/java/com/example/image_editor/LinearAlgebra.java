@@ -89,7 +89,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                             @Override
                             public void run() {
                                 mImageView.setImageBitmap(mBitmap);
-                                mImageView.invalidate();
                                 btn_start.setEnabled(true);
                             }
                         });
@@ -207,16 +206,8 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                     cnt++;
             }
         }
+        mBitmap = btmp;
         Log.i("upd", String.format("%s", cnt));
-
-        mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mBitmap = btmp;
-                mImageView.setImageBitmap(btmp);
-                mImageView.invalidate();
-            }
-        });
     }
 
     @Override
