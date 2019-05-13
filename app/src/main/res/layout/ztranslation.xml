@@ -26,17 +26,42 @@
         android:id="@+id/circle1"
         android:layout_width="@dimen/shape_size"
         android:layout_height="@dimen/shape_size"
-        android:background="@color/Mv_color" />
+        android:visibility="invisible"
+        android:background="@color/Mv_color1" />
 
     <View
         android:id="@+id/circle2"
         android:layout_width="@dimen/shape_size"
         android:layout_height="@dimen/shape_size"
-        android:background="@color/Mv_color" />
+        android:visibility="invisible"
+        android:background="@color/Mv_color2" />
 
     <View
         android:id="@+id/circle3"
         android:layout_width="@dimen/shape_size"
         android:layout_height="@dimen/shape_size"
-        android:background="@color/Mv_color" />
+        android:visibility="invisible"
+        android:background="@color/Mv_color3" />
+
+    <View
+        android:id="@+id/circle4"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:visibility="invisible"
+        android:background="@color/Mv_color1" />
+
+    <View
+        android:id="@+id/circle5"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:visibility="invisible"
+        android:background="@color/Mv_color2" />
+
+    <View
+        android:id="@+id/circle6"
+        android:layout_width="@dimen/shape_size"
+        android:layout_height="@dimen/shape_size"
+        android:visibility="invisible"
+        android:background="@color/Mv_color3" />
+
 </com.example.image_editor.DragFrameLayout>

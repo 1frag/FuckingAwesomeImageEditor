@@ -9,6 +9,8 @@
     <color name="saladGreen">#C2F718</color>
     <color name="green">#7DA008</color>
     <color name="Pink">#CF14A6</color>
-    <color name="Mv_color">#A2F701</color>
+    <color name="Mv_color1">#A2F701</color>
+    <color name="Mv_color2">#A21701</color>
+    <color name="Mv_color3">#12F7F1</color>
 
 </resources>

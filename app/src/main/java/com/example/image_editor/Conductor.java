@@ -50,6 +50,20 @@ class Conductor {
         mainActivity.inMethod = false;
         mainActivity.imageChanged = false;
 
+        /* for Algem 2.0 delete moving points */
+        if(mainActivity.findViewById(R.id.circle1) != null)
+            mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle2) != null)
+            mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle3) != null)
+            mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle4) != null)
+            mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle5) != null)
+            mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle6) != null)
+            mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
+
         mainActivity.initClasses();
 
         mainActivity.getImageView().setOnTouchListener(null);

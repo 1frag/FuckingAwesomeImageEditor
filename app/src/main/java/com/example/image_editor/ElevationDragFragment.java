@@ -57,16 +57,25 @@ public class ElevationDragFragment extends Fragment {
         final View floatingShape1 = rootView.findViewById(R.id.circle1);
         final View floatingShape2 = rootView.findViewById(R.id.circle2);
         final View floatingShape3 = rootView.findViewById(R.id.circle3);
+        final View floatingShape4 = rootView.findViewById(R.id.circle4);
+        final View floatingShape5 = rootView.findViewById(R.id.circle5);
+        final View floatingShape6 = rootView.findViewById(R.id.circle6);
 
         /* Define the shape of the {@link View}'s shadow by setting one of the {@link Outline}s. */
         floatingShape1.setOutlineProvider(mOutlineProviderCircle);
         floatingShape2.setOutlineProvider(mOutlineProviderCircle);
         floatingShape3.setOutlineProvider(mOutlineProviderCircle);
+        floatingShape4.setOutlineProvider(mOutlineProviderCircle);
+        floatingShape5.setOutlineProvider(mOutlineProviderCircle);
+        floatingShape6.setOutlineProvider(mOutlineProviderCircle);
 
         /* Clip the {@link View} with its outline. */
         floatingShape1.setClipToOutline(true);
         floatingShape2.setClipToOutline(true);
         floatingShape3.setClipToOutline(true);
+        floatingShape4.setClipToOutline(true);
+        floatingShape5.setClipToOutline(true);
+        floatingShape6.setClipToOutline(true);
 
         DragFrameLayout dragLayout = ((DragFrameLayout) rootView.findViewById(R.id.circle_main_layout));
 
@@ -85,6 +94,15 @@ public class ElevationDragFragment extends Fragment {
                 floatingShape3.animate()
                         .translationZ(captured ? 50 : 0)
                         .setDuration(100);
+                floatingShape4.animate()
+                        .translationZ(captured ? 50 : 0)
+                        .setDuration(100);
+                floatingShape5.animate()
+                        .translationZ(captured ? 50 : 0)
+                        .setDuration(100);
+                floatingShape6.animate()
+                        .translationZ(captured ? 50 : 0)
+                        .setDuration(100);
                 Log.i(TAG, captured ? "Drag" : "Drop");
             }
         });
@@ -92,6 +110,9 @@ public class ElevationDragFragment extends Fragment {
         dragLayout.addDragView(floatingShape1);
         dragLayout.addDragView(floatingShape2);
         dragLayout.addDragView(floatingShape3);
+        dragLayout.addDragView(floatingShape4);
+        dragLayout.addDragView(floatingShape5);
+        dragLayout.addDragView(floatingShape6);
 
         return rootView;
     }

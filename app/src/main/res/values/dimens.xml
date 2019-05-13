@@ -1,5 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="shape_size">15dp</dimen>
+    <dimen name="shape_size">30dp</dimen>
     <dimen name="elevation_step">8dp</dimen>
 </resources>

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 public class LinearAlgebra extends Conductor implements View.OnTouchListener {
@@ -19,8 +18,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
-
-    private int cntfix = 0;
 
     class Solver {
         private Double a, b, c, d, e, f;
@@ -54,21 +51,24 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();
-
-        FrameLayout layout = mainActivity.findViewById(R.id.sample_content_fragment);
-        View circle = new View(mainActivity);
-        circle.setBackgroundColor(0x00FF00);
-        layout.addView(circle, 100, 100);
-        // todo: я не понимаю ну вот создал я его, где он появляется то? =/
-
-//        android:id="@+id/circle"
-//        android:layout_width="@dimen/shape_size"
-//        android:layout_height="@dimen/shape_size"
-//        android:background="@color/Mv_color"
-
-
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
+
+        mainActivity.findViewById(R.id.button_finish_points)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initMovingViewFirstGroup();
+                    }
+                });
+
+        mainActivity.findViewById(R.id.button_start_points)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initMovingViewSecondGroup();
+                    }
+                });
 
         final Button btn_start = mainActivity.findViewById(R.id.button_start_linear_algebra);
         btn_start.setOnClickListener(new View.OnClickListener() {
@@ -106,14 +106,42 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         mImageView.setOnTouchListener(this);
     }
 
-    private void initParams() {
-        p11 = new DPoint(152, 377);
-        p12 = new DPoint(136, 50);
-        p13 = new DPoint(81, 582);
+    private void initMovingViewFirstGroup() {
+        // todo: wtf, why?, becouse in touchToolbar circle_i is null
+        mainActivity.findViewById(R.id.circle1).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.circle2).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.circle3).setVisibility(View.VISIBLE);
 
-        p21 = new DPoint(101, 309);
-        p22 = new DPoint(142, 502);
-        p23 = new DPoint(80, 101);
+        mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
+//        View c1 = mainActivity.findViewById(R.id.circle1);
+//        c1.setY(10);
+//        c1.setX(15);
+//        c1.invalidate();
+//        c1.setTop(10);
+//        c1.setLeft(15);
+//        c1.setBackgroundColor(0x00FFFF);
+    }
+
+    private void initMovingViewSecondGroup() {
+        mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
+
+        mainActivity.findViewById(R.id.circle4).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.circle5).setVisibility(View.VISIBLE);
+        mainActivity.findViewById(R.id.circle6).setVisibility(View.VISIBLE);
+    }
+
+    private void initParams() {
+        p11 = new DPoint(mainActivity.findViewById(R.id.circle1).getX(), mainActivity.findViewById(R.id.circle1).getY());
+        p12 = new DPoint(mainActivity.findViewById(R.id.circle2).getX(), mainActivity.findViewById(R.id.circle2).getY());
+        p13 = new DPoint(mainActivity.findViewById(R.id.circle3).getX(), mainActivity.findViewById(R.id.circle3).getY());
+
+        p21 = new DPoint(mainActivity.findViewById(R.id.circle4).getX(), mainActivity.findViewById(R.id.circle4).getY());
+        p22 = new DPoint(mainActivity.findViewById(R.id.circle5).getX(), mainActivity.findViewById(R.id.circle5).getY());
+        p23 = new DPoint(mainActivity.findViewById(R.id.circle6).getX(), mainActivity.findViewById(R.id.circle6).getY());
     }
 
     //matrix of algebraic complements
