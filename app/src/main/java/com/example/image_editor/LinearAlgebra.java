@@ -5,12 +5,11 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class LinearAlgebra extends Conductor implements View.OnTouchListener {
+public class LinearAlgebra extends Conductor {
 
     private Bitmap mBitmap;
     private ImageView mImageView;
@@ -103,7 +102,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
-        mImageView.setOnTouchListener(this);
     }
 
     private void initMovingViewFirstGroup() {
@@ -236,39 +234,5 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         }
         mBitmap = btmp;
         Log.i("upd", String.format("%s", cnt));
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int cnt = 0;
-        cnt++;
-        if (cnt < -10) return true;
-        return false;
-//        todo: delete me after 16.05
-//        if(event.getAction() != 0)return false;
-//
-//        if(cntfix==0)p11 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==1)p12 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==2)p13 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==3)p21 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==4)p22 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==5)p23 = new DPoint(event.getX(), event.getY());
-//
-//        if(cntfix<3){
-//            for(int i=-10;i<=10;i++){
-//                for(int j=-10;j<=10;j++){
-//                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
-//                }
-//            }
-//        }else if(cntfix<6){
-//            for(int i=-10;i<=10;i++){
-//                for(int j=-10;j<=10;j++){
-//                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
-//                }
-//            }
-//        }
-//        mImageView.invalidate();
-//        cntfix++;
-//        return true;
     }
 }
