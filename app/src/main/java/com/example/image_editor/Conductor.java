@@ -200,17 +200,18 @@ class Conductor {
 
     private void removeFloatingPoints(){
         if(mainActivity.findViewById(R.id.circle1) != null)
-            mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle2) != null)
-            mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle2).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle3) != null)
-            mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle3).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle4) != null)
-            mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle4).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle5) != null)
-            mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle6) != null)
-            mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
+
     }
 
 }
