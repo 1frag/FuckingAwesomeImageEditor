@@ -54,4 +54,6 @@
     <string name="_0ps">0%</string>
     <string name="_2">2</string>
     <string name="_1">1</string>
+    <string name="current_method">Текущий метод</string>
+    <string name="info">инфо</string>
 </resources>
