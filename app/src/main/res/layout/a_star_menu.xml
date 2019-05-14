@@ -21,6 +21,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_start"
+        android:background="@color/White"
         app:layout_constraintStart_toEndOf="@+id/button_settings_a_star"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/set_start"/>
@@ -32,6 +33,7 @@
         android:layout_marginStart="8dp"
         android:onClick="click_finish"
         android:src="@drawable/ic_finish"
+        android:background="@color/White"
         app:layout_constraintStart_toEndOf="@+id/button_start_a_star"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/set_finish"/>
@@ -42,6 +44,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/ic_wall"
+        android:background="@color/White"
         app:layout_constraintStart_toEndOf="@+id/button_finish_a_star"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/set_walls"/>
@@ -56,7 +59,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/button_start_a_star"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_start_a_star"
-        android:onClick="showSettings"
         android:contentDescription="@string/start_algo"/>
 
     <Button

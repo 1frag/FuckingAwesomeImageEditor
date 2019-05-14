@@ -63,7 +63,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.a_star_menu);
+        prepareToRun(R.layout.a_star_menu);
 
         mChangeStartButton = mainActivity.findViewById(R.id.button_start_a_star);
         mChangeEndButton = mainActivity.findViewById(R.id.button_finish_a_star);

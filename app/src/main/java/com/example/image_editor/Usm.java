@@ -42,7 +42,7 @@ public class Usm extends Conductor {
         // btn1 -> draw point
         // btn2 -> do interpolation
         super.touchToolbar();
-        PrepareToRun(R.layout.sharpness_menu);
+        prepareToRun(R.layout.sharpness_menu);
 
         mSeekBarAmount = mainActivity.findViewById(R.id.seekbar_amount);
         mSeekBarAmount.setMax(100);

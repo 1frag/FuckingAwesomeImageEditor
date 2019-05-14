@@ -53,7 +53,7 @@ public class LinearAlgebra extends Conductor {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.linear_algebra_menu);
+        prepareToRun(R.layout.linear_algebra_menu);
 
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();

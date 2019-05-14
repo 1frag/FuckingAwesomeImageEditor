@@ -59,14 +59,14 @@ class Conductor {
         mainActivity.getImageView().setOnTouchListener(null);
     }
 
-    void PrepareToRun(int resourse) {
+    void prepareToRun(int resource) {
         mainActivity.inMethod = true;
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
 
         placeHolder.setVisibility(View.VISIBLE);
 
         final LayoutInflater factory = mainActivity.getLayoutInflater();
-        final View menu = factory.inflate(resourse, null);
+        final View menu = factory.inflate(resource, null);
         placeHolder.addView(menu, 0);
 
         mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);

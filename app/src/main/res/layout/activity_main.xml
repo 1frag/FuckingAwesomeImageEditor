@@ -7,32 +7,39 @@
     android:background="@color/White"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/settings_main"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/White"
+        android:contentDescription="@string/settings"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!--<Button-->
-        <!--android:id="@+id/button_color"-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_marginStart="4dp"-->
-        <!--android:layout_marginTop="428dp"-->
-        <!--android:onClick="configSelectColorView"-->
-        <!--android:text="clr"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/button_camera" />-->
 
-    <View
+    <LinearLayout
         android:id="@+id/method_head"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<View-->
+        <!--android:id="@+id/view_method_head"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="1.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <ImageButton
         android:id="@+id/button_camera"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="0dp"
-        android:layout_marginStart="0dp"
         android:background="@color/White"
         android:onClick="takePhotoFromCamera"
         android:padding="8dp"
@@ -45,7 +52,6 @@
         android:id="@+id/button_gallery"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="0dp"
         android:background="@color/White"
         android:onClick="choosePhotoFromGallery"
         android:padding="8dp"
@@ -58,11 +64,11 @@
         android:id="@+id/button_redo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="0dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/White"
         android:padding="8dp"
         android:src="@drawable/ic_redo"
-        app:layout_constraintEnd_toStartOf="@+id/button_save_image"
+        app:layout_constraintEnd_toStartOf="@+id/settings_main"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
@@ -70,14 +76,12 @@
         android:id="@+id/button_save_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="20dp"
         android:background="@color/White"
         android:onClick="saveImage"
         android:padding="8dp"
         android:src="@drawable/ic_download"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_gallery"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
@@ -85,8 +89,6 @@
         android:id="@+id/button_undo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="0dp"
-        android:layout_marginTop="8dp"
         android:background="@color/White"
         android:padding="8dp"
         android:src="@drawable/ic_undo"
