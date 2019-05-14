@@ -9,7 +9,6 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatImageButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.PriorityQueue;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static java.lang.Math.abs;
 
@@ -84,7 +85,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     @Override
-    public void lockInterface(){
+    public void lockInterface() {
         super.lockInterface();
         mChangeStartButton.setEnabled(false);
         mChangeEndButton.setEnabled(false);
@@ -94,13 +95,112 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     @Override
-    public void unlockInterface(){
+    public void unlockInterface() {
         super.unlockInterface();
         mChangeStartButton.setEnabled(true);
         mChangeEndButton.setEnabled(true);
         mSetWallButton.setEnabled(true);
         mStartAlgoButton.setEnabled(true);
         mSettingsButton.setEnabled(true);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        int mx = (int) event.getX();
+        int my = (int) event.getY();
+
+        mx -= (mImageView.getWidth() - mBitmap.getWidth()) / 2.0;
+        my -= (mImageView.getHeight() - mBitmap.getHeight()) / 2.0;
+
+        if (mTypeDraw == 3) {
+            return drawWall(mx, my);
+        } else if (mTypeDraw == 2) {
+            return drawFinish(mx, my);
+        } else if (mTypeDraw == 1) {
+            return drawStart(mx, my);
+        } else
+            return false;
+    }
+
+    private boolean drawStart(int mx, int my) {
+        int rad = 30;
+        if (mStartIsSet) return false;
+        if (!canPutRect(rad, mx, my)) {
+            errorTouched();
+            return false;
+        }
+        for (int i = -rad; i <= rad; i++) {
+            for (int j = -rad; j <= rad; j++) {
+                if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
+                    continue;
+                }
+                if (0 > my + j || my + j >= mBitmap.getHeight()) {
+                    continue;
+                }
+                if (abs(i) + abs(j) <= rad) {
+                    Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
+                    mRemStart.add(now);
+                    mBitmap.setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
+                }
+            }
+        }
+        mPointStart = new Point(mx, my);
+        mStartIsSet = true;
+        mImageView.invalidate();
+        return true;
+    }
+
+    private boolean drawFinish(int mx, int my) {
+        int rad = 30;
+        if (mFinishIsSet) return false;
+        if (!canPutRect(rad, mx, my)) {
+            errorTouched();
+            return false;
+        }
+        for (int i = -rad; i <= rad; i++) {
+            for (int j = -rad; j <= rad; j++) {
+                if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
+                    continue;
+                }
+                if (0 > my + j || my + j >= mBitmap.getHeight()) {
+                    continue;
+                }
+                if (abs(i) + abs(j) <= rad) {
+                    Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
+                    mRemFinish.add(now);
+                    mBitmap.setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
+                }
+            }
+        }
+        mPointFinish = new Point(mx, my);
+        mFinishIsSet = true;
+        mImageView.invalidate();
+        return true;
+    }
+
+    private boolean drawWall(int mx, int my) {
+        int rad = 15;
+        if (!canPutRect(rad, mx, my)) {
+            errorTouched();
+            return false;
+        }
+        for (int i = -rad; i <= rad; i++) {
+            for (int j = -rad; j <= rad; j++) {
+                if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
+                    continue;
+                }
+                if (0 > my + j || my + j >= mBitmap.getHeight()) {
+                    continue;
+                }
+                if (abs(i) + abs(j) <= rad) {
+                    Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
+                    mRemFinish.add(now);
+                    mBitmap.setPixel(mx + i, my + j, msettings.color_wall);
+                }
+            }
+        }
+        mImageView.invalidate();
+        return true;
     }
 
     private void configWallButton(ImageButton button) {
@@ -134,7 +234,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mStartIsSet || !mFinishIsSet){
+                if (!mStartIsSet || !mFinishIsSet) {
                     Toast.makeText(mainActivity.getApplicationContext(),
                             "You need to set start and finish first!", Toast.LENGTH_SHORT).show();
                     return;
@@ -152,7 +252,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialog) {
-                        AlertDialog alertDialog = (AlertDialog) dialog;
+                        final AlertDialog alertDialog = (AlertDialog) dialog;
 
                         //set according msetting
                         RadioGroup rg_rool = alertDialog.findViewById(R.id.rg_rool);
@@ -169,11 +269,65 @@ public class A_Star extends Conductor implements OnTouchListener {
                         button_color_wall.setBackgroundColor(msettings.color_wall);
                         // end setting
 
+                        alertDialog.findViewById(R.id.button_color_wall)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        configSelectColorWall(alertDialog);
+                                    }
+                                });
+
+                        alertDialog.findViewById(R.id.button_color_path)
+                                .setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        configSelectColorPath(alertDialog);
+                                    }
+                                });
+
                     }
                 });
                 dialog.show();
             }
         });
+    }
+
+    private void configSelectColorWall(final AlertDialog alertDialog) {
+        AmbilWarnaDialog dialog = new AmbilWarnaDialog(mainActivity,
+                msettings.color_wall,
+                new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                    @Override
+                    public void onOk(AmbilWarnaDialog dialog, int color) {
+                        msettings.color_wall = color;
+                        alertDialog.findViewById(R.id.button_color_wall)
+                                .setBackgroundColor(color);
+                    }
+
+                    @Override
+                    public void onCancel(AmbilWarnaDialog dialog) {
+                        // cancel was selected by the user
+                    }
+                });
+        dialog.show();
+    }
+
+    private void configSelectColorPath(final AlertDialog alertDialog) {
+        AmbilWarnaDialog dialog = new AmbilWarnaDialog(mainActivity,
+                msettings.color_path,
+                new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                    @Override
+                    public void onOk(AmbilWarnaDialog dialog, int color) {
+                        msettings.color_path = color;
+                        alertDialog.findViewById(R.id.button_color_path)
+                                .setBackgroundColor(color);
+                    }
+
+                    @Override
+                    public void onCancel(AmbilWarnaDialog dialog) {
+                        // cancel was selected by the user
+                    }
+                });
+        dialog.show();
     }
 
     private Dialog openSettingsDialog() {
@@ -185,13 +339,13 @@ public class A_Star extends Conductor implements OnTouchListener {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         AlertDialog alertDialog = (AlertDialog) dialog;
-                        msettings.rool = ((RadioGroup)alertDialog
+                        msettings.rool = ((RadioGroup) alertDialog
                                 .findViewById(R.id.rg_rool)).getCheckedRadioButtonId();
-                        msettings.type_wall = ((RadioGroup)alertDialog
+                        msettings.type_wall = ((RadioGroup) alertDialog
                                 .findViewById(R.id.rg_walls)).getCheckedRadioButtonId();
-                        msettings.size_path = ((SeekBar)alertDialog
+                        msettings.size_path = ((SeekBar) alertDialog
                                 .findViewById(R.id.seekbar_size_path)).getProgress();
-                        msettings.size_wall = ((SeekBar)alertDialog
+                        msettings.size_wall = ((SeekBar) alertDialog
                                 .findViewById(R.id.seekbar_size_wall)).getProgress();
                         msettings.color_path = ((ColorDrawable) alertDialog
                                 .findViewById(R.id.button_color_path)
@@ -210,7 +364,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 });
         return builder.create();
     }
-    
+
     private void setFrom(View view) {
         mTypeDraw = 1;
         if (mStartIsSet) {
@@ -268,106 +422,6 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     private void errorTouched() {
         // TODO: handle this
-    }
-
-    // TODO: override методы по канону должны быть вверху записаны
-    // algorithm part goes here
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int mx = (int) event.getX();
-        int my = (int) event.getY();
-
-        mx -= (mImageView.getWidth() - mBitmap.getWidth()) / 2.0;
-        my -= (mImageView.getHeight() - mBitmap.getHeight()) / 2.0;
-
-        Log.i("upd", ((Integer) (mx)).toString() + " " + ((Integer) (my)).toString());
-        if (mTypeDraw == 3) {
-            int rad = 15;
-            if (!canPutRect(rad, mx, my)) {
-                errorTouched();
-                return false;
-            }
-            for (int i = -rad; i <= rad; i++) {
-                for (int j = -rad; j <= rad; j++) {
-                    if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
-                        continue;
-                    }
-                    if (0 > my + j || my + j >= mBitmap.getHeight()) {
-                        continue;
-                    }
-                    if (abs(i) + abs(j) <= rad) {
-                        Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
-                        mRemFinish.add(now);
-                        mBitmap.setPixel(mx + i, my + j, Color.WHITE);
-                    }
-                }
-            }
-            mImageView.invalidate();
-            return true;
-
-        } else if (mTypeDraw == 2) {
-            int rad = 30;
-            if (mFinishIsSet) return false;
-            if (!canPutRect(rad, mx, my)) {
-                errorTouched();
-                return false;
-            }
-            for (int i = -rad; i <= rad; i++) {
-                for (int j = -rad; j <= rad; j++) {
-                    if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
-                        continue;
-                    }
-                    if (0 > my + j || my + j >= mBitmap.getHeight()) {
-                        continue;
-                    }
-                    if (abs(i) + abs(j) <= rad) {
-                        Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
-                        mRemFinish.add(now);
-                        mBitmap.setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
-                    }
-                }
-            }
-            mPointFinish = new Point(mx, my);
-            mFinishIsSet = true;
-            mImageView.invalidate();
-            return true;
-
-        } else if (mTypeDraw == 1) {
-            int rad = 30;
-            if (mStartIsSet) return false;
-            if (!canPutRect(rad, mx, my)) {
-                errorTouched();
-                return false;
-            }
-            for (int i = -rad; i <= rad; i++) {
-                for (int j = -rad; j <= rad; j++) {
-                    if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
-                        continue;
-                    }
-                    if (0 > my + j || my + j >= mBitmap.getHeight()) {
-                        continue;
-                    }
-                    if (abs(i) + abs(j) <= rad) {
-                        Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
-                        mRemStart.add(now);
-                        mBitmap.setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
-                    }
-                }
-            }
-            mPointStart = new Point(mx, my);
-            mStartIsSet = true;
-            mImageView.invalidate();
-            return true;
-
-        } else {
-            // TODO: message: wtf u don't click button
-        }
-        return false;
-    }
-
-    private boolean check() {
-        // TODO: handle this
-        return true;
     }
 
     private boolean cor(Point a) {
@@ -438,9 +492,6 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     void touchRun() {
-        if (!check()) {
-            return;
-        }
 
         final int n = mBitmap.getWidth();
         final int m = mBitmap.getHeight();
@@ -463,7 +514,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         asyncTask.execute();
     }
 
-    // TODO: below
     class Settings {
         public int rool, type_wall, size_wall;
         public int color_wall, size_path, color_path;
@@ -472,9 +522,9 @@ public class A_Star extends Conductor implements OnTouchListener {
             rool = R.id.rb_four;
             type_wall = R.id.rb_romb;
             size_wall = 15;
-            color_wall = 0xFFFFFF;
+            color_wall = Color.WHITE;
             size_path = 5;
-            color_path = 0x00FFFF;
+            color_path = Color.YELLOW;
         }
     }
 }
