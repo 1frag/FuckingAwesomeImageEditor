@@ -5,12 +5,18 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 public class LinearAlgebra extends Conductor {
+
+    private Button mStartAlgoButton;
+    private ImageButton mSetStartPointsButton;
+    private ImageButton mSetFinishPointsButton;
 
     private Bitmap mBitmap;
     private ImageView mImageView;
@@ -18,9 +24,6 @@ public class LinearAlgebra extends Conductor {
 
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
-
-    private boolean mStartPointsSet = false;
-    private boolean mFinishPointsSet = false;
 
     class Solver {
         private Double a, b, c, d, e, f;
@@ -44,10 +47,11 @@ public class LinearAlgebra extends Conductor {
 
     LinearAlgebra(MainActivity activity) {
         super(activity);
-        this.mainActivity = activity;
-        this.mImageView = activity.getImageView();
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.linear_algebra_menu);
@@ -57,53 +61,65 @@ public class LinearAlgebra extends Conductor {
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
-        mainActivity.findViewById(R.id.button_finish_points)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        initMovingViewFirstGroup();
-                    }
-                });
+        mSetFinishPointsButton = mainActivity.findViewById(R.id.button_finish_points);
+        mSetStartPointsButton = mainActivity.findViewById(R.id.button_start_points);
+        mStartAlgoButton = mainActivity.findViewById(R.id.button_start_linear_algebra);
 
-        mainActivity.findViewById(R.id.button_start_points)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        initMovingViewSecondGroup();
-                    }
-                });
+        configStartAlgoButton(mStartAlgoButton);
+        configSetStartPointsButton(mSetStartPointsButton);
+        configSetFinishPointsButton(mSetFinishPointsButton);
 
-        final Button btn_start = mainActivity.findViewById(R.id.button_start_linear_algebra);
-        btn_start.setOnClickListener(new View.OnClickListener() {
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mStartAlgoButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mStartAlgoButton.setEnabled(true);
+    }
+
+    private void configSetStartPointsButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initMovingViewFirstGroup();
+            }
+        });
+    }
+
+    private void configSetFinishPointsButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initMovingViewSecondGroup();
+            }
+        });
+    }
+
+
+    private void configStartAlgoButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initParams();
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn_start.setEnabled(false);
-                            }
-                        });
                         mBitmap = algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn_start.setEnabled(true);
-                            }
-                        });
                         return mBitmap;
                     }
                 };
                 asyncTask.execute();
             }
         });
-
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mImageView.setImageBitmap(mBitmap);
     }
 
     private void initMovingViewFirstGroup() {
@@ -218,7 +234,7 @@ public class LinearAlgebra extends Conductor {
                             getFirstPoints(),
                             getSecondInBDF()));
 
-            } catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

@@ -15,8 +15,8 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     private Bitmap mBitmap;
 
-    private ImageButton addPointsButton;
-    private Button startAlgemButton;
+    private ImageButton mAddPointsButton;
+    private Button mStartAlgemButton;
     // TODO: button for lines
 
     private ArrayList<DPoint> mPointsArray = new ArrayList<>();
@@ -32,15 +32,16 @@ public class Algem extends Conductor implements View.OnTouchListener {
         mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.spline_menu);
 
-        startAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
-        addPointsButton = mainActivity.findViewById(R.id.button_add_points);
+        mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
+        mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
 
-        configDrawPointsButton(addPointsButton);
-        configStartAlgoButton(startAlgemButton);
+        configDrawPointsButton(mAddPointsButton);
+        configStartAlgoButton(mStartAlgemButton);
 
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -49,7 +50,20 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     }
 
-    // TODO: lock buttons
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mAddPointsButton.setEnabled(false);
+        mStartAlgemButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mAddPointsButton.setEnabled(true);
+        mStartAlgemButton.setEnabled(true);
+    }
+
     private void configDrawPointsButton(ImageButton btn1) {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,19 +80,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 AsyncTaskConductor splainTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(false);
-                            }
-                        });
                         algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(true);
-                            }
-                        });
                         return mBitmap;
                     }
                 };

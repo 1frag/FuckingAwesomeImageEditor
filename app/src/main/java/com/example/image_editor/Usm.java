@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class Usm extends Conductor {
 
@@ -17,7 +18,11 @@ public class Usm extends Conductor {
     private SeekBar mSeekBarRadius;
     private SeekBar mSeekBarThreshold;
 
-    private Button runUsmButton;
+    private TextView mTextAmount;
+    private TextView mTextRadius;
+    private TextView mTextThreshold;
+
+    private Button mRunUsmButton;
 
     private MainActivity mainActivity;
     private ImageView mImageView;
@@ -32,6 +37,7 @@ public class Usm extends Conductor {
         mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         // btn1 -> draw point
         // btn2 -> do interpolation
@@ -45,13 +51,38 @@ public class Usm extends Conductor {
         mSeekBarRadius = mainActivity.findViewById(R.id.seekbar_radius);
         mSeekBarRadius.setMax(50);
 
-        runUsmButton = mainActivity.findViewById(R.id.button_start_usm);
+        mTextAmount = mainActivity.findViewById(R.id.text_amount_usm);
+        mTextThreshold = mainActivity.findViewById(R.id.text_threshold_usm);
+        mTextRadius = mainActivity.findViewById(R.id.text_radius_usm);
 
-        configRunUsmButton(runUsmButton);
+        mRunUsmButton = mainActivity.findViewById(R.id.button_start_usm);
+
+        configRunUsmButton(mRunUsmButton);
+        configRadiusSeekBar(mSeekBarRadius);
+        configThresholdSeekBar(mSeekBarThreshold);
+        configAmountSeekBar(mSeekBarAmount);
 
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, true);
         mImageView.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mRunUsmButton.setEnabled(false);
+        mSeekBarAmount.setEnabled(false);
+        mSeekBarRadius.setEnabled(false);
+        mSeekBarThreshold.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mRunUsmButton.setEnabled(true);
+        mSeekBarAmount.setEnabled(true);
+        mSeekBarRadius.setEnabled(true);
+        mSeekBarThreshold.setEnabled(true);
     }
 
     private void configRunUsmButton(final Button button){
@@ -62,19 +93,7 @@ public class Usm extends Conductor {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(false);
-                            }
-                        });
                         algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(true);
-                            }
-                        });
                         return mBitmap;
                     }
                 };
@@ -86,6 +105,67 @@ public class Usm extends Conductor {
         });
 
     }
+
+    private void configRadiusSeekBar(SeekBar seekBar){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mRadius = progress;
+                mTextRadius.setText("Radius: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void configAmountSeekBar(SeekBar seekBar){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mAmount = progress + 1;
+                mTextAmount.setText("Amount: " + progress+1);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+    private void configThresholdSeekBar(SeekBar seekBar){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mThreshold = progress;
+                mTextThreshold.setText("Threshold: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
     private int getR(int color){
         return ((1 << 8) - 1) & color;
     }
@@ -122,9 +202,8 @@ public class Usm extends Conductor {
         return Color.rgb(R, G, B);
     }
 
+    // TODO: rewrite it to RGB
     private void algorithm() {
-        InitParams();
-
         Log.i("upd", ((Integer) mBitmap.getWidth()).toString() + " x " +
                 ((Integer) mBitmap.getHeight()).toString());
 
@@ -154,20 +233,6 @@ public class Usm extends Conductor {
                 mBitmap.setPixel(w, h, fixColor(origColor, blurColor));
             }
         }
-    }
-
-    private void InitParams() {
-
-        this.mAmount = mSeekBarAmount.getProgress();
-        this.mRadius = 1 + mSeekBarRadius.getProgress();
-        this.mThreshold = mSeekBarThreshold.getProgress();
-
-        // debug information
-        System.out.println();
-        System.out.println(mAmount);
-        System.out.println(mRadius);
-        System.out.println(mThreshold);
-
     }
 
     private double luminanceAsPercent(int pixel) {

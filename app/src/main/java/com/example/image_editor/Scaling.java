@@ -34,6 +34,7 @@ public class Scaling extends Conductor {
         this.mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.scaling_menu);
@@ -58,9 +59,25 @@ public class Scaling extends Conductor {
         mTextWidth.setText("Width: " + mBitmap.getWidth());
         mTextHeight.setText("Height: " + mBitmap.getHeight());
         mTextScaling.setText("Scale: 1");
+
     }
 
-    // TODO: lock buttons
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mSeekBarScaling.setEnabled(false);
+        mResetScalingButton.setEnabled(false);
+        mApplyScalingButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mSeekBarScaling.setEnabled(true);
+        mResetScalingButton.setEnabled(true);
+        mApplyScalingButton.setEnabled(true);
+    }
+
     private void configResetButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +85,7 @@ public class Scaling extends Conductor {
                 mImageView.setImageBitmap(mOriginal);
                 mTextWidth.setText("Width: " + mOriginal.getWidth());
                 mTextHeight.setText("Height: " + mOriginal.getHeight());
-                mTextScaling.setText("Scale: 1");
+                mTextScaling.setText("Scale: 1x");
                 mSeekBarScaling.setProgress(100);
             }
         });
@@ -102,7 +119,7 @@ public class Scaling extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mScalingValue = progress;
-                mTextScaling.setText("Scale: " + ((float) mScalingValue/100));
+                mTextScaling.setText("Scale: " + ((float) mScalingValue/100) + "x");
             }
 
             @Override

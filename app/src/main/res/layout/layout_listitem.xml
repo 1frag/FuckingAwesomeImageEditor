@@ -24,7 +24,8 @@
                 android:layout_height="49dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/ic_launcher_background"
+                android:contentDescription="@string/rv_image"/>
 
             <TextView
                 android:id="@+id/name"
@@ -38,7 +39,7 @@
                 android:autoSizeMinTextSize="8sp"
                 android:autoSizeTextType="uniform"
                 android:gravity="center"
-                android:text="Laguna"
+                android:text="@string/listitem_text"
                 android:textColor="@color/Black" />
 
         </RelativeLayout>

@@ -58,6 +58,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         mRemFinish = new ArrayList<>();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.a_star_menu);
@@ -80,6 +81,26 @@ public class A_Star extends Conductor implements OnTouchListener {
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
         mImageView.setOnTouchListener(this);
+    }
+
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mChangeStartButton.setEnabled(false);
+        mChangeEndButton.setEnabled(false);
+        mSetWallButton.setEnabled(false);
+        mStartAlgoButton.setEnabled(false);
+        mSettingsButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mChangeStartButton.setEnabled(true);
+        mChangeEndButton.setEnabled(true);
+        mSetWallButton.setEnabled(true);
+        mStartAlgoButton.setEnabled(true);
+        mSettingsButton.setEnabled(true);
     }
 
     private void configWallButton(ImageButton button) {
@@ -249,6 +270,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         // TODO: handle this
     }
 
+    // TODO: override методы по канону должны быть вверху записаны
     // algorithm part goes here
     @Override
     public boolean onTouch(View v, MotionEvent event) {
