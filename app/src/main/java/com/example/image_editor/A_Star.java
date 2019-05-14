@@ -205,7 +205,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: cancel button
+                        // nothing to say, just exit
                     }
                 });
         return builder.create();
