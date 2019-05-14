@@ -12,25 +12,33 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 class Conductor {
-
-    private MainActivity mainActivity;
-    private Bitmap mBeforeChanges;
+    public Bitmap bitmap; // mutable bitmap
+    public Bitmap beforeChanges;
 
     private ImageButton mApplyChangesButton;
     private ImageButton mCancelChangesButton;
 
+    private TextView mMethodName;
+
+    public ImageView imageView;
+
+    public MainActivity mainActivity;
+
     Conductor(MainActivity activity) {
         mainActivity = activity;
+        imageView = mainActivity.getImageView();
+        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
     }
 
     void touchToolbar() {
         Log.i("upd", "touchToolbar");
-        mBeforeChanges = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
+        beforeChanges = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
     }
 
-    // TODO: maybe refactor this too?
     public void setDefaultState(View view) {
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = mainActivity.findViewById(R.id.recyclerView);
@@ -45,7 +53,7 @@ class Conductor {
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
 
         // to discard some possible drawings on bitmap
-        if (!mainActivity.imageChanged) mainActivity.getImageView().setImageBitmap(mBeforeChanges);
+        if (!mainActivity.imageChanged) mainActivity.getImageView().setImageBitmap(beforeChanges);
 
         mainActivity.inMethod = false;
         mainActivity.imageChanged = false;
@@ -74,12 +82,19 @@ class Conductor {
         mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);
         mApplyChangesButton = mainActivity.findViewById(R.id.button_apply_changes);
 
+        mMethodName = mainActivity.findViewById(R.id.text_method_name);
+
         configApplyButton(mApplyChangesButton);
         configCancelButton(mCancelChangesButton);
 
         placeHolder.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
+    }
+
+    // TODO: check for language
+    public void setHeader(String header){
+        mMethodName.setText(header);
     }
 
     private void configCancelButton(ImageButton button){
@@ -111,7 +126,7 @@ class Conductor {
         cancelDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mainActivity.getImageView().setImageBitmap(mBeforeChanges);
+                mainActivity.getImageView().setImageBitmap(beforeChanges);
                 mainActivity.getImageView().invalidate();
                 setDefaultState(v);
             }

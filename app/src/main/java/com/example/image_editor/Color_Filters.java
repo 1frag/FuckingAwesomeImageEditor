@@ -1,39 +1,24 @@
 package com.example.image_editor;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-
 public class Color_Filters extends Conductor {
-
-    private Bitmap mBitmap;
-
-    private ImageView mImageView;
-    private MainActivity mainActivity;
 
     private ArrayList<String> mNamesFilters = new ArrayList<>();
     private ArrayList<String> mNamesProg = new ArrayList<>();
 
     Color_Filters(MainActivity activity) {
         super(activity);
-        // work only with activity_main.xml
-        mainActivity = activity;
-        mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.filters_menu);
+        setHeader("Color correction");
         pickFilters();
-
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-
-        mImageView.setImageBitmap(mBitmap);
     }
 
     private void pickFilters() {

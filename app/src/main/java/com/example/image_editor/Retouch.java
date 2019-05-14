@@ -6,11 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.view.View.OnTouchListener;
@@ -19,6 +17,7 @@ import static java.lang.Math.abs;
 
 public class Retouch extends Conductor implements OnTouchListener {
 
+    /* I'm scared to touch this bitmaps */
     private Bitmap mBufferedBitmap;
     private Bitmap mBitmap;
     private Bitmap mMask;
@@ -34,23 +33,18 @@ public class Retouch extends Conductor implements OnTouchListener {
     private SeekBar mSeekBarBrushSize;
     private SeekBar mSeekBarBlurRadius;
 
-    private ImageView mImageView;
-    private MainActivity mainActivity;
-
     private int mBrushSize = 1;
     private int mBlurRadius = 1;
 
     Retouch(MainActivity activity) {
         super(activity);
-        // work only with activity_main.xml
-        mainActivity = activity;
-        mImageView = activity.getImageView();
     }
 
     @Override
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.retouch_menu);
+        setHeader("Retouch");
 
         mApplyRetouchButton = mainActivity.findViewById(R.id.button_apply_retouch);
 
@@ -67,14 +61,12 @@ public class Retouch extends Conductor implements OnTouchListener {
         configRadiusSeekBar(mSeekBarBlurRadius);
         configBrushSeekBar(mSeekBarBrushSize);
 
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mMask = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
-        mImageView.setImageBitmap(mBitmap);
-        mImageView.setOnTouchListener(this);
+        imageView.setOnTouchListener(this);
     }
 
     @Override
@@ -204,7 +196,7 @@ public class Retouch extends Conductor implements OnTouchListener {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mImageView.invalidate();
+                imageView.invalidate();
             }
         });
         return true;

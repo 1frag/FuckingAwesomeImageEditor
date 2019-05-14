@@ -17,10 +17,6 @@ public class LinearAlgebra extends Conductor {
     private ImageButton mSetStartPointsButton;
     private ImageButton mSetFinishPointsButton;
 
-    private Bitmap mBitmap;
-    private ImageView mImageView;
-    private MainActivity mainActivity;
-
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
 
@@ -46,14 +42,13 @@ public class LinearAlgebra extends Conductor {
 
     LinearAlgebra(MainActivity activity) {
         super(activity);
-        mainActivity = activity;
-        mImageView = activity.getImageView();
     }
 
     @Override
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.linear_algebra_menu);
+        setHeader("Linear algebra");
 
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();
@@ -71,10 +66,6 @@ public class LinearAlgebra extends Conductor {
         configStartAlgoButton(mStartAlgoButton);
         configSetStartPointsButton(mSetStartPointsButton);
         configSetFinishPointsButton(mSetFinishPointsButton);
-
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mImageView.setImageBitmap(mBitmap);
     }
 
     @Override
@@ -116,8 +107,8 @@ public class LinearAlgebra extends Conductor {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mBitmap = algorithm();
-                        return mBitmap;
+                        bitmap = algorithm();
+                        return bitmap;
                     }
                 };
                 asyncTask.execute();
@@ -238,22 +229,22 @@ public class LinearAlgebra extends Conductor {
                             "Bad point setting", Toast.LENGTH_SHORT).show();
                 }
             });
-            return mBitmap;
+            return bitmap;
         }
 
-        final Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888,
+        final Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888,
                 true);
         btmp.eraseColor(Color.WHITE);
         int cnt = 0;
 
-        for (int i = 0; i < mBitmap.getWidth(); i++) {
-            for (int j = 0; j < mBitmap.getHeight(); j++) {
+        for (int i = 0; i < bitmap.getWidth(); i++) {
+            for (int j = 0; j < bitmap.getHeight(); j++) {
                 DPoint image = solver.calc(new DPoint(i, j));
                 int w = (int) image.x;
                 int h = (int) image.y;
                 if (0 > w || w >= btmp.getWidth()) continue;
                 if (0 > h || h >= btmp.getHeight()) continue;
-                btmp.setPixel(i, j, mBitmap.getPixel(w, h));
+                btmp.setPixel(i, j, bitmap.getPixel(w, h));
                 if (w != i && h != j)
                     cnt++;
             }

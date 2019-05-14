@@ -1,20 +1,13 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
 public class Rotation extends Conductor {
-
-    private Bitmap mBitmap;
-    private Bitmap mOriginal;
 
     private Button mApplyRotateButton;
     private ImageButton mResetRotateButton;
@@ -22,10 +15,8 @@ public class Rotation extends Conductor {
     private ImageButton mMirrorVButton;
     private ImageButton mMirrorHButton;
     private ImageButton mCropButton;
-    private SeekBar mSeekBarAngle;
 
-    private ImageView mImageView;
-    private MainActivity mainActivity;
+    private SeekBar mSeekBarAngle;
 
     private TextView mTextViewAngle;
 
@@ -34,15 +25,13 @@ public class Rotation extends Conductor {
 
     Rotation(MainActivity activity) {
         super(activity);
-        // work only with activity_main.xml
-        mainActivity = activity;
-        mImageView = activity.getImageView();
     }
 
     @Override
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.rotate_menu);
+        setHeader("Rotation");
 
         mRotate90Button = mainActivity.findViewById(R.id.button_rotate90);
         mResetRotateButton = mainActivity.findViewById(R.id.button_reset_seekbar);
@@ -66,11 +55,6 @@ public class Rotation extends Conductor {
         configCropButton(mCropButton);
 
         mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress()-45));
-
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, false);
-
-        mImageView.setImageBitmap(mBitmap);
     }
 
     @Override
@@ -114,7 +98,7 @@ public class Rotation extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mImageView.setImageBitmap(mOriginal);
+                imageView.setImageBitmap(beforeChanges);
                 mCurrentAngle = 0;
                 mSeekBarAngle.setProgress(45);
                 mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress()-45));
@@ -129,8 +113,8 @@ public class Rotation extends Conductor {
                 AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        mBitmap = rotateOnAngle(mProgress - 45);
-                        return mBitmap;
+                        bitmap = rotateOnAngle(mProgress - 45);
+                        return bitmap;
                     }
                 };
                 asyncRotate.execute();
@@ -146,14 +130,14 @@ public class Rotation extends Conductor {
                 AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        mBitmap = rotateOnAngle(mCurrentAngle + 90);
+                        bitmap = rotateOnAngle(mCurrentAngle + 90);
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 mTextViewAngle.setText("Angle: " + mCurrentAngle);
                             }
                         });
-                        return mBitmap;
+                        return bitmap;
                     }
                 };
                 asyncRotate.execute();
@@ -176,32 +160,32 @@ public class Rotation extends Conductor {
     }
 
     private Bitmap rotateOnAngle(int angle) {
-        Bitmap btmp = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         if (angle < 0) angle += 360;
         if (((angle / 90) & 1) == 1){
-            btmp = Bitmap.createBitmap(mBitmap.getHeight(),
-                    mBitmap.getWidth(),
+            btmp = Bitmap.createBitmap(bitmap.getHeight(),
+                    bitmap.getWidth(),
                     Bitmap.Config.ARGB_8888);
             btmp = btmp.copy(Bitmap.Config.ARGB_8888, true);
         }
 
-        for(int w = 0; w< mBitmap.getWidth(); w++){
-            for(int h = 0; h< mBitmap.getHeight(); h++){
+        for(int w = 0; w< bitmap.getWidth(); w++){
+            for(int h = 0; h< bitmap.getHeight(); h++){
                 int a = w, b = h;
                 if(((angle / 90) & 1) == 1){
-                    a = mBitmap.getHeight() - h;
+                    a = bitmap.getHeight() - h;
                     b = w;
                 }
                 if(((angle / 90) & 2) == 2){
-                    a = mBitmap.getHeight() - h;
-                    b = mBitmap.getWidth() - w;
+                    a = bitmap.getHeight() - h;
+                    b = bitmap.getWidth() - w;
                 }
                 if(a<0 || a>=btmp.getWidth())continue;
                 if(b<0 || b>=btmp.getHeight())continue;
-                btmp.setPixel(a, b, mBitmap.getPixel(w, h));
+                btmp.setPixel(a, b, bitmap.getPixel(w, h));
             }
         }
-        mBitmap = btmp;
+        bitmap = btmp;
         int x = btmp.getWidth();
         int y = btmp.getHeight();
         double a = (double) (90 - angle % 90) * Math.PI / 180.0;
@@ -219,9 +203,9 @@ public class Rotation extends Conductor {
                 int w = (int) (nx * sina - ny * cosa + x * cosa * cosa);
                 int h = (int) (nx * cosa + ny * sina - x * sina * cosa);
 
-                if(w<0 || w>= mBitmap.getWidth())continue;
-                if(h<0 || h>= mBitmap.getHeight())continue;
-                btmp.setPixel(nx, ny, mBitmap.getPixel(w, h));
+                if(w<0 || w>= bitmap.getWidth())continue;
+                if(h<0 || h>= bitmap.getHeight())continue;
+                btmp.setPixel(nx, ny, bitmap.getPixel(w, h));
             }
         }
 //        Log.i("UPD", "end");

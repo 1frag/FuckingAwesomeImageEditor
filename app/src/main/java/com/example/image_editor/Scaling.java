@@ -1,18 +1,13 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Scaling extends Conductor {
-
-    private Bitmap mBitmap;
-    private Bitmap mOriginal;
 
     private Button mResetScalingButton;
     private Button mApplyScalingButton;
@@ -23,21 +18,17 @@ public class Scaling extends Conductor {
 
     private SeekBar mSeekBarScaling;
 
-    private ImageView mImageView;
-    private MainActivity mainActivity;
-
     private int mScalingValue = 100;
     
     Scaling(MainActivity activity) {
         super(activity);
-        this.mainActivity = activity;
-        this.mImageView = activity.getImageView();
     }
 
     @Override
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.scaling_menu);
+        setHeader("Scaling");
 
         mResetScalingButton = mainActivity.findViewById(R.id.button_reset_scaling);
         mApplyScalingButton = mainActivity.findViewById(R.id.button_apply_scaling);
@@ -53,13 +44,9 @@ public class Scaling extends Conductor {
         configApplyButton(mApplyScalingButton);
         configScalingSeekBar(mSeekBarScaling);
 
-        mOriginal = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mOriginal.copy(Bitmap.Config.ARGB_8888, true);
-
-        mTextWidth.setText("Width: " + mBitmap.getWidth());
-        mTextHeight.setText("Height: " + mBitmap.getHeight());
+        mTextWidth.setText("Width: " + bitmap.getWidth());
+        mTextHeight.setText("Height: " + bitmap.getHeight());
         mTextScaling.setText("Scale: 1");
-
     }
 
     @Override
@@ -82,9 +69,9 @@ public class Scaling extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mImageView.setImageBitmap(mOriginal);
-                mTextWidth.setText("Width: " + mOriginal.getWidth());
-                mTextHeight.setText("Height: " + mOriginal.getHeight());
+                imageView.setImageBitmap(beforeChanges);
+                mTextWidth.setText("Width: " + beforeChanges.getWidth());
+                mTextHeight.setText("Height: " + beforeChanges.getHeight());
                 mTextScaling.setText("Scale: 1x");
                 mSeekBarScaling.setProgress(100);
             }
@@ -98,15 +85,15 @@ public class Scaling extends Conductor {
                 AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        mBitmap = algorithm(mOriginal, (float) mScalingValue/100);
+                        bitmap = algorithm(beforeChanges, (float) mScalingValue/100);
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mTextWidth.setText("Width: " + mBitmap.getWidth());
-                                mTextHeight.setText("Height: " + mBitmap.getHeight());
+                                mTextWidth.setText("Width: " + bitmap.getWidth());
+                                mTextHeight.setText("Height: " + bitmap.getHeight());
                             }
                         });
-                        return mBitmap;
+                        return bitmap;
                     }
                 };
                 scalingAsync.execute();
@@ -137,7 +124,8 @@ public class Scaling extends Conductor {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(mainActivity.getApplicationContext(), "Dude, it's too small", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(),
+                            "Dude, it's too small", Toast.LENGTH_SHORT).show();
                 }
             });
             return now;

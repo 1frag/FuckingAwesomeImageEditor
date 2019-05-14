@@ -2,17 +2,15 @@ package com.example.image_editor;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class Usm extends Conductor {
 
-    private Bitmap mBitmap;
+    private Button mRunUsmButton;
 
     private SeekBar mSeekBarAmount;
     private SeekBar mSeekBarRadius;
@@ -22,19 +20,12 @@ public class Usm extends Conductor {
     private TextView mTextRadius;
     private TextView mTextThreshold;
 
-    private Button mRunUsmButton;
-
-    private MainActivity mainActivity;
-    private ImageView mImageView;
-
     private double mAmount = 1;
     private double mRadius = 1;
     private int mThreshold = 0;
 
     Usm(MainActivity activity) {
         super(activity);
-        mainActivity = activity;
-        mImageView = activity.getImageView();
     }
 
     @Override
@@ -43,6 +34,7 @@ public class Usm extends Conductor {
         // btn2 -> do interpolation
         super.touchToolbar();
         prepareToRun(R.layout.sharpness_menu);
+        setHeader("Unsharp masking");
 
         mSeekBarAmount = mainActivity.findViewById(R.id.seekbar_amount);
         mSeekBarAmount.setMax(100);
@@ -61,10 +53,6 @@ public class Usm extends Conductor {
         configRadiusSeekBar(mSeekBarRadius);
         configThresholdSeekBar(mSeekBarThreshold);
         configAmountSeekBar(mSeekBarAmount);
-
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, true);
-        mImageView.setImageBitmap(mBitmap);
     }
 
     @Override
@@ -94,7 +82,7 @@ public class Usm extends Conductor {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
-                        return mBitmap;
+                        return bitmap;
                     }
                 };
                 asyncTask.execute();
@@ -204,11 +192,11 @@ public class Usm extends Conductor {
 
     // TODO: rewrite it to RGB
     private void algorithm() {
-        Log.i("upd", ((Integer) mBitmap.getWidth()).toString() + " x " +
-                ((Integer) mBitmap.getHeight()).toString());
+        Log.i("upd", ((Integer) bitmap.getWidth()).toString() + " x " +
+                ((Integer) bitmap.getHeight()).toString());
 
 //        Bitmap blurred = (new GaussianBlur(mBitmap, mRadius)).algorithm();
-        Bitmap blurred = ColorFIltersCollection.fastBlur(mBitmap, (int) mRadius, 1);
+        Bitmap blurred = ColorFIltersCollection.fastBlur(bitmap, (int) mRadius, 1);
 
 //        for (int w = 0; w < blurred.getWidth(); w++) {
 //            for (int h = 0; h < blurred.getHeight(); h++) {
@@ -224,13 +212,13 @@ public class Usm extends Conductor {
 //        Bitmap unsharpMask = difference(mBitmap, blurred);
 //        Bitmap highContrast = increaseContrast(mBitmap, mAmount);
 
-        for (int w = 0; w < mBitmap.getWidth(); w++) {
-            for (int h = 0; h < mBitmap.getHeight(); h++) {
-                int origColor = mBitmap.getPixel(w, h);
+        for (int w = 0; w < bitmap.getWidth(); w++) {
+            for (int h = 0; h < bitmap.getHeight(); h++) {
+                int origColor = bitmap.getPixel(w, h);
                 int blurColor = blurred.getPixel(w, h);
 //                int contrastColor = highContrast.getPixel(w, h);
 
-                mBitmap.setPixel(w, h, fixColor(origColor, blurColor));
+                bitmap.setPixel(w, h, fixColor(origColor, blurColor));
             }
         }
     }

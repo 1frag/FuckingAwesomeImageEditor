@@ -2,19 +2,15 @@ package com.example.image_editor;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Algem extends Conductor implements View.OnTouchListener {
-
-    private Bitmap mBitmap;
 
     private ImageButton mAddPointsButton;
     private Button mStartAlgemButton;
@@ -22,21 +18,17 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     private ArrayList<DPoint> mPointsArray = new ArrayList<>();
 
-    private MainActivity mainActivity;
-    private ImageView mImageView;
-
     private int N, mTypeEvent;
 
     Algem(MainActivity activity) {
         super(activity);
-        mainActivity = activity;
-        mImageView = activity.getImageView();
     }
 
     @Override
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.spline_menu);
+        setHeader("Splines and lines");
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
@@ -44,11 +36,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
 
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mImageView.setImageBitmap(mBitmap);
-        mImageView.setOnTouchListener(this);
-
+        imageView.setOnTouchListener(this);
     }
 
     @Override
@@ -82,7 +70,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
-                        return mBitmap;
+                        return bitmap;
                     }
                 };
                 splainTask.execute();
@@ -104,7 +92,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
             DrawCircle(mx, my, 15, Color.BLACK);
             mPointsArray.add(new DPoint(mx, my));
-            mImageView.invalidate();
+            imageView.invalidate();
             return true;
         }
         return false;
@@ -114,9 +102,9 @@ public class Algem extends Conductor implements View.OnTouchListener {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
                 if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r){
-                    if(0>x || x>= mBitmap.getWidth())continue;
-                    if(0>y || y>= mBitmap.getHeight())continue;
-                    mBitmap.setPixel(x, y, color);
+                    if(0>x || x>= bitmap.getWidth())continue;
+                    if(0>y || y>= bitmap.getHeight())continue;
+                    bitmap.setPixel(x, y, color);
                 }
             }
         }
@@ -222,8 +210,8 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 DPoint r4 = pntMul(t * t * t, mPointsArray.get(i + 1));
                 int nx = (int) (r1.x + 3 * r2.x + 3 * r3.x + r4.x);
                 int ny = (int) (r1.y + 3 * r2.y + 3 * r3.y + r4.y);
-                if (nx < 0 || nx >= mBitmap.getWidth()) continue;
-                if (ny < 0 || ny >= mBitmap.getHeight()) continue;
+                if (nx < 0 || nx >= bitmap.getWidth()) continue;
+                if (ny < 0 || ny >= bitmap.getHeight()) continue;
 //                mBitmap.setPixel(nx, ny, Color.BLACK);
                 DrawCircle(nx, ny, 5, Color.BLACK);
             }
@@ -231,7 +219,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mImageView.invalidate();
+                imageView.invalidate();
             }
         });
     }
