@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -193,7 +194,18 @@ public class Algem extends Conductor implements View.OnTouchListener {
         // 1 * P(1, i-1) + 4 * P(1, i ) + 1 * P(1, i+1) = 4*mPointsArray(i)+2*mPointsArray(i+1), for i in [1, N-2]
         //                 2 * P(1,N-2) + 7 * P(1, N-1) = 8*mPointsArray(N-1)+mPointsArray(N)
         N = mPointsArray.size() - 1;
-        ArrayList<DPoint> P1 = Thomas_algorithm();
+        ArrayList<DPoint> P1;
+        try{
+            P1 = Thomas_algorithm();
+        } catch (IndexOutOfBoundsException e){
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mainActivity.getApplicationContext(), "No points, dude", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return;
+        }
         ArrayList<DPoint> P2 = Other_matem(P1);
         DrawSpline(P1, P2);
     }
