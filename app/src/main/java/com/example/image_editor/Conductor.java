@@ -51,18 +51,7 @@ class Conductor {
         mainActivity.imageChanged = false;
 
         /* for Algem 2.0 delete moving points */
-        if(mainActivity.findViewById(R.id.circle1) != null)
-            mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
-        if(mainActivity.findViewById(R.id.circle2) != null)
-            mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
-        if(mainActivity.findViewById(R.id.circle3) != null)
-            mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
-        if(mainActivity.findViewById(R.id.circle4) != null)
-            mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
-        if(mainActivity.findViewById(R.id.circle5) != null)
-            mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
-        if(mainActivity.findViewById(R.id.circle6) != null)
-            mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
+        removeFloatingPoints();
 
         mainActivity.initClasses();
 
@@ -162,14 +151,14 @@ class Conductor {
         applyDialog.show();
     }
 
-    private void lockInterface(){
+    public void lockInterface(){
         mApplyChangesButton.setEnabled(false);
         mCancelChangesButton.setEnabled(false);
         mainActivity.algoInWork = true;
         mainActivity.switchProgressBarVisibilityVisible();
     }
 
-    private void unlockInterface(){
+    public void unlockInterface(){
         mApplyChangesButton.setEnabled(true);
         mCancelChangesButton.setEnabled(true);
         mainActivity.algoInWork = false;
@@ -206,6 +195,21 @@ class Conductor {
 
             unlockInterface();
         }
+    }
+
+    private void removeFloatingPoints(){
+        if(mainActivity.findViewById(R.id.circle1) != null)
+            mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle2) != null)
+            mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle3) != null)
+            mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle4) != null)
+            mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle5) != null)
+            mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
+        if(mainActivity.findViewById(R.id.circle6) != null)
+            mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
     }
 
 }
