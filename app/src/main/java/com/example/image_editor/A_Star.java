@@ -447,7 +447,15 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private boolean cor(Point a) {
-        return mBitmap.getPixel(a.x, a.y) != msettings.color_wall;
+        int rad = msettings.size_path;
+        for (int i = -rad; i <= rad; i++) {
+            for (int j = -rad; j <= rad; j++) {
+                if (mBitmap.getPixel(a.x, a.y) == msettings.color_wall) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private ArrayList<Point> reconstructPath() {
@@ -524,9 +532,14 @@ public class A_Star extends Conductor implements OnTouchListener {
                 ArrayList<Point> answer = algorithm(n, m);
 
                 for (int i = 0; i < answer.size(); i++) {
-                    mBitmap.setPixel(answer.get(i).x,
-                            answer.get(i).y,
-                            Color.YELLOW);
+                    int rad = msettings.size_path;
+                    for (int ii = -rad; ii <= rad; ii++) {
+                        for (int jj = -rad; jj <= rad; jj++) {
+                            mBitmap.setPixel(answer.get(i).x+ii,
+                                    answer.get(i).y+jj,
+                                    msettings.color_path);
+                        }
+                    }
                 }
 
                 return mBitmap;
