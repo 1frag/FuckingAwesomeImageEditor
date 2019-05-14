@@ -35,6 +35,11 @@ class Conductor {
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
         RecyclerView recyclerView = mainActivity.findViewById(R.id.recyclerView);
 
+        final LayoutInflater factory = mainActivity.getLayoutInflater();
+        final View menu = factory.inflate(R.layout.main_head, null);
+        mainActivity.getmHeader().addView(menu, 0);
+
+        // todo: delete redundancy manage of visible
         placeHolder.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
@@ -65,9 +70,13 @@ class Conductor {
 
         placeHolder.setVisibility(View.VISIBLE);
 
-        final LayoutInflater factory = mainActivity.getLayoutInflater();
-        final View menu = factory.inflate(resource, null);
+        final LayoutInflater factory_menu = mainActivity.getLayoutInflater();
+        final View menu = factory_menu.inflate(resource, null);
         placeHolder.addView(menu, 0);
+
+        final LayoutInflater factory_head = mainActivity.getLayoutInflater();
+        final View head = factory_head.inflate(R.layout.method_head, null);
+        mainActivity.getmHeader().addView(head, 0);
 
         mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);
         mApplyChangesButton = mainActivity.findViewById(R.id.button_apply_changes);

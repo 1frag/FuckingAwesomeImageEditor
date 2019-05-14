@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
+    android:id="@+id/main_header"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,7 +18,7 @@
         android:src="@drawable/ic_cam"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/cam"/>
+        tools:ignore="ContentDescription" />
 
     <ImageButton
         android:id="@+id/button_gallery"
@@ -69,12 +70,23 @@
 
     <ImageButton
         android:id="@+id/settings_main"
+        android:onClick="mainSettingOnClick"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@color/White"
         android:contentDescription="@string/settings"
         android:src="@drawable/ic_settings"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_undo"
+        app:layout_constraintStart_toEndOf="@+id/button_save_image"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

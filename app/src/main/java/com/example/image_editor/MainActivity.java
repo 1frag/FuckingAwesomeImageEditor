@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private LinearLayout mPlaceHolder;
+    private LinearLayout mHeader;
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
@@ -90,11 +91,21 @@ public class MainActivity extends AppCompatActivity {
         return mPlaceHolder;
     }
 
+    public LinearLayout getmHeader() {
+        return mHeader;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        mHeader = findViewById(R.id.linear_layout_header);
+
+        final LayoutInflater factory = getLayoutInflater();
+        final View menu = factory.inflate(R.layout.main_head, null);
+        mHeader.addView(menu, 0);
 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
