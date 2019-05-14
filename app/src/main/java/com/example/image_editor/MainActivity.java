@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public History history;
 
     /* test part goes here */
+    Conductor Conductor;
     Conductor A_Star;
     Conductor Algem;
     Conductor Rotation;
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initClassesMain(){
+        Conductor = new Conductor(this);
         A_Star = new A_Star(this);
         Algem = new Algem(this);
         Rotation = new Rotation(this);
@@ -175,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
-                // TODO: this cause memory leak!
-                (new Conductor(MainActivity.this)).setDefaultState(null);// выход из метода, если изменений не было
+                Conductor = new Conductor(this); // выход из метода, если изменений не было
+                Conductor.setDefaultState(null);
                 mImageView.setImageBitmap(history.showHead());
             }
         }
