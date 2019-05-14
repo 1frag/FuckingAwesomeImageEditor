@@ -58,7 +58,12 @@ public class History {
     }
 
     public Bitmap showHead(){
-        Bitmap bitmap = mHistory.peek();
+        Bitmap bitmap;
+        try {
+            bitmap = mHistory.peek();
+        } catch (EmptyStackException e){
+            return mOriginalBitmap;
+        }
         return bitmap;
     }
 

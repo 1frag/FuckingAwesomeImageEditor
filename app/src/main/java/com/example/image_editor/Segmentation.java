@@ -19,34 +19,34 @@ import com.google.android.gms.vision.face.FaceDetector;
 // TODO: refactoring
 class Segmentation extends Conductor{
 
-    private ImageView imageView;
-    private MainActivity activity;
-    private Bitmap bitmap;
-    private FaceDetector detector;
+    private ImageView mImageView;
+    private MainActivity mainActivity;
+    private Bitmap mBitmap;
+    private FaceDetector mDetector;
     private String TAG = "Detect Faces";
 
     Segmentation(MainActivity activity) {
         super(activity);
         // work only with activity_main.xml
-        this.activity = activity;
-        this.imageView = activity.getImageView();
-        this.bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        imageView.setImageBitmap(bitmap);
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.segmentatioon_menu);
 
-        ConfigBtnFacesDetect((Button)activity.findViewById(R.id.faces));
+        ConfigBtnFacesDetect((Button) mainActivity.findViewById(R.id.faces));
 
-        detector = new FaceDetector.Builder(activity)
+        mDetector = new FaceDetector.Builder(mainActivity)
                 .setTrackingEnabled(false)
                 .setLandmarkType(FaceDetector.ALL_LANDMARKS)
                 .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
                 .build();
 
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
     }
 
     private void ConfigBtnFacesDetect(Button btn) {
@@ -64,10 +64,10 @@ class Segmentation extends Conductor{
     }
 
     private void scanFaces() {
-        if (detector.isOperational() && bitmap != null) {
-            Bitmap editedBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                    .getHeight(), bitmap.getConfig());
-            float scale = activity.getResources().getDisplayMetrics().density;
+        if (mDetector.isOperational() && mBitmap != null) {
+            Bitmap editedBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap
+                    .getHeight(), mBitmap.getConfig());
+            float scale = mainActivity.getResources().getDisplayMetrics().density;
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(Color.rgb(255, 61, 61));
             paint.setTextSize((int) (14 * scale));
@@ -75,9 +75,9 @@ class Segmentation extends Conductor{
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(3f);
             Canvas canvas = new Canvas(editedBitmap);
-            canvas.drawBitmap(bitmap, 0, 0, paint);
+            canvas.drawBitmap(mBitmap, 0, 0, paint);
             Frame frame = new Frame.Builder().setBitmap(editedBitmap).build();
-            SparseArray<Face> faces = detector.detect(frame);
+            SparseArray<Face> faces = mDetector.detect(frame);
             for (int index = 0; index < faces.size(); ++index) {
                 Face face = faces.valueAt(index);
                 canvas.drawRect(
@@ -87,12 +87,12 @@ class Segmentation extends Conductor{
                         face.getPosition().y + face.getHeight(), paint);
             }
 
-            imageView.setImageBitmap(editedBitmap);
-            Toast.makeText(activity.getApplicationContext(),
+            mImageView.setImageBitmap(editedBitmap);
+            Toast.makeText(mainActivity.getApplicationContext(),
                     String.format("%s faces found", faces.size()),
                     Toast.LENGTH_SHORT).show();
         } else {
-            Log.i(TAG, "Could not set up the detector!");
+            Log.i(TAG, "Could not set up the mDetector!");
         }
     }
 

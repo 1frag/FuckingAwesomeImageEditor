@@ -17,139 +17,118 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/start_point"
+        android:id="@+id/color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/start_points"
-        android:textSize="20sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/color"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/point" />
 
     <TextView
-        android:id="@+id/fs_point"
+        android:id="@+id/first_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="8dp"
         android:text="@string/first_point"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_point" />
+        app:layout_constraintTop_toBottomOf="@+id/color" />
 
     <Button
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fs_point"
-        app:layout_constraintStart_toEndOf="@+id/fs_point"
-        app:layout_constraintTop_toTopOf="@+id/fs_point" />
+        app:layout_constraintBottom_toBottomOf="@+id/first_point"
+        app:layout_constraintStart_toEndOf="@+id/first_point"
+        app:layout_constraintTop_toTopOf="@+id/first_point" />
 
     <TextView
-        android:id="@+id/ss_point"
+        android:id="@+id/second_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="4dp"
         android:text="@string/second_point"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fs_point" />
+        app:layout_constraintTop_toBottomOf="@+id/first_point" />
 
     <Button
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ss_point"
-        app:layout_constraintStart_toEndOf="@+id/ss_point"
-        app:layout_constraintTop_toTopOf="@+id/ss_point" />
+        app:layout_constraintBottom_toBottomOf="@+id/second_point"
+        app:layout_constraintStart_toEndOf="@+id/second_point"
+        app:layout_constraintTop_toTopOf="@+id/second_point" />
 
     <TextView
-        android:id="@+id/ts_point"
+        android:id="@+id/third_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="4dp"
         android:text="@string/third_point"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ss_point" />
+        app:layout_constraintTop_toBottomOf="@+id/second_point" />
 
     <Button
         android:layout_width="50dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ts_point"
-        app:layout_constraintStart_toEndOf="@+id/ts_point"
-        app:layout_constraintTop_toTopOf="@+id/ts_point" />
+        app:layout_constraintBottom_toBottomOf="@+id/third_point"
+        app:layout_constraintStart_toEndOf="@+id/third_point"
+        app:layout_constraintTop_toTopOf="@+id/third_point" />
 
     <TextView
-        android:id="@+id/finish_point"
+        android:id="@+id/size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/finish_points"
+        android:text="@string/size"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="@+id/color"
+        app:layout_constraintTop_toBottomOf="@+id/third_point" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="68dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/size" />
+
+    <TextView
+        android:id="@+id/current_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:text="@string/_0"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/start_point"
-        app:layout_constraintTop_toBottomOf="@+id/ts_point" />
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintStart_toEndOf="@+id/size" />
 
     <TextView
-        android:id="@+id/ff_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/first_point"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/finish_point" />
-
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ff_point"
-        app:layout_constraintStart_toEndOf="@+id/ff_point"
-        app:layout_constraintTop_toTopOf="@+id/ff_point" />
+        android:layout_marginStart="7dp"
+        android:text="@string/_1"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/size" />
 
     <TextView
-        android:id="@+id/sf_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/second_point"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ff_point" />
+        android:layout_marginEnd="16dp"
+        android:text="@string/_50"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintTop_toBottomOf="@+id/size" />
 
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/sf_point"
-        app:layout_constraintStart_toEndOf="@+id/sf_point"
-        app:layout_constraintTop_toTopOf="@+id/sf_point" />
 
-    <TextView
-        android:id="@+id/tf_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/third_point"
-        android:textSize="17sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sf_point" />
-
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tf_point"
-        app:layout_constraintStart_toEndOf="@+id/tf_point"
-        app:layout_constraintTop_toTopOf="@+id/tf_point" />
 
 </android.support.constraint.ConstraintLayout>
