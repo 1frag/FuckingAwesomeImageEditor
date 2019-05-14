@@ -48,7 +48,7 @@
 
         <RadioButton
             android:id="@+id/rb_eight_with_restrictions"
-            android:layout_width="wrap_content"
+            android:layout_width="271dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="4dp"
@@ -130,6 +130,24 @@
         app:layout_constraintTop_toTopOf="@+id/textview_size_wall" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/_1"
+        app:layout_constraintBottom_toBottomOf="@+id/seekbar_size_wall"
+        app:layout_constraintStart_toStartOf="@+id/seekbar_size_wall" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/_5"
+        app:layout_constraintBottom_toBottomOf="@+id/seekbar_size_wall"
+        app:layout_constraintEnd_toEndOf="@+id/seekbar_size_wall" />
+
+    <TextView
         android:id="@+id/textview_color_wall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -177,6 +195,24 @@
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/textview_size_path"
+        app:layout_constraintTop_toBottomOf="@+id/path" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/_1"
+        app:layout_constraintStart_toStartOf="@+id/seekbar_size_path"
+        app:layout_constraintTop_toBottomOf="@+id/path" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/_5"
+        app:layout_constraintEnd_toEndOf="@+id/seekbar_size_path"
         app:layout_constraintTop_toBottomOf="@+id/path" />
 
     <TextView

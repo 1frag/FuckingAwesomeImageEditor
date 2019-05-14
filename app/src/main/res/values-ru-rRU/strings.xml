@@ -8,10 +8,10 @@
     <string name="choose_filter">Выберите фильтр</string>
     <string name="select_or_capture_image">Выберите или сделайте фотографию</string>
     <string name="HINT">HINT: do something ;)</string>
-    <string name="heuristic">Heuristic: </string>
+    <string name="heuristic">Правила прохода: </string>
     <string name="four">Четыре направления</string>
     <string name="eight">Восемь направлений</string>
-    <string name="best">Лучший вариант</string>
+    <string name="best">Восемь направлений, если угол не заблокирован</string>
     <string name="apply">принять</string>
     <string name="cancel">отмена</string>
     <string name="set_start">Установите НАЧАЛО</string>
@@ -63,4 +63,5 @@
     <string name="third_point">Третья точка:</string>
     <string name="switch_language">Сменить язык</string>
     <string name="example">Пример</string>
+    <string name="_5">5</string>
 </resources>
