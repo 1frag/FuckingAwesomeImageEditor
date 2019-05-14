@@ -520,8 +520,8 @@ public class A_Star extends Conductor implements OnTouchListener {
                 if (closedset.contains(y)) continue;
                 if (abs(dirx[i]) + abs(diry[i]) == 2 &&
                         msettings.rool == R.id.rb_eight_with_restrictions) {
-                    if(!cor(new Point(x.x, diry[i] + x.y)))continue;
-                    if(!cor(new Point(dirx[i] + x.x, x.y)))continue;
+                    if(!cor(new Point(x.x, diry[i] + x.y)) &&
+                            !cor(new Point(dirx[i] + x.x, x.y)))continue;
                 }
                 int tentative_g_score = myComp.getInG(x) + 1;
                 if (!in_open[y.x][y.y]) {
