@@ -47,6 +47,7 @@ public class Retouch extends Conductor implements OnTouchListener {
         mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.retouch_menu);
@@ -76,6 +77,22 @@ public class Retouch extends Conductor implements OnTouchListener {
         mImageView.setOnTouchListener(this);
     }
 
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mApplyRetouchButton.setEnabled(false);
+        mSeekBarBlurRadius.setEnabled(false);
+        mSeekBarBrushSize.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mApplyRetouchButton.setEnabled(true);
+        mSeekBarBlurRadius.setEnabled(true);
+        mSeekBarBrushSize.setEnabled(true);
+    }
+
     private void configApplyButton(final Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,20 +100,7 @@ public class Retouch extends Conductor implements OnTouchListener {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(false);
-                            }
-                        });
                         algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mImageView.setImageBitmap(mBitmap);
-                                button.setEnabled(true);
-                            }
-                        });
                         return mBitmap;
                     }
                 };
@@ -203,7 +207,6 @@ public class Retouch extends Conductor implements OnTouchListener {
                 mImageView.invalidate();
             }
         });
-
         return true;
     }
 

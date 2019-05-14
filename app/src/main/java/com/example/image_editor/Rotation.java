@@ -39,6 +39,7 @@ public class Rotation extends Conductor {
         mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.rotate_menu);
@@ -56,6 +57,7 @@ public class Rotation extends Conductor {
         mSeekBarAngle.setProgress(45);
         mSeekBarAngle.setMax(90);
 
+        configRotationSeekBar(mSeekBarAngle);
         configRotate90Button(mRotate90Button);
         configResetButton(mResetRotateButton);
         configApplyButton(mApplyRotateButton);
@@ -65,7 +67,32 @@ public class Rotation extends Conductor {
 
         mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress()-45));
 
-        mSeekBarAngle.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, false);
+
+        mImageView.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mRotate90Button.setEnabled(false);
+        mResetRotateButton.setEnabled(false);
+        mSeekBarAngle.setEnabled(false);
+        mApplyRotateButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mRotate90Button.setEnabled(true);
+        mResetRotateButton.setEnabled(true);
+        mSeekBarAngle.setEnabled(true);
+        mApplyRotateButton.setEnabled(true);
+    }
+
+    private void configRotationSeekBar(SeekBar seekBar){
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 mProgress = progressValue;
@@ -80,11 +107,6 @@ public class Rotation extends Conductor {
                 System.out.println(mProgress);
             }
         });
-        
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, false);
-
-        mImageView.setImageBitmap(mBitmap);
 
     }
 
@@ -107,20 +129,7 @@ public class Rotation extends Conductor {
                 AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                lockButtons();
-                            }
-                        });
                         mBitmap = rotateOnAngle(mProgress - 45);
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                unlockButtons();
-                                mImageView.invalidate();
-                            }
-                        });
                         return mBitmap;
                     }
                 };
@@ -137,19 +146,11 @@ public class Rotation extends Conductor {
                 AsyncTaskConductor asyncRotate = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                lockButtons();
-                            }
-                        });
                         mBitmap = rotateOnAngle(mCurrentAngle + 90);
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                unlockButtons();
                                 mTextViewAngle.setText("Angle: " + mCurrentAngle);
-                                mImageView.invalidate();
                             }
                         });
                         return mBitmap;
@@ -172,21 +173,6 @@ public class Rotation extends Conductor {
 
     private void configCropButton(ImageButton button){
 
-    }
-
-    // secure algo running
-    private void lockButtons(){
-        mRotate90Button.setEnabled(false);
-        mResetRotateButton.setEnabled(false);
-        mSeekBarAngle.setEnabled(false);
-        mApplyRotateButton.setEnabled(false);
-    }
-
-    private void unlockButtons(){
-        mRotate90Button.setEnabled(true);
-        mResetRotateButton.setEnabled(true);
-        mSeekBarAngle.setEnabled(true);
-        mApplyRotateButton.setEnabled(true);
     }
 
     private Bitmap rotateOnAngle(int angle) {
