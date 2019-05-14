@@ -64,4 +64,9 @@
     <string name="switch_language">Сменить язык</string>
     <string name="example">Пример</string>
     <string name="_5">5</string>
+    <string name="language">Language</string>
+    <string name="russian">Russian</string>
+    <string name="english">English</string>
+    <string name="theme">Theme:</string>
+    <string name="dark_mode">Dark mode</string>
 </resources>
