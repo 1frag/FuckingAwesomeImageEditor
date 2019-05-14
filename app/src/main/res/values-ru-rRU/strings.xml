@@ -61,4 +61,6 @@
     <string name="first_point">Первая точка:</string>
     <string name="second_point">Вторая точка:</string>
     <string name="third_point">Третья точка:</string>
+    <string name="switch_language">Сменить язык</string>
+    <string name="example">Пример</string>
 </resources>

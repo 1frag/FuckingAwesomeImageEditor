@@ -61,5 +61,7 @@
     <string name="first_point">First point:</string>
     <string name="second_point">Second point:</string>
     <string name="third_point">Third point:</string>
+    <string name="switch_language">Switch language</string>
+    <string name="example">Example</string>
 
 </resources>

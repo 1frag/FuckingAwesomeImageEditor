@@ -39,9 +39,11 @@
         app:layout_constraintTop_toBottomOf="@+id/color" />
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="30dp"
+        android:id="@+id/btn_first_point"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
+        android:background="@color/green"
         app:layout_constraintBottom_toBottomOf="@+id/first_point"
         app:layout_constraintStart_toEndOf="@+id/first_point"
         app:layout_constraintTop_toTopOf="@+id/first_point" />
@@ -58,9 +60,11 @@
         app:layout_constraintTop_toBottomOf="@+id/first_point" />
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="30dp"
+        android:id="@+id/btn_second_point"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
+        android:background="@color/saladGreen"
         app:layout_constraintBottom_toBottomOf="@+id/second_point"
         app:layout_constraintStart_toEndOf="@+id/second_point"
         app:layout_constraintTop_toTopOf="@+id/second_point" />
@@ -77,9 +81,11 @@
         app:layout_constraintTop_toBottomOf="@+id/second_point" />
 
     <Button
-        android:layout_width="50dp"
-        android:layout_height="30dp"
+        android:id="@+id/btn_third_point"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
+        android:background="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/third_point"
         app:layout_constraintStart_toEndOf="@+id/third_point"
         app:layout_constraintTop_toTopOf="@+id/third_point" />
@@ -101,7 +107,8 @@
         android:layout_height="30dp"
         android:layout_marginStart="68dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/size" />
+        app:layout_constraintTop_toBottomOf="@+id/size"
+        android:max="50"/>
 
     <TextView
         android:id="@+id/current_size"
