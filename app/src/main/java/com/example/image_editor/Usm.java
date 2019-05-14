@@ -167,7 +167,7 @@ public class Usm extends Conductor {
     }
 
     private int getR(int color){
-        return ((1 << 8) - 1) & color;
+        return ((((1 << 8) - 1) << 16) & color) >> 16;
     }
 
     private int getG(int color){
@@ -175,7 +175,7 @@ public class Usm extends Conductor {
     }
 
     private int getB(int color){
-        return ((((1 << 8) - 1) << 16) & color) >> 16;
+        return ((1 << 8) - 1) & color;
     }
 
     private int fixColor(int origColor, int blurColor){
