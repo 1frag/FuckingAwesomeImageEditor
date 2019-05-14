@@ -53,7 +53,8 @@ class Conductor {
         /* for Algem 2.0 delete moving points */
         removeFloatingPoints();
 
-        mainActivity.initClasses();
+        // useless line tho
+//        mainActivity.initClasses();
 
         mainActivity.getImageView().setOnTouchListener(null);
     }
