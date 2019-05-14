@@ -56,5 +56,10 @@
     <string name="_1">1</string>
     <string name="current_method">Current METHOD</string>
     <string name="info">info</string>
+    <string name="settings">settings</string>
+    <string name="point">Point:</string>
+    <string name="first_point">First point:</string>
+    <string name="second_point">Second point:</string>
+    <string name="third_point">Third point:</string>
 
 </resources>

@@ -22,7 +22,8 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_settings"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/settings"/>
     <Button
         android:id="@+id/button_start_linear_algebra"
         android:layout_width="102dp"
