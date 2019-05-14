@@ -20,9 +20,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
 
-    private boolean mStartPointsSet = false;
-    private boolean mFinishPointsSet = false;
-
     class Solver {
         private Double a, b, c, d, e, f;
 
@@ -45,10 +42,11 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
     LinearAlgebra(MainActivity activity) {
         super(activity);
-        this.mainActivity = activity;
-        this.mImageView = activity.getImageView();
+        mainActivity = activity;
+        mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         PrepareToRun(R.layout.linear_algebra_menu);
@@ -82,19 +80,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn_start.setEnabled(false);
-                            }
-                        });
                         mBitmap = algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                btn_start.setEnabled(true);
-                            }
-                        });
                         return mBitmap;
                     }
                 };

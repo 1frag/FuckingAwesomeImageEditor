@@ -16,6 +16,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
+// TODO: refactoring
 class Segmentation extends Conductor{
 
     private ImageView imageView;

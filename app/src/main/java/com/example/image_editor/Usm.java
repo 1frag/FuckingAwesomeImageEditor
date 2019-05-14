@@ -22,7 +22,7 @@ public class Usm extends Conductor {
     private TextView mTextRadius;
     private TextView mTextThreshold;
 
-    private Button runUsmButton;
+    private Button mRunUsmButton;
 
     private MainActivity mainActivity;
     private ImageView mImageView;
@@ -37,6 +37,7 @@ public class Usm extends Conductor {
         mImageView = activity.getImageView();
     }
 
+    @Override
     void touchToolbar() {
         // btn1 -> draw point
         // btn2 -> do interpolation
@@ -54,17 +55,34 @@ public class Usm extends Conductor {
         mTextThreshold = mainActivity.findViewById(R.id.text_threshold_usm);
         mTextRadius = mainActivity.findViewById(R.id.text_radius_usm);
 
-        runUsmButton = mainActivity.findViewById(R.id.button_start_usm);
+        mRunUsmButton = mainActivity.findViewById(R.id.button_start_usm);
 
-        configRunUsmButton(runUsmButton);
+        configRunUsmButton(mRunUsmButton);
         configRadiusSeekBar(mSeekBarRadius);
         configThresholdSeekBar(mSeekBarThreshold);
         configAmountSeekBar(mSeekBarAmount);
 
-
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.RGB_565, true);
         mImageView.setImageBitmap(mBitmap);
+    }
+
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mRunUsmButton.setEnabled(false);
+        mSeekBarAmount.setEnabled(false);
+        mSeekBarRadius.setEnabled(false);
+        mSeekBarThreshold.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mRunUsmButton.setEnabled(true);
+        mSeekBarAmount.setEnabled(true);
+        mSeekBarRadius.setEnabled(true);
+        mSeekBarThreshold.setEnabled(true);
     }
 
     private void configRunUsmButton(final Button button){
@@ -75,19 +93,7 @@ public class Usm extends Conductor {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(false);
-                            }
-                        });
                         algorithm();
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                button.setEnabled(true);
-                            }
-                        });
                         return mBitmap;
                     }
                 };
