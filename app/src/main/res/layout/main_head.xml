@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageButton
+        android:id="@+id/button_camera"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/White"
+        android:onClick="takePhotoFromCamera"
+        android:padding="8dp"
+        android:src="@drawable/ic_cam"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/cam"/>
+
+    <ImageButton
+        android:id="@+id/button_gallery"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/White"
+        android:onClick="choosePhotoFromGallery"
+        android:padding="8dp"
+        android:src="@drawable/ic_library"
+        app:layout_constraintStart_toEndOf="@+id/button_camera"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/button_save_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/White"
+        android:onClick="saveImage"
+        android:padding="8dp"
+        android:src="@drawable/ic_download"
+        app:layout_constraintStart_toEndOf="@+id/button_gallery"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/button_undo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/White"
+        android:padding="8dp"
+        android:src="@drawable/ic_undo"
+        app:layout_constraintEnd_toStartOf="@+id/button_redo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/button_redo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/White"
+        android:padding="8dp"
+        android:src="@drawable/ic_redo"
+        app:layout_constraintEnd_toStartOf="@+id/settings_main"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/settings_main"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/White"
+        android:contentDescription="@string/settings"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
