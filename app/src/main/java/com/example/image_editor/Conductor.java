@@ -24,7 +24,6 @@ class Conductor {
     private TextView mMethodName;
 
     public ImageView imageView;
-
     public MainActivity mainActivity;
 
     Conductor(MainActivity activity) {
@@ -150,7 +149,7 @@ class Conductor {
         applyDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mainActivity.history.addBitmap(((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap());
+                mainActivity.history.addBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
                 setDefaultState(v);
             }
         });

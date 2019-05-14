@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
-                Conductor = new Conductor(this); // выход из метода, если изменений не было
+                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
                 Conductor.setDefaultState(null);
                 mImageView.setImageBitmap(history.showHead());
             }
@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("UNDO");
                 mBitmap = history.popBitmap();
                 mImageView.setImageBitmap(mBitmap);
             }
@@ -254,12 +255,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void openQuitFromMethodDialog() {
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
-        quitDialog.setTitle("Изменения будут применены. Продолжить?");
+        quitDialog.setTitle("Изменения не будут применены. Продолжить?");
 
         quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                (new Conductor(MainActivity.this)).setDefaultState(null);
+                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
+                Conductor.setDefaultState(null);
+                mImageView.setImageBitmap(history.showHead());
             }
         });
 
