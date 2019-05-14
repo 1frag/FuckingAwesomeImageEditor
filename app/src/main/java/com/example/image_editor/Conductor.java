@@ -37,17 +37,12 @@ class Conductor {
 
         final LayoutInflater factory = mainActivity.getLayoutInflater();
         final View menu = factory.inflate(R.layout.main_head, null);
+        mainActivity.getmHeader().removeAllViews();
         mainActivity.getmHeader().addView(menu, 0);
 
-        // todo: delete redundancy manage of visible
         placeHolder.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.button_undo).setVisibility(View.VISIBLE);
-        mainActivity.findViewById(R.id.button_redo).setVisibility(View.VISIBLE);
-        mainActivity.findViewById(R.id.button_save_image).setVisibility(View.VISIBLE);
-        mainActivity.findViewById(R.id.button_camera).setVisibility(View.VISIBLE);
-        mainActivity.findViewById(R.id.button_gallery).setVisibility(View.VISIBLE);
 
         // to discard some possible drawings on bitmap
         if (!mainActivity.imageChanged) mainActivity.getImageView().setImageBitmap(mBeforeChanges);
@@ -68,8 +63,6 @@ class Conductor {
         mainActivity.inMethod = true;
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
 
-        placeHolder.setVisibility(View.VISIBLE);
-
         final LayoutInflater factory_menu = mainActivity.getLayoutInflater();
         final View menu = factory_menu.inflate(resource, null);
         placeHolder.addView(menu, 0);
@@ -84,13 +77,9 @@ class Conductor {
         configApplyButton(mApplyChangesButton);
         configCancelButton(mCancelChangesButton);
 
+        placeHolder.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
-        mainActivity.findViewById(R.id.button_undo).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.button_redo).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.button_save_image).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.button_camera).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.button_gallery).setVisibility(View.INVISIBLE);
     }
 
     private void configCancelButton(ImageButton button){
