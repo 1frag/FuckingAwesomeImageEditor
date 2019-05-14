@@ -66,6 +66,7 @@ public class Retouch extends Conductor implements OnTouchListener {
         mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mMask = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
+        imageView.setImageBitmap(mBitmap);
         imageView.setOnTouchListener(this);
     }
 

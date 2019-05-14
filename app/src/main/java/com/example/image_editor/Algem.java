@@ -36,6 +36,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
 
+        imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
     }
 
@@ -57,7 +58,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setpoint(v);
+                setPoint(v);
             }
         });
     }
@@ -90,15 +91,20 @@ public class Algem extends Conductor implements View.OnTouchListener {
 //            npoint.setVisibility(View.VISIBLE);
 //            npoint.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
 
-            DrawCircle(mx, my, 15, Color.BLACK);
+            drawCircle(mx, my, 15, Color.BLACK);
             mPointsArray.add(new DPoint(mx, my));
-            imageView.invalidate();
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.invalidate();
+                }
+            });
             return true;
         }
         return false;
     }
 
-    private void DrawCircle(int mx, int my, int r, int color) {
+    private void drawCircle(int mx, int my, int r, int color) {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
                 if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r){
@@ -110,7 +116,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         }
     }
 
-    public void setpoint(View view) {
+    public void setPoint(View view) {
         mTypeEvent = 1;
     }
 
@@ -140,7 +146,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         return 1;
     }
 
-    private ArrayList<DPoint> Thomas_algorithm() {
+    private ArrayList<DPoint> thomasAlgorithm() {
         ArrayList<DPoint> D = new ArrayList<>();
         ArrayList<Double> B = new ArrayList<>();
         ArrayList<DPoint> dX = new ArrayList<>();
@@ -184,7 +190,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         N = mPointsArray.size() - 1;
         ArrayList<DPoint> P1;
         try{
-            P1 = Thomas_algorithm();
+            P1 = thomasAlgorithm();
         } catch (IndexOutOfBoundsException e){
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -194,11 +200,11 @@ public class Algem extends Conductor implements View.OnTouchListener {
             });
             return;
         }
-        ArrayList<DPoint> P2 = Other_matem(P1);
-        DrawSpline(P1, P2);
+        ArrayList<DPoint> P2 = otherMatem(P1);
+        drawSpline(P1, P2);
     }
 
-    private void DrawSpline(ArrayList<DPoint> p1, ArrayList<DPoint> p2) {
+    private void drawSpline(ArrayList<DPoint> p1, ArrayList<DPoint> p2) {
         for (int i = 0; i < N; i++) {
             int step = 1000;
             for (int j = 0; j <= step; j++) {
@@ -213,7 +219,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 if (nx < 0 || nx >= bitmap.getWidth()) continue;
                 if (ny < 0 || ny >= bitmap.getHeight()) continue;
 //                mBitmap.setPixel(nx, ny, Color.BLACK);
-                DrawCircle(nx, ny, 5, Color.BLACK);
+                drawCircle(nx, ny, 5, Color.BLACK);
             }
         }
         mainActivity.runOnUiThread(new Runnable() {
@@ -224,7 +230,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         });
     }
 
-    private ArrayList<DPoint> Other_matem(ArrayList<DPoint> P1) {
+    private ArrayList<DPoint> otherMatem(ArrayList<DPoint> P1) {
         ArrayList<DPoint> answer = new ArrayList<>();
         for (int i = 0; i <= N - 2; i++) {
             double nx = 2 * mPointsArray.get(i + 1).x - P1.get(i + 1).x;

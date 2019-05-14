@@ -70,6 +70,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         configSettingsButton(mSettingsButton);
         mSettings = new Settings();
 
+        imageView.setImageBitmap(bitmap);
         imageView.setOnTouchListener(this);
     }
 
