@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
 
         mImageView.setMaxHeight((int) (height * 0.585));
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
@@ -146,7 +147,10 @@ public class MainActivity extends AppCompatActivity {
         if (inMethod){
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
-            else (new Conductor(MainActivity.this)).setDefaultState(null); // выход из метода, если изменений не было
+            else {
+                (new Conductor(MainActivity.this)).setDefaultState(null);// выход из метода, если изменений не было
+                mImageView.setImageBitmap(history.showHead());
+            }
         }
         else openQuitDialog(); // уверен, что выйти из приложения
     }
