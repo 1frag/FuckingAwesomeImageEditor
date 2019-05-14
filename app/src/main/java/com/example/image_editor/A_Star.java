@@ -398,6 +398,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             mRemStart.clear();
             mStartIsSet = false;
         }
+        mImageView.invalidate();
     }
 
     private void setTo(View view) {
@@ -410,6 +411,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             }
             mRemFinish.clear();
             mFinishIsSet = false;
+            mImageView.invalidate();
         }
     }
 
@@ -470,7 +472,19 @@ public class A_Star extends Conductor implements OnTouchListener {
         return res;
     }
 
-    public ArrayList<Point> algorithm(int n, int m) {
+    private int[] getDirX() {
+        if (msettings.rool == R.id.rb_four)
+            return (new int[]{0, 0, 1, -1});
+        return (new int[]{0, 0, 1, 1, 1, -1, -1, -1});
+    }
+
+    private int[] getDirY() {
+        if (msettings.rool == R.id.rb_four)
+            return (new int[]{0, 0, 1, -1});
+        return (new int[]{0, 0, 1, 1, 1, -1, -1, -1});
+    }
+
+    private ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
         mPar = new Point[n][m];
@@ -480,8 +494,8 @@ public class A_Star extends Conductor implements OnTouchListener {
             }
         }
 
-        int[] dirx = {0, 0, 1, -1};
-        int[] diry = {1, -1, 0, 0};
+        int[] dirx = getDirX();
+        int[] diry = getDirY();
 
         HashSet<Point> closedset = new HashSet<>();
         PointComparator myComp = new PointComparator(mPointFinish, n, m);
@@ -504,6 +518,11 @@ public class A_Star extends Conductor implements OnTouchListener {
                 if (y.y < 0 || y.y >= m) continue;
                 if (!cor(y)) continue;
                 if (closedset.contains(y)) continue;
+                if (abs(dirx[i]) + abs(diry[i]) == 2 &&
+                        msettings.rool == R.id.rb_eight_with_restrictions) {
+                    if(!cor(new Point(x.x, diry[i] + x.y)))continue;
+                    if(!cor(new Point(dirx[i] + x.x, x.y)))continue;
+                }
                 int tentative_g_score = myComp.getInG(x) + 1;
                 if (!in_open[y.x][y.y]) {
                     tentative_is_better = true;
@@ -535,8 +554,8 @@ public class A_Star extends Conductor implements OnTouchListener {
                     int rad = msettings.size_path;
                     for (int ii = -rad; ii <= rad; ii++) {
                         for (int jj = -rad; jj <= rad; jj++) {
-                            mBitmap.setPixel(answer.get(i).x+ii,
-                                    answer.get(i).y+jj,
+                            mBitmap.setPixel(answer.get(i).x + ii,
+                                    answer.get(i).y + jj,
                                     msettings.color_path);
                         }
                     }
