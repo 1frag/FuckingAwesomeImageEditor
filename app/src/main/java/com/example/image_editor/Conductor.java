@@ -25,6 +25,10 @@ class Conductor {
         mainActivity = activity;
     }
 
+    public Bitmap getmBeforeChanges(){
+        return mBeforeChanges;
+    }
+
     void touchToolbar() {
         Log.i("upd", "touchToolbar");
         mBeforeChanges = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();

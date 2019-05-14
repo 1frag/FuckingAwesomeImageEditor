@@ -95,13 +95,11 @@ public class Algem extends Conductor implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         int mx = (int) event.getX();
         int my = (int) event.getY();
+
+        mx -= (mImageView.getWidth() - mBitmap.getWidth()) / 2.0;
+        my -= (mImageView.getHeight() - mBitmap.getHeight()) / 2.0;
+
         if (mTypeEvent == 1 && event.getAction() == 0) {
-
-//            View npoint = new View(mainActivity);
-//            npoint.findViewById(R.id.mv_point);
-//            npoint.setVisibility(View.VISIBLE);
-//            npoint.setLayoutParams(new LinearLayout.LayoutParams(30, 30));
-
             DrawCircle(mx, my, 15, Color.BLACK);
             mPointsArray.add(new DPoint(mx, my));
             mImageView.invalidate();
@@ -122,15 +120,15 @@ public class Algem extends Conductor implements View.OnTouchListener {
         }
     }
 
-    public void setpoint(View view) {
+    private void setpoint(View view) {
         mTypeEvent = 1;
     }
 
-    public DPoint pntSum(DPoint a, DPoint b) {
+    private DPoint pntSum(DPoint a, DPoint b) {
         return new DPoint(a.x + b.x, a.y + b.y);
     }
 
-    public DPoint pntMul(double a, DPoint b) {
+    private DPoint pntMul(double a, DPoint b) {
         return new DPoint(a * b.x, a * b.y);
     }
 
@@ -210,7 +208,19 @@ public class Algem extends Conductor implements View.OnTouchListener {
         DrawSpline(P1, P2);
     }
 
+    private void clearGap() {
+
+        mBitmap = getmBeforeChanges().copy(Bitmap.Config.ARGB_8888, true);
+
+        for(int i=0;i<mPointsArray.size();i++){
+            int mx = (int) mPointsArray.get(i).x;
+            int my = (int) mPointsArray.get(i).y;
+            DrawCircle(mx, my, 15, Color.BLACK);
+        }
+    }
+
     private void DrawSpline(ArrayList<DPoint> p1, ArrayList<DPoint> p2) {
+        clearGap();
         for (int i = 0; i < N; i++) {
             int step = 1000;
             for (int j = 0; j <= step; j++) {
