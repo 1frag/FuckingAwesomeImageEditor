@@ -41,7 +41,7 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     private Point mPointStart, mPointFinish;
     private Point[][] mPar;
-    private ArrayList<Pixel> mRemStart, mRemFinish;
+    private ArrayList<Pixel> mRemStart, mRemFinish, mRemWall;
 
     private MainActivity mainActivity;
     private ImageView mImageView;
@@ -57,6 +57,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         mImageView = activity.getImageView();
         mRemStart = new ArrayList<>();
         mRemFinish = new ArrayList<>();
+        mRemWall = new ArrayList<>();
     }
 
     @Override
@@ -165,6 +166,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 if (0 > my + j || my + j >= mBitmap.getHeight()) {
                     continue;
                 }
+                // abs(i) + abs(j) <= rad
                 if (abs(i) + abs(j) <= rad) {
                     Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
                     mRemFinish.add(now);
@@ -179,7 +181,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private boolean drawWall(int mx, int my) {
-        int rad = 15;
+        int rad = msettings.size_wall;
         if (!canPutRect(rad, mx, my)) {
             errorTouched();
             return false;
@@ -192,14 +194,24 @@ public class A_Star extends Conductor implements OnTouchListener {
                 if (0 > my + j || my + j >= mBitmap.getHeight()) {
                     continue;
                 }
-                if (abs(i) + abs(j) <= rad) {
+                if (conditionInWall(i, j, rad)) {
                     Pixel now = new Pixel(mx + i, my + j, mBitmap.getPixel(mx + i, my + j));
-                    mRemFinish.add(now);
+                    mRemWall.add(now);
                     mBitmap.setPixel(mx + i, my + j, msettings.color_wall);
                 }
             }
         }
         mImageView.invalidate();
+        return true;
+    }
+
+    private boolean conditionInWall(int i, int j, int rad) {
+        if (msettings.type_wall == R.id.rb_romb)
+            return abs(i) + abs(j) <= rad;
+        if (msettings.type_wall == R.id.rb_square)
+            return true;
+        if (msettings.type_wall == R.id.rb_circul)
+            return i * i + j * j <= rad * rad;
         return true;
     }
 
@@ -298,6 +310,8 @@ public class A_Star extends Conductor implements OnTouchListener {
                 new AmbilWarnaDialog.OnAmbilWarnaListener() {
                     @Override
                     public void onOk(AmbilWarnaDialog dialog, int color) {
+                        if (msettings.color_wall != color)
+                            redrawWall(color);
                         msettings.color_wall = color;
                         alertDialog.findViewById(R.id.button_color_wall)
                                 .setBackgroundColor(color);
@@ -309,6 +323,14 @@ public class A_Star extends Conductor implements OnTouchListener {
                     }
                 });
         dialog.show();
+    }
+
+    private void redrawWall(int color) {
+        for (int i = 0; i < mRemWall.size(); i++) {
+            mBitmap.setPixel(mRemWall.get(i).getX(),
+                    mRemWall.get(i).getY(), color);
+        }
+        mImageView.invalidate();
     }
 
     private void configSelectColorPath(final AlertDialog alertDialog) {
@@ -425,7 +447,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     private boolean cor(Point a) {
-        return mBitmap.getPixel(a.x, a.y) != Color.WHITE;
+        return mBitmap.getPixel(a.x, a.y) != msettings.color_wall;
     }
 
     private ArrayList<Point> reconstructPath() {
@@ -521,7 +543,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         Settings() {
             rool = R.id.rb_four;
             type_wall = R.id.rb_romb;
-            size_wall = 15;
+            size_wall = 30;
             color_wall = Color.WHITE;
             size_path = 5;
             color_path = Color.YELLOW;
