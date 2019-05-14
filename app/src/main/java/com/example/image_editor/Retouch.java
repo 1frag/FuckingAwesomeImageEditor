@@ -132,7 +132,7 @@ public class Retouch extends Conductor implements OnTouchListener {
     }
 
     private void configBrushSeekBar(SeekBar seekBar){
-        mSeekBarBrushSize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {

@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 public class LinearAlgebra extends Conductor implements View.OnTouchListener {
 
+    private Button mStartAlgoButton;
+    private Button mSetStartPointsButton;
+    private Button mSetFinishPointsButton;
+
     private Bitmap mBitmap;
     private ImageView mImageView;
     private MainActivity mainActivity;
@@ -56,24 +60,53 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
 
-        mainActivity.findViewById(R.id.button_finish_points)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        initMovingViewFirstGroup();
-                    }
-                });
+        mSetFinishPointsButton = mainActivity.findViewById(R.id.button_finish_points);
+        mSetStartPointsButton = mainActivity.findViewById(R.id.button_start_points);
+        mStartAlgoButton = mainActivity.findViewById(R.id.button_start_linear_algebra);
 
-        mainActivity.findViewById(R.id.button_start_points)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        initMovingViewSecondGroup();
-                    }
-                });
+        configStartAlgoButton(mStartAlgoButton);
+        configSetStartPointsButton(mSetStartPointsButton);
+        configSetFinishPointsButton(mSetFinishPointsButton);
 
-        final Button btn_start = mainActivity.findViewById(R.id.button_start_linear_algebra);
-        btn_start.setOnClickListener(new View.OnClickListener() {
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
+        mImageView.setOnTouchListener(this);
+    }
+
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mStartAlgoButton.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mStartAlgoButton.setEnabled(true);
+    }
+
+    private void configSetStartPointsButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initMovingViewFirstGroup();
+            }
+        });
+    }
+
+    private void configSetFinishPointsButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initMovingViewSecondGroup();
+            }
+        });
+    }
+
+
+    private void configStartAlgoButton(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initParams();
@@ -87,11 +120,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                 asyncTask.execute();
             }
         });
-
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mImageView.setImageBitmap(mBitmap);
-        mImageView.setOnTouchListener(this);
     }
 
     private void initMovingViewFirstGroup() {

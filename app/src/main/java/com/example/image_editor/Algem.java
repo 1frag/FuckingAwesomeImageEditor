@@ -59,7 +59,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     @Override
     public void unlockInterface(){
-        super.lockInterface();
+        super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
     }
