@@ -8,14 +8,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class LinearAlgebra extends Conductor implements View.OnTouchListener {
+public class LinearAlgebra extends Conductor {
 
     private Button mStartAlgoButton;
-    private Button mSetStartPointsButton;
-    private Button mSetFinishPointsButton;
+    private ImageButton mSetStartPointsButton;
+    private ImageButton mSetFinishPointsButton;
 
     private Bitmap mBitmap;
     private ImageView mImageView;
@@ -71,7 +72,6 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
-        mImageView.setOnTouchListener(this);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         mStartAlgoButton.setEnabled(true);
     }
 
-    private void configSetStartPointsButton(Button button){
+    private void configSetStartPointsButton(ImageButton button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +95,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         });
     }
 
-    private void configSetFinishPointsButton(Button button){
+    private void configSetFinishPointsButton(ImageButton button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,7 +234,7 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
                             getFirstPoints(),
                             getSecondInBDF()));
 
-            } catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -265,39 +265,5 @@ public class LinearAlgebra extends Conductor implements View.OnTouchListener {
         Log.i("upd", String.format("%s", cnt));
 
         return btmp;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int cnt = 0;
-        cnt++;
-        if (cnt < -10) return true;
-        return false;
-//        todo: delete me after 16.05
-//        if(event.getAction() != 0)return false;
-//
-//        if(cntfix==0)p11 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==1)p12 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==2)p13 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==3)p21 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==4)p22 = new DPoint(event.getX(), event.getY());
-//        if(cntfix==5)p23 = new DPoint(event.getX(), event.getY());
-//
-//        if(cntfix<3){
-//            for(int i=-10;i<=10;i++){
-//                for(int j=-10;j<=10;j++){
-//                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.BLUE);
-//                }
-//            }
-//        }else if(cntfix<6){
-//            for(int i=-10;i<=10;i++){
-//                for(int j=-10;j<=10;j++){
-//                    mBitmap.setPixel((int)event.getX()+i,(int)event.getY()+j,Color.RED);
-//                }
-//            }
-//        }
-//        mImageView.invalidate();
-//        cntfix++;
-//        return true;
     }
 }

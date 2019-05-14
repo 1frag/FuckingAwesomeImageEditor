@@ -7,16 +7,18 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.view.View.OnTouchListener;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     private MainActivity mainActivity;
     private ImageView mImageView;
 
+    private Settings msettings;
     private Integer mTypeDraw = 0;
     private boolean mStartIsSet = false, mFinishIsSet = false;
 
@@ -71,6 +74,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         configFinishButton(mChangeEndButton);
         configStartButton(mChangeStartButton);
         configSettingsButton(mSettingsButton);
+        msettings = new Settings();
 
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
 
@@ -144,16 +148,30 @@ public class A_Star extends Conductor implements OnTouchListener {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSettingsDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+                Dialog dialog = openSettingsDialog();
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialog) {
                         AlertDialog alertDialog = (AlertDialog) dialog;
-                        //TODO: here
-                        RadioButton rgRool = alertDialog.findViewById(R.id.rgRool);
-//                        rgRool.
+
+                        //set according msetting
+                        RadioGroup rg_rool = alertDialog.findViewById(R.id.rg_rool);
+                        rg_rool.check(msettings.rool);
+                        RadioGroup rg_walls = alertDialog.findViewById(R.id.rg_walls);
+                        rg_walls.check(msettings.type_wall);
+                        SeekBar seekbar_size_wall = alertDialog.findViewById(R.id.seekbar_size_wall);
+                        seekbar_size_wall.setProgress(msettings.size_wall);
+                        SeekBar seekbar_size_path = alertDialog.findViewById(R.id.seekbar_size_path);
+                        seekbar_size_path.setProgress(msettings.size_wall);
+                        Button button_color_path = alertDialog.findViewById(R.id.button_color_path);
+                        button_color_path.setBackgroundColor(msettings.color_path);
+                        Button button_color_wall = alertDialog.findViewById(R.id.button_color_wall);
+                        button_color_wall.setBackgroundColor(msettings.color_wall);
+                        // end setting
 
                     }
                 });
+                dialog.show();
             }
         });
     }
@@ -166,13 +184,28 @@ public class A_Star extends Conductor implements OnTouchListener {
                 .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: apply button
-                        Log.i("upd", "mew");
+                        AlertDialog alertDialog = (AlertDialog) dialog;
+                        msettings.rool = ((RadioGroup)alertDialog
+                                .findViewById(R.id.rg_rool)).getCheckedRadioButtonId();
+                        msettings.type_wall = ((RadioGroup)alertDialog
+                                .findViewById(R.id.rg_walls)).getCheckedRadioButtonId();
+                        msettings.size_path = ((SeekBar)alertDialog
+                                .findViewById(R.id.seekbar_size_path)).getProgress();
+                        msettings.size_wall = ((SeekBar)alertDialog
+                                .findViewById(R.id.seekbar_size_wall)).getProgress();
+                        msettings.color_path = ((ColorDrawable) alertDialog
+                                .findViewById(R.id.button_color_path)
+                                .getBackground())
+                                .getColor();
+                        msettings.color_wall = ((ColorDrawable) alertDialog
+                                .findViewById(R.id.button_color_wall)
+                                .getBackground())
+                                .getColor();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // TODO: cancel button
+                        // nothing to say, just exit
                     }
                 });
         return builder.create();
@@ -432,12 +465,12 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     // TODO: below
     class Settings {
-        private int rool, type_wall, size_wall;
-        private int color_wall, size_path, color_path;
+        public int rool, type_wall, size_wall;
+        public int color_wall, size_path, color_path;
 
         Settings() {
-            rool = 0;
-            type_wall = 0;
+            rool = R.id.rb_four;
+            type_wall = R.id.rb_romb;
             size_wall = 15;
             color_wall = 0xFFFFFF;
             size_path = 5;
