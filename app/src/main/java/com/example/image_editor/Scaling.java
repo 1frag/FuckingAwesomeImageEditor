@@ -37,7 +37,7 @@ public class Scaling extends Conductor {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.scaling_menu);
+        prepareToRun(R.layout.scaling_menu);
 
         mResetScalingButton = mainActivity.findViewById(R.id.button_reset_scaling);
         mApplyScalingButton = mainActivity.findViewById(R.id.button_apply_scaling);

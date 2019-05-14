@@ -50,7 +50,7 @@ public class Retouch extends Conductor implements OnTouchListener {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.retouch_menu);
+        prepareToRun(R.layout.retouch_menu);
 
         mApplyRetouchButton = mainActivity.findViewById(R.id.button_apply_retouch);
 

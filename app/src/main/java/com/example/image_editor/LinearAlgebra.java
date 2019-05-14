@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -54,7 +53,7 @@ public class LinearAlgebra extends Conductor {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.linear_algebra_menu);
+        prepareToRun(R.layout.linear_algebra_menu);
 
         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         ElevationDragFragment fragment = new ElevationDragFragment();

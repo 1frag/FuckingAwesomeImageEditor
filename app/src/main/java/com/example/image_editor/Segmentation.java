@@ -34,7 +34,7 @@ class Segmentation extends Conductor{
 
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.segmentatioon_menu);
+        prepareToRun(R.layout.segmentatioon_menu);
 
         ConfigBtnFacesDetect((Button) mainActivity.findViewById(R.id.faces));
 

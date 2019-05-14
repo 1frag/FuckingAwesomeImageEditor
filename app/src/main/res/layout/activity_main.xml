@@ -19,7 +19,7 @@
 
 
     <View
-        android:id="@+id/method_head"
+        android:id="@+id/view_method_head"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
