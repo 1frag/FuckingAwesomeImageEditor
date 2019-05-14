@@ -13,7 +13,8 @@
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_apply"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/apply"/>
 
     <ImageButton
         android:id="@+id/button_cancel_changes"
@@ -22,12 +23,12 @@
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_cancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/cancel"/>
 
     <View
         android:id="@+id/view_apply"
         android:layout_width="411dp"
-
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
