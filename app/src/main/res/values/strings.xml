@@ -36,6 +36,23 @@
     <string name="edit">EDIT</string>
     <string name="amount">Amount</string>
     <string name="threshold">Threshold</string>
-
+    <string name="_45">-45</string>
+    <string name="_45p">+45</string>
+    <string name="_0">0</string>
+    <string name="rotate">rotate</string>
+    <string name="crop">crop</string>
+    <string name="mirroring">mirroring</string>
+    <string name="start_points">start points</string>
+    <string name="finish_points">Finish points</string>
+    <string name="listitem_text">Laguna</string>
+    <string name="rv_image">rv_image</string>
+    <string name="default_image">default_image</string>
+    <string name="add_pnts">add_pnts</string>
+    <string name="_255">255</string>
+    <string name="_50">50</string>
+    <string name="_100">100%</string>
+    <string name="_0ps">0%</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
 
 </resources>

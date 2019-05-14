@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
-        android:text="-45"
+        android:text="@string/_45"
         app:layout_constraintStart_toStartOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
-        android:text="+45"
+        android:text="@string/_45p"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="0"
+        android:text="@string/_0"
         app:layout_constraintEnd_toStartOf="@+id/text_plus45"
         app:layout_constraintStart_toEndOf="@+id/text_minus45"
         app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +114,8 @@
         android:src="@drawable/ic_rotate_90"
         android:background="@color/White"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate"
+        android:contentDescription="@string/rotate"/>
 
     <ImageButton
         android:id="@+id/button_reset_seekbar"
@@ -125,7 +126,8 @@
         android:background="@color/White"
         android:textSize="25sp"
         app:layout_constraintStart_toEndOf="@+id/button_rotate90"
-        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate"
+        android:contentDescription="@string/reset"/>
 
     <ImageButton
         android:id="@+id/button_mirrorV"
@@ -136,7 +138,8 @@
         android:textSize="25sp"
         android:background="@color/White"
         app:layout_constraintEnd_toStartOf="@+id/button_mirrorH"
-        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate"
+        android:contentDescription="@string/mirroring"/>
 
     <ImageButton
         android:id="@+id/button_crop"
@@ -147,7 +150,8 @@
         android:src="@drawable/ic_crop"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_apply_rotate" />
+        app:layout_constraintTop_toBottomOf="@+id/button_apply_rotate"
+        android:contentDescription="@string/crop"/>
 
     <ImageButton
         android:id="@+id/button_mirrorH"
@@ -159,7 +163,8 @@
         android:textSize="25sp"
         android:background="@color/White"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_rotate"
-        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate" />
+        app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate"
+        android:contentDescription="@string/mirroring"/>
 
 
     <View

@@ -150,7 +150,8 @@
             android:foregroundGravity="center"
             android:maxHeight="400dp"
             android:scaleType="centerInside"
-            android:src="@drawable/default_img" />
+            android:src="@drawable/default_img"
+            android:contentDescription="@string/default_image"/>
     </FrameLayout>
 
     <ProgressBar

@@ -22,7 +22,8 @@
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_start"
         app:layout_constraintStart_toEndOf="@+id/button_settings_a_star"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/set_start"/>
 
     <ImageButton
         android:id="@+id/button_finish_a_star"
@@ -32,7 +33,8 @@
         android:onClick="click_finish"
         android:src="@drawable/ic_finish"
         app:layout_constraintStart_toEndOf="@+id/button_start_a_star"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/set_finish"/>
 
     <ImageButton
         android:id="@+id/button_set_wall"
@@ -41,7 +43,8 @@
         android:layout_marginStart="8dp"
         android:src="@drawable/ic_wall"
         app:layout_constraintStart_toEndOf="@+id/button_finish_a_star"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/set_walls"/>
 
     <ImageButton
         android:id="@+id/button_settings_a_star"
@@ -53,7 +56,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/button_start_a_star"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_start_a_star"
-        android:onClick="showSettings" />
+        android:onClick="showSettings"
+        android:contentDescription="@string/start_algo"/>
 
     <Button
         android:id="@+id/button_start_algo_a_star"
