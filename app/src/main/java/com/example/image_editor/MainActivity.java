@@ -71,6 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
     public History history;
 
+    /* test part goes here */
+    Conductor A_Star;
+    Conductor Algem;
+    Conductor Rotation;
+    Conductor LinearAlgebra;
+    Conductor Color_Filters;
+    Conductor Retouch;
+    Conductor Scaling;
+    Conductor Segmentation;
+    Conductor Usm;
+    /* finish of test part */
+
     public LinearLayout getmPlaceHolder() {
         return mPlaceHolder;
     }
@@ -113,25 +125,40 @@ public class MainActivity extends AppCompatActivity {
         configUndoButton(mUndoButton);
         configSaveButton(mSaveButton);
 
+        initClassesMain();
         getImages();
     }
 
+    /* test part goes here */
     public void initClasses() {
         if (mClasses.size() == 0) {
             for (int i = 0; i < 9; i++)
                 mClasses.add(new Conductor(this));
         }
-        mClasses.set(0, new A_Star(this));
-        mClasses.set(1, new Algem(this));
-        mClasses.set(2, new Rotation(this));
-        mClasses.set(3, new LinearAlgebra(this));
-        mClasses.set(4, new Color_Filters(this));
-        mClasses.set(5, new Retouch(this));
-        mClasses.set(6, new Scaling(this));
-        mClasses.set(7, new Segmentation(this));
-        mClasses.set(8, new Usm(this));
+        mClasses.set(0, A_Star);
+        mClasses.set(1, Algem);
+        mClasses.set(2, Rotation);
+        mClasses.set(3, LinearAlgebra);
+        mClasses.set(4, Color_Filters);
+        mClasses.set(5, Retouch);
+        mClasses.set(6, Scaling);
+        mClasses.set(7, Segmentation);
+        mClasses.set(8, Usm);
         initRecyclerView();
     }
+
+    private void initClassesMain(){
+        A_Star = new A_Star(this);
+        Algem = new Algem(this);
+        Rotation = new Rotation(this);
+        LinearAlgebra = new LinearAlgebra(this);
+        Color_Filters = new Color_Filters(this);
+        Retouch = new Retouch(this);
+        Scaling = new Scaling(this);
+        Segmentation = new Segmentation(this);
+        Usm = new Usm(this);
+    }
+    /* finish of test part */
 
     private void initRecyclerView() {
         Log.d("upd", "initRecyclerView: init recyclerview");
@@ -148,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
+                // TODO: this cause memory leak!
                 (new Conductor(MainActivity.this)).setDefaultState(null);// выход из метода, если изменений не было
                 mImageView.setImageBitmap(history.showHead());
             }
