@@ -36,7 +36,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.spline_menu);
+        prepareToRun(R.layout.spline_menu);
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);

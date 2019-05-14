@@ -59,14 +59,14 @@ class Conductor {
         mainActivity.getImageView().setOnTouchListener(null);
     }
 
-    void PrepareToRun(int resourse) {
+    void prepareToRun(int resource) {
         mainActivity.inMethod = true;
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
 
         placeHolder.setVisibility(View.VISIBLE);
 
         final LayoutInflater factory = mainActivity.getLayoutInflater();
-        final View menu = factory.inflate(resourse, null);
+        final View menu = factory.inflate(resource, null);
         placeHolder.addView(menu, 0);
 
         mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);
@@ -200,17 +200,17 @@ class Conductor {
 
     private void removeFloatingPoints(){
         if(mainActivity.findViewById(R.id.circle1) != null)
-            mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle2) != null)
-            mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle2).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle3) != null)
-            mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle3).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle4) != null)
-            mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle4).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle5) != null)
-            mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle6) != null)
-            mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
+            mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
     }
 
 }

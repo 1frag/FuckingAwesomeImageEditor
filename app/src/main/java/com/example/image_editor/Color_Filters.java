@@ -28,7 +28,7 @@ public class Color_Filters extends Conductor {
 
     void touchToolbar() {
         super.touchToolbar();
-        PrepareToRun(R.layout.filters_menu);
+        prepareToRun(R.layout.filters_menu);
         pickFilters();
 
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
