@@ -211,6 +211,7 @@ class Conductor {
             mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle6) != null)
             mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
+
     }
 
 }

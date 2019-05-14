@@ -59,6 +59,10 @@ public class LinearAlgebra extends Conductor {
         ElevationDragFragment fragment = new ElevationDragFragment();
         transaction.replace(R.id.sample_content_fragment, fragment);
         transaction.commit();
+        transaction.hide(fragment);
+//        todo: это строка убивает возможность drag&drop
+//              но куда её написать в conductor?, тогда надо
+//              transaction и fragment определять выше, или как?
 
         mSetFinishPointsButton = mainActivity.findViewById(R.id.button_finish_points);
         mSetStartPointsButton = mainActivity.findViewById(R.id.button_start_points);
@@ -127,22 +131,15 @@ public class LinearAlgebra extends Conductor {
         mainActivity.findViewById(R.id.circle2).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.circle3).setVisibility(View.VISIBLE);
 
-        mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
-//        View c1 = mainActivity.findViewById(R.id.circle1);
-//        c1.setY(10);
-//        c1.setX(15);
-//        c1.invalidate();
-//        c1.setTop(10);
-//        c1.setLeft(15);
-//        c1.setBackgroundColor(0x00FFFF);
+        mainActivity.findViewById(R.id.circle4).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
     }
 
     private void initMovingViewSecondGroup() {
-        mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
-        mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.circle2).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.circle3).setVisibility(View.GONE);
 
         mainActivity.findViewById(R.id.circle4).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.circle5).setVisibility(View.VISIBLE);

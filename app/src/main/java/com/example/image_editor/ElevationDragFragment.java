@@ -33,19 +33,11 @@ public class ElevationDragFragment extends Fragment {
     /* The circular outline provider */
     private ViewOutlineProvider mOutlineProviderCircle;
 
-    /* The current elevation of the floating view. */
-    private float mElevation = 0;
-
-    /* The step in elevation when changing the Z value */
-    private int mElevationStep;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mOutlineProviderCircle = new CircleOutlineProvider();
-
-        mElevationStep = getResources().getDimensionPixelSize(R.dimen.elevation_step);
     }
 
     @Override
