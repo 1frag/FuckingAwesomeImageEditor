@@ -511,7 +511,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 return reconstructPath();
             }
             closedset.add(x);
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < dirx.length; i++) {
                 boolean tentative_is_better = false;
                 Point y = new Point(dirx[i] + x.x, diry[i] + x.y);
                 if (y.x < 0 || y.x >= n) continue;
