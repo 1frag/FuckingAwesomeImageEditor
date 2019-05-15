@@ -16,14 +16,16 @@
         <!--todo: remove border-->
         <RelativeLayout
             android:layout_width="76dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground1">
 
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="60dp"
-                android:layout_height="49dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
+                android:background="@color/colorBackground1"
                 android:src="@drawable/ic_launcher_background"
                 android:contentDescription="@string/rv_image"/>
 

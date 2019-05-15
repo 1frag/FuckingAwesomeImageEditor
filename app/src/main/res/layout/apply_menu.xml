@@ -7,24 +7,26 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/button_apply_changes"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_apply"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/apply"/>
-
-    <ImageButton
         android:id="@+id/button_cancel_changes"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_cancel"
+        android:background="@color/colorBackground2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/cancel"/>
+
+    <ImageButton
+        android:id="@+id/button_apply_changes"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_apply"
+        android:background="@color/colorBackground2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/apply"/>
 
     <View
         android:id="@+id/view_apply"

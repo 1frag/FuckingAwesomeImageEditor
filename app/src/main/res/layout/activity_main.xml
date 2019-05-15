@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/White"
+    android:background="@color/colorBackground2"
     android:orientation="vertical">
 
 
@@ -61,7 +61,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="36dp"
         android:orientation="horizontal"
@@ -72,7 +72,7 @@
 
     <LinearLayout
         android:id="@+id/apply_layout"
-        android:layout_width="390dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
