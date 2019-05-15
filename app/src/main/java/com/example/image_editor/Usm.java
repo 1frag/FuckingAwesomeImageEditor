@@ -55,7 +55,7 @@ public class Usm extends Conductor {
     }
 
     @Override
-    public void lockInterface(){
+    public void lockInterface() {
         super.lockInterface();
         mRunUsmButton.setEnabled(false);
         mSeekBarAmount.setEnabled(false);
@@ -64,7 +64,7 @@ public class Usm extends Conductor {
     }
 
     @Override
-    public void unlockInterface(){
+    public void unlockInterface() {
         super.unlockInterface();
         mRunUsmButton.setEnabled(true);
         mSeekBarAmount.setEnabled(true);
@@ -72,12 +72,12 @@ public class Usm extends Conductor {
         mSeekBarThreshold.setEnabled(true);
     }
 
-    private void configRunUsmButton(final Button button){
+    private void configRunUsmButton(final Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long startTime = System.currentTimeMillis();
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
@@ -93,7 +93,7 @@ public class Usm extends Conductor {
 
     }
 
-    private void configRadiusSeekBar(SeekBar seekBar){
+    private void configRadiusSeekBar(SeekBar seekBar) {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -113,7 +113,7 @@ public class Usm extends Conductor {
         });
     }
 
-    private void configAmountSeekBar(SeekBar seekBar){
+    private void configAmountSeekBar(SeekBar seekBar) {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -133,7 +133,7 @@ public class Usm extends Conductor {
         });
     }
 
-    private void configThresholdSeekBar(SeekBar seekBar){
+    private void configThresholdSeekBar(SeekBar seekBar) {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -153,43 +153,45 @@ public class Usm extends Conductor {
         });
     }
 
-    private int getR(int color){
+    private int getR(int color) {
         return ((((1 << 8) - 1) << 16) & color) >> 16;
     }
 
-    private int getG(int color){
+    private int getG(int color) {
         return ((((1 << 8) - 1) << 8) & color) >> 8;
     }
 
-    private int getB(int color){
+    private int getB(int color) {
         return ((1 << 8) - 1) & color;
     }
 
-    private int fixColor(int origColor, int blurColor){
+    private int fixColor(int origColor, int blurColor) {
         int R = getR(origColor);
         int G = getG(origColor);
         int B = getB(origColor);
 
         int difR = (int) ((255 - getR(blurColor)) / mAmount);
         double dR = Math.abs(difR - R);
-        if(dR > mThreshold)R += difR;
+        if (dR > mThreshold) R += difR;
 
         int difG = (int) ((255 - getG(blurColor)) / mAmount);
         double dG = Math.abs(difG - G);
-        if(dG > mThreshold)G += difG;
+        if (dG > mThreshold) G += difG;
 
         int difB = (int) ((255 - getB(blurColor)) / mAmount);
         double dB = Math.abs(difB - B);
-        if(dB > mThreshold)B += difB;
+        if (dB > mThreshold) B += difB;
 
-        if(R>255)R=255;if(R<0)R=0;
-        if(G>255)G=255;if(G<0)G=0;
-        if(B>255)B=255;if(B<0)B=0;
+        if (R > 255) R = 255;
+        if (R < 0) R = 0;
+        if (G > 255) G = 255;
+        if (G < 0) G = 0;
+        if (B > 255) B = 255;
+        if (B < 0) B = 0;
 
         return Color.rgb(R, G, B);
     }
 
-    // TODO: rewrite it to RGB
     private void algorithm() {
 
         Bitmap blurred = ColorFIltersCollection.fastBlur(bitmap, (int) mRadius, 1);
