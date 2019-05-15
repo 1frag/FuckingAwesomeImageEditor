@@ -14,13 +14,15 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/sample_content_fragment"
         android:layout_width="400dp"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="500dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="8dp"
         android:background="@color/White"
