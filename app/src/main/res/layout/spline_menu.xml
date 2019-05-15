@@ -9,8 +9,9 @@
     <View
         android:id="@+id/view_filters"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="100dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,12 +19,66 @@
         android:id="@+id/button_add_points"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/White"
+        android:contentDescription="@string/add_pnts"
         android:src="@drawable/ic_point"
+        app:layout_constraintEnd_toStartOf="@+id/left"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/left"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/White"
+        android:src="@drawable/ic_navigate"
+        app:layout_constraintBottom_toBottomOf="@+id/right"
+        app:layout_constraintEnd_toStartOf="@+id/right"
+        app:layout_constraintTop_toTopOf="@+id/right"
+        app:layout_constraintVertical_bias="1.0"
+        android:contentDescription="@string/cd"/>
+
+    <ImageButton
+        android:id="@+id/right"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/White"
+        android:rotation="180"
+        android:src="@drawable/ic_navigate"
+        app:layout_constraintEnd_toStartOf="@+id/up"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/add_pnts"/>
+        android:contentDescription="@string/cd"/>
+
+    <ImageButton
+        android:id="@+id/up"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="148dp"
+        android:background="@color/White"
+        android:rotation="90"
+        android:src="@drawable/ic_navigate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/cd"/>
+
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/White"
+        android:rotation="270"
+        android:src="@drawable/ic_navigate"
+        app:layout_constraintEnd_toEndOf="@+id/up"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/up"
+        app:layout_constraintTop_toBottomOf="@+id/up"
+        android:contentDescription="@string/cd"/>
 
     <Button
         android:id="@+id/button_edit_points"
@@ -33,6 +88,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/edit"
         android:textSize="15sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/button_add_points"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,10 +97,12 @@
         android:id="@+id/button_start_splain"
         android:layout_width="102dp"
         android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/start_algo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/up"
         app:layout_constraintTop_toTopOf="parent" />
 
 

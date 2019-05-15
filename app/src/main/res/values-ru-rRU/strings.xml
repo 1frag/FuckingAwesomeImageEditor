@@ -69,4 +69,5 @@
     <string name="english">English</string>
     <string name="theme">Theme:</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="cd">cd</string>
 </resources>
