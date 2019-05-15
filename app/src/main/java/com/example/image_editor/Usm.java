@@ -119,7 +119,7 @@ public class Usm extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mAmount = progress + 1;
-                mTextAmount.setText("Amount: " + progress+1);
+                mTextAmount.setText("Amount: " + progress);
             }
 
             @Override
