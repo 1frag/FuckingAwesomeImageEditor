@@ -2,7 +2,6 @@ package com.example.image_editor;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -83,15 +82,11 @@ public class Algem extends Conductor implements View.OnTouchListener {
     // legacy code below :D
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int mx = (int) event.getRawX();
-        int my = (int) event.getRawY();
 
-        Log.i("upd", String.format("%s %s", mx, my));
-//        mx -= 8;
-//        my -= 50;
-//
-//        mx -= (imageView.getWidth() - bitmap.getWidth()) / 2.0;
-//        my -= (imageView.getHeight() - bitmap.getHeight()) / 2.0;
+        float scalingX = imageView.getWidth() / (float) bitmap.getWidth();
+        float scalingY = imageView.getHeight() / (float) bitmap.getHeight();
+        int mx = (int) (event.getX() / scalingX);
+        int my = (int) (event.getY() / scalingY);
 
         if (mTypeEvent == 1 && event.getAction() == 0) {
             drawCircle(mx, my, 15, Color.BLACK);

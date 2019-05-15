@@ -170,8 +170,11 @@ public class Retouch extends Conductor implements OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int mx = (int) event.getX();
-        int my = (int) event.getY();
+
+        float scalingX = imageView.getWidth() / (float) bitmap.getWidth();
+        float scalingY = imageView.getHeight() / (float) bitmap.getHeight();
+        int mx = (int) (event.getX() / scalingX);
+        int my = (int) (event.getY() / scalingY);
 
         int rad = mBrushSize;
         if (!canPutRect(rad, mx, my)) {
