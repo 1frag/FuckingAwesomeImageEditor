@@ -88,6 +88,7 @@ class Segmentation extends Conductor{
             }
 
             mImageView.setImageBitmap(editedBitmap);
+            mainActivity.imageChanged = true;
             Toast.makeText(mainActivity.getApplicationContext(),
                     String.format("%s faces found", faces.size()),
                     Toast.LENGTH_SHORT).show();
