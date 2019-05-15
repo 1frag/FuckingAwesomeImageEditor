@@ -398,36 +398,55 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void saveImage(View view) {
-        // TODO: think about loading from private mBitmap or mImageView??
-        // I prefer second option. P.S. Sasha
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-
+    // you can rewrite something if you want
+    public void saveImage(View view){
+        Bitmap icon = mBitmap;
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
+        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
         try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(), "Image saved in " + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        startActivity(Intent.createChooser(share, "Share Image"));
     }
+
+//    public void saveImage(View view) {
+//        // TODO: think about loading from private mBitmap or mImageView??
+//        // I prefer second option. P.S. Sasha
+//        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+//
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+//        File wallpaperDirectory = new File(
+//                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+//        // have the object build the directory structure, if needed.
+//        if (!wallpaperDirectory.exists()) {
+//            wallpaperDirectory.mkdirs();
+//        }
+//
+//        try {
+//            File f = new File(wallpaperDirectory, Calendar.getInstance()
+//                    .getTimeInMillis() + ".jpg");
+//            f.createNewFile();
+//            FileOutputStream fo = new FileOutputStream(f);
+//            fo.write(bytes.toByteArray());
+//            MediaScannerConnection.scanFile(this,
+//                    new String[]{f.getPath()},
+//                    new String[]{"image/jpeg"}, null);
+//            fo.close();
+//            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
+//        } catch (IOException e1) {
+//            e1.printStackTrace();
+//        }
+//        Toast.makeText(getApplicationContext(), "Image saved in " + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
+//    }
 
     private void requestMultiplePermissions() {
         Dexter.withActivity(this)
@@ -464,24 +483,6 @@ public class MainActivity extends AppCompatActivity {
                 .check();
     }
 
-    // you can rewrite something if you want
-    public void shareImage(View view){
-        Bitmap icon = mBitmap;
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, "Share Image"));
-    }
 
     public ImageView getImageView() {
         return mImageView;
