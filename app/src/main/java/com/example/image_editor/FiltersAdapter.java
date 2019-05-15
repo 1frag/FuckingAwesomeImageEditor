@@ -96,6 +96,12 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
                 case "Green grass":
                     mBufferedBitmap = ColorFIltersCollection.grassFilter(mBufferedBitmap);
                     break;
+                case "Ruby":
+                    mBufferedBitmap = ColorFIltersCollection.rubyFilter(mBufferedBitmap);
+                    break;
+                case "Vignette":
+                    mBufferedBitmap = ColorFIltersCollection.radialMask(mBufferedBitmap);
+                    break;
             }
             return mBufferedBitmap;
         }

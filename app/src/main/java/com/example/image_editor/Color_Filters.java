@@ -50,6 +50,12 @@ public class Color_Filters extends Conductor {
         mNamesFilters.add("Green grass"); // 8
         mNamesProg.add("Green grass");
 
+        mNamesFilters.add("Ruby"); // 9
+        mNamesProg.add("Ruby");
+
+        mNamesFilters.add("Vignette"); // 10
+        mNamesProg.add("Vignette");
+
         try {
             initRecyclerView();
         } catch (NoSuchMethodException e) {
