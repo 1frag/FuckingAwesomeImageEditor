@@ -479,13 +479,17 @@ public class A_Star extends Conductor implements OnTouchListener {
             int nx = mRemWall.get(i).getX();
             int ny = mRemWall.get(i).getY();
 
-            if(bitmap.getPixel(nx+1,ny) == mSettings.color_wall &&
-                    bitmap.getPixel(nx-1,ny) == mSettings.color_wall &&
-                    bitmap.getPixel(nx,ny+1) == mSettings.color_wall &&
-                    bitmap.getPixel(nx,ny-1) == mSettings.color_wall){
+            // вылетает, если не по битмапу рисуем
+            try {
+                if (bitmap.getPixel(nx + 1, ny) == mSettings.color_wall &&
+                        bitmap.getPixel(nx - 1, ny) == mSettings.color_wall &&
+                        bitmap.getPixel(nx, ny + 1) == mSettings.color_wall &&
+                        bitmap.getPixel(nx, ny - 1) == mSettings.color_wall) {
+                    continue;
+                }
+            } catch (IllegalArgumentException e){
                 continue;
             }
-
             int rad = mSettings.size_path;
             for (int ii = -rad; ii <= rad; ii++) {
                 for (int jj = -rad; jj <= rad; jj++) {
@@ -494,7 +498,12 @@ public class A_Star extends Conductor implements OnTouchListener {
                     if (nx < 0 || ny < 0) continue;
                     if (nx > n || ny > m) continue;
                     if (ii * ii + jj * jj <= rad * rad) {
-                        is_cor[nx][ny] = false;
+                        // вылетает, если рисуем за пределами битмапа
+                        try {
+                            is_cor[nx][ny] = false;
+                        } catch (ArrayIndexOutOfBoundsException e){
+                            continue;
+                        }
                     }
                 }
             }
@@ -562,9 +571,14 @@ public class A_Star extends Conductor implements OnTouchListener {
                     int rad = mSettings.size_path;
                     for (int ii = -rad; ii <= rad; ii++) {
                         for (int jj = -rad; jj <= rad; jj++) {
-                            bitmap.setPixel(answer.get(i).x + ii,
-                                    answer.get(i).y + jj,
-                                    mSettings.color_path);
+                            // если нарисовал пиксель за битмапом, то это вылетает
+                            try {
+                                bitmap.setPixel(answer.get(i).x + ii,
+                                        answer.get(i).y + jj,
+                                        mSettings.color_path);
+                            } catch (IllegalArgumentException e){
+                                continue;
+                            }
                         }
                     }
                 }
