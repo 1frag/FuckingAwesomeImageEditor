@@ -439,18 +439,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         // TODO: handle this
     }
 
-    private boolean cor(Point a) {
-        int rad = mSettings.size_path;
-        for (int i = -rad; i <= rad; i++) {
-            for (int j = -rad; j <= rad; j++) {
-                if (bitmap.getPixel(a.x, a.y) == mSettings.color_wall) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
     private ArrayList<Point> reconstructPath() {
         ArrayList<Point> res = new ArrayList<>();
         Point now = mPointFinish;
@@ -471,8 +459,8 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     private int[] getDirY() {
         if (mSettings.rool == R.id.rb_four)
-            return (new int[]{0, 0, 1, -1});
-        return (new int[]{0, 0, 1, 1, 1, -1, -1, -1});
+            return (new int[]{1, -1, 0, 0});
+        return (new int[]{1, -1, 1, -1, 0, 0, -1, 1});
     }
 
     private ArrayList<Point> algorithm(int n, int m) {
@@ -538,8 +526,8 @@ public class A_Star extends Conductor implements OnTouchListener {
                 if (closedset.contains(y)) continue;
                 if (abs(dirx[i]) + abs(diry[i]) == 2 &&
                         mSettings.rool == R.id.rb_eight_with_restrictions) {
-                    if(!cor(new Point(x.x, diry[i] + x.y)) &&
-                            !cor(new Point(dirx[i] + x.x, x.y)))continue;
+                    if (!is_cor[y.x][diry[i] + y.y] &&
+                            !is_cor[dirx[i] + y.x][y.y]) continue;
                 }
                 int tentative_g_score = myComp.getInG(x) + 1;
                 if (!in_open[y.x][y.y]) {

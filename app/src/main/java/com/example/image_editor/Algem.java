@@ -2,6 +2,7 @@ package com.example.image_editor;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,14 +42,14 @@ public class Algem extends Conductor implements View.OnTouchListener {
     }
 
     @Override
-    public void lockInterface(){
+    public void lockInterface() {
         super.lockInterface();
         mAddPointsButton.setEnabled(false);
         mStartAlgemButton.setEnabled(false);
     }
 
     @Override
-    public void unlockInterface(){
+    public void unlockInterface() {
         super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
@@ -63,11 +64,11 @@ public class Algem extends Conductor implements View.OnTouchListener {
         });
     }
 
-    private void configStartAlgoButton(final Button button){
+    private void configStartAlgoButton(final Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor splainTask = new AsyncTaskConductor(){
+                AsyncTaskConductor splainTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
@@ -82,11 +83,15 @@ public class Algem extends Conductor implements View.OnTouchListener {
     // legacy code below :D
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int mx = (int) event.getX();
-        int my = (int) event.getY();
+        int mx = (int) event.getRawX();
+        int my = (int) event.getRawY();
 
-        mx -= (imageView.getWidth() - bitmap.getWidth()) / 2.0;
-        my -= (imageView.getHeight() - bitmap.getHeight()) / 2.0;
+        Log.i("upd", String.format("%s %s", mx, my));
+//        mx -= 8;
+//        my -= 50;
+//
+//        mx -= (imageView.getWidth() - bitmap.getWidth()) / 2.0;
+//        my -= (imageView.getHeight() - bitmap.getHeight()) / 2.0;
 
         if (mTypeEvent == 1 && event.getAction() == 0) {
             drawCircle(mx, my, 15, Color.BLACK);
@@ -105,9 +110,9 @@ public class Algem extends Conductor implements View.OnTouchListener {
     private void drawCircle(int mx, int my, int r, int color) {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
-                if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r){
-                    if(0>x || x>= bitmap.getWidth())continue;
-                    if(0>y || y>= bitmap.getHeight())continue;
+                if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r) {
+                    if (0 > x || x >= bitmap.getWidth()) continue;
+                    if (0 > y || y >= bitmap.getHeight()) continue;
                     bitmap.setPixel(x, y, color);
                 }
             }
@@ -187,9 +192,9 @@ public class Algem extends Conductor implements View.OnTouchListener {
         //                 2 * P(1,N-2) + 7 * P(1, N-1) = 8*mPointsArray(N-1)+mPointsArray(N)
         N = mPointsArray.size() - 1;
         ArrayList<DPoint> P1;
-        try{
+        try {
             P1 = thomasAlgorithm();
-        } catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -206,7 +211,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
         bitmap = getmBeforeChanges().copy(Bitmap.Config.ARGB_8888, true);
 
-        for(int i=0;i<mPointsArray.size();i++){
+        for (int i = 0; i < mPointsArray.size(); i++) {
             int mx = (int) mPointsArray.get(i).x;
             int my = (int) mPointsArray.get(i).y;
             drawCircle(mx, my, 15, Color.BLACK);
