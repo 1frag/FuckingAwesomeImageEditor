@@ -59,6 +59,7 @@
         android:background="@color/White"
         android:padding="8dp"
         android:src="@drawable/ic_undo"
+        android:onClick="undoOnClick"
         app:layout_constraintEnd_toStartOf="@+id/button_redo"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -71,6 +72,7 @@
         android:background="@color/White"
         android:padding="8dp"
         android:src="@drawable/ic_redo"
+        android:onClick="redoOnClick"
         app:layout_constraintEnd_toStartOf="@+id/settings_main"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />

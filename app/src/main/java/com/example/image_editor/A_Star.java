@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -241,6 +242,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     return;
                 }
                 touchRun();
+                imageView.invalidate();
             }
         });
     }
@@ -464,7 +466,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     private int[] getDirX() {
         if (mSettings.rool == R.id.rb_four)
             return (new int[]{0, 0, 1, -1});
-        return (new int[]{0, 0, 1, 1, 1, -1, -1, -1});
+        return (new int[]{1, 1, -1, -1, -1, 1, 0, 0});
     }
 
     private int[] getDirY() {
@@ -476,10 +478,37 @@ public class A_Star extends Conductor implements OnTouchListener {
     private ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
+        boolean[][] is_cor = new boolean[n][m];
         mPar = new Point[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 in_open[i][j] = false;
+                is_cor[i][j] = true;
+            }
+        }
+
+        for (int i = 0; i < mRemWall.size(); i++) {
+            int nx = mRemWall.get(i).getX();
+            int ny = mRemWall.get(i).getY();
+
+            if(bitmap.getPixel(nx+1,ny) == mSettings.color_wall &&
+                    bitmap.getPixel(nx-1,ny) == mSettings.color_wall &&
+                    bitmap.getPixel(nx,ny+1) == mSettings.color_wall &&
+                    bitmap.getPixel(nx,ny-1) == mSettings.color_wall){
+                continue;
+            }
+
+            int rad = mSettings.size_path;
+            for (int ii = -rad; ii <= rad; ii++) {
+                for (int jj = -rad; jj <= rad; jj++) {
+                    nx = mRemWall.get(i).getX() + ii;
+                    ny = mRemWall.get(i).getY() + jj;
+                    if (nx < 0 || ny < 0) continue;
+                    if (nx > n || ny > m) continue;
+                    if (ii * ii + jj * jj <= rad * rad) {
+                        is_cor[nx][ny] = false;
+                    }
+                }
             }
         }
 
@@ -505,7 +534,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 Point y = new Point(dirx[i] + x.x, diry[i] + x.y);
                 if (y.x < 0 || y.x >= n) continue;
                 if (y.y < 0 || y.y >= m) continue;
-                if (!cor(y)) continue;
+                if (!is_cor[y.x][y.y]) continue;
                 if (closedset.contains(y)) continue;
                 if (abs(dirx[i]) + abs(diry[i]) == 2 &&
                         mSettings.rool == R.id.rb_eight_with_restrictions) {
@@ -529,12 +558,14 @@ public class A_Star extends Conductor implements OnTouchListener {
         return new ArrayList<>();
     }
 
+    // todo: change seekbar bound FROM 1 TO 5 ::SIZES
+
     void touchRun() {
 
         final int n = bitmap.getWidth();
         final int m = bitmap.getHeight();
 
-        AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+        @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
             @Override
             protected Bitmap doInBackground(String... params) {
                 ArrayList<Point> answer = algorithm(n, m);

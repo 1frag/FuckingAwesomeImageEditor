@@ -57,10 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
     private ArrayList<Conductor> mClasses = new ArrayList<>();
 
-    private ImageButton mUndoButton;
-    private ImageButton mRedoButton;
-    private ImageButton mSaveButton;
-
     private ProgressBar mProgressBar;
 
     private static final String IMAGE_DIRECTORY = "/Awesome";
@@ -131,14 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.apply_menu,
                 (LinearLayout)findViewById(R.id.apply_layout));
 
-        mUndoButton = (ImageButton) findViewById(R.id.button_undo);
-        mRedoButton = (ImageButton) findViewById(R.id.button_redo);
-        mSaveButton = (ImageButton) findViewById(R.id.button_save_image);
-
-        configRedoButton(mRedoButton);
-        configUndoButton(mUndoButton);
-        configSaveButton(mSaveButton);
-
         initClassesMain();
         getImages();
     }
@@ -207,29 +195,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void configRedoButton(ImageButton button){
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("REDO");
-                mBitmap = history.takeFromBuffer();
-                if (mBitmap == null){
-                    Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
-                }
-                else mImageView.setImageBitmap(mBitmap);
-            }
-        });
+    public void redoOnClick(View view){
+        System.out.println("REDO");
+        mBitmap = history.takeFromBuffer();
+        if (mBitmap == null){
+            Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
+        }
+        else mImageView.setImageBitmap(mBitmap);
     }
 
-    private void configUndoButton(ImageButton button){
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("UNDO");
-                mBitmap = history.popBitmap();
-                mImageView.setImageBitmap(mBitmap);
-            }
-        });
+    public void undoOnClick(View view){
+        mBitmap = history.popBitmap();
+        mImageView.setImageBitmap(mBitmap);
     }
 
     private void openQuitDialog() {

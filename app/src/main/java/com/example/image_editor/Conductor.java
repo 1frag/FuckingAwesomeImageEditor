@@ -33,6 +33,10 @@ class Conductor {
         bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
     }
 
+    public Bitmap getmBeforeChanges(){
+        return beforeChanges;
+    }
+
     void touchToolbar() {
         Log.i("upd", "touchToolbar");
         beforeChanges = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
