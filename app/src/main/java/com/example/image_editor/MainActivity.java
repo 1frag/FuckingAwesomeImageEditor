@@ -42,8 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import yuku.ambilwarna.AmbilWarnaDialog;
-
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
@@ -96,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        requestMultiplePermissions();
 
         mHeader = findViewById(R.id.linear_layout_header);
 
@@ -262,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap, mBitmap.getWidth()/2, MainActivity.this);
 
-                Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Scaling applied!", Toast.LENGTH_SHORT).show();
                 mImageView.setImageBitmap(mBitmap);
                 mPhotoChosen = true;
                 history.clearAllAndSetOriginal(mBitmap);
@@ -427,7 +426,7 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
             fo.close();
-            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
+            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -450,8 +449,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // check for permanent denial of any permission
                         if (report.isAnyPermissionPermanentlyDenied()) {
-                            // show alert dialog navigating to Settings
-                            //openSettingsDialog();
+                            Log.i("upd", "problem with permission");
                         }
                     }
 
@@ -478,22 +476,6 @@ public class MainActivity extends AppCompatActivity {
     public void click_finish(View view) {
         Log.i("upd", ((Integer) view.getId()).toString());
         Log.i("upd", ((Integer) R.id.button_finish_a_star).toString());
-    }
-
-
-    public void configSelectColorView(View view) {
-        AmbilWarnaDialog dialog = new AmbilWarnaDialog(this, mInitialColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                mInitialColor = color;
-            }
-
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
-                // cancel was selected by the user
-            }
-        });
-        dialog.show();
     }
     /* legacy code finish here */
 }
