@@ -2,13 +2,10 @@ package com.example.image_editor;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 public class LinearAlgebra extends Conductor {
@@ -50,14 +47,7 @@ public class LinearAlgebra extends Conductor {
         prepareToRun(R.layout.linear_algebra_menu);
         setHeader("Linear algebra");
 
-        FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-        ElevationDragFragment fragment = new ElevationDragFragment();
-        transaction.replace(R.id.sample_content_fragment, fragment);
-        transaction.commit();
-        transaction.hide(fragment);
-//        todo: это строка убивает возможность drag&drop
-//              но куда её написать в conductor?, тогда надо
-//              transaction и fragment определять выше, или как?
+        mainActivity.drivingViews.show();
 
         mSetFinishPointsButton = mainActivity.findViewById(R.id.button_finish_points);
         mSetStartPointsButton = mainActivity.findViewById(R.id.button_start_points);
@@ -85,6 +75,7 @@ public class LinearAlgebra extends Conductor {
             @Override
             public void onClick(View v) {
                 initMovingViewFirstGroup();
+                Log.i("upd", "qwe");
             }
         });
     }
@@ -122,15 +113,15 @@ public class LinearAlgebra extends Conductor {
         mainActivity.findViewById(R.id.circle2).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.circle3).setVisibility(View.VISIBLE);
 
-        mainActivity.findViewById(R.id.circle4).setVisibility(View.GONE);
-        mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
-        mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.circle4).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle5).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle6).setVisibility(View.INVISIBLE);
     }
 
     private void initMovingViewSecondGroup() {
-        mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
-        mainActivity.findViewById(R.id.circle2).setVisibility(View.GONE);
-        mainActivity.findViewById(R.id.circle3).setVisibility(View.GONE);
+        mainActivity.findViewById(R.id.circle1).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle2).setVisibility(View.INVISIBLE);
+        mainActivity.findViewById(R.id.circle3).setVisibility(View.INVISIBLE);
 
         mainActivity.findViewById(R.id.circle4).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.circle5).setVisibility(View.VISIBLE);

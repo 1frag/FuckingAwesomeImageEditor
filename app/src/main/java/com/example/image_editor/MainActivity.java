@@ -20,7 +20,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mPhotoChosen = false; // false if photo is default
 
     public History history;
+    public DrivingViews drivingViews;
 
     /* test part goes here */
     Conductor Conductor;
@@ -116,8 +116,10 @@ public class MainActivity extends AppCompatActivity {
         mImageView.setMaxHeight((int) (height * 0.585));
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressbar_main);
+        mProgressBar = findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
+
+        drivingViews = new DrivingViews(this);
 
         history = new History();
         history.clearAllAndSetOriginal(((BitmapDrawable) mImageView.getDrawable()).getBitmap());
@@ -183,15 +185,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         else openQuitDialog(); // уверен, что выйти из приложения
-    }
-
-    private void configSaveButton(ImageButton button){
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveImage(v);
-            }
-        });
     }
 
     public void redoOnClick(View view){
@@ -444,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            Log.i("upd", "All permissions are granted by user!");
                         }
 
                         // check for permanent denial of any permission

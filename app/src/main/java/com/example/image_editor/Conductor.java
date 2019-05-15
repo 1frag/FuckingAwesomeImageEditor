@@ -62,7 +62,8 @@ class Conductor {
         mainActivity.imageChanged = false;
 
         /* for Algem 2.0 delete moving points */
-        removeFloatingPoints();
+//        removeFloatingPoints();
+        mainActivity.drivingViews.hide();
 
         // useless line tho
 //        mainActivity.initClasses();

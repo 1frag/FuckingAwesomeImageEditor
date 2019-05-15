@@ -103,9 +103,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         int mx = (int) (event.getX() / scalingX);
         int my = (int) (event.getY() / scalingY);
 
-        mx -= (imageView.getWidth() - bitmap.getWidth()) / 2.0;
-        my -= (imageView.getHeight() - bitmap.getHeight()) / 2.0;
-
         if (mTypeDraw == 3) {
             return drawWall(mx, my);
         } else if (mTypeDraw == 2) {
