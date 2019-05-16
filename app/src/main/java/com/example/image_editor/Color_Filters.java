@@ -17,43 +17,43 @@ public class Color_Filters extends Conductor {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.filters_menu);
-        setHeader("Color correction");
+        setHeader(mainActivity.getResources().getString(R.string.color_correction_name));
         pickFilters();
     }
 
     private void pickFilters() {
         // pick to arrays
-        mNamesFilters.add("Original"); // 0
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_original)); // 0
         mNamesProg.add("Original");
 
-        mNamesFilters.add("Movie"); // 1
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filters_movie)); // 1
         mNamesProg.add("Movie");
 
-        mNamesFilters.add("Blur"); // 2
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filters_blur)); // 2
         mNamesProg.add("Blur");
 
-        mNamesFilters.add("B&W"); // 3
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filers_black_and_white)); // 3
         mNamesProg.add("B&W");
 
-        mNamesFilters.add("Blue laguna"); // 4
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_blue_laguna)); // 4
         mNamesProg.add("Blue laguna");
 
-        mNamesFilters.add("Contrast"); // 5
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_contrast)); // 5
         mNamesProg.add("Contrast");
 
-        mNamesFilters.add("Sephia"); // 6
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_sephia)); // 6
         mNamesProg.add("Sephia");
 
-        mNamesFilters.add("Noise"); // 7
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_noise)); // 7
         mNamesProg.add("Noise");
 
-        mNamesFilters.add("Green grass"); // 8
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_green_grass)); // 8
         mNamesProg.add("Green grass");
 
-        mNamesFilters.add("Ruby"); // 9
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_ruby)); // 9
         mNamesProg.add("Ruby");
 
-        mNamesFilters.add("Vignette"); // 10
+        mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_vignette)); // 10
         mNamesProg.add("Vignette");
 
         try {

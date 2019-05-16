@@ -28,7 +28,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.spline_menu);
-        setHeader("Splines and lines");
+        setHeader(mainActivity.getResources().getString(R.string.interpolation_slines));
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
@@ -193,7 +193,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(mainActivity.getApplicationContext(), "No points, dude", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(), mainActivity.getResources().getString(R.string.warning_no_points), Toast.LENGTH_SHORT).show();
                 }
             });
             return;

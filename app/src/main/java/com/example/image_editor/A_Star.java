@@ -56,7 +56,7 @@ public class A_Star extends Conductor implements OnTouchListener {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.a_star_menu);
-        setHeader("A* algorithm");
+        setHeader(mainActivity.getResources().getString(R.string.a_star_name));
 
         mChangeStartButton = mainActivity.findViewById(R.id.button_start_a_star);
         mChangeEndButton = mainActivity.findViewById(R.id.button_finish_a_star);
@@ -238,7 +238,7 @@ public class A_Star extends Conductor implements OnTouchListener {
             public void onClick(View v) {
                 if (!mStartIsSet || !mFinishIsSet) {
                     Toast.makeText(mainActivity.getApplicationContext(),
-                            "You need to set start and finish first!", Toast.LENGTH_SHORT).show();
+                            mainActivity.getResources().getString(R.string.warning_set_start_and_finish), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 touchRun();

@@ -70,5 +70,21 @@
     <string name="theme">Theme:</string>
     <string name="dark_mode">Dark mode</string>
     <string name="cd">cd</string>
+    <string name="a_star_name">A* algorithm</string>
+    <string name="warning_set_start_and_finish">You need to set start and finish first!</string>
+    <string name="warning_no_points">No points, dude</string>
+    <string name="interpolation_slines">Splines and lines</string>
+    <string name="filter_original">Original</string>
+    <string name="filters_movie">Movie</string>
+    <string name="filters_blur">Blur</string>
+    <string name="filers_black_and_white"><![CDATA[B&W]]></string>
+    <string name="filter_blue_laguna">Blue laguna</string>
+    <string name="filter_contrast">Contrast</string>
+    <string name="filter_sephia">Sephia</string>
+    <string name="filter_noise">Noise</string>
+    <string name="filter_green_grass">Green grass</string>
+    <string name="filter_ruby">Ruby</string>
+    <string name="filter_vignette">Vignette</string>
+    <string name="color_correction_name">Color correction</string>
 
 </resources>
