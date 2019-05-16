@@ -400,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
 
     // you can rewrite something if you want
     public void shareImage(View view){
-        Bitmap icon = mBitmap;
+        Bitmap icon = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
