@@ -17,5 +17,6 @@
     <color name="Mv_color1">#A2F701</color>
     <color name="Mv_color2">#A21701</color>
     <color name="Mv_color3">#12F7F1</color>
+    <color name="trans">#00000000</color>
 
 </resources>

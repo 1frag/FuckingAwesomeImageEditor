@@ -21,11 +21,10 @@
     <FrameLayout
         android:id="@+id/sample_content_fragment"
         android:layout_width="400dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="500dp"
+        android:layout_height="500dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="8dp"
-        android:background="@color/White"
+        android:background="@color/trans"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/method_layout"
         app:layout_constraintEnd_toEndOf="parent"
