@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // you can rewrite something if you want
-    public void saveImage(View view){
+    public void shareImage(View view){
         Bitmap icon = mBitmap;
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
@@ -417,36 +417,36 @@ public class MainActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share, "Share Image"));
     }
 
-//    public void saveImage(View view) {
-//        // TODO: think about loading from private mBitmap or mImageView??
-//        // I prefer second option. P.S. Sasha
-//        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-//
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-//        File wallpaperDirectory = new File(
-//                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-//        // have the object build the directory structure, if needed.
-//        if (!wallpaperDirectory.exists()) {
-//            wallpaperDirectory.mkdirs();
-//        }
-//
-//        try {
-//            File f = new File(wallpaperDirectory, Calendar.getInstance()
-//                    .getTimeInMillis() + ".jpg");
-//            f.createNewFile();
-//            FileOutputStream fo = new FileOutputStream(f);
-//            fo.write(bytes.toByteArray());
-//            MediaScannerConnection.scanFile(this,
-//                    new String[]{f.getPath()},
-//                    new String[]{"image/jpeg"}, null);
-//            fo.close();
-//            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
-//        } catch (IOException e1) {
-//            e1.printStackTrace();
-//        }
-//        Toast.makeText(getApplicationContext(), "Image saved in " + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
-//    }
+    public void saveImage(View view) {
+        // TODO: think about loading from private mBitmap or mImageView??
+        // I prefer second option. P.S. Sasha
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this,
+                    new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(), "Image saved in " + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
+    }
 
     private void requestMultiplePermissions() {
         Dexter.withActivity(this)

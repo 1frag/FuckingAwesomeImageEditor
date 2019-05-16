@@ -9,6 +9,7 @@
     android:layout_height="match_parent">
 
     <View
+        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,6 +89,17 @@
         android:src="@drawable/ic_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!--todo: @perekrist, button_share not style-->
+    <ImageView
+        android:id="@+id/button_share"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="shareImage"
+        android:layout_marginStart="0dp"
+        app:layout_constraintStart_toEndOf="@+id/button_save_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_share" />
 
 
 </android.support.constraint.ConstraintLayout>
