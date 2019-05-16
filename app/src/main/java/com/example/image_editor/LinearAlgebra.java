@@ -17,26 +17,6 @@ public class LinearAlgebra extends Conductor {
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
 
-    class Solver {
-        private Double a, b, c, d, e, f;
-
-        public DPoint calc(DPoint m) {
-            return new DPoint(
-                    a * m.x + c * m.y + e,
-                    b * m.x + d * m.y + f
-            );
-        }
-
-        Solver(Matrix3x1 ace, Matrix3x1 bdf) {
-            this.a = ace.get(0);
-            this.c = ace.get(1);
-            this.e = ace.get(2);
-            this.b = bdf.get(0);
-            this.d = bdf.get(1);
-            this.f = bdf.get(2);
-        }
-    }
-
     LinearAlgebra(MainActivity activity) {
         super(activity);
     }
@@ -138,86 +118,17 @@ public class LinearAlgebra extends Conductor {
         p23 = new DPoint(mainActivity.findViewById(R.id.circle6).getX(), mainActivity.findViewById(R.id.circle6).getY());
     }
 
-    //matrix of algebraic complements
-    private Matrix3x3 moac3(Matrix3x3 A) {
-        Matrix3x3 finish = new Matrix3x3();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                finish.set(i, j, A.det2(i, j) * Math.pow(-1, i + j));
-            }
-        }
-        return finish;
-    }
-
-    private Matrix3x3 inverse(Matrix3x3 start) {
-        double det = start.det3();
-        if (det == 0) {
-            // catch this!
-            Log.i("upd", "det == 0!");
-            return null;
-        }
-        Matrix3x3 finish = reverse(moac3(start));
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                finish.set(i, j, finish.get(i, j) / det);
-            }
-        }
-        return finish;
-    }
-
-    private Matrix3x3 reverse(Matrix3x3 A) {
-        Matrix3x3 finish = new Matrix3x3();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                finish.set(i, j, A.get(j, i));
-            }
-        }
-        return finish;
-    }
-
-    private Matrix3x1 mulMatrix(Matrix3x3 A, Matrix3x1 B) {
-        Matrix3x1 C = new Matrix3x1();
-
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                for (int r = 0; r < 3; r++)
-                    C.set(i, j, C.get(i, j) + A.get(i, r) * B.get(r, j));
-
-        return C;
-    }
-
-    private Matrix3x3 getFirstPoints() {
-        return inverse(new Matrix3x3(
-                p11.x, p11.y, 1.0,
-                p12.x, p12.y, 1.0,
-                p13.x, p13.y, 1.0));
-    }
-
-    private Matrix3x1 getSecondInACE() {
-        return new Matrix3x1(p21.x, p22.x, p23.x);
-    }
-
-    private Matrix3x1 getSecondInBDF() {
-        return new Matrix3x1(p21.y, p22.y, p23.y);
-    }
-
     private Bitmap algorithm() {
-        Solver solver;
-        try {
-            solver = new Solver(
-                    mulMatrix(
-                            getFirstPoints(),
-                            getSecondInACE()),
-                    mulMatrix(
-                            getFirstPoints(),
-                            getSecondInBDF()));
+        ExecutorAffineTransformations solver;
+        solver = new ExecutorAffineTransformations(
+                p11, p12, p13, p21, p22, p23);
 
-        } catch (NullPointerException e) {
+        if (!solver.prepare()){
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(),
-                            "Bad point setting", Toast.LENGTH_SHORT).show();
+                            "Points on one line", Toast.LENGTH_SHORT).show();
                 }
             });
             return bitmap;
@@ -230,9 +141,9 @@ public class LinearAlgebra extends Conductor {
 
         for (int i = 0; i < bitmap.getWidth(); i++) {
             for (int j = 0; j < bitmap.getHeight(); j++) {
-                DPoint image = solver.calc(new DPoint(i, j));
-                int w = (int) image.x;
-                int h = (int) image.y;
+                DPoint image = solver.calc(i, j);
+                int w = (int) Math.round(image.x);
+                int h = (int) Math.round(image.y);
                 if (0 > w || w >= btmp.getWidth()) continue;
                 if (0 > h || h >= btmp.getHeight()) continue;
                 btmp.setPixel(i, j, bitmap.getPixel(w, h));
