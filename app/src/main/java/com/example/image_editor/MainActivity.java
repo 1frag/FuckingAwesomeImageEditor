@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,6 +25,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.karumi.dexter.Dexter;
@@ -41,6 +44,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     public History history;
     public DrivingViews drivingViews;
 
+    private Settings mSetting;
+
     /* test part goes here */
     Conductor Conductor;
     Conductor A_Star;
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         requestMultiplePermissions();
 
         mHeader = findViewById(R.id.linear_layout_header);
+        mSetting = new Settings();
 
         final LayoutInflater factory = getLayoutInflater();
         final View menu = factory.inflate(R.layout.main_head, null);
@@ -129,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         getLayoutInflater().inflate(
                 R.layout.apply_menu,
-                (LinearLayout)findViewById(R.id.apply_layout));
+                (LinearLayout) findViewById(R.id.apply_layout));
 
         initClassesMain();
         getImages();
@@ -153,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
-    private void initClassesMain(){
+    private void initClassesMain() {
         Conductor = new Conductor(this);
         A_Star = new A_Star(this);
         Algem = new Algem(this);
@@ -178,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (inMethod){
+        if (inMethod) {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
@@ -186,20 +193,18 @@ public class MainActivity extends AppCompatActivity {
                 Conductor.setDefaultState(null);
                 mImageView.setImageBitmap(history.showHead());
             }
-        }
-        else openQuitDialog(); // уверен, что выйти из приложения
+        } else openQuitDialog(); // уверен, что выйти из приложения
     }
 
-    public void redoOnClick(View view){
+    public void redoOnClick(View view) {
         System.out.println("REDO");
         mBitmap = history.takeFromBuffer();
-        if (mBitmap == null){
+        if (mBitmap == null) {
             Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
-        }
-        else mImageView.setImageBitmap(mBitmap);
+        } else mImageView.setImageBitmap(mBitmap);
     }
 
-    public void undoOnClick(View view){
+    public void undoOnClick(View view) {
         mBitmap = history.popBitmap();
         mImageView.setImageBitmap(mBitmap);
     }
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         bigPictureDialog.setPositiveButton("Да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap, mBitmap.getWidth()/2, MainActivity.this);
+                mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap, mBitmap.getWidth() / 2, MainActivity.this);
 
                 Toast.makeText(MainActivity.this, "Scaling applied!", Toast.LENGTH_SHORT).show();
                 mImageView.setImageBitmap(mBitmap);
@@ -274,11 +279,11 @@ public class MainActivity extends AppCompatActivity {
         bigPictureDialog.show();
     }
 
-    public void switchProgressBarVisibilityVisible(){
+    public void switchProgressBarVisibilityVisible() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    public void switchProgressBarVisibilityInvisible(){
+    public void switchProgressBarVisibilityInvisible() {
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -328,6 +333,16 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, CAMERA);
     }
 
+    class Settings {
+        int language;
+        boolean theme;
+
+        Settings() {
+            language = R.id.rb_eng;
+            theme = false;
+        }
+    }
+
     private Dialog openSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -336,7 +351,15 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //todo: catch apply
+                        final AlertDialog alertDialog = (AlertDialog) dialog;
+
+                        RadioGroup rg_lang = alertDialog.findViewById(R.id.rg_language);
+                        mSetting.language = rg_lang.getCheckedRadioButtonId();
+
+                        Switch switch_theme = alertDialog.findViewById(R.id.switch_theme);
+                        mSetting.theme = switch_theme.isChecked();
+
+                        updateAccordingSettings();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -348,12 +371,30 @@ public class MainActivity extends AppCompatActivity {
         return builder.create();
     }
 
-    public void mainSettingOnClick(View view){
+    void updateAccordingSettings(){
+        Locale locale;
+        if(mSetting.language == R.id.rb_eng){
+            locale = new Locale("en");
+        } else locale = new Locale("ru");
+
+        Locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getBaseContext().getResources().updateConfiguration(configuration, null);
+    }
+
+    public void mainSettingOnClick(View view) {
         Dialog dialog = openSettingsDialog();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
+                final AlertDialog alertDialog = (AlertDialog) dialog;
 
+                RadioGroup rg_lang = alertDialog.findViewById(R.id.rg_language);
+                rg_lang.check(mSetting.language);
+
+                Switch switch_theme = alertDialog.findViewById(R.id.switch_theme);
+                switch_theme.setChecked(mSetting.theme);
             }
         });
         dialog.show();
@@ -399,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // you can rewrite something if you want
-    public void shareImage(View view){
+    public void shareImage(View view) {
         Bitmap icon = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");

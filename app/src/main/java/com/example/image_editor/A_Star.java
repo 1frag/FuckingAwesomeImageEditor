@@ -591,8 +591,8 @@ public class A_Star extends Conductor implements OnTouchListener {
     }
 
     class Settings {
-        public int rool, type_wall, size_wall;
-        public int color_wall, size_path, color_path;
+        int rool, type_wall, size_wall;
+        int color_wall, size_path, color_path;
 
         Settings() {
             rool = R.id.rb_four;
