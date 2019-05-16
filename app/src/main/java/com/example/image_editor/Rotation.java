@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
@@ -22,8 +23,8 @@ public class Rotation extends Conductor {
 
     private TextView mTextViewAngle;
 
-    private int mCurrentAngle = 0;
-    private int mProgress = 45;
+    private int mCurrentAngleDiv90 = 0;
+    private int mCurrentAngleMod90 = 0;
 
     Rotation(MainActivity activity) {
         super(activity);
@@ -45,8 +46,8 @@ public class Rotation extends Conductor {
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
         mSeekBarAngle = mainActivity.findViewById(R.id.seekbar_rotate);
-        mSeekBarAngle.setProgress(45);
-        mSeekBarAngle.setMax(90);
+        mSeekBarAngle.setProgress(90);
+        mSeekBarAngle.setMax(180);
 
         configRotationSeekBar(mSeekBarAngle);
         configRotate90Button(mRotate90Button);
@@ -56,7 +57,7 @@ public class Rotation extends Conductor {
         configMirrorVerticalButton(mMirrorVButton);
         configCropButton(mCropButton);
 
-        mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress() - 45));
+        mTextViewAngle.setText(String.format("Angle: %s", getCurrentAngle()));
     }
 
     @Override
@@ -81,18 +82,19 @@ public class Rotation extends Conductor {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
-                mProgress = progressValue;
-                mTextViewAngle.setText("Angle: " + (mProgress - 45));
+                if (!fromUser) return;
+                mCurrentAngleMod90 = progressValue - 90;
+                mTextViewAngle.setText(String.format("Angle: %s", getCurrentAngle()));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                return;
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                System.out.println(mProgress);
+                System.out.println(mCurrentAngleMod90);
             }
         });
 
@@ -103,9 +105,11 @@ public class Rotation extends Conductor {
             @Override
             public void onClick(View v) {
                 imageView.setImageBitmap(beforeChanges);
-                mCurrentAngle = 0;
-                mSeekBarAngle.setProgress(45);
-                mTextViewAngle.setText("Angle: " + (mSeekBarAngle.getProgress() - 45));
+                mCurrentAngleDiv90 = 0;
+                mCurrentAngleMod90 = 0;
+                mSeekBarAngle.setProgress(90);
+                mTextViewAngle.setText(String.format("Angle: %s",
+                        mainActivity.getString(R.string._0)));
             }
         });
     }
@@ -114,10 +118,10 @@ public class Rotation extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        bitmap = rotateOnAngle(mProgress - 45);
+                        bitmap = rotateOnAngle(getCurrentAngle());
                         return bitmap;
                     }
                 };
@@ -131,21 +135,10 @@ public class Rotation extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentAngle += 90;
-                AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
-                    @Override
-                    protected Bitmap doInBackground(String... params) {
-                        bitmap = rotateOnAngle(mCurrentAngle);
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mTextViewAngle.setText("Angle: " + mCurrentAngle);
-                            }
-                        });
-                        return bitmap;
-                    }
-                };
-                asyncRotate.execute();
+                mCurrentAngleDiv90++;
+                mCurrentAngleDiv90 %= 4;
+                mTextViewAngle.setText(String.format("Angle: %s",
+                        getCurrentAngle()));
             }
         });
     }
@@ -161,6 +154,13 @@ public class Rotation extends Conductor {
 
     private void configCropButton(ImageButton button) {
 
+    }
+
+    private int getCurrentAngle() {
+//        Log.i("upd", String.format("%s %s", mCurrentAngleDiv90, mCurrentAngleMod90));
+        int cur = (mCurrentAngleDiv90 * 90 + mCurrentAngleMod90 + 3600) % 360;
+        if (cur > 180) return cur - 360;
+        else return cur;
     }
 
     private DPoint getPoint23(int angle, double sina,
@@ -182,8 +182,8 @@ public class Rotation extends Conductor {
     }
 
     private Bitmap rotateOnAngle(int angle) {
+        if (angle < 360) angle += 360;
 
-        if (angle < 0) angle += 360;
         double a = (double) angle * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);

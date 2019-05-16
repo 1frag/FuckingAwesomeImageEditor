@@ -36,8 +36,8 @@
     <string name="edit">Изменить</string>
     <string name="amount">Процент</string>
     <string name="threshold">Порог</string>
-    <string name="_45">-45</string>
-    <string name="_45p">+45</string>
+    <string name="_45">-90</string>
+    <string name="_45p">+90</string>
     <string name="_0">0</string>
     <string name="rotate">поворот</string>
     <string name="crop">обрезать</string>

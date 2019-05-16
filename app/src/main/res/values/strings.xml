@@ -36,8 +36,8 @@
     <string name="edit">EDIT</string>
     <string name="amount">Amount</string>
     <string name="threshold">Threshold</string>
-    <string name="_45">-45</string>
-    <string name="_45p">+45</string>
+    <string name="_45">-90</string>
+    <string name="_45p">+90</string>
     <string name="_0">0</string>
     <string name="rotate">rotate</string>
     <string name="crop">crop</string>
