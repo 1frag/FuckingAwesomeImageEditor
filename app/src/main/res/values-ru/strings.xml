@@ -96,4 +96,18 @@
     <string name="share_image">Share Image</string>
     <string name="image_saved_in">Image saved in</string>
     <string name="some_error">Some Error!</string>
+    <string name="retouch">Retouch</string>
+    <string name="radius_is">Radius: %d</string>
+    <string name="brush_is">Brush: %d</string>
+    <string name="name_rotation">Rotation</string>
+    <string name="name_scaling">Scaling</string>
+    <string name="width_is">Width: %d</string>
+    <string name="height_is">Height: %d</string>
+    <string name="scale_is">Scale: %.2fx</string>
+    <string name="amount_is">Amount: %d</string>
+    <string name="warning_scale">Dude, it\'s too small</string>
+    <string name="segmentation">Segmentation</string>
+    <string name="faces_found">%d faces found</string>
+    <string name="name_unsharp_masking">Unsharp masking</string>
+    <string name="threshold_is">Threshold: %f</string>
 </resources>

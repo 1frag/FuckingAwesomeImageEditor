@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,7 @@ public class Scaling extends Conductor {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.scaling_menu);
-        setHeader("Scaling");
+        setHeader(mainActivity.getResources().getString(R.string.name_scaling));
 
         mResetScalingButton = mainActivity.findViewById(R.id.button_reset_scaling);
         mApplyScalingButton = mainActivity.findViewById(R.id.button_apply_scaling);
@@ -44,9 +45,10 @@ public class Scaling extends Conductor {
         configApplyButton(mApplyScalingButton);
         configScalingSeekBar(mSeekBarScaling);
 
-        mTextWidth.setText("Width: " + bitmap.getWidth());
-        mTextHeight.setText("Height: " + bitmap.getHeight());
-        mTextScaling.setText("Scale: 1");
+        mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), bitmap.getWidth()));
+        mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), bitmap.getHeight()));
+        mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), 1f));
+
     }
 
     @Override
@@ -70,9 +72,9 @@ public class Scaling extends Conductor {
             @Override
             public void onClick(View v) {
                 imageView.setImageBitmap(beforeChanges);
-                mTextWidth.setText("Width: " + beforeChanges.getWidth());
-                mTextHeight.setText("Height: " + beforeChanges.getHeight());
-                mTextScaling.setText("Scale: 1x");
+                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), beforeChanges.getWidth()));
+                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), beforeChanges.getHeight()));
+                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), 1));
                 mSeekBarScaling.setProgress(100);
             }
         });
@@ -82,15 +84,15 @@ public class Scaling extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params){
                         bitmap = algorithm(beforeChanges, (float) mScalingValue/100);
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mTextWidth.setText("Width: " + bitmap.getWidth());
-                                mTextHeight.setText("Height: " + bitmap.getHeight());
+                                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), bitmap.getWidth()));
+                                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), bitmap.getHeight()));
                             }
                         });
                         return bitmap;
@@ -106,7 +108,7 @@ public class Scaling extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mScalingValue = progress;
-                mTextScaling.setText("Scale: " + ((float) mScalingValue/100) + "x");
+                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), ((float) mScalingValue/100)));
             }
 
             @Override
@@ -125,7 +127,7 @@ public class Scaling extends Conductor {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(),
-                            "Dude, it's too small", Toast.LENGTH_SHORT).show();
+                            mainActivity.getResources().getString(R.string.warning_scale), Toast.LENGTH_SHORT).show();
                 }
             });
             return now;

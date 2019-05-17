@@ -33,7 +33,7 @@ public class Usm extends Conductor {
 
         super.touchToolbar();
         prepareToRun(R.layout.sharpness_menu);
-        setHeader("Unsharp masking");
+        setHeader(mainActivity.getResources().getString(R.string.name_unsharp_masking));
 
         mSeekBarAmount = mainActivity.findViewById(R.id.seekbar_amount);
         mSeekBarAmount.setMax(100);
@@ -98,7 +98,8 @@ public class Usm extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mRadius = progress;
-                mTextRadius.setText("Radius: " + progress);
+                String txt = mainActivity.getResources().getString(R.string.radius_is);
+                mTextRadius.setText(String.format(txt, progress));
             }
 
             @Override
@@ -118,7 +119,8 @@ public class Usm extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mAmount = progress + 1;
-                mTextAmount.setText("Amount: " + progress);
+                String txt = mainActivity.getResources().getString(R.string.amount_is);
+                mTextAmount.setText(String.format(txt, progress));
             }
 
             @Override
@@ -138,7 +140,8 @@ public class Usm extends Conductor {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mThreshold = progress;
-                mTextThreshold.setText("Threshold: " + progress);
+                String txt = mainActivity.getResources().getString(R.string.threshold_is);
+                mTextThreshold.setText(String.format(txt, progress));
             }
 
             @Override

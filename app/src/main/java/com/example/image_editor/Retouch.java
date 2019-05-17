@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -44,7 +45,7 @@ public class Retouch extends Conductor implements OnTouchListener {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.retouch_menu);
-        setHeader("Retouch");
+        setHeader(mainActivity.getResources().getString(R.string.retouch));
 
         mApplyRetouchButton = mainActivity.findViewById(R.id.button_apply_retouch);
 
@@ -117,7 +118,8 @@ public class Retouch extends Conductor implements OnTouchListener {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mTextViewBlurRadius.setText("Radius: " + mBlurRadius);
+                String txt = mainActivity.getResources().getString(R.string.radius_is);
+                mTextViewBlurRadius.setText(String.format(txt, mBlurRadius));
                 System.out.println(mBlurRadius);
             }
         });
@@ -139,8 +141,9 @@ public class Retouch extends Conductor implements OnTouchListener {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mTextViewBrushSize.setText("Brush: " + mBrushSize);
-                System.out.println(mBrushSize);
+                String txt = mainActivity.getResources().getString(R.string.brush_is);
+                mTextViewBlurRadius.setText(String.format(txt, mBrushSize));
+                System.out.println(mBlurRadius);
             }
         });
     }

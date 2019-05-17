@@ -26,7 +26,7 @@ class Segmentation extends Conductor{
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.segmentatioon_menu);
-        setHeader("Segmantation");
+        setHeader(mainActivity.getResources().getString(R.string.segmentation));
 
         ConfigBtnFacesDetect((Button) mainActivity.findViewById(R.id.faces));
 
@@ -78,7 +78,7 @@ class Segmentation extends Conductor{
             imageView.setImageBitmap(editedBitmap);
             mainActivity.imageChanged = true;
             Toast.makeText(mainActivity.getApplicationContext(),
-                    String.format("%s faces found", faces.size()),
+                    String.format(mainActivity.getResources().getString(R.string.faces_found), faces.size()),
                     Toast.LENGTH_SHORT).show();
         } else {
             Log.i(TAG, "Could not set up the mDetector!");

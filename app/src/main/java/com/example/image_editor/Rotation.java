@@ -34,7 +34,7 @@ public class Rotation extends Conductor {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.rotate_menu);
-        setHeader("Rotation");
+        setHeader(mainActivity.getResources().getString(R.string.name_rotation));
 
         mRotate90Button = mainActivity.findViewById(R.id.button_rotate90);
         mResetRotateButton = mainActivity.findViewById(R.id.button_reset_seekbar);
