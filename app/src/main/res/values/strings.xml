@@ -86,5 +86,14 @@
     <string name="filter_ruby">Ruby</string>
     <string name="filter_vignette">Vignette</string>
     <string name="color_correction_name">Color correction</string>
+    <string name="change_lost">Изменения будут утрачены. Продолжить?</string>
+    <string name="yes">Таки да!</string>
+    <string name="no">Нет</string>
+    <string name="points_on_one_line">Points on one line</string>
+    <string name="algem_2_0_name">Linear algebra</string>
+    <string name="failed">Failed!</string>
+    <string name="share_image">Share Image</string>
+    <string name="image_saved_in">Image saved in</string>
+    <string name="some_error">Some Error!</string>
 
 </resources>

@@ -419,14 +419,15 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
-                    Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                     mImageView.setImageBitmap(mBitmap);
                     mPhotoChosen = true;
                     history.clearAllAndSetOriginal(mBitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(MainActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            getResources().getString(R.string.failed),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -455,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, "Share Image"));
+        startActivity(Intent.createChooser(share, getResources().getString(R.string.share_image)));
     }
 
     public void saveImage(View view) {
@@ -486,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(), "Image saved in " + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.image_saved_in) + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
     }
 
     private void requestMultiplePermissions() {
@@ -517,7 +518,9 @@ public class MainActivity extends AppCompatActivity {
                 withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.some_error),
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .onSameThread()

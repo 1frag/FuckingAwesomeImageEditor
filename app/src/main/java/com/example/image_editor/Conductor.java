@@ -116,18 +116,19 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mainActivity.imageChanged) {
-                    openApplyDialog(v);
-                } else setDefaultState(v);
+                if (!mainActivity.imageChanged) {
+                    mainActivity.history.addBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+                }
+                setDefaultState(v);
             }
         });
     }
 
     private void openCancelDialog(final View v) {
         AlertDialog.Builder cancelDialog = new AlertDialog.Builder(mainActivity);
-        cancelDialog.setTitle("Изменения будут утрачены. Продолжить?");
+        cancelDialog.setTitle(mainActivity.getResources().getString(R.string.change_lost));
 
-        cancelDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+        cancelDialog.setPositiveButton(mainActivity.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mainActivity.getImageView().setImageBitmap(beforeChanges);
@@ -136,7 +137,7 @@ class Conductor {
             }
         });
 
-        cancelDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+        cancelDialog.setNegativeButton(mainActivity.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
@@ -144,29 +145,6 @@ class Conductor {
         });
 
         cancelDialog.show();
-    }
-
-    // TODO: pretty useless dialog tho
-    private void openApplyDialog(final View v) {
-        AlertDialog.Builder applyDialog = new AlertDialog.Builder(mainActivity);
-        applyDialog.setTitle("Изменения будут применены. Продолжить?");
-
-        applyDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mainActivity.history.addBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
-                setDefaultState(v);
-            }
-        });
-
-        applyDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
-
-        applyDialog.show();
     }
 
     public void lockInterface(){

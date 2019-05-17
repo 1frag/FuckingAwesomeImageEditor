@@ -25,7 +25,7 @@ public class LinearAlgebra extends Conductor {
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.linear_algebra_menu);
-        setHeader("Linear algebra");
+        setHeader(mainActivity.getResources().getString(R.string.algem_2_0_name));
 
         mainActivity.drivingViews.show();
 
@@ -128,7 +128,7 @@ public class LinearAlgebra extends Conductor {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(),
-                            "Points on one line", Toast.LENGTH_SHORT).show();
+                            mainActivity.getResources().getString(R.string.points_on_one_line), Toast.LENGTH_SHORT).show();
                 }
             });
             return bitmap;
