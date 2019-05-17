@@ -57,7 +57,8 @@ public class Rotation extends Conductor {
         configMirrorVerticalButton(mMirrorVButton);
         configCropButton(mCropButton);
 
-        mTextViewAngle.setText(String.format("Angle: %s", getCurrentAngle()));
+        String txt = mainActivity.getResources().getString(R.string.angle_is);
+        mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
     }
 
     @Override
@@ -84,7 +85,8 @@ public class Rotation extends Conductor {
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 if (!fromUser) return;
                 mCurrentAngleMod90 = progressValue - 90;
-                mTextViewAngle.setText(String.format("Angle: %s", getCurrentAngle()));
+                String txt = mainActivity.getResources().getString(R.string.angle_is);
+                mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
             }
 
             @Override
@@ -108,8 +110,8 @@ public class Rotation extends Conductor {
                 mCurrentAngleDiv90 = 0;
                 mCurrentAngleMod90 = 0;
                 mSeekBarAngle.setProgress(90);
-                mTextViewAngle.setText(String.format("Angle: %s",
-                        mainActivity.getString(R.string._0)));
+                String txt = mainActivity.getResources().getString(R.string.angle_is);
+                mTextViewAngle.setText(String.format(txt, 0));
             }
         });
     }
@@ -137,8 +139,8 @@ public class Rotation extends Conductor {
             public void onClick(View v) {
                 mCurrentAngleDiv90++;
                 mCurrentAngleDiv90 %= 4;
-                mTextViewAngle.setText(String.format("Angle: %s",
-                        getCurrentAngle()));
+                String txt = mainActivity.getResources().getString(R.string.angle_is);
+                mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
             }
         });
     }
@@ -210,7 +212,8 @@ public class Rotation extends Conductor {
                 @Override
                 public void run() {
                     Toast.makeText(mainActivity.getApplicationContext(),
-                            "Points on one line", Toast.LENGTH_SHORT).show();
+                            mainActivity.getResources().getString(R.string.points_on_one_line),
+                            Toast.LENGTH_SHORT).show();
                 }
             });
             return bitmap;

@@ -194,6 +194,7 @@ class Conductor {
     }
 
     private void removeFloatingPoints(){
+        // todo: dynamic link resourse // getindentifier
         if(mainActivity.findViewById(R.id.circle1) != null)
             mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle2) != null)

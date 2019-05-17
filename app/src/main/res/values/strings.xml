@@ -108,6 +108,7 @@
     <string name="segmentation">Segmentation</string>
     <string name="faces_found">%d faces found</string>
     <string name="name_unsharp_masking">Unsharp masking</string>
-    <string name="threshold_is">Threshold: %f</string>
+    <string name="threshold_is">Threshold: %d</string>
+    <string name="angle_is">Angle: %d</string>
 
 </resources>

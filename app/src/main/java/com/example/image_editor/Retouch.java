@@ -1,6 +1,5 @@
 package com.example.image_editor;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,10 +8,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.view.View.OnTouchListener;
 
 import static java.lang.Math.abs;
 
@@ -109,6 +108,8 @@ public class Retouch extends Conductor implements OnTouchListener {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 mBlurRadius = progresValue + 1;
+                String txt = mainActivity.getResources().getString(R.string.radius_is);
+                mTextViewBlurRadius.setText(String.format(txt, mBlurRadius));
             }
 
             @Override
@@ -118,8 +119,6 @@ public class Retouch extends Conductor implements OnTouchListener {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String txt = mainActivity.getResources().getString(R.string.radius_is);
-                mTextViewBlurRadius.setText(String.format(txt, mBlurRadius));
                 System.out.println(mBlurRadius);
             }
         });
@@ -132,6 +131,8 @@ public class Retouch extends Conductor implements OnTouchListener {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
                 mBrushSize = progresValue + 1;
+                String txt = mainActivity.getResources().getString(R.string.brush_is);
+                mTextViewBrushSize.setText(String.format(txt, mBrushSize));
             }
 
             @Override
@@ -141,8 +142,6 @@ public class Retouch extends Conductor implements OnTouchListener {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                String txt = mainActivity.getResources().getString(R.string.brush_is);
-                mTextViewBlurRadius.setText(String.format(txt, mBrushSize));
                 System.out.println(mBlurRadius);
             }
         });
