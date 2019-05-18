@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
-                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
+//                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
                 Conductor.setDefaultState(null);
                 mImageView.setImageBitmap(history.showHead());
             }
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
+//                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
                 Conductor.setDefaultState(null);
                 mImageView.setImageBitmap(history.showHead());
             }
