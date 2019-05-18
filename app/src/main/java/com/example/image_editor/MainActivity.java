@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getPixelBitmap(int x, int y) {
-        if (0 > x || x > mBitmap.getWidth() ||
-                0 > y || y > mBitmap.getHeight()) {
+        if (0 > x || x >= mBitmap.getWidth() ||
+                0 > y || y >= mBitmap.getHeight()) {
             Log.w(TAG, "reference to pixel beyond borders");
             return 0;
         }
@@ -171,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setPixelBitmap(int x, int y, int color) {
-        if (0 > x || x > mBitmap.getWidth() ||
-                0 > y || y > mBitmap.getHeight()) {
+        if (0 > x || x >= mBitmap.getWidth() ||
+                0 > y || y >= mBitmap.getHeight()) {
             Log.w(TAG, "reference to pixel beyond borders");
             return;
         }
