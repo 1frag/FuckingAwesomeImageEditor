@@ -156,6 +156,22 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = btmp.copy(Bitmap.Config.ARGB_8888, true);
     }
 
+    public void invalidateImageView(){
+        mImageView.invalidate();
+    }
+
+    public void setPixelBitmap(int x, int y, int color){
+        mBitmap.setPixel(x, y, color);
+    }
+
+    public int getWidthBitmap(){
+        return mBitmap.getHeight();
+    }
+
+    public int getHeightBitmap(){
+        return mBitmap.getHeight();
+    }
+
     public Bitmap getBitmapBefore(){
         return mBeforeChanges;
     }
@@ -441,6 +457,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
 
+                    mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
                     mImageView.setImageBitmap(mBitmap);
                     mPhotoChosen = true;
                     history.clearAllAndSetOriginal(mBitmap);

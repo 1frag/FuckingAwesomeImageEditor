@@ -91,12 +91,13 @@ public class Algem extends Conductor implements View.OnTouchListener {
         if (mTypeEvent == 1 && event.getAction() == 0) {
             drawCircle(mx, my, 15, Color.BLACK);
             mPointsArray.add(new DPoint(mx, my));
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    imageView.invalidate();
-                }
-            });
+            mainActivity.invalidateImageView();
+//            mainActivity.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    imageView.invalidate();
+//                }
+//            });
             return true;
         }
         return false;
@@ -106,9 +107,9 @@ public class Algem extends Conductor implements View.OnTouchListener {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
                 if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r) {
-                    if (0 > x || x >= mainActivity.getBitmap().getWidth()) continue;
-                    if (0 > y || y >= mainActivity.getBitmap().getHeight()) continue;
-                    mainActivity.getBitmap().setPixel(x, y, color);
+                    if (0 > x || x >= mainActivity.getWidthBitmap()) continue;
+                    if (0 > y || y >= mainActivity.getHeightBitmap()) continue;
+                    mainActivity.setPixelBitmap(x, y, color);
                 }
             }
         }
@@ -226,8 +227,8 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 DPoint r4 = pntMul(t * t * t, mPointsArray.get(i + 1));
                 int nx = (int) (r1.x + 3 * r2.x + 3 * r3.x + r4.x);
                 int ny = (int) (r1.y + 3 * r2.y + 3 * r3.y + r4.y);
-                if (nx < 0 || nx >= mainActivity.getBitmap().getWidth()) continue;
-                if (ny < 0 || ny >= mainActivity.getBitmap().getHeight()) continue;
+                if (nx < 0 || nx >= mainActivity.getWidthBitmap()) continue;
+                if (ny < 0 || ny >= mainActivity.getHeightBitmap()) continue;
 //                mBitmap.setPixel(nx, ny, Color.BLACK);
                 drawCircle(nx, ny, 5, Color.BLACK);
             }
