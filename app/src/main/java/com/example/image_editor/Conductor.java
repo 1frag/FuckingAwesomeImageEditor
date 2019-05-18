@@ -124,8 +124,9 @@ class Conductor {
         cancelDialog.setPositiveButton(mainActivity.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mainActivity.getImageView().setImageBitmap(mainActivity.getBitmapBefore());
-                mainActivity.getImageView().invalidate();
+                imageView.setImageBitmap(mainActivity.getBitmapBefore());
+                mainActivity.resetBimap();
+                mainActivity.invalidateImageView();
                 setDefaultState(v);
             }
         });
