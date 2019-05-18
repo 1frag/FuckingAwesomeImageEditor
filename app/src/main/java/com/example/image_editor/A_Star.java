@@ -479,31 +479,22 @@ public class A_Star extends Conductor implements OnTouchListener {
             int nx = mRemWall.get(i).getX();
             int ny = mRemWall.get(i).getY();
 
-            // вылетает, если не по битмапу рисуем
-            try {
-                if (mainActivity.getBitmap().getPixel(nx + 1, ny) == mSettings.color_wall &&
-                        mainActivity.getBitmap().getPixel(nx - 1, ny) == mSettings.color_wall &&
-                        mainActivity.getBitmap().getPixel(nx, ny + 1) == mSettings.color_wall &&
-                        mainActivity.getBitmap().getPixel(nx, ny - 1) == mSettings.color_wall) {
-                    continue;
-                }
-            } catch (IllegalArgumentException e){
+            if (mainActivity.getPixelBitmap(nx + 1, ny) == mSettings.color_wall &&
+                    mainActivity.getPixelBitmap(nx - 1, ny) == mSettings.color_wall &&
+                    mainActivity.getPixelBitmap(nx, ny + 1) == mSettings.color_wall &&
+                    mainActivity.getPixelBitmap(nx, ny - 1) == mSettings.color_wall) {
                 continue;
             }
+
             int rad = mSettings.size_path;
             for (int ii = -rad; ii <= rad; ii++) {
                 for (int jj = -rad; jj <= rad; jj++) {
                     nx = mRemWall.get(i).getX() + ii;
                     ny = mRemWall.get(i).getY() + jj;
                     if (nx < 0 || ny < 0) continue;
-                    if (nx > n || ny > m) continue;
+                    if (nx >= n || ny >= m) continue;
                     if (ii * ii + jj * jj <= rad * rad) {
-                        // вылетает, если рисуем за пределами битмапа
-                        try {
-                            is_cor[nx][ny] = false;
-                        } catch (ArrayIndexOutOfBoundsException e){
-                            continue;
-                        }
+                        is_cor[nx][ny] = false;
                     }
                 }
             }
@@ -572,13 +563,9 @@ public class A_Star extends Conductor implements OnTouchListener {
                     for (int ii = -rad; ii <= rad; ii++) {
                         for (int jj = -rad; jj <= rad; jj++) {
                             // если нарисовал пиксель за битмапом, то это вылетает
-                            try {
-                                mainActivity.getBitmap().setPixel(answer.get(i).x + ii,
-                                        answer.get(i).y + jj,
-                                        mSettings.color_path);
-                            } catch (IllegalArgumentException e){
-                                continue;
-                            }
+                            mainActivity.setPixelBitmap(answer.get(i).x + ii,
+                                    answer.get(i).y + jj,
+                                    mSettings.color_path);
                         }
                     }
                 }

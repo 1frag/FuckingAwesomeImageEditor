@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String IMAGE_DIRECTORY = "/Awesome";
     private final int GALLERY = 1, CAMERA = 2;
+    private String TAG = "MainActivity";
     private int mInitialColor;
 
     public boolean inMethod = false; // set true if you in method
@@ -144,39 +145,53 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
-    public Bitmap getBitmap(){
+    public Bitmap getBitmap() {
         return mBitmap;
     }
 
-    public void saveBitmapBefore(){
+    public void saveBitmapBefore() {
         mBeforeChanges = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
     }
 
-    public void setBitmap(Bitmap btmp){
+    public void setBitmap(Bitmap btmp) {
         mBitmap = btmp.copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    public void invalidateImageView(){
+    public void invalidateImageView() {
         mImageView.invalidate();
     }
 
-    public void setPixelBitmap(int x, int y, int color){
+    public int getPixelBitmap(int x, int y) {
+        if (0 > x || x > mBitmap.getWidth() ||
+                0 > y || y > mBitmap.getHeight()) {
+            Log.w(TAG, "reference to pixel beyond borders");
+            return 0;
+        }
+        return mBitmap.getPixel(x, y);
+    }
+
+    public void setPixelBitmap(int x, int y, int color) {
+        if (0 > x || x > mBitmap.getWidth() ||
+                0 > y || y > mBitmap.getHeight()) {
+            Log.w(TAG, "reference to pixel beyond borders");
+            return;
+        }
         mBitmap.setPixel(x, y, color);
     }
 
-    public int getWidthBitmap(){
+    public int getWidthBitmap() {
         return mBitmap.getHeight();
     }
 
-    public int getHeightBitmap(){
+    public int getHeightBitmap() {
         return mBitmap.getHeight();
     }
 
-    public Bitmap getBitmapBefore(){
+    public Bitmap getBitmapBefore() {
         return mBeforeChanges;
     }
 
-    public void resetBimap(){
+    public void resetBimap() {
         mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
     }
 
@@ -409,9 +424,9 @@ public class MainActivity extends AppCompatActivity {
         return builder.create();
     }
 
-    void updateAccordingSettings(){
+    void updateAccordingSettings() {
         Locale locale;
-        if(mSetting.language == R.id.rb_eng){
+        if (mSetting.language == R.id.rb_eng) {
             locale = new Locale("en");
         } else locale = new Locale("ru");
 
