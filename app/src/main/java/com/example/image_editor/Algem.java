@@ -36,7 +36,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
 
-        imageView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(mainActivity.getBitmap());
         imageView.setOnTouchListener(this);
     }
 
@@ -71,7 +71,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
-                        return bitmap;
+                        return mainActivity.getBitmap();
                     }
                 };
                 splainTask.execute();
@@ -83,8 +83,8 @@ public class Algem extends Conductor implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        float scalingX = imageView.getWidth() / (float) bitmap.getWidth();
-        float scalingY = imageView.getHeight() / (float) bitmap.getHeight();
+        float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
+        float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
         int mx = (int) (event.getX() / scalingX);
         int my = (int) (event.getY() / scalingY);
 
@@ -106,9 +106,9 @@ public class Algem extends Conductor implements View.OnTouchListener {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
                 if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r) {
-                    if (0 > x || x >= bitmap.getWidth()) continue;
-                    if (0 > y || y >= bitmap.getHeight()) continue;
-                    bitmap.setPixel(x, y, color);
+                    if (0 > x || x >= mainActivity.getBitmap().getWidth()) continue;
+                    if (0 > y || y >= mainActivity.getBitmap().getHeight()) continue;
+                    mainActivity.getBitmap().setPixel(x, y, color);
                 }
             }
         }
@@ -204,7 +204,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     private void clearGap() {
 
-        bitmap = getmBeforeChanges().copy(Bitmap.Config.ARGB_8888, true);
+        mainActivity.resetBimap();
 
         for (int i = 0; i < mPointsArray.size(); i++) {
             int mx = (int) mPointsArray.get(i).x;
@@ -226,8 +226,8 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 DPoint r4 = pntMul(t * t * t, mPointsArray.get(i + 1));
                 int nx = (int) (r1.x + 3 * r2.x + 3 * r3.x + r4.x);
                 int ny = (int) (r1.y + 3 * r2.y + 3 * r3.y + r4.y);
-                if (nx < 0 || nx >= bitmap.getWidth()) continue;
-                if (ny < 0 || ny >= bitmap.getHeight()) continue;
+                if (nx < 0 || nx >= mainActivity.getBitmap().getWidth()) continue;
+                if (ny < 0 || ny >= mainActivity.getBitmap().getHeight()) continue;
 //                mBitmap.setPixel(nx, ny, Color.BLACK);
                 drawCircle(nx, ny, 5, Color.BLACK);
             }

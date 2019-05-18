@@ -52,9 +52,11 @@ class Segmentation extends Conductor{
     }
 
     private void scanFaces() {
-        if (mDetector.isOperational() && bitmap != null) {
-            Bitmap editedBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                    .getHeight(), bitmap.getConfig());
+        if (mDetector.isOperational() && mainActivity.getBitmap() != null) {
+            Bitmap editedBitmap = Bitmap.createBitmap(
+                    mainActivity.getBitmap().getWidth(),
+                    mainActivity.getBitmap().getHeight(),
+                    Bitmap.Config.ARGB_8888);
             float scale = mainActivity.getResources().getDisplayMetrics().density;
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(Color.rgb(255, 61, 61));
@@ -63,7 +65,7 @@ class Segmentation extends Conductor{
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(3f);
             Canvas canvas = new Canvas(editedBitmap);
-            canvas.drawBitmap(bitmap, 0, 0, paint);
+            canvas.drawBitmap(mainActivity.getBitmap(), 0, 0, paint);
             Frame frame = new Frame.Builder().setBitmap(editedBitmap).build();
             SparseArray<Face> faces = mDetector.detect(frame);
             for (int index = 0; index < faces.size(); ++index) {

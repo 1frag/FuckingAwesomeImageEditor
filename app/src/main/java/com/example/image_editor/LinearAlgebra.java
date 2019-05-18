@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
@@ -11,8 +12,6 @@ import android.widget.Toast;
 public class LinearAlgebra extends Conductor {
 
     private Button mStartAlgoButton;
-    private ImageButton mSetStartPointsButton;
-    private ImageButton mSetFinishPointsButton;
 
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
@@ -29,8 +28,8 @@ public class LinearAlgebra extends Conductor {
 
         mainActivity.drivingViews.show();
 
-        mSetFinishPointsButton = mainActivity.findViewById(R.id.button_finish_points);
-        mSetStartPointsButton = mainActivity.findViewById(R.id.button_start_points);
+        ImageButton mSetFinishPointsButton = mainActivity.findViewById(R.id.button_finish_points);
+        ImageButton mSetStartPointsButton = mainActivity.findViewById(R.id.button_start_points);
         mStartAlgoButton = mainActivity.findViewById(R.id.button_start_linear_algebra);
 
         configStartAlgoButton(mStartAlgoButton);
@@ -75,11 +74,10 @@ public class LinearAlgebra extends Conductor {
             @Override
             public void onClick(View v) {
                 initParams();
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        bitmap = algorithm();
-                        return bitmap;
+                        return algorithm();
                     }
                 };
                 asyncTask.execute();
@@ -131,22 +129,22 @@ public class LinearAlgebra extends Conductor {
                             mainActivity.getResources().getString(R.string.points_on_one_line), Toast.LENGTH_SHORT).show();
                 }
             });
-            return bitmap;
+            return mainActivity.getBitmap();
         }
 
-        final Bitmap btmp = bitmap.copy(Bitmap.Config.ARGB_8888,
-                true);
+        final Bitmap btmp = mainActivity.getBitmap().copy(
+                Bitmap.Config.ARGB_8888, true);
         btmp.eraseColor(Color.WHITE);
         int cnt = 0;
 
-        for (int i = 0; i < bitmap.getWidth(); i++) {
-            for (int j = 0; j < bitmap.getHeight(); j++) {
+        for (int i = 0; i < mainActivity.getBitmap().getWidth(); i++) {
+            for (int j = 0; j < mainActivity.getBitmap().getHeight(); j++) {
                 DPoint image = solver.calc(i, j);
                 int w = (int) Math.round(image.x);
                 int h = (int) Math.round(image.y);
                 if (0 > w || w >= btmp.getWidth()) continue;
                 if (0 > h || h >= btmp.getHeight()) continue;
-                btmp.setPixel(i, j, bitmap.getPixel(w, h));
+                btmp.setPixel(i, j, mainActivity.getBitmap().getPixel(w, h));
                 if (w != i && h != j)
                     cnt++;
             }

@@ -19,7 +19,6 @@ public class Retouch extends Conductor implements OnTouchListener {
 
     /* I'm scared to touch this bitmaps */
     private Bitmap mBufferedBitmap;
-    private Bitmap mBitmap;
     private Bitmap mMask;
     private Bitmap mOriginal;
 
@@ -61,12 +60,13 @@ public class Retouch extends Conductor implements OnTouchListener {
         configRadiusSeekBar(mSeekBarBlurRadius);
         configBrushSeekBar(mSeekBarBrushSize);
 
-        mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mOriginal = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mMask = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mOriginal = mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+        mBufferedBitmap = mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+        mMask = Bitmap.createBitmap(mainActivity.getBitmap().getWidth(),
+                mainActivity.getBitmap().getHeight(),
+                Bitmap.Config.ARGB_8888);
 
-        imageView.setImageBitmap(mBitmap);
+//        imageView.setImageBitmap(mainActivity.getBitmap()); todo: check
         imageView.setOnTouchListener(this);
     }
 
@@ -94,7 +94,7 @@ public class Retouch extends Conductor implements OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
-                        return mBitmap;
+                        return mainActivity.getBitmap();
                     }
                 };
                 asyncTask.execute();
@@ -150,13 +150,13 @@ public class Retouch extends Conductor implements OnTouchListener {
     private boolean canPutRect(int rad, int mx, int my) {
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mBitmap.getWidth() ||
-                        0 > my + j || my + j >= mBitmap.getHeight()) {
+                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth() ||
+                        0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
-                    if (mBitmap.getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
-                            mBitmap.getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
+                    if (mainActivity.getBitmap().getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
+                            mainActivity.getBitmap().getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
                         return false;
                     }
                 }
@@ -173,8 +173,8 @@ public class Retouch extends Conductor implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        float scalingX = imageView.getWidth() / (float) bitmap.getWidth();
-        float scalingY = imageView.getHeight() / (float) bitmap.getHeight();
+        float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
+        float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
         int mx = (int) (event.getX() / scalingX);
         int my = (int) (event.getY() / scalingY);
 
@@ -186,14 +186,14 @@ public class Retouch extends Conductor implements OnTouchListener {
 
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mBitmap.getWidth()) {
+                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mBitmap.getHeight()) {
+                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
                     continue;
                 }
                 if (Math.sqrt(i*i + j*j) <= rad) {
-                    mBitmap.setPixel(mx + i, my + j, Color.RED);
+                    mainActivity.getBitmap().setPixel(mx + i, my + j, Color.RED);
                     mMask.setPixel(mx + i, my + j, Color.BLUE);
                 }
             }
@@ -223,8 +223,7 @@ public class Retouch extends Conductor implements OnTouchListener {
         // blurred mBitmap
         mBufferedBitmap = ColorFIltersCollection.fastBlur(mOriginal, mBlurRadius, 1);
 
-        mBitmap = Bitmap.createBitmap(mBitmap.getWidth(), mBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        mBufferCanvas = new Canvas(mBitmap);
+        mBufferCanvas = new Canvas(mainActivity.getBitmap());
 
         mBufferCanvas.drawBitmap(mMask, 0, 0, null);
         mBufferCanvas.drawBitmap(mBufferedBitmap, 0, 0, paintSRC_IN);

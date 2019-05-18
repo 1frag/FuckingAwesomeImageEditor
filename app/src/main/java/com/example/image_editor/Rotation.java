@@ -106,7 +106,7 @@ public class Rotation extends Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(beforeChanges);
+                imageView.setImageBitmap(mainActivity.getBitmapBefore());
                 mCurrentAngleDiv90 = 0;
                 mCurrentAngleMod90 = 0;
                 mSeekBarAngle.setProgress(90);
@@ -123,8 +123,8 @@ public class Rotation extends Conductor {
                 @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        bitmap = rotateOnAngle(getCurrentAngle());
-                        return bitmap;
+                        rotateOnAngle(getCurrentAngle());
+                        return mainActivity.getBitmap();
                     }
                 };
                 asyncRotate.execute();
@@ -190,8 +190,8 @@ public class Rotation extends Conductor {
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
 
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
+        int w = mainActivity.getBitmap().getWidth();
+        int h = mainActivity.getBitmap().getHeight();
 
         int x = (int) (Math.abs((double) w * cosa) + Math.abs((double) h * sina) + 2);
         int y = (int) (Math.abs((double) w * sina) + Math.abs((double) h * cosa) + 2);
@@ -216,7 +216,7 @@ public class Rotation extends Conductor {
                             Toast.LENGTH_SHORT).show();
                 }
             });
-            return bitmap;
+            return mainActivity.getBitmap();
         }
 
         final Bitmap btmp = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_8888);
@@ -227,9 +227,9 @@ public class Rotation extends Conductor {
                 DPoint image = solver.calc(i, j);
                 w = (int) Math.round(image.x);
                 h = (int) Math.round(image.y);
-                if (0 > w || w >= bitmap.getWidth()) continue;
-                if (0 > h || h >= bitmap.getHeight()) continue;
-                btmp.setPixel(i, j, bitmap.getPixel(w, h));
+                if (0 > w || w >= mainActivity.getBitmap().getWidth()) continue;
+                if (0 > h || h >= mainActivity.getBitmap().getHeight()) continue;
+                btmp.setPixel(i, j, mainActivity.getBitmap().getPixel(w, h));
             }
         }
 

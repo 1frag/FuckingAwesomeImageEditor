@@ -12,8 +12,8 @@
     <string name="four">Four directions</string>
     <string name="eight">Eight directions</string>
     <string name="best">Eight directions, if corner is not blocked</string>
-    <string name="apply">apply</string>
-    <string name="cancel">cancel</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
     <string name="set_start">Set START</string>
     <string name="set_finish">Set FINISH</string>
     <string name="set_walls">Set WALLs</string>
@@ -86,9 +86,9 @@
     <string name="filter_ruby">Ruby</string>
     <string name="filter_vignette">Vignette</string>
     <string name="color_correction_name">Color correction</string>
-    <string name="change_lost">Изменения будут утрачены. Продолжить?</string>
-    <string name="yes">Таки да!</string>
-    <string name="no">Нет</string>
+    <string name="change_lost">Changes will be lost. Continue?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="points_on_one_line">Points on one line</string>
     <string name="algem_2_0_name">Linear algebra</string>
     <string name="failed">Failed!</string>

@@ -20,7 +20,7 @@ public class Scaling extends Conductor {
     private SeekBar mSeekBarScaling;
 
     private int mScalingValue = 100;
-    
+
     Scaling(MainActivity activity) {
         super(activity);
     }
@@ -45,14 +45,14 @@ public class Scaling extends Conductor {
         configApplyButton(mApplyScalingButton);
         configScalingSeekBar(mSeekBarScaling);
 
-        mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), bitmap.getWidth()));
-        mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), bitmap.getHeight()));
+        mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmap().getWidth()));
+        mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmap().getHeight()));
         mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), 1f));
 
     }
 
     @Override
-    public void lockInterface(){
+    public void lockInterface() {
         super.lockInterface();
         mSeekBarScaling.setEnabled(false);
         mResetScalingButton.setEnabled(false);
@@ -60,42 +60,41 @@ public class Scaling extends Conductor {
     }
 
     @Override
-    public void unlockInterface(){
+    public void unlockInterface() {
         super.unlockInterface();
         mSeekBarScaling.setEnabled(true);
         mResetScalingButton.setEnabled(true);
         mApplyScalingButton.setEnabled(true);
     }
 
-    private void configResetButton(Button button){
+    private void configResetButton(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(beforeChanges);
-                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), beforeChanges.getWidth()));
-                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), beforeChanges.getHeight()));
+                imageView.setImageBitmap(mainActivity.getBitmapBefore());
+                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmapBefore().getWidth()));
+                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmapBefore().getHeight()));
                 mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), 1));
                 mSeekBarScaling.setProgress(100);
             }
         });
     }
 
-    private void configApplyButton(final Button button){
+    private void configApplyButton(final Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor scalingAsync = new AsyncTaskConductor(){
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor scalingAsync = new AsyncTaskConductor() {
                     @Override
-                    protected Bitmap doInBackground(String... params){
-                        bitmap = algorithm(beforeChanges, (float) mScalingValue/100);
+                    protected Bitmap doInBackground(String... params) {
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), bitmap.getWidth()));
-                                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), bitmap.getHeight()));
+                                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmap().getWidth()));
+                                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmap().getHeight()));
                             }
                         });
-                        return bitmap;
+                        return algorithm((float) mScalingValue / 100);
                     }
                 };
                 scalingAsync.execute();
@@ -103,12 +102,12 @@ public class Scaling extends Conductor {
         });
     }
 
-    private void configScalingSeekBar(SeekBar seekBar){
+    private void configScalingSeekBar(SeekBar seekBar) {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mScalingValue = progress;
-                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), ((float) mScalingValue/100)));
+                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), ((float) mScalingValue / 100)));
             }
 
             @Override
@@ -117,12 +116,14 @@ public class Scaling extends Conductor {
             }
 
             @Override
-            public void onStopTrackingTouch(final SeekBar seekBar) { return; }
+            public void onStopTrackingTouch(final SeekBar seekBar) {
+                return;
+            }
         });
     }
 
-    Bitmap algorithm(Bitmap now, float coef) {
-        if (coef < 0.12){
+    Bitmap algorithm(float coef) {
+        if (coef < 0.12) {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -130,15 +131,20 @@ public class Scaling extends Conductor {
                             mainActivity.getResources().getString(R.string.warning_scale), Toast.LENGTH_SHORT).show();
                 }
             });
-            return now;
+            return mainActivity.getBitmap();
         }
-        int w = now.getWidth();
-        int h = now.getHeight();
+        int w = mainActivity.getBitmap().getWidth();
+        int h = mainActivity.getBitmap().getHeight();
 
         // likewise in linear algebra
-        if (coef > 1) now = ColorFIltersCollection.resizeBilinear(now, w, h, (int)(w*coef), (int)(h*coef));
-        else now = ColorFIltersCollection.resizeBicubic(now, (int)(w*coef), mainActivity.getApplicationContext());
+        if (coef > 1)
+            return ColorFIltersCollection.
+                resizeBilinear(mainActivity.getBitmap(),
+                        w, h, (int) (w * coef), (int) (h * coef));
+        else
+            return ColorFIltersCollection.resizeBicubic(
+                    mainActivity.getBitmap(), (int) (w * coef),
+                    mainActivity.getApplicationContext());
 
-        return now;
     }
 }

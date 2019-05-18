@@ -81,7 +81,7 @@ public class Usm extends Conductor {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
-                        return bitmap;
+                        return mainActivity.getBitmap();
                     }
                 };
                 asyncTask.execute();
@@ -197,14 +197,14 @@ public class Usm extends Conductor {
 
     private void algorithm() {
 
-        Bitmap blurred = ColorFIltersCollection.fastBlur(bitmap, (int) mRadius, 1);
+        Bitmap blurred = ColorFIltersCollection.fastBlur(mainActivity.getBitmap(), (int) mRadius, 1);
 
-        for (int w = 0; w < bitmap.getWidth(); w++) {
-            for (int h = 0; h < bitmap.getHeight(); h++) {
-                int origColor = bitmap.getPixel(w, h);
+        for (int w = 0; w < mainActivity.getBitmap().getWidth(); w++) {
+            for (int h = 0; h < mainActivity.getBitmap().getHeight(); h++) {
+                int origColor = mainActivity.getBitmap().getPixel(w, h);
                 int blurColor = blurred.getPixel(w, h);
 
-                bitmap.setPixel(w, h, fixColor(origColor, blurColor));
+                mainActivity.getBitmap().setPixel(w, h, fixColor(origColor, blurColor));
             }
         }
     }

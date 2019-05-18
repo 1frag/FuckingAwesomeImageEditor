@@ -15,8 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 class Conductor {
-    public Bitmap bitmap; // mutable bitmap
-    public Bitmap beforeChanges;
 
     private ImageButton mApplyChangesButton;
     private ImageButton mCancelChangesButton;
@@ -29,17 +27,11 @@ class Conductor {
     Conductor(MainActivity activity) {
         mainActivity = activity;
         imageView = mainActivity.getImageView();
-        bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
-    }
-
-    public Bitmap getmBeforeChanges(){
-        return beforeChanges;
     }
 
     void touchToolbar() {
+        mainActivity.saveBitmapBefore();
         Log.i("upd", "touchToolbar");
-        beforeChanges = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
     }
 
     public void setDefaultState(View view) {
@@ -56,7 +48,8 @@ class Conductor {
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
 
         // to discard some possible drawings on bitmap
-        if (!mainActivity.imageChanged) mainActivity.getImageView().setImageBitmap(beforeChanges);
+        if (!mainActivity.imageChanged)
+            mainActivity.getImageView().setImageBitmap(mainActivity.getBitmapBefore());
 
         mainActivity.inMethod = false;
         mainActivity.imageChanged = false;
@@ -131,7 +124,7 @@ class Conductor {
         cancelDialog.setPositiveButton(mainActivity.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mainActivity.getImageView().setImageBitmap(beforeChanges);
+                mainActivity.getImageView().setImageBitmap(mainActivity.getBitmapBefore());
                 mainActivity.getImageView().invalidate();
                 setDefaultState(v);
             }

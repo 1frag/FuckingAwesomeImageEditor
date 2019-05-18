@@ -49,7 +49,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Bitmap mBitmap;
+    private Bitmap mBitmap, mBeforeChanges;
 
     private Button mShareButton;
 
@@ -124,7 +124,9 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
 
         mImageView.setMaxHeight((int) (height * 0.585));
+
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
 
         mProgressBar = findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
@@ -140,6 +142,22 @@ public class MainActivity extends AppCompatActivity {
 
         initClassesMain();
         getImages();
+    }
+
+    public Bitmap getBitmap(){
+        return mBitmap;
+    }
+
+    public void saveBitmapBefore(){
+        mBeforeChanges = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+    }
+
+    public Bitmap getBitmapBefore(){
+        return mBeforeChanges;
+    }
+
+    public void resetBimap(){
+        mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
     }
 
     /* test part goes here */
