@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         mBeforeChanges = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
     }
 
+    public void setBitmap(Bitmap btmp){
+        mBitmap = btmp.copy(Bitmap.Config.ARGB_8888, true);
+    }
+
     public Bitmap getBitmapBefore(){
         return mBeforeChanges;
     }

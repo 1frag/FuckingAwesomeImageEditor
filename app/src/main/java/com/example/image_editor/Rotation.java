@@ -3,6 +3,7 @@ package com.example.image_editor;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -123,7 +124,8 @@ public class Rotation extends Conductor {
                 @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        rotateOnAngle(getCurrentAngle());
+                        mainActivity.resetBimap();
+                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle()));
                         return mainActivity.getBitmap();
                     }
                 };
@@ -184,7 +186,7 @@ public class Rotation extends Conductor {
     }
 
     private Bitmap rotateOnAngle(int angle) {
-        if (angle < 360) angle += 360;
+        if (angle < 0) angle += 360;
 
         double a = (double) angle * Math.PI / 180.0;
         double sina = Math.sin(a);
@@ -202,6 +204,10 @@ public class Rotation extends Conductor {
         DPoint p21 = new DPoint(x / 2.0, y / 2.0);
         DPoint p22 = getPoint23(angle, Math.abs(sina), x, y, w, h);
         DPoint p23 = getPoint33(angle, Math.abs(sina), x, y, w, h);
+
+        Log.i("upd", String.format("1) %s %s", p22.x, p22.y));
+        Log.i("upd", String.format("2) %s %s", p23.x, p23.y));
+        Log.i("upd", String.format("angle = %s", angle));
 
         ExecutorAffineTransformations solver;
         solver = new ExecutorAffineTransformations(
