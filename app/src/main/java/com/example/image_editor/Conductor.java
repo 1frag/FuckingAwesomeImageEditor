@@ -109,6 +109,13 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!mainActivity.algorithmExecuted){
+                    imageView.setImageBitmap(mainActivity.getBitmapBefore());
+                    mainActivity.resetBitmap();
+                    mainActivity.invalidateImageView();
+                    setDefaultState(v);
+                    return;
+                }
                 if (!mainActivity.imageChanged) {
                     mainActivity.history.addBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
                 }
@@ -125,7 +132,7 @@ class Conductor {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 imageView.setImageBitmap(mainActivity.getBitmapBefore());
-                mainActivity.resetBimap();
+                mainActivity.resetBitmap();
                 mainActivity.invalidateImageView();
                 setDefaultState(v);
             }

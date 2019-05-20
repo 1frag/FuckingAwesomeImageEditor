@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean inMethod = false; // set true if you in method
     public boolean imageChanged = false; // check image for changes
+    public boolean algorithmExecuted = false; // check algorithm is executed
     public boolean algoInWork = false; // check task in background
     private boolean mPhotoChosen = false; // false if photo is default
 
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         return mBeforeChanges;
     }
 
-    public void resetBimap() {
+    public void resetBitmap() {
         mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
     }
 

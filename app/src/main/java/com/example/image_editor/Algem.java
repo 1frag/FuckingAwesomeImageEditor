@@ -110,6 +110,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
                     if (0 > x || x >= mainActivity.getWidthBitmap()) continue;
                     if (0 > y || y >= mainActivity.getHeightBitmap()) continue;
                     mainActivity.setPixelBitmap(x, y, color);
+                    mainActivity.imageChanged = true;
                 }
             }
         }
@@ -205,7 +206,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
     private void clearGap() {
 
-        mainActivity.resetBimap();
+        mainActivity.resetBitmap();
 
         for (int i = 0; i < mPointsArray.size(); i++) {
             int mx = (int) mPointsArray.get(i).x;

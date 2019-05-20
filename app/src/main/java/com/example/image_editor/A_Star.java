@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatImageButton;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,7 +35,9 @@ public class A_Star extends Conductor implements OnTouchListener {
     private ImageButton mChangeStartButton;
     private ImageButton mChangeEndButton;
     private ImageButton mSetWallButton;
+    private ImageButton mClearButton;
     private AppCompatImageButton mSettingsButton;
+    private String TAG = "upd/A_Star";
 
     private Point mPointStart, mPointFinish;
     private Point[][] mPar;
@@ -43,7 +46,8 @@ public class A_Star extends Conductor implements OnTouchListener {
     private Settings mSettings;
 
     private Integer mTypeDraw = 0;
-    private boolean mStartIsSet = false, mFinishIsSet = false;
+    private boolean mStartIsSet = false;
+    private boolean mFinishIsSet = false;
 
     A_Star(MainActivity activity) {
         super(activity);
@@ -63,12 +67,14 @@ public class A_Star extends Conductor implements OnTouchListener {
         mSetWallButton = mainActivity.findViewById(R.id.button_set_wall);
         mStartAlgoButton = mainActivity.findViewById(R.id.button_start_algo_a_star);
         mSettingsButton = mainActivity.findViewById(R.id.button_settings_a_star);
+        mClearButton = mainActivity.findViewById(R.id.button_clear);
 
         configDoAlgoButton(mStartAlgoButton);
         configWallButton(mSetWallButton);
         configFinishButton(mChangeEndButton);
         configStartButton(mChangeStartButton);
         configSettingsButton(mSettingsButton);
+        configClearButton(mClearButton);
         mSettings = new Settings();
 
         imageView.setImageBitmap(mainActivity.getBitmap());
@@ -117,7 +123,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         int rad = 30;
         if (mStartIsSet) return false;
         if (!canPutRect(rad, mx, my)) {
-            errorTouched();
             return false;
         }
         for (int i = -rad; i <= rad; i++) {
@@ -132,6 +137,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
                     mRemStart.add(now);
                     mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
+                    mainActivity.imageChanged = true;
                 }
             }
         }
@@ -145,7 +151,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         int rad = 30;
         if (mFinishIsSet) return false;
         if (!canPutRect(rad, mx, my)) {
-            errorTouched();
             return false;
         }
         for (int i = -rad; i <= rad; i++) {
@@ -161,6 +166,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
                     mRemFinish.add(now);
                     mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
+                    mainActivity.imageChanged = true;
                 }
             }
         }
@@ -173,7 +179,6 @@ public class A_Star extends Conductor implements OnTouchListener {
     private boolean drawWall(int mx, int my) {
         int rad = mSettings.size_wall;
         if (!canPutRect(rad, mx, my)) {
-            errorTouched();
             return false;
         }
         for (int i = -rad; i <= rad; i++) {
@@ -188,6 +193,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
                     mRemWall.add(now);
                     mainActivity.getBitmap().setPixel(mx + i, my + j, mSettings.color_wall);
+                    mainActivity.imageChanged = true;
                 }
             }
         }
@@ -247,6 +253,26 @@ public class A_Star extends Conductor implements OnTouchListener {
         });
     }
 
+    private void configClearButton(View btn) {
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "onClick");
+                mainActivity.resetBitmap();
+                imageView.setImageBitmap(mainActivity.getBitmap());
+                mainActivity.invalidateImageView();
+                // todo: all to default
+                mRemStart = new ArrayList<>();
+                mRemFinish = new ArrayList<>();
+                mRemWall = new ArrayList<>();
+                mStartIsSet = false;
+                mFinishIsSet = false;
+                mainActivity.algorithmExecuted = false;
+                mainActivity.imageChanged = false;
+            }
+        });
+    }
+
     private void configSettingsButton(View settings) {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,14 +286,21 @@ public class A_Star extends Conductor implements OnTouchListener {
                         //set according msetting
                         RadioGroup rg_rool = alertDialog.findViewById(R.id.rg_rool);
                         rg_rool.check(mSettings.rool);
+
                         RadioGroup rg_walls = alertDialog.findViewById(R.id.rg_walls);
                         rg_walls.check(mSettings.type_wall);
-                        SeekBar seekbar_size_wall = alertDialog.findViewById(R.id.seekbar_size_wall);
-                        seekbar_size_wall.setProgress(mSettings.size_wall);
-                        SeekBar seekbar_size_path = alertDialog.findViewById(R.id.seekbar_size_path);
-                        seekbar_size_path.setProgress(mSettings.size_wall);
+
+                        SeekBar seekBarSizeWall = alertDialog.findViewById(R.id.seekbar_size_wall);
+                        seekBarSizeWall.setMax(30);
+                        seekBarSizeWall.setProgress(mSettings.size_wall);
+
+                        SeekBar seekBarSizePath = alertDialog.findViewById(R.id.seekbar_size_path);
+                        seekBarSizePath.setMax(5);
+                        seekBarSizePath.setProgress(mSettings.size_path);
+
                         Button button_color_path = alertDialog.findViewById(R.id.button_color_path);
                         button_color_path.setBackgroundColor(mSettings.color_path);
+
                         Button button_color_wall = alertDialog.findViewById(R.id.button_color_wall);
                         button_color_wall.setBackgroundColor(mSettings.color_wall);
                         // end setting
@@ -320,6 +353,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         for (int i = 0; i < mRemWall.size(); i++) {
             mainActivity.getBitmap().setPixel(mRemWall.get(i).getX(),
                     mRemWall.get(i).getY(), color);
+            mainActivity.imageChanged = true;
         }
         imageView.invalidate();
     }
@@ -385,6 +419,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 mainActivity.getBitmap().setPixel(mRemStart.get(i).getX(),
                         mRemStart.get(i).getY(),
                         mRemStart.get(i).getColor());
+                mainActivity.imageChanged = true;
             }
             mRemStart.clear();
             mStartIsSet = false;
@@ -399,6 +434,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                 mainActivity.getBitmap().setPixel(mRemFinish.get(i).getX(),
                         mRemFinish.get(i).getY(),
                         mRemFinish.get(i).getColor());
+                mainActivity.imageChanged = true;
             }
             mRemFinish.clear();
             mFinishIsSet = false;
@@ -433,10 +469,6 @@ public class A_Star extends Conductor implements OnTouchListener {
             }
         }
         return true;
-    }
-
-    private void errorTouched() {
-        // TODO: handle this
     }
 
     private ArrayList<Point> reconstructPath() {
@@ -511,6 +543,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         myComp.setInG(mPointStart, 0);
 
         while (!openset.isEmpty()) {
+            // todo: why a* with 8 direction incorrect?
             Point x = openset.poll();
 
             if (x.x == mPointFinish.x && x.y == mPointFinish.y) {
@@ -546,8 +579,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         return new ArrayList<>();
     }
 
-    // todo: change seekbar bound FROM 1 TO 5 ::SIZES
-
     void touchRun() {
 
         final int n = mainActivity.getBitmap().getWidth();
@@ -566,8 +597,14 @@ public class A_Star extends Conductor implements OnTouchListener {
                             mainActivity.setPixelBitmap(answer.get(i).x + ii,
                                     answer.get(i).y + jj,
                                     mSettings.color_path);
+                            mainActivity.imageChanged = true;
                         }
                     }
+                }
+                if (answer.size() == 0) {
+                    Toast.makeText(mainActivity.getApplicationContext(),
+                            "Path not found 404",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 return mainActivity.getBitmap();
@@ -575,6 +612,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         };
 
         asyncTask.execute();
+        mainActivity.algorithmExecuted = true;
     }
 
     class Settings {

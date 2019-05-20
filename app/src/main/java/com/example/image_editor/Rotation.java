@@ -124,7 +124,7 @@ public class Rotation extends Conductor {
                 @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.resetBimap();
+                        mainActivity.resetBitmap();
                         mainActivity.setBitmap(rotateOnAngle(getCurrentAngle()));
                         return mainActivity.getBitmap();
                     }
