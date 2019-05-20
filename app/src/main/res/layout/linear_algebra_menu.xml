@@ -45,6 +45,7 @@
         android:background="@color/White"
         android:contentDescription="@string/start_points"
         android:src="@drawable/ic_point_green"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,6 +58,7 @@
         android:background="@color/White"
         android:contentDescription="@string/finish_points"
         android:src="@drawable/ic_point_red"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toEndOf="@+id/button_start_points"
         app:layout_constraintTop_toTopOf="parent" />
 

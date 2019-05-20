@@ -110,5 +110,6 @@
     <string name="name_unsharp_masking">Unsharp masking</string>
     <string name="threshold_is">Threshold: %d</string>
     <string name="angle_is">Angle: %d</string>
+    <string name="clear">Clear</string>
 
 </resources>

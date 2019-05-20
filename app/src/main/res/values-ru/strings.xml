@@ -111,4 +111,5 @@
     <string name="name_unsharp_masking">Нерезкое маскирование</string>
     <string name="threshold_is">Порог: %d</string>
     <string name="angle_is">Angle: %d</string>
+    <string name="clear">Clear</string>
 </resources>
