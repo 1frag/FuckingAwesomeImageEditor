@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 class Conductor {
 
+    private String TAG = "Conductor";
+
     private ImageButton mApplyChangesButton;
     private ImageButton mCancelChangesButton;
 
@@ -31,7 +33,7 @@ class Conductor {
 
     void touchToolbar() {
         mainActivity.saveBitmapBefore();
-        Log.i("upd", "touchToolbar");
+        Log.i(TAG, "touchToolbar");
     }
 
     public void setDefaultState(View view) {
@@ -48,8 +50,9 @@ class Conductor {
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
 
         // to discard some possible drawings on bitmap
-        if (!mainActivity.imageChanged)
-            mainActivity.getImageView().setImageBitmap(mainActivity.getBitmapBefore());
+//        if (!mainActivity.imageChanged)
+//            mainActivity.getImageView().setImageBitmap(mainActivity.getBitmap());
+        mainActivity.invalidateImageView();
 
         mainActivity.inMethod = false;
         mainActivity.imageChanged = false;
@@ -90,11 +93,11 @@ class Conductor {
     }
 
     // TODO: check for language
-    public void setHeader(String header){
+    public void setHeader(String header) {
         mMethodName.setText(header);
     }
 
-    private void configCancelButton(ImageButton button){
+    private void configCancelButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +108,7 @@ class Conductor {
         });
     }
 
-    private void configApplyButton(ImageButton button){
+    private void configApplyButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,9 +127,8 @@ class Conductor {
         cancelDialog.setPositiveButton(mainActivity.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                imageView.setImageBitmap(mainActivity.getBitmapBefore());
-                mainActivity.resetBimap();
-                mainActivity.invalidateImageView();
+//                imageView.setImageBitmap(mainActivity.getBitmapBefore());
+                mainActivity.resetBitmap();
                 setDefaultState(v);
             }
         });
@@ -141,14 +143,14 @@ class Conductor {
         cancelDialog.show();
     }
 
-    public void lockInterface(){
+    public void lockInterface() {
         mApplyChangesButton.setEnabled(false);
         mCancelChangesButton.setEnabled(false);
         mainActivity.algoInWork = true;
         mainActivity.switchProgressBarVisibilityVisible();
     }
 
-    public void unlockInterface(){
+    public void unlockInterface() {
         mApplyChangesButton.setEnabled(true);
         mCancelChangesButton.setEnabled(true);
         mainActivity.algoInWork = false;
@@ -164,8 +166,10 @@ class Conductor {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
-            return bitmap;
+            return ((BitmapDrawable) mainActivity
+                    .getImageView()
+                    .getDrawable())
+                    .getBitmap();
         }
 
         @Override
@@ -173,7 +177,7 @@ class Conductor {
             super.onPostExecute(result);
             mainActivity.imageChanged = true;
             final ImageView imageView = mainActivity.getImageView();
-            imageView.setImageBitmap(result);
+            imageView.setImageBitmap(mainActivity.getBitmap());
 
             // invalidate changes once
             mainActivity.runOnUiThread(new Runnable() {
@@ -187,19 +191,19 @@ class Conductor {
         }
     }
 
-    private void removeFloatingPoints(){
+    private void removeFloatingPoints() {
         // todo: dynamic link resourse // getindentifier
-        if(mainActivity.findViewById(R.id.circle1) != null)
+        if (mainActivity.findViewById(R.id.circle1) != null)
             mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle2) != null)
+        if (mainActivity.findViewById(R.id.circle2) != null)
             mainActivity.findViewById(R.id.circle2).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle3) != null)
+        if (mainActivity.findViewById(R.id.circle3) != null)
             mainActivity.findViewById(R.id.circle3).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle4) != null)
+        if (mainActivity.findViewById(R.id.circle4) != null)
             mainActivity.findViewById(R.id.circle4).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle5) != null)
+        if (mainActivity.findViewById(R.id.circle5) != null)
             mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle6) != null)
+        if (mainActivity.findViewById(R.id.circle6) != null)
             mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
 
     }

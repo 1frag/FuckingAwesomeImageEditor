@@ -49,7 +49,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Bitmap mBitmap, mBeforeChanges;
+    private Bitmap mBitmap; // Этот bitmap находится в imageview
+    private Bitmap mBeforeChanges;  // Сохраненная копия перед
+                                    // последним запущенным методом
 
     private Button mShareButton;
 
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String IMAGE_DIRECTORY = "/Awesome";
     private final int GALLERY = 1, CAMERA = 2;
-    private String TAG = "MainActivity";
+    private String TAG = String.format("@%s/%s", "ifrag", "MainActivity");
     private int mInitialColor;
 
     public boolean inMethod = false; // set true if you in method
@@ -150,14 +152,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveBitmapBefore() {
-        mBeforeChanges = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        Log.i(TAG, "saveBitmapBefore");
+        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void setBitmap(Bitmap btmp) {
+        Log.i(TAG, "setBitmap");
         mBitmap = btmp.copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void invalidateImageView() {
+        Log.i(TAG, "invalidateImageView");
         mImageView.invalidate();
     }
 
@@ -176,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
             Log.w(TAG, "reference to pixel beyond borders");
             return;
         }
+        imageChanged = true;
         mBitmap.setPixel(x, y, color);
     }
 
@@ -188,11 +194,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Bitmap getBitmapBefore() {
+        Log.i(TAG, "getBitmapBefore");
         return mBeforeChanges;
     }
 
-    public void resetBimap() {
-        mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
+    public void resetBitmap() {
+        Log.i(TAG, "resetBitmap");
+        mBitmap = mBeforeChanges.copy(mBeforeChanges.getConfig(), true);
+        invalidateImageView();
     }
 
     /* test part goes here */
@@ -244,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             else {
 //                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
                 Conductor.setDefaultState(null);
-                mImageView.setImageBitmap(history.showHead());
+//                mImageView.setImageBitmap(history.showHead());
             }
         } else openQuitDialog(); // уверен, что выйти из приложения
     }
@@ -254,7 +263,8 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = history.takeFromBuffer();
         if (mBitmap == null) {
             Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
-        } else mImageView.setImageBitmap(mBitmap);
+        } else {}
+//            mImageView.setImageBitmap(mBitmap);
     }
 
     public void undoOnClick(View view) {

@@ -71,7 +71,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         configSettingsButton(mSettingsButton);
         mSettings = new Settings();
 
-        imageView.setImageBitmap(mainActivity.getBitmap());
+//        imageView.setImageBitmap(mainActivity.getBitmap());
         imageView.setOnTouchListener(this);
     }
 
@@ -98,8 +98,8 @@ public class A_Star extends Conductor implements OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
-        float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
+        float scalingX = imageView.getWidth() / (float) mainActivity.getWidthBitmap();
+        float scalingY = imageView.getHeight() / (float) mainActivity.getHeightBitmap();
         int mx = (int) (event.getX() / scalingX);
         int my = (int) (event.getY() / scalingY);
 
@@ -122,16 +122,16 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
+                if (0 > mx + i || mx + i >= mainActivity.getWidthBitmap()) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > my + j || my + j >= mainActivity.getHeightBitmap()) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
-                    Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
+                    Pixel now = new Pixel(mx + i, my + j, mainActivity.getPixelBitmap(mx + i, my + j));
                     mRemStart.add(now);
-                    mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
+                    mainActivity.setPixelBitmap(mx + i, my + j, Color.rgb(10, 255, 10));
                 }
             }
         }
@@ -150,17 +150,17 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
+                if (0 > mx + i || mx + i >= mainActivity.getWidthBitmap()) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > my + j || my + j >= mainActivity.getHeightBitmap()) {
                     continue;
                 }
                 // abs(i) + abs(j) <= rad
                 if (abs(i) + abs(j) <= rad) {
-                    Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
+                    Pixel now = new Pixel(mx + i, my + j, mainActivity.getPixelBitmap(mx + i, my + j));
                     mRemFinish.add(now);
-                    mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
+                    mainActivity.setPixelBitmap(mx + i, my + j, Color.rgb(255, 10, 10));
                 }
             }
         }
@@ -178,16 +178,16 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
+                if (0 > mx + i || mx + i >= mainActivity.getWidthBitmap()) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > my + j || my + j >= mainActivity.getHeightBitmap()) {
                     continue;
                 }
                 if (conditionInWall(i, j, rad)) {
-                    Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
+                    Pixel now = new Pixel(mx + i, my + j, mainActivity.getPixelBitmap(mx + i, my + j));
                     mRemWall.add(now);
-                    mainActivity.getBitmap().setPixel(mx + i, my + j, mSettings.color_wall);
+                    mainActivity.setPixelBitmap(mx + i, my + j, mSettings.color_wall);
                 }
             }
         }
@@ -318,7 +318,7 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     private void redrawWall(int color) {
         for (int i = 0; i < mRemWall.size(); i++) {
-            mainActivity.getBitmap().setPixel(mRemWall.get(i).getX(),
+            mainActivity.setPixelBitmap(mRemWall.get(i).getX(),
                     mRemWall.get(i).getY(), color);
         }
         imageView.invalidate();
@@ -382,7 +382,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         mTypeDraw = 1;
         if (mStartIsSet) {
             for (int i = 0; i < mRemStart.size(); i++) {
-                mainActivity.getBitmap().setPixel(mRemStart.get(i).getX(),
+                mainActivity.setPixelBitmap(mRemStart.get(i).getX(),
                         mRemStart.get(i).getY(),
                         mRemStart.get(i).getColor());
             }
@@ -396,7 +396,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         mTypeDraw = 2;
         if (mFinishIsSet) {
             for (int i = 0; i < mRemFinish.size(); i++) {
-                mainActivity.getBitmap().setPixel(mRemFinish.get(i).getX(),
+                mainActivity.setPixelBitmap(mRemFinish.get(i).getX(),
                         mRemFinish.get(i).getY(),
                         mRemFinish.get(i).getColor());
             }
@@ -420,13 +420,13 @@ public class A_Star extends Conductor implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth() ||
-                        0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > mx + i || mx + i >= mainActivity.getWidthBitmap() ||
+                        0 > my + j || my + j >= mainActivity.getHeightBitmap()) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
-                    if (mainActivity.getBitmap().getPixel(mx + i, my + j) == Color.rgb(10, 255, 10) ||
-                            mainActivity.getBitmap().getPixel(mx + i, my + j) == Color.rgb(255, 10, 10)) {
+                    if (mainActivity.getPixelBitmap(mx + i, my + j) == Color.rgb(10, 255, 10) ||
+                            mainActivity.getPixelBitmap(mx + i, my + j) == Color.rgb(255, 10, 10)) {
                         return false;
                     }
                 }
@@ -550,8 +550,8 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     void touchRun() {
 
-        final int n = mainActivity.getBitmap().getWidth();
-        final int m = mainActivity.getBitmap().getHeight();
+        final int n = mainActivity.getWidthBitmap();
+        final int m = mainActivity.getHeightBitmap();
 
         @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
             @Override
