@@ -69,6 +69,9 @@ public class Rotation extends Conductor {
         mResetRotateButton.setEnabled(false);
         mSeekBarAngle.setEnabled(false);
         mApplyRotateButton.setEnabled(false);
+        mMirrorHButton.setEnabled(false);
+        mMirrorVButton.setEnabled(false);
+        mCropButton.setEnabled(false);
     }
 
     @Override
@@ -78,6 +81,9 @@ public class Rotation extends Conductor {
         mResetRotateButton.setEnabled(true);
         mSeekBarAngle.setEnabled(true);
         mApplyRotateButton.setEnabled(true);
+        mMirrorHButton.setEnabled(true);
+        mMirrorVButton.setEnabled(true);
+        mCropButton.setEnabled(true);
     }
 
     private void configRotationSeekBar(SeekBar seekBar) {
@@ -147,13 +153,38 @@ public class Rotation extends Conductor {
         });
     }
 
-    // TODO: below
     private void configMirrorHorizontalButton(ImageButton button) {
-
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        mainActivity.resetBitmap();
+                        mainActivity.setBitmap(horizontalSymmetry());
+                        return mainActivity.getBitmap();
+                    }
+                };
+                asyncTask.execute();
+            }
+        });
     }
 
     private void configMirrorVerticalButton(ImageButton button) {
-
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        mainActivity.resetBitmap();
+                        mainActivity.setBitmap(verticalSymmetry());
+                        return mainActivity.getBitmap();
+                    }
+                };
+                asyncTask.execute();
+            }
+        });
     }
 
     private void configCropButton(ImageButton button) {
@@ -240,5 +271,37 @@ public class Rotation extends Conductor {
         }
 
         return btmp;
+    }
+
+    private Bitmap verticalSymmetry(){
+        Bitmap orig = mainActivity.getBitmap();
+        Bitmap bufBitmap = orig.copy(Bitmap.Config.ARGB_8888, true);
+
+        int w = bufBitmap.getWidth();
+        int h = bufBitmap.getHeight();
+
+        for(int i=0; i<w; i++){
+            for(int j=0; j<h; j++){
+                int p = orig.getPixel(i, j);
+                bufBitmap.setPixel(w-i-1, j, p);
+            }
+        }
+        return bufBitmap;
+    }
+
+    private Bitmap horizontalSymmetry(){
+        Bitmap orig = mainActivity.getBitmap();
+        Bitmap bufBitmap = orig.copy(Bitmap.Config.ARGB_8888, true);
+
+        int w = bufBitmap.getWidth();
+        int h = bufBitmap.getHeight();
+
+        for(int i=0; i<w; i++){
+            for(int j=0; j<h; j++){
+                int p = orig.getPixel(i, j);
+                bufBitmap.setPixel(i, h-j-1, p);
+            }
+        }
+        return bufBitmap;
     }
 }
