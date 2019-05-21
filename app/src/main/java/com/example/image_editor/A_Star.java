@@ -601,10 +601,16 @@ public class A_Star extends Conductor implements OnTouchListener {
                         }
                     }
                 }
+
                 if (answer.size() == 0) {
-                    Toast.makeText(mainActivity.getApplicationContext(),
-                            "Path not found 404",
-                            Toast.LENGTH_SHORT).show();
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mainActivity.getApplicationContext(),
+                                    "Path not found 404",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 return mainActivity.getBitmap();

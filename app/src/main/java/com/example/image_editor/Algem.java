@@ -195,6 +195,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    // todo: а не сдохнет?) (*mainActivity.runOnUiThread*)
                     Toast.makeText(mainActivity.getApplicationContext(), mainActivity.getResources().getString(R.string.warning_no_points), Toast.LENGTH_SHORT).show();
                 }
             });
