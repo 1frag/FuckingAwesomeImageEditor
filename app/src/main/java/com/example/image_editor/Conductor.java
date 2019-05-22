@@ -55,11 +55,7 @@ class Conductor {
         mainActivity.imageChanged = false;
 
         /* for Algem 2.0 delete moving points */
-//        removeFloatingPoints();
         mainActivity.drivingViews.hide();
-
-        // useless line tho
-//        mainActivity.initClasses();
 
         mainActivity.getImageView().setOnTouchListener(null);
     }
@@ -179,8 +175,8 @@ class Conductor {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             mainActivity.imageChanged = true;
-            final ImageView imageView = mainActivity.getImageView();
-            imageView.setImageBitmap(result);
+            mainActivity.algorithmExecuted = true;
+            mainActivity.getImageView().setImageBitmap(result);
 
             // invalidate changes once
             mainActivity.runOnUiThread(new Runnable() {
