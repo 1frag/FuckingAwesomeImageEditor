@@ -181,11 +181,11 @@ public class Retouch extends Conductor implements OnTouchListener {
                             mainActivity.getBitmap()
                                     .getPixel(mx + i, my + j)));
                     mainActivity.getBitmap().setPixel(mx + i, my + j, Color.RED);
-                    mainActivity.imageChanged = true;
                 }
             }
         }
 
+        mainActivity.imageChanged = true;
         mainActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -198,13 +198,13 @@ public class Retouch extends Conductor implements OnTouchListener {
     private void algorithm() {
 
         // blurred mBitmap
-        Bitmap BufferedBitmap = ColorFIltersCollection
+        Bitmap bufferedBitmap = ColorFIltersCollection
                 .fastBlur(mainActivity.getBitmapBefore().copy(Bitmap.Config.ARGB_8888, true), mBlurRadius, 1);
 
         for (int i = 0; i < mRemPixels.size(); i++) {
             Pixel e = mRemPixels.get(i);
             mainActivity.getBitmap().setPixel(e.getX(),
-                    e.getY(), BufferedBitmap.getPixel(e.getX(),
+                    e.getY(), bufferedBitmap.getPixel(e.getX(),
                             e.getY()));
         }
         mainActivity.algorithmExecuted = true;

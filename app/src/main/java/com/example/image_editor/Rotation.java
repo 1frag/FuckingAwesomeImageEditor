@@ -161,7 +161,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.resetBitmap();
                         mainActivity.setBitmap(horizontalSymmetry());
                         return mainActivity.getBitmap();
                     }
@@ -178,7 +177,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.resetBitmap();
                         mainActivity.setBitmap(verticalSymmetry());
                         return mainActivity.getBitmap();
                     }
