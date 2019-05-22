@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Rotation extends Conductor implements View.OnTouchListener{
+public class Rotation extends Conductor implements View.OnTouchListener {
 
     private Button mApplyRotateButton;
     private ImageButton mResetRotateButton;
@@ -158,7 +158,7 @@ public class Rotation extends Conductor implements View.OnTouchListener{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.resetBitmap();
@@ -175,7 +175,7 @@ public class Rotation extends Conductor implements View.OnTouchListener{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.resetBitmap();
@@ -210,19 +210,21 @@ public class Rotation extends Conductor implements View.OnTouchListener{
     private DPoint getPoint23(int angle, double sina,
                               double x, double y,
                               double w, double h) {
+        // todo:sadasasdasdasdasdzczxcasd!!!
         if (angle <= 90) return new DPoint(h * sina, 0);
         if (angle <= 180) return new DPoint(x, h * sina);
         if (angle <= 270) return new DPoint(x - h * sina, y);
-        return new DPoint(0, y - h * sina);
+        return new DPoint(0, y * sina);
     }
 
     private DPoint getPoint33(int angle, double sina,
                               double x, double y,
                               double w, double h) {
+        // todo:sadasasdasdasdasdzczxcasd!!!
         if (angle <= 90) return new DPoint(x, w * sina);
         if (angle <= 180) return new DPoint(x - w * sina, y);
-        if (angle <= 270) return new DPoint(0, y - w * sina);
-        return new DPoint(w * sina, 0);
+        if (angle <= 270) return new DPoint(0, y - h * sina);
+        return new DPoint(y * Math.sqrt(1 - sina * sina), 0);
     }
 
     private Bitmap rotateOnAngle(int angle) {
@@ -282,40 +284,40 @@ public class Rotation extends Conductor implements View.OnTouchListener{
         return btmp;
     }
 
-    private Bitmap verticalSymmetry(){
+    private Bitmap verticalSymmetry() {
         Bitmap orig = mainActivity.getBitmap();
         Bitmap bufBitmap = orig.copy(Bitmap.Config.ARGB_8888, true);
 
         int w = bufBitmap.getWidth();
         int h = bufBitmap.getHeight();
 
-        for(int i=0; i<w; i++){
-            for(int j=0; j<h; j++){
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
                 int p = orig.getPixel(i, j);
-                bufBitmap.setPixel(w-i-1, j, p);
+                bufBitmap.setPixel(w - i - 1, j, p);
             }
         }
         return bufBitmap;
     }
 
-    private Bitmap horizontalSymmetry(){
+    private Bitmap horizontalSymmetry() {
         Bitmap orig = mainActivity.getBitmap();
         Bitmap bufBitmap = orig.copy(Bitmap.Config.ARGB_8888, true);
 
         int w = bufBitmap.getWidth();
         int h = bufBitmap.getHeight();
 
-        for(int i=0; i<w; i++){
-            for(int j=0; j<h; j++){
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
                 int p = orig.getPixel(i, j);
-                bufBitmap.setPixel(i, h-j-1, p);
+                bufBitmap.setPixel(i, h - j - 1, p);
             }
         }
         return bufBitmap;
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event){
+    public boolean onTouch(View v, MotionEvent event) {
         return false;
     }
 }
