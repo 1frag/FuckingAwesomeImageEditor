@@ -16,15 +16,9 @@ import static java.lang.Math.abs;
 
 public class Retouch extends Conductor implements OnTouchListener {
 
-    /* I'm scared to touch this bitmaps */
-//    private Bitmap mBufferedBitmap;
-//    private Bitmap mMask;
-//    private Bitmap mOriginal;
     private ArrayList<Pixel> mRemPixels = new ArrayList<>();
 
     private Button mApplyRetouchButton;
-
-    private Canvas mBufferCanvas;
 
     private TextView mTextViewBrushSize;
     private TextView mTextViewBlurRadius;
@@ -205,7 +199,7 @@ public class Retouch extends Conductor implements OnTouchListener {
 
         // blurred mBitmap
         Bitmap BufferedBitmap = ColorFIltersCollection
-                .fastBlur(mainActivity.getBitmapBefore(), mBlurRadius, 1);
+                .fastBlur(mainActivity.getBitmapBefore().copy(Bitmap.Config.ARGB_8888, true), mBlurRadius, 1);
 
         for (int i = 0; i < mRemPixels.size(); i++) {
             Pixel e = mRemPixels.get(i);
