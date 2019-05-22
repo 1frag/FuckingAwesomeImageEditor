@@ -37,6 +37,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         configStartAlgoButton(mStartAlgemButton);
 
         imageView.setImageBitmap(mainActivity.getBitmap());
+        imageView.invalidate();
         imageView.setOnTouchListener(this);
     }
 

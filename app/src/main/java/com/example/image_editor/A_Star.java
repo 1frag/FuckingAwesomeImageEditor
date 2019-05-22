@@ -78,6 +78,7 @@ public class A_Star extends Conductor implements OnTouchListener {
         mSettings = new Settings();
 
         imageView.setImageBitmap(mainActivity.getBitmap());
+        imageView.invalidate();
         imageView.setOnTouchListener(this);
     }
 
