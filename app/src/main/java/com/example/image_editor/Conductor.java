@@ -105,16 +105,17 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mainActivity.algorithmExecuted){
+                if (!mainActivity.algorithmExecuted && !mainActivity.imageChanged){
                     imageView.setImageBitmap(mainActivity.getBitmapBefore());
                     mainActivity.resetBitmap();
                     mainActivity.invalidateImageView();
-                    setDefaultState(v);
+//                    setDefaultState(v);
+                    return;
                 }
-                if (!mainActivity.imageChanged) {
+                if (mainActivity.algorithmExecuted) {
                     mainActivity.history.addBitmap(mainActivity.getBitmap());
                 }
-                else setDefaultState(v);
+                setDefaultState(v);
             }
         });
     }

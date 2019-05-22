@@ -251,10 +251,13 @@ public class MainActivity extends AppCompatActivity {
     public void redoOnClick(View view) {
         System.out.println("REDO");
         mBitmap = history.takeFromBuffer();
-        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        if (mBitmap == null) {
+        if (mBitmap == null) { // if stack is empty
             Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
-        } else mImageView.setImageBitmap(mBitmap);
+            mBitmap = mBeforeChanges;
+        } else{
+            mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            mImageView.setImageBitmap(mBitmap);
+        }
     }
 
     public void undoOnClick(View view) {

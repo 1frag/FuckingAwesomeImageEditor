@@ -112,14 +112,14 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             super.onPostExecute(result);
             mainActivity.imageChanged = true;
             mainActivity.algorithmExecuted = true;
-            final ImageView imageView = mainActivity.getImageView();
-            imageView.setImageBitmap(result);
+            mainActivity.getImageView().setImageBitmap(result);
+            mainActivity.setBitmapFromImageview();
 
             // invalidate changes once
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    imageView.invalidate();
+                    mainActivity.getImageView().invalidate();
                 }
             });
 
