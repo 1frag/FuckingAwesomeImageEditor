@@ -65,8 +65,8 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             String which = params[0];
             String type = params[1];
 
-            if (type == "thumb") mBufferedBitmap = mThumb.copy(Bitmap.Config.ARGB_8888, true);
-            if (type == "image") mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            if (type.equals("thumb")) mBufferedBitmap = mThumb.copy(Bitmap.Config.ARGB_8888, true);
+            if (type.equals("image")) mBufferedBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
             switch (which) {
                 case "Original":
@@ -150,6 +150,8 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
                 if (mClicked) return;
                 AsyncTaskFilters filterAsync = new AsyncTaskFilters();
                 filterAsync.execute(mNamesProg.get(position), "image");
+                mainActivity.imageChanged = true;
+                mainActivity.algorithmExecuted = true;
             }
         });
     }

@@ -23,6 +23,9 @@ public class Color_Filters extends Conductor {
 
     private void pickFilters() {
         // pick to arrays
+        // mNamesFilters -> человеко-читаемое имя
+        // mNamesProg -> забинденые в коде названия
+
         mNamesFilters.add(mainActivity.getResources().getString(R.string.filter_original)); // 0
         mNamesProg.add("Original");
 
