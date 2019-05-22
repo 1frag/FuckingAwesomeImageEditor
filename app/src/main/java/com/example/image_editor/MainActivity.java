@@ -474,6 +474,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                    mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
                     mImageView.setImageBitmap(mBitmap);
                     mPhotoChosen = true;
                     history.clearAllAndSetOriginal(mBitmap);
@@ -488,7 +489,8 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (requestCode == CAMERA) {
             mBitmap = (Bitmap) data.getExtras().get("data");
-
+            mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
             mImageView.setImageBitmap(mBitmap);
             mPhotoChosen = true;
             history.clearAllAndSetOriginal(mBitmap);
