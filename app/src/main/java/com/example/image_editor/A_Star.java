@@ -608,7 +608,6 @@ public class A_Star extends Conductor implements OnTouchListener {
                             mainActivity.setPixelBitmap(answer.get(i).x + ii,
                                     answer.get(i).y + jj,
                                     mSettings.color_path);
-                            mainActivity.imageChanged = true;
                         }
                     }
                 }

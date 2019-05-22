@@ -110,12 +110,11 @@ class Conductor {
                     mainActivity.resetBitmap();
                     mainActivity.invalidateImageView();
                     setDefaultState(v);
-                    return;
                 }
                 if (!mainActivity.imageChanged) {
                     mainActivity.history.addBitmap(mainActivity.getBitmap());
                 }
-                setDefaultState(v);
+                else setDefaultState(v);
             }
         });
     }
@@ -150,9 +149,11 @@ class Conductor {
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
+            mainActivity.getImageView().setImageBitmap(result);
+            mainActivity.setBitmapFromImageview();
+
             mainActivity.imageChanged = true;
             mainActivity.algorithmExecuted = true;
-            mainActivity.getImageView().setImageBitmap(result);
 
             // invalidate changes once
             mainActivity.runOnUiThread(new Runnable() {

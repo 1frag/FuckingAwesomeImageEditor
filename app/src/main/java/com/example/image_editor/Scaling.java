@@ -8,6 +8,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.internal.BaseImplementation;
+
 public class Scaling extends Conductor {
 
     private Button mResetScalingButton;
@@ -87,14 +89,19 @@ public class Scaling extends Conductor {
                 @SuppressLint("StaticFieldLeak") AsyncTaskConductor scalingAsync = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
+                        Bitmap bufBitmap = algorithm((float) mScalingValue / 100);
+                        return bufBitmap;
+                    }
+                    @Override
+                    protected void onPostExecute(final Bitmap result){
+                        super.onPostExecute(result);
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmap().getWidth()));
-                                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmap().getHeight()));
+                                mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), result.getWidth()));
+                                mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), result.getHeight()));
                             }
                         });
-                        return algorithm((float) mScalingValue / 100);
                     }
                 };
                 scalingAsync.execute();
@@ -122,7 +129,7 @@ public class Scaling extends Conductor {
         });
     }
 
-    Bitmap algorithm(float coef) {
+    private Bitmap algorithm(float coef) {
         if (coef < 0.12) {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
@@ -139,11 +146,11 @@ public class Scaling extends Conductor {
         // likewise in linear algebra
         if (coef > 1)
             return ColorFIltersCollection.
-                resizeBilinear(mainActivity.getBitmap(),
+                resizeBilinear(mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true),
                         w, h, (int) (w * coef), (int) (h * coef));
         else
             return ColorFIltersCollection.resizeBicubic(
-                    mainActivity.getBitmap(), (int) (w * coef),
+                    mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true), (int) (w * coef),
                     mainActivity.getApplicationContext());
 
     }

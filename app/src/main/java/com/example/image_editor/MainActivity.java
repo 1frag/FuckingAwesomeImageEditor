@@ -582,6 +582,10 @@ public class MainActivity extends AppCompatActivity {
         return mImageView;
     }
 
+    public void setBitmapFromImageview(){
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+    }
+
     public void click_finish(View view) {
         Log.i("upd", ((Integer) view.getId()).toString());
         Log.i("upd", ((Integer) R.id.button_finish_a_star).toString());

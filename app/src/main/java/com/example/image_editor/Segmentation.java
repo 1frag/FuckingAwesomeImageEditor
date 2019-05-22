@@ -14,7 +14,6 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-// TODO: refactoring
 class Segmentation extends Conductor{
     private FaceDetector mDetector;
     private String TAG = "Detect Faces";
@@ -80,7 +79,6 @@ class Segmentation extends Conductor{
             }
 
             imageView.setImageBitmap(editedBitmap);
-            mainActivity.imageChanged = true;
             Toast.makeText(mainActivity.getApplicationContext(),
                     String.format(mainActivity.getResources().getString(R.string.faces_found), faces.size()),
                     Toast.LENGTH_SHORT).show();
