@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
@@ -432,6 +433,12 @@ public class MainActivity extends AppCompatActivity {
         if (mSetting.language == R.id.rb_eng) {
             locale = new Locale("en");
         } else locale = new Locale("ru");
+
+        // TODO: change this values
+        View v = findViewById(R.id.main_constraint_layout);
+        if (mSetting.theme == true){
+            v.setBackgroundColor(Color.BLACK);
+        } else v.setBackgroundColor(Color.WHITE);
 
         Locale.setDefault(locale);
         Configuration configuration = new Configuration();
