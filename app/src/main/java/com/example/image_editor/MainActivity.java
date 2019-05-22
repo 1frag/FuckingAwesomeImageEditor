@@ -467,34 +467,28 @@ public class MainActivity extends AppCompatActivity {
                 Uri contentURI = data.getData();
                 try {
                     mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-
-                    if (mBitmap.getByteCount() > 10000000) {
-                        openBigPictureDialog();
-                        return;
-                    }
-
-                    mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-                    mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-                    mImageView.setImageBitmap(mBitmap);
-                    mPhotoChosen = true;
-                    history.clearAllAndSetOriginal(mBitmap);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(MainActivity.this,
                             getResources().getString(R.string.failed),
                             Toast.LENGTH_SHORT).show();
                 }
+                if (mBitmap.getByteCount() > 10000000) {
+                    openBigPictureDialog();
+                    return;
+                }
             }
 
         } else if (requestCode == CAMERA) {
             mBitmap = (Bitmap) data.getExtras().get("data");
-            mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-            mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-            mImageView.setImageBitmap(mBitmap);
-            mPhotoChosen = true;
-            history.clearAllAndSetOriginal(mBitmap);
         }
+
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
+        mPhotoChosen = true;
+        history.clearAllAndSetOriginal(mBitmap);
+        Conductor.setDefaultState(null);
     }
 
     // you can rewrite something if you want
