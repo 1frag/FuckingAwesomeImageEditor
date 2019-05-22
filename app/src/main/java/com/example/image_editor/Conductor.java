@@ -95,7 +95,7 @@ class Conductor {
             @Override
             public void onClick(View v) {
                 if (mainActivity.imageChanged) {
-                    openCancelDialog(v);
+                    mainActivity.openQuitFromMethodDialog();
                 } else setDefaultState(v);
             }
         });
@@ -113,35 +113,11 @@ class Conductor {
                     return;
                 }
                 if (!mainActivity.imageChanged) {
-                    mainActivity.history.addBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+                    mainActivity.history.addBitmap(mainActivity.getBitmap());
                 }
                 setDefaultState(v);
             }
         });
-    }
-
-    private void openCancelDialog(final View v) {
-        AlertDialog.Builder cancelDialog = new AlertDialog.Builder(mainActivity);
-        cancelDialog.setTitle(mainActivity.getResources().getString(R.string.change_lost));
-
-        cancelDialog.setPositiveButton(mainActivity.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                imageView.setImageBitmap(mainActivity.getBitmapBefore());
-                mainActivity.resetBitmap();
-                mainActivity.invalidateImageView();
-                setDefaultState(v);
-            }
-        });
-
-        cancelDialog.setNegativeButton(mainActivity.getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
-
-        cancelDialog.show();
     }
 
     public void lockInterface(){

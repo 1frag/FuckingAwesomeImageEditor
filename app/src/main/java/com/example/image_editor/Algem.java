@@ -92,12 +92,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
             drawCircle(mx, my, 15, Color.BLACK);
             mPointsArray.add(new DPoint(mx, my));
             mainActivity.invalidateImageView();
-//            mainActivity.runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    imageView.invalidate();
-//                }
-//            });
+            mainActivity.imageChanged = true;
             return true;
         }
         return false;
@@ -196,6 +191,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
                 @Override
                 public void run() {
                     // todo: а не сдохнет?) (*mainActivity.runOnUiThread*)
+                    // TODO: а почему должен? :D
                     Toast.makeText(mainActivity.getApplicationContext(), mainActivity.getResources().getString(R.string.warning_no_points), Toast.LENGTH_SHORT).show();
                 }
             });

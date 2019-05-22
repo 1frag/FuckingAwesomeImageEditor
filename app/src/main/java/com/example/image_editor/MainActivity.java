@@ -243,9 +243,7 @@ public class MainActivity extends AppCompatActivity {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
-//                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
-                Conductor.setDefaultState(null);
-                mImageView.setImageBitmap(history.showHead());
+                Conductor.setDefaultState(null); // выход из метода, если изменений не было
             }
         } else openQuitDialog(); // уверен, что выйти из приложения
     }
@@ -253,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
     public void redoOnClick(View view) {
         System.out.println("REDO");
         mBitmap = history.takeFromBuffer();
+        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         if (mBitmap == null) {
             Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
         } else mImageView.setImageBitmap(mBitmap);
@@ -260,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void undoOnClick(View view) {
         mBitmap = history.popBitmap();
+        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
     }
 
@@ -284,16 +284,14 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.show();
     }
 
-    private void openQuitFromMethodDialog() {
+    public void openQuitFromMethodDialog() {
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
         quitDialog.setTitle("Изменения не будут применены. Продолжить?");
 
         quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Conductor = new Conductor(MainActivity.this); // выход из метода, если изменений не было
-                Conductor.setDefaultState(null);
-                mImageView.setImageBitmap(history.showHead());
+                Conductor.setDefaultState(null); // выход из метода, если изменений не было
             }
         });
 

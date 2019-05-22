@@ -22,7 +22,7 @@ public class History {
     }
 
     public void addBitmap(Bitmap bitmap){
-        mHistory.push(bitmap);
+        mHistory.push(bitmap.copy(Bitmap.Config.ARGB_8888, true));
         mCounter += 1;
         if (mCounter == STACK_SIZE) dropStack();
         mBuffer.clear();
@@ -50,7 +50,7 @@ public class History {
         }catch (EmptyStackException e){
             return null;
         }
-        mHistory.push(bitmap);
+        mHistory.push(bitmap.copy(Bitmap.Config.ARGB_8888, true));
         mCounter += 1;
         if (mCounter == STACK_SIZE) dropStack();
 
@@ -70,7 +70,7 @@ public class History {
     public void clearAllAndSetOriginal(Bitmap bitmap){
         mHistory.clear();
         mBuffer.clear();
-        mOriginalBitmap = bitmap;
+        mOriginalBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCounter = 1;
     }
 
