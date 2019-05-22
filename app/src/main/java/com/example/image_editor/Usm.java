@@ -85,6 +85,8 @@ public class Usm extends Conductor {
                     }
                 };
                 asyncTask.execute();
+                mainActivity.algorithmExecuted = true;
+                mainActivity.imageChanged = true;
                 long endTime = System.currentTimeMillis();
                 Log.i("upd", "already");
                 System.out.println("That took " + (endTime - startTime) + " milliseconds");
