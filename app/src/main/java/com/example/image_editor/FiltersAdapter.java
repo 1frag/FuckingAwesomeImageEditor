@@ -71,6 +71,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             switch (which) {
                 case "Original":
                     mainActivity.imageChanged = false;
+                    mainActivity.algorithmExecuted = false;
                     break;
                 case "Movie":
                     mBufferedBitmap = ColorFIltersCollection.movieFilter(mBufferedBitmap);
@@ -110,6 +111,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             mainActivity.imageChanged = true;
+            mainActivity.algorithmExecuted = true;
             final ImageView imageView = mainActivity.getImageView();
             imageView.setImageBitmap(result);
 
@@ -150,8 +152,6 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
                 if (mClicked) return;
                 AsyncTaskFilters filterAsync = new AsyncTaskFilters();
                 filterAsync.execute(mNamesProg.get(position), "image");
-                mainActivity.imageChanged = true;
-                mainActivity.algorithmExecuted = true;
             }
         });
     }
