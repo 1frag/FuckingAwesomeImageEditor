@@ -41,12 +41,14 @@ class Segmentation extends Conductor{
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    scanFaces();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.i(TAG, "Problem");
-                }
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        scanFaces();
+                        return mainActivity.getBitmap();
+                    }
+                };
+                asyncTask.execute();
             }
         });
     }
