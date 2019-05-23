@@ -205,24 +205,30 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         else return cur;
     }
 
-    private DPoint getPoint23(int angle, double sina,
-                              double x, double y,
+    private DPoint getPoint23(int angle, double x, double y,
                               double w, double h) {
         // todo:sadasasdasdasdasdzczxcasd!!!
-        if (angle <= 90) return new DPoint(h * sina, 0);
-        if (angle <= 180) return new DPoint(x, h * sina);
-        if (angle <= 270) return new DPoint(x - h * sina, y);
-        return new DPoint(0, y * sina);
+        double a = (double) (angle % 90) * Math.PI / 180.0;
+        double sina = Math.sin(a);
+        double cosa = Math.cos(a);
+
+        if (angle <= 90) return new DPoint(0, w * sina);
+        if (angle <= 180) return new DPoint(w * sina, y);
+        if (angle <= 270) return new DPoint(x, y - w * sina);
+        return new DPoint(x - w * sina, 0);
     }
 
-    private DPoint getPoint33(int angle, double sina,
-                              double x, double y,
+    private DPoint getPoint33(int angle, double x, double y,
                               double w, double h) {
         // todo:sadasasdasdasdasdzczxcasd!!!
-        if (angle <= 90) return new DPoint(x, w * sina);
-        if (angle <= 180) return new DPoint(x - w * sina, y);
-        if (angle <= 270) return new DPoint(0, y - h * sina);
-        return new DPoint(y * Math.sqrt(1 - sina * sina), 0);
+        double a = (double) (angle % 90) * Math.PI / 180.0;
+        double sina = Math.sin(a);
+        double cosa = Math.cos(a);
+
+        if (angle <= 90) return new DPoint(w * cosa, 0);
+        if (angle <= 180) return new DPoint(0, y - w * cosa);
+        if (angle <= 270) return new DPoint(x - w * cosa, y);
+        return new DPoint(x, w * cosa);
     }
 
     private Bitmap rotateOnAngle(int angle) {
@@ -242,8 +248,8 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         DPoint p12 = new DPoint(0, 0);
         DPoint p13 = new DPoint(w, 0);
         DPoint p21 = new DPoint(x / 2.0, y / 2.0);
-        DPoint p22 = getPoint23(angle, Math.abs(sina), x, y, w, h);
-        DPoint p23 = getPoint33(angle, Math.abs(sina), x, y, w, h);
+        DPoint p22 = getPoint23(angle, x, y, w, h);
+        DPoint p23 = getPoint33(angle, x, y, w, h);
 
         Log.i("upd", String.format("1) %s %s", p22.x, p22.y));
         Log.i("upd", String.format("2) %s %s", p23.x, p23.y));
