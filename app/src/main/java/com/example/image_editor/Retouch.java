@@ -199,7 +199,8 @@ public class Retouch extends Conductor implements OnTouchListener {
 
         // blurred mBitmap
         Bitmap bufferedBitmap = ColorFIltersCollection
-                .fastBlur(mainActivity.getBitmapBefore().copy(Bitmap.Config.ARGB_8888, true), mBlurRadius, 1);
+                .fastBlur(mainActivity.history.showHead().copy(
+                        Bitmap.Config.ARGB_8888, true), mBlurRadius, 1);
 
         for (int i = 0; i < mRemPixels.size(); i++) {
             Pixel e = mRemPixels.get(i);
