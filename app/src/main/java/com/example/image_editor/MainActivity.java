@@ -30,6 +30,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPoolAdapter;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -50,7 +51,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Bitmap mBitmap, mBeforeChanges;
+    private Bitmap mBitmap, mBeforeChanges, mBitmapDrawing;
 
     private Button mShareButton;
 
@@ -99,6 +100,15 @@ public class MainActivity extends AppCompatActivity {
 
     public LinearLayout getmHeader() {
         return mHeader;
+    }
+
+    public Bitmap getBitmapDrawing(){
+        return mBitmapDrawing;
+    }
+
+    public void clearBitmapDrawing(){
+        mBitmapDrawing = Bitmap.createBitmap(mBitmap);
+        mBitmapDrawing.eraseColor(Color.RED);
     }
 
     @Override
