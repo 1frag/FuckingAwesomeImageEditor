@@ -212,9 +212,9 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
 
-        if (angle <= 90) return new DPoint(0, w * sina);
-        if (angle <= 180) return new DPoint(w * sina, y);
-        if (angle <= 270) return new DPoint(x, y - w * sina);
+        if (angle < 90) return new DPoint(0, w * sina);
+        if (angle < 180) return new DPoint(w * sina, y);
+        if (angle < 270) return new DPoint(x, y - w * sina);
         return new DPoint(x - w * sina, 0);
     }
 
@@ -225,9 +225,9 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
 
-        if (angle <= 90) return new DPoint(w * cosa, 0);
-        if (angle <= 180) return new DPoint(0, y - w * cosa);
-        if (angle <= 270) return new DPoint(x - w * cosa, y);
+        if (angle < 90) return new DPoint(w * cosa, 0);
+        if (angle < 180) return new DPoint(0, y - w * cosa);
+        if (angle < 270) return new DPoint(x - w * cosa, y);
         return new DPoint(x, w * cosa);
     }
 
