@@ -434,11 +434,10 @@ public class MainActivity extends AppCompatActivity {
             locale = new Locale("en");
         } else locale = new Locale("ru");
 
-        // TODO: change this values
         View v = findViewById(R.id.main_constraint_layout);
         if (mSetting.theme == true){
-            v.setBackgroundColor(Color.BLACK);
-        } else v.setBackgroundColor(Color.WHITE);
+            v.setBackgroundColor(getResources().getColor(R.color.colorBackground3));
+        } else v.setBackgroundColor(getResources().getColor(R.color.colorBackground2));
 
         Locale.setDefault(locale);
         Configuration configuration = new Configuration();
