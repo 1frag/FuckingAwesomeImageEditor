@@ -12,7 +12,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Rotation extends Controller{
+import java.util.ArrayList;
+
+public class Rotation extends Controller implements View.OnTouchListener {
 
     private Button mApplyRotateButton;
     private ImageButton mResetRotateButton;
@@ -25,8 +27,12 @@ public class Rotation extends Controller{
 
     private TextView mTextViewAngle;
 
+    private ArrayList<DPoint> mPointsArray = new ArrayList<>();
+
     private int mCurrentAngleDiv90 = 0;
     private int mCurrentAngleMod90 = 0;
+
+    private boolean mCropOption = false;
 
     Rotation(MainActivity activity) {
         super(activity);
@@ -190,7 +196,63 @@ public class Rotation extends Controller{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mCropOption == false) {
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mainActivity.getApplicationContext(),
+                                    "Set to points on picture to crop and click again",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    imageView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
+                            float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
+                            int mx = (int) (event.getX() / scalingX);
+                            int my = (int) (event.getY() / scalingY);
 
+                            mPointsArray.add(new DPoint(mx, my));
+                            mainActivity.invalidateImageView();
+                            mainActivity.imageChanged = true;
+
+                            Log.i("msg", mx + " " + my);
+                            return false;
+                        }
+                    });
+                    mCropOption = true;
+
+                } else {
+                    Log.i("msg", Integer.toString(mPointsArray.size()));
+                    imageView.setOnTouchListener(null);
+                    mCropOption = false;
+
+                    if (mPointsArray.size() < 2){
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mainActivity.getApplicationContext(),
+                                        "You don't set any points, dude",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        mPointsArray.clear();
+                        return;
+                    }
+
+                    final DPoint dot1 = mPointsArray.get(0);
+                    final DPoint dot2 = mPointsArray.get(1);
+                    AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                        @Override
+                        protected Bitmap doInBackground(String... params) {
+                            Bitmap bufBitmap = cropAlgo(dot1, dot2);
+                            return bufBitmap;
+                        }
+                    };
+                    asyncTask.execute();
+                    mPointsArray.clear();
+                }
             }
         });
     }
@@ -226,6 +288,21 @@ public class Rotation extends Controller{
         if (angle < 180) return new DPoint(0, y - w * cosa);
         if (angle < 270) return new DPoint(x - w * cosa, y);
         return new DPoint(x, w * cosa);
+    }
+
+    private Bitmap cropAlgo(DPoint point1, DPoint point2){
+        int startX = (point1.x > point2.x) ? (int)point2.x : (int)point1.x;
+        int startY = (point1.y > point2.y) ? (int)point2.y : (int)point1.y;
+        int finishX = (point1.x >= point2.x) ? (int)point1.x : (int)point2.x;
+        int finishY = (point1.y >= point2.y) ? (int)point1.y : (int)point2.y;
+
+        Bitmap bufBitmap = Bitmap.createBitmap(finishX - startX,
+                finishY - startY, Bitmap.Config.ARGB_8888);
+
+        for (int i = 0; i < bufBitmap.getWidth(); i++)
+            for (int j = 0; j < bufBitmap.getHeight(); j++)
+                bufBitmap.setPixel(i, j, mainActivity.getBitmap().getPixel(startX+i, startY+j));
+        return bufBitmap;
     }
 
     private Bitmap rotateOnAngle(int angle) {
@@ -315,5 +392,10 @@ public class Rotation extends Controller{
             }
         }
         return bufBitmap;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
     }
 }
