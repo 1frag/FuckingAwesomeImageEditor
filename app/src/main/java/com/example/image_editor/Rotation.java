@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,8 @@ public class Rotation extends Conductor implements View.OnTouchListener {
     private SeekBar mSeekBarAngle;
 
     private TextView mTextViewAngle;
+    private TextView mTextViewLeft;
+    private TextView mTextViewRight;
 
     private int mCurrentAngleDiv90 = 0;
     private int mCurrentAngleMod90 = 0;
@@ -48,6 +49,8 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         ImageButton cropButton = mainActivity.findViewById(R.id.button_mirrorV);
 
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
+        mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
+        mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
         mSeekBarAngle = mainActivity.findViewById(R.id.seekbar_rotate);
         mSeekBarAngle.setProgress(90);
@@ -59,7 +62,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         configApplyButton(mApplyRotateButton);
         configMirrorHorizontalButton(mMirrorHButton);
         configMirrorVerticalButton(mMirrorVButton);
-        configCropButton()
+        configCropButton(cropButton);
 
         String txt = mainActivity.getResources().getString(R.string.angle_is);
         mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
@@ -132,7 +135,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.resetBitmap();
-                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle()));
+                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle(), false));
                         return mainActivity.getBitmap();
                     }
                 };
@@ -150,6 +153,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
                 mCurrentAngleDiv90 %= 4;
                 String txt = mainActivity.getResources().getString(R.string.angle_is);
                 mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
+
             }
         });
     }
@@ -221,19 +225,20 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.setBitmap(horizontalSymmetry());
+                        mainActivity.resetBitmap();
+                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle(), true));
                         return mainActivity.getBitmap();
                     }
                 };
-                asyncTask.execute();
+                asyncRotate.execute();
             }
         });
     }
 
-    private Bitmap rotateOnAngle(int angle) {
+    private Bitmap rotateOnAngle(int angle, boolean crop) {
         if (angle < 0) angle += 360;
         mLastAngle = angle;
 
@@ -247,12 +252,30 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         int x = (int) (Math.abs((double) w * cosa) + Math.abs((double) h * sina) + 2);
         int y = (int) (Math.abs((double) w * sina) + Math.abs((double) h * cosa) + 2);
 
-        DPoint p11 = new DPoint(w / 2.0, h / 2.0);
-        DPoint p12 = new DPoint(0, 0);
-        DPoint p13 = new DPoint(w, 0);
-        DPoint p21 = new DPoint(x / 2.0, y / 2.0);
-        DPoint p22 = getPoint23(angle, x, y, w, h);
-        DPoint p23 = getPoint33(angle, x, y, w, h);
+        DPoint p11, p12, p13, p21, p22, p23;
+
+        if (!crop || (angle % 90 == 0)) {
+            p11 = new DPoint(w / 2.0, h / 2.0);
+            p12 = new DPoint(0, 0);
+            p13 = new DPoint(w, 0);
+            p21 = new DPoint(x / 2.0, y / 2.0);
+            p22 = getPoint23(angle, x, y, w, h);
+            p23 = getPoint33(angle, x, y, w, h);
+        } else if (angle < 90 || (180 < angle && angle < 270)) {
+            p11 = new DPoint(0, 0);
+            p12 = new DPoint(w, h);
+            p13 = new DPoint(w, 0);
+            p21 = new DPoint(0, 0);
+            p22 = new DPoint(w, h);
+            p23 = getPoint33(angle, x, y, w, h);
+        } else {
+            p11 = new DPoint(w, 0);
+            p12 = new DPoint(0, h);
+            p13 = new DPoint(0, 0);
+            p21 = new DPoint(w, 0);
+            p22 = new DPoint(0, h);
+            p23 = getPoint23(angle, x, y, w, h);
+        }
 
         Log.i("upd", String.format("1) %s %s", p22.x, p22.y));
         Log.i("upd", String.format("2) %s %s", p23.x, p23.y));
