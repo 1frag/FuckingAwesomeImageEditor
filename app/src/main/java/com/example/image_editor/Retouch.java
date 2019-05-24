@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.image_editor.fragments.FragmentRetouch;
+
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
@@ -42,7 +44,7 @@ public class Retouch extends Controller implements OnTouchListener {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        prepareToRun(R.layout.retouch_menu);
+        prepareToRun(new FragmentRetouch());
         setHeader(mainActivity.getResources().getString(R.string.retouch));
 
         mApplyRetouchButton = mainActivity.findViewById(R.id.button_apply_retouch);

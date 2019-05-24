@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.image_editor.fragments.FragmentAStar;
+
 import java.util.ArrayList;
 
 public class Algem extends Controller implements View.OnTouchListener {
@@ -32,7 +34,8 @@ public class Algem extends Controller implements View.OnTouchListener {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        prepareToRun(R.layout.spline_menu);
+//        prepareToRun(R.layout.spline_menu);
+        prepareToRun(new FragmentAStar());
         setHeader(mainActivity.getResources().getString(R.string.interpolation_slines));
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);

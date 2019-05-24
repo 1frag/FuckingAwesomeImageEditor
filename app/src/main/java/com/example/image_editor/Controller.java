@@ -3,6 +3,9 @@ package com.example.image_editor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-class Controller {
+public class Controller {
 
     private ImageButton mApplyChangesButton;
     private ImageButton mCancelChangesButton;
@@ -30,7 +33,7 @@ class Controller {
         mainActivity = activity;
         imageView = mainActivity.getImageView();
 
-        placeHolder = mainActivity.findViewById(R.id.method_layout);
+//        placeHolder = mainActivity.findViewById(R.id.method_layout);
         recyclerView = mainActivity.findViewById(R.id.recyclerView);
         infoButton = mainActivity.findViewById(R.id.button_help);
 
@@ -48,7 +51,19 @@ class Controller {
         mainActivity.getmHeader().removeAllViews();
         mainActivity.getmHeader().addView(menu, 0);
 
-        placeHolder.setVisibility(View.INVISIBLE);
+//        placeHolder.setVisibility(View.INVISIBLE);
+
+        /* todo:work  with FRAGMENT -- BEGIN */
+        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment newFragment = new Fragment();
+        fragmentTransaction.replace(R.id.method_layout, newFragment);
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.commit();
+        /* todo:work  with FRAGMENT -- END */
+
         recyclerView.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
 
@@ -69,13 +84,13 @@ class Controller {
         mainActivity.getImageView().setOnTouchListener(null);
     }
 
-    void prepareToRun(int resource) {
+    void prepareToRun(Fragment newFragment) {
         mainActivity.inMethod = true;
-        LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
+//        LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
 
-        final LayoutInflater factory_menu = mainActivity.getLayoutInflater();
-        final View menu = factory_menu.inflate(resource, null);
-        placeHolder.addView(menu, 0);
+//        final LayoutInflater factory_menu = mainActivity.getLayoutInflater();
+//        final View menu = factory_menu.inflate(resource, null);
+//        placeHolder.addView(menu, 0);
 
         final LayoutInflater factory_head = mainActivity.getLayoutInflater();
         final View head = factory_head.inflate(R.layout.method_head, null);
@@ -87,7 +102,18 @@ class Controller {
         configCancelButton(mCancelChangesButton);
         imageView.setImageBitmap(mainActivity.getBitmapDrawing());
 
-        placeHolder.setVisibility(View.VISIBLE);
+//        placeHolder.setVisibility(View.VISIBLE);
+
+        /* todo:work  with FRAGMENT -- BEGIN */
+        FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.method_layout, newFragment);
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.commit();
+        /* todo:work  with FRAGMENT -- END */
+
         mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
 
@@ -149,7 +175,7 @@ class Controller {
         mainActivity.switchProgressBarVisibilityInvisible();
     }
 
-    class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
+    public class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

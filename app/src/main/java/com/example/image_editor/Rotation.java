@@ -12,6 +12,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.image_editor.fragments.FragmentAStar;
+
 import java.util.ArrayList;
 
 public class Rotation extends Controller implements View.OnTouchListener {
@@ -41,7 +43,8 @@ public class Rotation extends Controller implements View.OnTouchListener {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        prepareToRun(R.layout.rotate_menu);
+//        prepareToRun(R.layout.rotate_menu);
+        prepareToRun(new FragmentAStar());
         setHeader(mainActivity.getResources().getString(R.string.name_rotation));
 
         mRotate90Button = mainActivity.findViewById(R.id.button_rotate90);

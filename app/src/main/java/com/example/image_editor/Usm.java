@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.image_editor.fragments.FragmentAStar;
+
 public class Usm extends Controller {
 
     private Button mRunUsmButton;
@@ -32,7 +34,8 @@ public class Usm extends Controller {
     void touchToolbar() {
 
         super.touchToolbar();
-        prepareToRun(R.layout.sharpness_menu);
+//        prepareToRun(R.layout.sharpness_menu);
+        prepareToRun(new FragmentAStar());
         setHeader(mainActivity.getResources().getString(R.string.name_unsharp_masking));
 
         mSeekBarAmount = mainActivity.findViewById(R.id.seekbar_amount);

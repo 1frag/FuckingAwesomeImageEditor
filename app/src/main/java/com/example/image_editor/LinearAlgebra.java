@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.image_editor.fragments.FragmentAStar;
+
 public class LinearAlgebra extends Controller {
 
     private Button mStartAlgoButton;
@@ -23,7 +25,8 @@ public class LinearAlgebra extends Controller {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        prepareToRun(R.layout.linear_algebra_menu);
+//        prepareToRun(R.layout.linear_algebra_menu);
+        prepareToRun(new FragmentAStar());
         setHeader(mainActivity.getResources().getString(R.string.algem_2_0_name));
 
         mainActivity.drivingViews.show();

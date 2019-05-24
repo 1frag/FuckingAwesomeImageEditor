@@ -43,7 +43,7 @@
             android:src="@drawable/default_img" />
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/method_layout"
         android:layout_width="390dp"
         android:layout_height="100dp"

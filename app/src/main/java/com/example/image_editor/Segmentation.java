@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.image_editor.fragments.FragmentAStar;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -28,7 +29,8 @@ class Segmentation extends Controller {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        prepareToRun(R.layout.segmentatioon_menu);
+//        prepareToRun(R.layout.segmentatioon_menu);
+        prepareToRun(new FragmentAStar());
         setHeader(mainActivity.getResources().getString(R.string.segmentation));
 
         mFacesDetect = (Button) mainActivity.findViewById(R.id.faces);

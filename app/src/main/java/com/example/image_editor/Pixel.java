@@ -1,6 +1,6 @@
 package com.example.image_editor;
 
-class Pixel {
+public class Pixel {
     private int x;
     private int y;
     private int color;
@@ -9,7 +9,7 @@ class Pixel {
         y = ay;
         color = acolor;
     }
-    int getX(){return x;}
-    int getY(){return y;}
-    int getColor(){return color;}
+    public int getX(){return x;}
+    public int getY(){return y;}
+    public int getColor(){return color;}
 }

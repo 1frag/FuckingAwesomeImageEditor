@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap mBitmapDrawing;
 
     private RecyclerView mRecyclerView;
-    private LinearLayout mPlaceHolder;
+    private Fragment mPlaceHolder;
     private LinearLayout mHeader;
 
     private ArrayList<String> mNames = new ArrayList<>();
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     Controller Usm;
     /* finish of test part */
 
-    public LinearLayout getmPlaceHolder() {
+    public Fragment getmPlaceHolder() {
         return mPlaceHolder;
     }
 
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         mImageView = findViewById(R.id.iv);
 
-        mPlaceHolder = findViewById(R.id.method_layout);
+//        mPlaceHolder = findViewById(R.id.method_layout);
         mRecyclerView = findViewById(R.id.recyclerView);
 
         mImageView.setMaxHeight((int) (height * 0.585));
@@ -144,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
         initClassesMain();
         updateAccordingSettings();
         getImages();
+    }
+
+    public MainActivity getMainActivity(){
+        return this;
     }
 
     public Bitmap getBitmap() {

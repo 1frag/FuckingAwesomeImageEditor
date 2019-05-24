@@ -3,13 +3,12 @@ package com.example.image_editor;
 import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.os.Build;
-import android.util.Log;
 
 import java.util.Comparator;
 
 import static java.lang.Math.abs;
 
-class PointComparator implements Comparator<Point> {
+public class PointComparator implements Comparator<Point> {
 
     private int INF = (int) (1e9 + 7);
     private Point target;
@@ -31,7 +30,7 @@ class PointComparator implements Comparator<Point> {
         return Integer.compare(Y(b), Y(a));
     }
 
-    PointComparator(Point atarget, int n, int m){
+    public PointComparator(Point atarget, int n, int m){
         target = atarget;
         G = new int[n][m];
         for (int i = 0; i < n; i++) {
@@ -41,11 +40,11 @@ class PointComparator implements Comparator<Point> {
         }
     }
 
-    void setInG(Point r, int val){
+    public void setInG(Point r, int val){
         G[r.x][r.y] = val;
     }
 
-    int getInG(Point r){
+    public int getInG(Point r){
         return G[r.x][r.y];
     }
 }

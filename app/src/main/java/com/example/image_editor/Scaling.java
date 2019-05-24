@@ -8,6 +8,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.image_editor.fragments.FragmentAStar;
+
 public class Scaling extends Controller {
 
     private Button mResetScalingButton;
@@ -28,7 +30,8 @@ public class Scaling extends Controller {
     @Override
     void touchToolbar() {
         super.touchToolbar();
-        prepareToRun(R.layout.scaling_menu);
+//        prepareToRun(R.layout.scaling_menu);
+        prepareToRun(new FragmentAStar());
         setHeader(mainActivity.getResources().getString(R.string.name_scaling));
 
         mResetScalingButton = mainActivity.findViewById(R.id.button_reset_scaling);
