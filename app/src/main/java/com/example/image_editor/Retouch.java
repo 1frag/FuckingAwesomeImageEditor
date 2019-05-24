@@ -1,7 +1,9 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -26,6 +28,9 @@ public class Retouch extends Conductor implements OnTouchListener {
 
     private SeekBar mSeekBarBrushSize;
     private SeekBar mSeekBarBlurRadius;
+
+    private Canvas canvas;
+    private Paint paint;
 
     private int mBrushSize = 1;
     private int mBlurRadius = 1;
@@ -59,6 +64,10 @@ public class Retouch extends Conductor implements OnTouchListener {
 
         mainActivity.resetDrawing();
         imageView.setImageBitmap(mainActivity.getBitmapDrawing());
+
+        canvas = new Canvas(mainActivity.getBitmapDrawing());
+        paint = new Paint();
+
         imageView.setOnTouchListener(this);
     }
 
@@ -98,6 +107,7 @@ public class Retouch extends Conductor implements OnTouchListener {
                         imageView.setImageBitmap(mainActivity.getBitmapDrawing());
                         mainActivity.invalidateImageView();
                         mainActivity.imageChanged = false;
+                        canvas.setBitmap(mainActivity.getBitmapDrawing());
                         mRemPixels.clear();
                     }
                 };
@@ -114,6 +124,7 @@ public class Retouch extends Conductor implements OnTouchListener {
                 imageView.setImageBitmap(mainActivity.getBitmapDrawing());
                 mainActivity.invalidateImageView();
                 mainActivity.imageChanged = false;
+                canvas.setBitmap(mainActivity.getBitmapDrawing());
                 mRemPixels.clear();
             }
         });
@@ -196,6 +207,9 @@ public class Retouch extends Conductor implements OnTouchListener {
         int my = (int) (event.getY() / scalingY);
 
         int rad = mBrushSize;
+        paint.setColor(0x55FF0000);
+
+        canvas.drawCircle(mx, my, rad, paint);
 
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
@@ -209,8 +223,8 @@ public class Retouch extends Conductor implements OnTouchListener {
                     mRemPixels.add(new Pixel(mx + i, my + j,
                             mainActivity.getBitmap()
                                     .getPixel(mx + i, my + j)));
-                    mainActivity.getBitmapDrawing()
-                            .setPixel(mx + i, my + j, Color.RED);
+//                    mainActivity.getBitmapDrawing()
+//                            .setPixel(mx + i, my + j, Color.RED);
                 }
             }
         }

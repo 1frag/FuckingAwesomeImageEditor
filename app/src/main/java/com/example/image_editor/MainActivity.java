@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
 
-        mBitmapDrawing = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmapDrawing = ((BitmapDrawable) mImageView.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
 
         mProgressBar = findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
