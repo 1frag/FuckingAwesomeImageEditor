@@ -84,10 +84,23 @@ public class Scaling extends Controller {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor scalingAsync = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak")
+                AsyncTaskConductor scalingAsync = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         Bitmap bufBitmap = algorithm((float) mScalingValue / 100);
+                        if (bufBitmap.getHeight() > 3600 || bufBitmap.getWidth() > 3600){
+                            mainActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(mainActivity.getApplicationContext(),
+                                            "Whoops! Your picture is bigger than our ImageView! " +
+                                                    "Try again on smaller parameters.",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            bufBitmap = mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                        }
                         return bufBitmap;
                     }
                     @Override
