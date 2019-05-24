@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Rotation extends Conductor implements View.OnTouchListener {
+public class Rotation extends Controller{
 
     private Button mApplyRotateButton;
     private ImageButton mResetRotateButton;
@@ -193,9 +193,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
 
             }
         });
-        imageView.setOnTouchListener(this);
-
-        imageView.setOnTouchListener(null);
     }
 
     private int getCurrentAngle() {
@@ -318,10 +315,5 @@ public class Rotation extends Conductor implements View.OnTouchListener {
             }
         }
         return bufBitmap;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
     }
 }

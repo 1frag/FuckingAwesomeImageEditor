@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class LinearAlgebra extends Conductor {
+public class LinearAlgebra extends Controller {
 
     private Button mStartAlgoButton;
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class Usm extends Conductor {
+public class Usm extends Controller {
 
     private Button mRunUsmButton;
 
@@ -198,6 +198,8 @@ public class Usm extends Conductor {
     }
 
     private void algorithm() {
+        // to discard previous changes
+        mainActivity.resetBitmap();
 
         Bitmap blurred = ColorFIltersCollection.fastBlur(mainActivity.getBitmap(), (int) mRadius, 1);
 

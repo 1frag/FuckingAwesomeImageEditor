@@ -1,25 +1,15 @@
 package com.example.image_editor;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by User on 2/12/2018.
@@ -32,10 +22,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //vars
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
-    private ArrayList<Conductor> mClasses = new ArrayList<>();
+    private ArrayList<Controller> mClasses = new ArrayList<>();
     private MainActivity activity;
 
-    RecyclerViewAdapter(MainActivity activity, ArrayList<String> names, ArrayList<Integer> imageUrls, ArrayList<Conductor> classes) {
+    RecyclerViewAdapter(MainActivity activity, ArrayList<String> names, ArrayList<Integer> imageUrls, ArrayList<Controller> classes) {
         this.mNames = names;
         this.mImageUrls = imageUrls;
         this.mClasses = classes;
@@ -60,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 try {
-                    Conductor cndr = (Conductor) mClasses.get(position).getClass().getConstructors()[0].newInstance(activity);
+                    Controller cndr = (Controller) mClasses.get(position).getClass().getConstructors()[0].newInstance(activity);
                     cndr.touchToolbar();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

@@ -14,7 +14,10 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-class Segmentation extends Conductor {
+class Segmentation extends Controller {
+
+    private Button mFacesDetect;
+
     private FaceDetector mDetector;
     private String TAG = "Detect Faces";
 
@@ -22,12 +25,14 @@ class Segmentation extends Conductor {
         super(activity);
     }
 
+    @Override
     void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.segmentatioon_menu);
         setHeader(mainActivity.getResources().getString(R.string.segmentation));
 
-        ConfigBtnFacesDetect((Button) mainActivity.findViewById(R.id.faces));
+        mFacesDetect = (Button) mainActivity.findViewById(R.id.faces);
+        configFacesDetectButton(mFacesDetect);
 
         mDetector = new FaceDetector.Builder(mainActivity)
                 .setTrackingEnabled(false)
@@ -36,7 +41,19 @@ class Segmentation extends Conductor {
                 .build();
     }
 
-    private void ConfigBtnFacesDetect(Button btn) {
+    @Override
+    public void lockInterface(){
+        super.lockInterface();
+        mFacesDetect.setEnabled(false);
+    }
+
+    @Override
+    public void unlockInterface(){
+        super.unlockInterface();
+        mFacesDetect.setEnabled(true);
+    }
+
+    private void configFacesDetectButton(Button btn) {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

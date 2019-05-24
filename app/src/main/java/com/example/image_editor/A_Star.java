@@ -29,7 +29,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static java.lang.Math.abs;
 
-public class A_Star extends Conductor implements OnTouchListener {
+public class A_Star extends Controller implements OnTouchListener {
 
     private Button mStartAlgoButton;
     private ImageButton mChangeStartButton;
@@ -90,6 +90,8 @@ public class A_Star extends Conductor implements OnTouchListener {
         mSetWallButton.setEnabled(false);
         mStartAlgoButton.setEnabled(false);
         mSettingsButton.setEnabled(false);
+        mClearButton.setEnabled(false);
+        imageView.setOnTouchListener(null);
     }
 
     @Override
@@ -100,6 +102,8 @@ public class A_Star extends Conductor implements OnTouchListener {
         mSetWallButton.setEnabled(true);
         mStartAlgoButton.setEnabled(true);
         mSettingsButton.setEnabled(true);
+        mClearButton.setEnabled(true);
+        imageView.setOnTouchListener(this);
     }
 
     @Override

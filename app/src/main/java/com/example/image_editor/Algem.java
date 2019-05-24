@@ -1,7 +1,9 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -10,13 +12,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Algem extends Conductor implements View.OnTouchListener {
+public class Algem extends Controller implements View.OnTouchListener {
 
     private ImageButton mAddPointsButton;
     private Button mStartAlgemButton;
-    // TODO: button for lines
+
+    private Canvas mCanvas;
+    private Paint mPaint;
 
     private ArrayList<DPoint> mPointsArray = new ArrayList<>();
+    private DPoint mPreviousPoint = null;
 
     private int N, mTypeEvent;
 
@@ -37,6 +42,12 @@ public class Algem extends Conductor implements View.OnTouchListener {
         configStartAlgoButton(mStartAlgemButton);
 
         imageView.setImageBitmap(mainActivity.getBitmap());
+        mCanvas = new Canvas(mainActivity.getBitmap());
+
+        mPaint = new Paint();
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStrokeWidth(12);
+
         imageView.setOnTouchListener(this);
     }
 
@@ -45,6 +56,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         super.lockInterface();
         mAddPointsButton.setEnabled(false);
         mStartAlgemButton.setEnabled(false);
+        imageView.setOnTouchListener(null);
     }
 
     @Override
@@ -52,6 +64,7 @@ public class Algem extends Conductor implements View.OnTouchListener {
         super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
+        imageView.setOnTouchListener(this);
     }
 
     private void configDrawPointsButton(ImageButton btn1) {
@@ -73,6 +86,15 @@ public class Algem extends Conductor implements View.OnTouchListener {
                         algorithm();
                         return mainActivity.getBitmap();
                     }
+                    @Override
+                    protected void onPostExecute(Bitmap result){
+                        super.onPostExecute(result);
+                        // to resume lines drawing
+                        imageView.setImageBitmap(mainActivity.getBitmap());
+                        mainActivity.invalidateImageView();
+                        mainActivity.imageChanged = false;
+                        mCanvas.setBitmap(mainActivity.getBitmap());
+                    }
                 };
                 splainTask.execute();
             }
@@ -90,6 +112,10 @@ public class Algem extends Conductor implements View.OnTouchListener {
 
         if (mTypeEvent == 1 && event.getAction() == 0) {
             drawCircle(mx, my, 15, Color.BLACK);
+            if (mPreviousPoint != null){
+                mCanvas.drawLine((float)mPreviousPoint.x, (float)mPreviousPoint.y, (float)mx, (float)my, mPaint);
+            }
+            mPreviousPoint = new DPoint(mx, my);
             mPointsArray.add(new DPoint(mx, my));
             mainActivity.invalidateImageView();
             mainActivity.imageChanged = true;
@@ -202,7 +228,6 @@ public class Algem extends Conductor implements View.OnTouchListener {
     }
 
     private void clearGap() {
-
         mainActivity.resetBitmap();
 
         for (int i = 0; i < mPointsArray.size(); i++) {

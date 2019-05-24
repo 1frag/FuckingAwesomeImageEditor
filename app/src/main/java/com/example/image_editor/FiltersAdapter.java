@@ -33,7 +33,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         mNamesProg = namesProg;
         mBitmap = ((BitmapDrawable) mainActivity.getImageView().getDrawable()).getBitmap();
 
-        int THUMBSIZE = 128;
+        final int THUMBSIZE = 128;
         mThumb = ThumbnailUtils.extractThumbnail(mBitmap, THUMBSIZE, THUMBSIZE);
     }
 
