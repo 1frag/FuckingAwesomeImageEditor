@@ -54,7 +54,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Bitmap mBitmap, mBeforeChanges;
+    private Bitmap mBitmap;
     private Bitmap mBitmapDrawing;
 
     private RecyclerView mRecyclerView;
@@ -156,10 +156,6 @@ public class MainActivity extends AppCompatActivity {
         return mBitmap;
     }
 
-    public void saveBitmapBefore() {
-        mBeforeChanges = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-    }
-
     public void setBitmap(Bitmap btmp) {
         mBitmap = btmp.copy(Bitmap.Config.ARGB_8888, true);
     }
@@ -195,11 +191,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Bitmap getBitmapBefore() {
-        return mBeforeChanges;
+        return history.showHead().copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void resetBitmap() {
-        mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
+        mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void resetDrawing(){
@@ -267,16 +263,14 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = history.takeFromBuffer();
         if (mBitmap == null) { // if stack is empty
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.nothing_to_show), Toast.LENGTH_SHORT).show();
-            mBitmap = mBeforeChanges;
+            mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
         } else {
-            mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
             mImageView.setImageBitmap(mBitmap);
         }
     }
 
     public void undoOnClick(View view) {
         mBitmap = history.popBitmap();
-        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
     }
 
@@ -506,7 +500,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
         mPhotoChosen = true;
         history.clearAllAndSetOriginal(mBitmap);

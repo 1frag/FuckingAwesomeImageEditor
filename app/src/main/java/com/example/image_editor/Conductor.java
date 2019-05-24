@@ -39,7 +39,6 @@ class Conductor {
     }
 
     void touchToolbar() {
-        mainActivity.saveBitmapBefore();
         Log.i("upd", "touchToolbar");
     }
 
