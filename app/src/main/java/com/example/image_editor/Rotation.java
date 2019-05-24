@@ -34,6 +34,8 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
     private boolean mCropOption = false;
 
+    private Bitmap mBufferBitmap; // for correct crop
+
     Rotation(MainActivity activity) {
         super(activity);
     }
@@ -56,6 +58,8 @@ public class Rotation extends Controller implements View.OnTouchListener {
         mSeekBarAngle = mainActivity.findViewById(R.id.seekbar_rotate);
         mSeekBarAngle.setProgress(90);
         mSeekBarAngle.setMax(180);
+
+        mBufferBitmap = mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
 
         configRotationSeekBar(mSeekBarAngle);
         configRotate90Button(mRotate90Button);
@@ -120,7 +124,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(mainActivity.getBitmapBefore());
+                mainActivity.getImageView().setImageBitmap(mainActivity.getBitmapBefore());
                 mCurrentAngleDiv90 = 0;
                 mCurrentAngleMod90 = 0;
                 mSeekBarAngle.setProgress(90);
@@ -137,9 +141,10 @@ public class Rotation extends Controller implements View.OnTouchListener {
                 @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
-                        mainActivity.resetBitmap();
-                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle()));
-                        return mainActivity.getBitmap();
+//                        mainActivity.resetBitmap();
+                        Bitmap bufBitmap = rotateOnAngle(getCurrentAngle());
+                        mBufferBitmap = bufBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                        return bufBitmap;
                     }
                 };
                 asyncRotate.execute();
@@ -168,6 +173,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.setBitmap(horizontalSymmetry());
+                        mBufferBitmap = mainActivity.getBitmap();
                         return mainActivity.getBitmap();
                     }
                 };
@@ -184,6 +190,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.setBitmap(verticalSymmetry());
+                        mBufferBitmap = mainActivity.getBitmap();
                         return mainActivity.getBitmap();
                     }
                 };
@@ -201,20 +208,29 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         @Override
                         public void run() {
                             Toast.makeText(mainActivity.getApplicationContext(),
-                                    "Set to points on picture to crop and click again",
+                                    "Set two points on picture to crop and click on this button again",
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-                    imageView.setOnTouchListener(new View.OnTouchListener() {
+
+                    mainActivity.getImageView().setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
-                            float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
-                            float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
-                            int mx = (int) (event.getX() / scalingX);
-                            int my = (int) (event.getY() / scalingY);
+                            float scalingX = mainActivity.getImageView().getWidth() / (float) mainActivity.getBitmap().getWidth();
+                            float scalingY = mainActivity.getImageView().getHeight() / (float) mainActivity.getBitmap().getHeight();
+                            final int mx = (int) (event.getX() / scalingX);
+                            final int my = (int) (event.getY() / scalingY);
 
-                            mPointsArray.add(new DPoint(mx, my));
-                            mainActivity.invalidateImageView();
+                            drawCircle(mx, my, 15, Color.BLACK);
+
+                            mainActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mPointsArray.add(new DPoint(mx, my));
+                                    mainActivity.invalidateImageView();
+                                }
+                            });
+
                             mainActivity.imageChanged = true;
 
                             Log.i("msg", mx + " " + my);
@@ -225,7 +241,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
                 } else {
                     Log.i("msg", Integer.toString(mPointsArray.size()));
-                    imageView.setOnTouchListener(null);
+                    mainActivity.getImageView().setOnTouchListener(null);
                     mCropOption = false;
 
                     if (mPointsArray.size() < 2){
@@ -248,6 +264,13 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         protected Bitmap doInBackground(String... params) {
                             Bitmap bufBitmap = cropAlgo(dot1, dot2);
                             return bufBitmap;
+                        }
+                        @Override
+                        protected void onPostExecute(Bitmap result){
+                            super.onPostExecute(result);
+                            mainActivity.getImageView().setImageBitmap(result);
+                            mainActivity.setBitmapFromImageview();
+                            mainActivity.invalidateImageView();
                         }
                     };
                     asyncTask.execute();
@@ -301,7 +324,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
         for (int i = 0; i < bufBitmap.getWidth(); i++)
             for (int j = 0; j < bufBitmap.getHeight(); j++)
-                bufBitmap.setPixel(i, j, mainActivity.getBitmap().getPixel(startX+i, startY+j));
+                bufBitmap.setPixel(i, j, mBufferBitmap.getPixel(startX+i, startY+j));
         return bufBitmap;
     }
 
@@ -394,8 +417,22 @@ public class Rotation extends Controller implements View.OnTouchListener {
         return bufBitmap;
     }
 
+    // suppress the warning
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return false;
+    }
+
+    private void drawCircle(int mx, int my, int r, int color) {
+        for (int x = mx - r; x <= mx + r; x++) {
+            for (int y = my - r; y <= my + r; y++) {
+                if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r) {
+                    if (0 > x || x >= mainActivity.getWidthBitmap()) continue;
+                    if (0 > y || y >= mainActivity.getHeightBitmap()) continue;
+                    mainActivity.setPixelBitmap(x, y, color);
+                    mainActivity.imageChanged = true;
+                }
+            }
+        }
     }
 }
