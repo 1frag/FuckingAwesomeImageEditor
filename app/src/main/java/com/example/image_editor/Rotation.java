@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
 
     private int mCurrentAngleDiv90 = 0;
     private int mCurrentAngleMod90 = 0;
+    private int mLastAngle = 0;
 
     Rotation(MainActivity activity) {
         super(activity);
@@ -43,6 +45,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton = mainActivity.findViewById(R.id.button_apply_rotate);
         mMirrorHButton = mainActivity.findViewById(R.id.button_mirrorH);
         mMirrorVButton = mainActivity.findViewById(R.id.button_mirrorV);
+        ImageButton cropButton = mainActivity.findViewById(R.id.button_mirrorV);
 
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
@@ -56,6 +59,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         configApplyButton(mApplyRotateButton);
         configMirrorHorizontalButton(mMirrorHButton);
         configMirrorVerticalButton(mMirrorVButton);
+        configCropButton()
 
         String txt = mainActivity.getResources().getString(R.string.angle_is);
         mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
@@ -154,7 +158,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.setBitmap(horizontalSymmetry());
@@ -170,7 +174,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.setBitmap(verticalSymmetry());
@@ -213,8 +217,25 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         return new DPoint(x, w * cosa);
     }
 
+    private void configCropButton(ImageButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        mainActivity.setBitmap(horizontalSymmetry());
+                        return mainActivity.getBitmap();
+                    }
+                };
+                asyncTask.execute();
+            }
+        });
+    }
+
     private Bitmap rotateOnAngle(int angle) {
         if (angle < 0) angle += 360;
+        mLastAngle = angle;
 
         double a = (double) angle * Math.PI / 180.0;
         double sina = Math.sin(a);
