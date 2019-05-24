@@ -55,7 +55,8 @@ class Conductor {
 
         // to discard some possible drawings on bitmap
         if (mainActivity.imageChanged && !mainActivity.algorithmExecuted) {
-            mainActivity.getImageView().setImageBitmap(mainActivity.history.showHead());
+            mainActivity.getImageView().setImageBitmap(
+                    mainActivity.history.showHead().copy(Bitmap.Config.ARGB_8888, true));
             mainActivity.setBitmapFromImageview();
         }
 
@@ -90,6 +91,9 @@ class Conductor {
         placeHolder.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
+
+        // это не костыль, это логика (с)
+        mainActivity.getImageView().setImageBitmap(mainActivity.getBitmap());
     }
 
     // TODO: check for language
@@ -106,7 +110,7 @@ class Conductor {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mainActivity.imageChanged) {
+                if (mainActivity.algorithmExecuted) {
                     mainActivity.openQuitFromMethodDialog();
                 } else setDefaultState(v);
             }
