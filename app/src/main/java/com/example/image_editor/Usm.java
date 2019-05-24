@@ -198,6 +198,8 @@ public class Usm extends Conductor {
     }
 
     private void algorithm() {
+        // to discard previous changes
+        mainActivity.resetBitmap();
 
         Bitmap blurred = ColorFIltersCollection.fastBlur(mainActivity.getBitmap(), (int) mRadius, 1);
 
