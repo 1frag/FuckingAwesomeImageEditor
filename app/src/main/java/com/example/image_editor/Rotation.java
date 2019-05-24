@@ -43,7 +43,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton = mainActivity.findViewById(R.id.button_apply_rotate);
         mMirrorHButton = mainActivity.findViewById(R.id.button_mirrorH);
         mMirrorVButton = mainActivity.findViewById(R.id.button_mirrorV);
-        mCropButton = mainActivity.findViewById(R.id.button_crop);
 
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
@@ -57,7 +56,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         configApplyButton(mApplyRotateButton);
         configMirrorHorizontalButton(mMirrorHButton);
         configMirrorVerticalButton(mMirrorVButton);
-        configCropButton(mCropButton);
 
         String txt = mainActivity.getResources().getString(R.string.angle_is);
         mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
@@ -72,7 +70,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton.setEnabled(false);
         mMirrorHButton.setEnabled(false);
         mMirrorVButton.setEnabled(false);
-        mCropButton.setEnabled(false);
     }
 
     @Override
@@ -84,7 +81,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton.setEnabled(true);
         mMirrorHButton.setEnabled(true);
         mMirrorVButton.setEnabled(true);
-        mCropButton.setEnabled(true);
     }
 
     private void configRotationSeekBar(SeekBar seekBar) {
@@ -184,18 +180,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
                 asyncTask.execute();
             }
         });
-    }
-
-    private void configCropButton(ImageButton button) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        imageView.setOnTouchListener(this);
-
-        imageView.setOnTouchListener(null);
     }
 
     private int getCurrentAngle() {

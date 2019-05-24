@@ -7,12 +7,11 @@
 
     <TextView
         android:id="@+id/textView_rool"
-        android:layout_width="258dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
         android:text="@string/heuristic"
         android:textSize="30sp"
+        android:background="@color/colorBackground2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,10 +61,10 @@
 
     <TextView
         android:id="@+id/textView_walls"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="@string/walls"
+        android:background="@color/colorBackground2"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rg_rool" />
@@ -169,11 +168,11 @@
 
     <TextView
         android:id="@+id/path"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/path"
+        android:background="@color/colorBackground2"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_color_wall" />
