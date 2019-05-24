@@ -77,6 +77,7 @@ class Conductor {
 
         configApplyButton(mApplyChangesButton);
         configCancelButton(mCancelChangesButton);
+        imageView.setImageBitmap(mainActivity.getBitmapDrawing());
 
         placeHolder.setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);

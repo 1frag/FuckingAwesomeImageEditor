@@ -76,7 +76,6 @@ public class A_Star extends Conductor implements OnTouchListener {
         configSettingsButton(mSettingsButton);
         configClearButton(mClearButton);
         mSettings = new Settings();
-        mainActivity.getBitmapDrawing();
 
         imageView.setImageBitmap(mainActivity.getBitmap());
         imageView.invalidate();

@@ -1,7 +1,6 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,7 +53,8 @@ public class Retouch extends Conductor implements OnTouchListener {
         configRadiusSeekBar(mSeekBarBlurRadius);
         configBrushSeekBar(mSeekBarBrushSize);
 
-        imageView.setImageBitmap(mainActivity.getBitmap());
+        mainActivity.resetDrawing();
+        imageView.setImageBitmap(mainActivity.getBitmapDrawing());
         imageView.setOnTouchListener(this);
     }
 
@@ -82,7 +82,7 @@ public class Retouch extends Conductor implements OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         algorithm();
-                        return mainActivity.getBitmap();
+                        return mainActivity.getBitmapDrawing();
                     }
                 };
                 asyncTask.execute();
@@ -180,7 +180,8 @@ public class Retouch extends Conductor implements OnTouchListener {
                     mRemPixels.add(new Pixel(mx + i, my + j,
                             mainActivity.getBitmap()
                                     .getPixel(mx + i, my + j)));
-                    mainActivity.getBitmap().setPixel(mx + i, my + j, Color.RED);
+                    mainActivity.getBitmapDrawing()
+                            .setPixel(mx + i, my + j, Color.RED);
                 }
             }
         }
@@ -208,6 +209,15 @@ public class Retouch extends Conductor implements OnTouchListener {
                     e.getY(), bufferedBitmap.getPixel(e.getX(),
                             e.getY()));
         }
+        mainActivity.resetDrawing();
+
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                imageView.invalidate();
+            }
+        });
+        mainActivity.imageChanged = false;
         mainActivity.algorithmExecuted = true;
     }
 }
