@@ -100,12 +100,11 @@
         android:layout_marginBottom="8dp"
         android:text="@string/apply"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view_rotation"
+        app:layout_constraintBottom_toBottomOf="@+id/button_mirrorH"
         app:layout_constraintEnd_toEndOf="@+id/view_rotation"
         app:layout_constraintHorizontal_bias="0.187"
         app:layout_constraintStart_toEndOf="@+id/seekbar_rotate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.115" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/button_rotate90"
@@ -141,18 +140,6 @@
         app:layout_constraintEnd_toStartOf="@+id/button_mirrorH"
         app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate"
         android:contentDescription="@string/mirroring"/>
-
-    <ImageButton
-        android:id="@+id/button_crop"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="36dp"
-        android:background="@color/White"
-        android:src="@drawable/ic_crop"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_apply_rotate"
-        android:contentDescription="@string/crop"/>
 
     <ImageButton
         android:id="@+id/button_mirrorH"
