@@ -46,11 +46,14 @@ class Conductor {
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.INVISIBLE);
 
         // to discard some possible drawings on bitmap
-        if (!mainActivity.imageChanged)
-            mainActivity.getImageView().setImageBitmap(mainActivity.getBitmapBefore());
+        if (mainActivity.imageChanged && !mainActivity.algorithmExecuted) {
+            mainActivity.getImageView().setImageBitmap(mainActivity.history.showHead());
+            mainActivity.setBitmapFromImageview();
+        }
 
         mainActivity.inMethod = false;
         mainActivity.imageChanged = false;
+        mainActivity.algorithmExecuted = false;
 
         /* for Algem 2.0 delete moving points */
         mainActivity.drivingViews.hide();

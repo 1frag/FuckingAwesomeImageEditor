@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView mImageView;
     private Bitmap mBitmap, mBeforeChanges, mBitmapDrawing;
 
-    private Button mShareButton;
-
     private RecyclerView mRecyclerView;
     private LinearLayout mPlaceHolder;
     private LinearLayout mHeader;
@@ -68,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String IMAGE_DIRECTORY = "/Awesome";
     private final int GALLERY = 1, CAMERA = 2;
     private String TAG = "MainActivity";
-    private int mInitialColor;
 
     public boolean inMethod = false; // set true if you in method
     public boolean imageChanged = false; // check image for changes
