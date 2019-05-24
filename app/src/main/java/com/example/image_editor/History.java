@@ -14,7 +14,7 @@ public class History {
 
     private int mCounter = 0;
 
-    private static final int STACK_SIZE = 10;
+    private static final int STACK_SIZE = 7;
 
     public History() {
         mHistory = new Stack<Bitmap>();

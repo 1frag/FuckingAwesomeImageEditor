@@ -89,7 +89,7 @@ public class Scaling extends Controller {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         Bitmap bufBitmap = algorithm((float) mScalingValue / 100);
-                        if (bufBitmap.getHeight() > 3600 || bufBitmap.getWidth() > 3600){
+                        if (bufBitmap.getHeight() > 3200 || bufBitmap.getWidth() > 3200){
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
