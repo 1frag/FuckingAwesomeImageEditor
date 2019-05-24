@@ -316,19 +316,17 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder bigPictureDialog = new AlertDialog.Builder(this);
         bigPictureDialog.setTitle(getResources().getString(R.string.big_picture));
 
-        bigPictureDialog.setPositiveButton("Да!", new DialogInterface.OnClickListener() {
+        bigPictureDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap, mBitmap.getWidth() / 2, MainActivity.this);
-
-                Toast.makeText(MainActivity.this, "Scaling applied!", Toast.LENGTH_SHORT).show();
                 mImageView.setImageBitmap(mBitmap);
                 mPhotoChosen = true;
                 history.clearAllAndSetOriginal(mBitmap);
             }
         });
 
-        bigPictureDialog.setNegativeButton("Я выберу другую", new DialogInterface.OnClickListener() {
+        bigPictureDialog.setNegativeButton(getResources().getString(R.string.choose_another), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
@@ -351,31 +349,31 @@ public class MainActivity extends AppCompatActivity {
         initClasses();
 
         mImageUrls.add(R.drawable.icon_a_star); // 0
-        mNames.add("A*");
+        mNames.add(getResources().getString(R.string.title_activity_a__star));
 
         mImageUrls.add(R.drawable.icon_spline); // 1
-        mNames.add("Spline");
+        mNames.add(getResources().getString(R.string.title_activity_spline));
 
         mImageUrls.add(R.drawable.icon_rotate); // 2
-        mNames.add("Rotate");
+        mNames.add(getResources().getString(R.string.title_activity_rotation));
 
         mImageUrls.add(R.drawable.icon_billinear_filter); // 3
-        mNames.add("Bilinear filter");
+        mNames.add(getResources().getString(R.string.title_activity_bi__filters));
 
         mImageUrls.add(R.drawable.icon_color_filters); // 4
-        mNames.add("Filters");
+        mNames.add(getResources().getString(R.string.title_activity_color__filters));
 
         mImageUrls.add(R.drawable.icon_retouch); // 5
-        mNames.add("Retouch");
+        mNames.add(getResources().getString(R.string.title_activity_retouch));
 
         mImageUrls.add(R.drawable.icon_scale); // 6
-        mNames.add("Scale");
+        mNames.add(getResources().getString(R.string.title_activity_scaling));
 
         mImageUrls.add(R.drawable.icon_segmentation); // 7
-        mNames.add("Segmentation");
+        mNames.add(getResources().getString(R.string.title_activity_segmentation));
 
         mImageUrls.add(R.drawable.icon_sharpness); // 8
-        mNames.add("Sharpness");
+        mNames.add(getResources().getString(R.string.title_activity_usm));
 
         initRecyclerView();
     }

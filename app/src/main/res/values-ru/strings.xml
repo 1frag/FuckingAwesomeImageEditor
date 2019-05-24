@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fucking Awesome Editor</string>
     <string name="title_activity_filters">Методы</string>
     <string name="title_activity_scaling">Масштабирование</string>
+    <string name="title_activity_usm">Нерезкое маскирование</string>
+    <string name="title_activity_bi__filters">Биленейная фильтрация</string>
+    <string name="title_activity_segmentation">Сегментация</string>
+    <string name="title_activity_retouch">Ретушь</string>
     <string name="title_activity_color__filters">Фильтры</string>
     <string name="title_activity_rotation">Поворот</string>
-    <string name="title_activity_a__star">A_Star</string>
+    <string name="title_activity_a__star">A*</string>
+    <string name="title_activity_spline">Spline</string>
+
     <string name="choose_filter">Выберите фильтр</string>
     <string name="select_or_capture_image">Выберите или сделайте фотографию</string>
     <string name="HINT">HINT: do something ;)</string>
+
     <string name="heuristic">Правила прохода: </string>
     <string name="four">Четыре направления</string>
     <string name="eight">Восемь направлений</string>
     <string name="best">Восемь направлений, если угол не заблокирован</string>
+
     <string name="apply">принять</string>
     <string name="cancel">отмена</string>
+
     <string name="set_start">Установите НАЧАЛО</string>
     <string name="set_finish">Установите КОНЕЦ</string>
     <string name="set_walls">Установите СТЕНЫ</string>
     <string name="start_algo">Начать алгоритм</string>
+
     <string name="walls">Стены:</string>
     <string name="romb">ромб</string>
     <string name="square">квадрат</string>
@@ -37,34 +46,20 @@
     <string name="edit">Изменить</string>
     <string name="amount">Процент</string>
     <string name="threshold">Порог</string>
-    <string name="_45">-90</string>
-    <string name="_45p">+90</string>
-    <string name="_0">0</string>
     <string name="rotate">поворот</string>
     <string name="crop">обрезать</string>
     <string name="mirroring">отражение</string>
     <string name="start_points">начальные точки</string>
     <string name="finish_points">конечные точки</string>
-    <string name="listitem_text">Laguna</string>
     <string name="rv_image">rv_image</string>
-    <string name="default_image">default_image</string>
-    <string name="add_pnts">add_pnts</string>
-    <string name="_255">255</string>
-    <string name="_50">50</string>
-    <string name="_100">100%</string>
-    <string name="_0ps">0%</string>
-    <string name="_2">2</string>
-    <string name="_1">1</string>
     <string name="current_method">Текущий метод</string>
-    <string name="info">инфо</string>
-    <string name="settings">настройки</string>
+    <string name="settings">Настройки</string>
     <string name="point">   Точка:</string>
     <string name="first_point">Первая точка:</string>
     <string name="second_point">Вторая точка:</string>
     <string name="third_point">Третья точка:</string>
     <string name="switch_language">Сменить язык</string>
     <string name="example">Пример</string>
-    <string name="_5">5</string>
     <string name="language">Язык: </string>
     <string name="russian">Русский</string>
     <string name="english">Английский</string>
@@ -72,20 +67,11 @@
     <string name="dark_mode">Темная тема</string>
     <string name="cd">cd</string>
     <string name="a_star_name">A* алгоритм</string>
+
     <string name="warning_set_start_and_finish">Нужно установить старт и финиш!</string>
     <string name="warning_no_points">Нет точек, чувак</string>
+
     <string name="interpolation_slines">Сплайны и линии</string>
-    <string name="filter_original">Original</string>
-    <string name="filters_movie">Movie</string>
-    <string name="filters_blur">Blur</string>
-    <string name="filers_black_and_white"><![CDATA[B&W]]></string>
-    <string name="filter_blue_laguna">Blue laguna</string>
-    <string name="filter_contrast">Contrast</string>
-    <string name="filter_sephia">Sephia</string>
-    <string name="filter_noise">Noise</string>
-    <string name="filter_green_grass">Green grass</string>
-    <string name="filter_ruby">Ruby</string>
-    <string name="filter_vignette">Vignette</string>
     <string name="color_correction_name">Цветокоррекция</string>
     <string name="change_lost">Изменения будут утрачены. Продолжить?</string>
     <string name="yes">Таки да!</string>
@@ -103,16 +89,18 @@
     <string name="name_scaling">Масштабирование</string>
     <string name="width_is">Ширина: %d</string>
     <string name="height_is">Высота: %d</string>
-    <string name="scale_is">Масштаб: %.2fx</string>
+    <string name="scale_is">Масштаб: %.2dx</string>
     <string name="amount_is">Процент: %d</string>
     <string name="warning_scale">Чувак, оно очень мальнекое</string>
     <string name="segmentation">Сегментация</string>
     <string name="faces_found">%d лиц найдено</string>
     <string name="name_unsharp_masking">Нерезкое маскирование</string>
     <string name="threshold_is">Порог: %d</string>
-    <string name="angle_is">Angle: %d</string>
-    <string name="clear">Clear</string>
-    <string name="nothing_to_show">Nothing to show</string>
+    <string name="angle_is">Угол: %d</string>
+    <string name="clear">Очистить</string>
+    <string name="nothing_to_show">Нечего показывать</string>
     <string name="exit_sure">Выход: Вы уверены?</string>
     <string name="continue_q">Изменения не будут применены. Продолжить?</string>
+    <string name="choose_another">Я выберу другую</string>
+    <string name="big_picture">Пикча большая. Сожмём?</string>
 </resources>
