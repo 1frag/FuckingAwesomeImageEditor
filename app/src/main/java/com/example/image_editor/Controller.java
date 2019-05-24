@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -102,8 +103,29 @@ class Controller {
     }
 
     // TODO: override in each function, give layout as parameter and set onClickListener on public button
-    private void configMethodInfoButton(LayoutInflater layout){
-        return;
+    public void configMethodInfoButton(View button, LayoutInflater layout){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a LinearLayout in which to add the ImageView
+                LinearLayout linearLayout = new LinearLayout(mainActivity);
+
+                // Instantiate an ImageView and define its properties
+                ImageView i = new ImageView(mainActivity);
+                i.setImageResource(R.drawable.a_star);
+
+                // set the ImageView bounds to match the Drawable's dimensions
+                i.setAdjustViewBounds(true);
+                i.setLayoutParams(new Gallery.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+
+                // Add the ImageView to the layout and set the layout as the content view
+                linearLayout.addView(i);
+                mainActivity.setContentView(linearLayout);
+
+                // TODO: OH FUCK KILL ME
+            }
+        });
     }
 
     private void configCancelButton(ImageButton button){

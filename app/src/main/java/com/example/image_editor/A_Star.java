@@ -81,6 +81,7 @@ public class A_Star extends Controller implements OnTouchListener {
         configStartButton(mChangeStartButton);
         configSettingsButton(mSettingsButton);
         configClearButton(mClearButton);
+        configMethodInfoButton(mainActivity.findViewById(R.id.button_help), null);
         mSettings = new Settings();
 
         W = mainActivity.getBitmap().getWidth();
