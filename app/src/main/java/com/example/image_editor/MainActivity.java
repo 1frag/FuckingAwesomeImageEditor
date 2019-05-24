@@ -7,8 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -30,7 +34,6 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPoolAdapter;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -51,9 +54,8 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Bitmap mBitmap, mBeforeChanges, mBitmapDrawing;
-
-    private Button mShareButton;
+    private Bitmap mBitmap, mBeforeChanges;
+    private Bitmap mBitmapDrawing;
 
     private RecyclerView mRecyclerView;
     private LinearLayout mPlaceHolder;
@@ -68,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String IMAGE_DIRECTORY = "/Awesome";
     private final int GALLERY = 1, CAMERA = 2;
     private String TAG = "MainActivity";
-    private int mInitialColor;
 
     public boolean inMethod = false; // set true if you in method
     public boolean imageChanged = false; // check image for changes
@@ -102,15 +103,6 @@ public class MainActivity extends AppCompatActivity {
         return mHeader;
     }
 
-    public Bitmap getBitmapDrawing(){
-        return mBitmapDrawing;
-    }
-
-    public void clearBitmapDrawing(){
-        mBitmapDrawing = Bitmap.createBitmap(mBitmap);
-        mBitmapDrawing.eraseColor(Color.RED);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
 
+        mBitmapDrawing = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+
         mProgressBar = findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
 
@@ -154,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 (LinearLayout) findViewById(R.id.apply_layout));
 
         initClassesMain();
+        updateAccordingSettings();
         getImages();
     }
 
@@ -205,6 +200,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void resetBitmap() {
         mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
+    }
+
+    public void resetDrawing(){
+        mBitmapDrawing = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+    }
+
+    public Bitmap getBitmapDrawing(){
+        return mBitmapDrawing;
     }
 
     /* test part goes here */
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         if (mBitmap == null) { // if stack is empty
             Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
             mBitmap = mBeforeChanges;
-        } else{
+        } else {
             mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
             mImageView.setImageBitmap(mBitmap);
         }
@@ -445,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
         } else locale = new Locale("ru");
 
         View v = findViewById(R.id.main_constraint_layout);
-        if (mSetting.theme == true){
+        if (mSetting.theme == true) {
             v.setBackgroundColor(getResources().getColor(R.color.colorBackground3));
         } else v.setBackgroundColor(getResources().getColor(R.color.colorBackground2));
 
@@ -601,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
         return mImageView;
     }
 
-    public void setBitmapFromImageview(){
+    public void setBitmapFromImageview() {
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
     }
 
