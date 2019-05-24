@@ -309,7 +309,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Conductor.setDefaultState(null); // выход из метода, если изменений не было
-                mImageView.setImageBitmap(mBeforeChanges);
+                mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
+                mImageView.setImageBitmap(mBitmap);
             }
         });
 
