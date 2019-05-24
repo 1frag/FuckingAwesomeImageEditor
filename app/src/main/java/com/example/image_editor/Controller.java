@@ -1,6 +1,9 @@
 package com.example.image_editor;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -8,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -97,33 +99,39 @@ class Controller {
         mainActivity.getImageView().setImageBitmap(mainActivity.getBitmap());
     }
 
-    // TODO: check for language
     public void setHeader(String header){
         mMethodName.setText(header);
     }
 
+    private Dialog openInfoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
+        LayoutInflater inflater = mainActivity.getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.layout_info, null))
+                .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        return builder.create();
+    }
+
     // TODO: override in each function, give layout as parameter and set onClickListener on public button
-    public void configMethodInfoButton(View button, LayoutInflater layout){
+    public void configMethodInfoButton(View button, final int layout){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create a LinearLayout in which to add the ImageView
-                LinearLayout linearLayout = new LinearLayout(mainActivity);
-
-                // Instantiate an ImageView and define its properties
-                ImageView i = new ImageView(mainActivity);
-                i.setImageResource(R.drawable.a_star);
-
-                // set the ImageView bounds to match the Drawable's dimensions
-                i.setAdjustViewBounds(true);
-                i.setLayoutParams(new Gallery.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-
-                // Add the ImageView to the layout and set the layout as the content view
-                linearLayout.addView(i);
-                mainActivity.setContentView(linearLayout);
-
-                // TODO: OH FUCK KILL ME
+                Dialog dialog = openInfoDialog();
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        final AlertDialog alertDialog = (AlertDialog) dialog;
+                        ImageView imageViewInfo = alertDialog.findViewById(R.id.imageViewInfo);
+                        imageViewInfo.setImageResource(layout);
+                    }
+                });
+                dialog.show();
             }
         });
     }

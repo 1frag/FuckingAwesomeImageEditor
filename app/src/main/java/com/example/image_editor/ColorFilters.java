@@ -19,6 +19,9 @@ public class ColorFilters extends Controller {
         prepareToRun(R.layout.filters_menu);
         setHeader(mainActivity.getResources().getString(R.string.color_correction_name));
         pickFilters();
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_filters);
     }
 
     private void pickFilters() {

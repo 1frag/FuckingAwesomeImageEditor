@@ -34,12 +34,16 @@ class Segmentation extends Controller {
 
         mFacesDetect = (Button) mainActivity.findViewById(R.id.faces);
         configFacesDetectButton(mFacesDetect);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_segmentation);
 
         mDetector = new FaceDetector.Builder(mainActivity)
                 .setTrackingEnabled(false)
                 .setLandmarkType(FaceDetector.ALL_LANDMARKS)
                 .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
                 .build();
+
     }
 
     @Override

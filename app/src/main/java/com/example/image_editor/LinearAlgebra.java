@@ -35,6 +35,9 @@ public class LinearAlgebra extends Controller {
         configStartAlgoButton(mStartAlgoButton);
         configSetStartPointsButton(mSetStartPointsButton);
         configSetFinishPointsButton(mSetFinishPointsButton);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_lin_alg);
     }
 
     @Override

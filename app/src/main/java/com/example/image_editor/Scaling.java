@@ -44,6 +44,9 @@ public class Scaling extends Controller {
         configResetButton(mResetScalingButton);
         configApplyButton(mApplyScalingButton);
         configScalingSeekBar(mSeekBarScaling);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_scaling);
 
         mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmap().getWidth()));
         mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmap().getHeight()));

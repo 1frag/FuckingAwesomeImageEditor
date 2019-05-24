@@ -75,6 +75,9 @@ public class Rotation extends Controller implements View.OnTouchListener {
         configMirrorVerticalButton(mMirrorVButton);
         configCropButton(mCropButton);
         configClearCropButton(mClearCropButton);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_rotation);
 
         String txt = mainActivity.getResources().getString(R.string.angle_is);
         mTextViewAngle.setText(String.format(txt, getCurrentAngle()));

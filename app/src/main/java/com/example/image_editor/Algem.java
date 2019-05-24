@@ -45,6 +45,9 @@ public class Algem extends Controller implements View.OnTouchListener {
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
         configClearButton(mClearButton);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_spline);
 
         imageView.setImageBitmap(mainActivity.getBitmap());
         mCanvas = new Canvas(mainActivity.getBitmap());

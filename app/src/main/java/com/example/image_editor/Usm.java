@@ -53,6 +53,9 @@ public class Usm extends Controller {
         configRadiusSeekBar(mSeekBarRadius);
         configThresholdSeekBar(mSeekBarThreshold);
         configAmountSeekBar(mSeekBarAmount);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_usm);
     }
 
     @Override

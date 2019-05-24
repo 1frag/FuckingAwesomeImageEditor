@@ -63,6 +63,9 @@ public class Retouch extends Controller implements OnTouchListener {
         configRadiusSeekBar(mSeekBarBlurRadius);
         configBrushSeekBar(mSeekBarBrushSize);
         configClearButton(mClearButton);
+        configMethodInfoButton(
+                mainActivity.findViewById(R.id.button_help),
+                R.drawable.help_retouch);
 
         mainActivity.resetDrawing();
         imageView.setImageBitmap(mainActivity.getBitmapDrawing());
