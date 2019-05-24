@@ -19,12 +19,23 @@ class Conductor {
 
     private TextView mMethodName;
 
+    private LinearLayout placeHolder;
+    private RecyclerView recyclerView;
+
     public ImageView imageView;
     public MainActivity mainActivity;
+    private ImageButton infoButton;
 
     Conductor(MainActivity activity) {
         mainActivity = activity;
         imageView = mainActivity.getImageView();
+
+        placeHolder = mainActivity.findViewById(R.id.method_layout);
+        recyclerView = mainActivity.findViewById(R.id.recyclerView);
+        infoButton = mainActivity.findViewById(R.id.button_help);
+
+        mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);
+        mApplyChangesButton = mainActivity.findViewById(R.id.button_apply_changes);
     }
 
     void touchToolbar() {
@@ -33,9 +44,6 @@ class Conductor {
     }
 
     public void setDefaultState(View view) {
-        LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
-        RecyclerView recyclerView = mainActivity.findViewById(R.id.recyclerView);
-
         final LayoutInflater factory = mainActivity.getLayoutInflater();
         final View menu = factory.inflate(R.layout.main_head, null);
         mainActivity.getmHeader().removeAllViews();
@@ -73,9 +81,6 @@ class Conductor {
         final View head = factory_head.inflate(R.layout.method_head, null);
         mainActivity.getmHeader().addView(head, 0);
 
-        mCancelChangesButton = mainActivity.findViewById(R.id.button_cancel_changes);
-        mApplyChangesButton = mainActivity.findViewById(R.id.button_apply_changes);
-
         mMethodName = mainActivity.findViewById(R.id.text_method_name);
 
         configApplyButton(mApplyChangesButton);
@@ -90,6 +95,11 @@ class Conductor {
     // TODO: check for language
     public void setHeader(String header){
         mMethodName.setText(header);
+    }
+
+    // TODO: override in each function, give layout as parameter and set onClickListener on public button
+    private void configMethodInfoButton(LayoutInflater layout){
+        return;
     }
 
     private void configCancelButton(ImageButton button){
