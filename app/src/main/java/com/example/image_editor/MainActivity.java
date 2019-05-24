@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("REDO");
         mBitmap = history.takeFromBuffer();
         if (mBitmap == null) { // if stack is empty
-            Toast.makeText(getApplicationContext(), "Nothing to show", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.nothing_to_show), Toast.LENGTH_SHORT).show();
             mBitmap = mBeforeChanges;
         } else {
             mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -282,16 +282,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void openQuitDialog() {
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
-        quitDialog.setTitle("Выход: Вы уверены?");
+        quitDialog.setTitle(getResources().getString(R.string.exit_sure));
 
-        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+        quitDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
 
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+        quitDialog.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
@@ -303,17 +303,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void openQuitFromMethodDialog() {
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
-        quitDialog.setTitle("Изменения не будут применены. Продолжить?");
+        quitDialog.setTitle(getResources().getString(R.string.continue_q));
 
-        quitDialog.setPositiveButton("Таки да!", new DialogInterface.OnClickListener() {
+        quitDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Conductor.setDefaultState(null); // выход из метода, если изменений не было
-                mImageView.setImageBitmap(mBeforeChanges);
+                mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
+                mImageView.setImageBitmap(mBitmap);
             }
         });
 
-        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+        quitDialog.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 return;
@@ -325,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openBigPictureDialog() {
         AlertDialog.Builder bigPictureDialog = new AlertDialog.Builder(this);
-        bigPictureDialog.setTitle("Пикча большая. Сожмём?");
+        bigPictureDialog.setTitle(getResources().getString(R.string.big_picture));
 
         bigPictureDialog.setPositiveButton("Да!", new DialogInterface.OnClickListener() {
             @Override

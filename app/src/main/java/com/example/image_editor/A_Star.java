@@ -104,6 +104,7 @@ public class A_Star extends Conductor implements OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        mainActivity.imageChanged = true;
 
         float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
         float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();

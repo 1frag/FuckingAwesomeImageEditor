@@ -46,7 +46,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton = mainActivity.findViewById(R.id.button_apply_rotate);
         mMirrorHButton = mainActivity.findViewById(R.id.button_mirrorH);
         mMirrorVButton = mainActivity.findViewById(R.id.button_mirrorV);
-        ImageButton cropButton = mainActivity.findViewById(R.id.button_mirrorV);
+        mCropButton = mainActivity.findViewById(R.id.button_crop);
 
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
@@ -62,7 +62,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         configApplyButton(mApplyRotateButton);
         configMirrorHorizontalButton(mMirrorHButton);
         configMirrorVerticalButton(mMirrorVButton);
-        configCropButton(cropButton);
+        configCropButton(mCropButton);
 
         String txt = mainActivity.getResources().getString(R.string.angle_is);
         mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
@@ -77,6 +77,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton.setEnabled(false);
         mMirrorHButton.setEnabled(false);
         mMirrorVButton.setEnabled(false);
+        mCropButton.setEnabled(false);
     }
 
     @Override
@@ -88,6 +89,7 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         mApplyRotateButton.setEnabled(true);
         mMirrorHButton.setEnabled(true);
         mMirrorVButton.setEnabled(true);
+        mCropButton.setEnabled(true);
     }
 
     private void configRotationSeekBar(SeekBar seekBar) {
@@ -267,14 +269,14 @@ public class Rotation extends Conductor implements View.OnTouchListener {
             p13 = new DPoint(w, 0);
             p21 = new DPoint(0, 0);
             p22 = new DPoint(w, h);
-            p23 = getPoint33(angle, x, y, w, h);
+            p23 = getPointCircle(angle, w, 0, w / 2, h / 2);
         } else {
             p11 = new DPoint(w, 0);
             p12 = new DPoint(0, h);
             p13 = new DPoint(0, 0);
             p21 = new DPoint(w, 0);
             p22 = new DPoint(0, h);
-            p23 = getPoint23(angle, x, y, w, h);
+            p23 = getPointCircle(angle, 0, 0, w / 2, h / 2);
         }
 
         Log.i("upd", String.format("1) %s %s", p22.x, p22.y));
@@ -312,6 +314,53 @@ public class Rotation extends Conductor implements View.OnTouchListener {
         }
 
         return btmp;
+    }
+
+    private double binSearch(int ax, int ay,
+                             double side, double R,
+                             int ox, int oy, float coef) {
+        double left = oy - R;
+        double right = oy + R;
+        int n = 1000;
+        for (int i = 0; i < n; i++) {
+            double midy = (left + right) / 2f;
+            double midx = ox + coef * Math.sqrt(R * R - midy * midy);
+            if ((midy - ay) * (midy - ay) + (midx - ax) * (midx - ax) < side * side) {
+                left = midy;
+            } else {
+                right = midx;
+            }
+        }
+        return (left + right) / 2f;
+    }
+
+    private DPoint getPointCircle(int angle, int ax, int ay, int ox, int oy) {
+        //getPointCircle(angle, w, 0, w/2, h/2);
+        double a = ((double) angle) * (Math.PI / 180.0);
+        double R = Math.sqrt((ax - ox) * (ax - ox) + (ay - oy) * (ay - oy));
+        double side = R * Math.sin(a) / Math.cos(a / 2f);
+        double y1 = binSearch(ax, ay, side, R, ox, oy, 1f);
+        double x1 = ox + Math.sqrt(R * R - y1 * y1);
+        double y2 = binSearch(ax, ay, side, R, ox, oy, -1f);
+        double x2 = ox + Math.sqrt(R * R - y2 * y2);
+        double A_line = oy - ay;
+        double B_line = ax - ox;
+        double C_line = (ox * ay) - (oy * ax);
+        double res = A_line * x1 + B_line * y1 + C_line;
+        if(angle < 180){
+            if(res < 0){
+                return new DPoint(x1, y1);
+            } else {
+                return new DPoint(x2, y2);
+            }
+        } else {
+            if(res < 0){
+                return new DPoint(x2, y2);
+            } else {
+                return new DPoint(x1, y1);
+            }
+        }
+
     }
 
     private Bitmap verticalSymmetry() {
