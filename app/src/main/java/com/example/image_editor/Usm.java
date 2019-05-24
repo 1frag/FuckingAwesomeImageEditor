@@ -21,6 +21,8 @@ public class Usm extends Controller {
     private TextView mTextRadius;
     private TextView mTextThreshold;
 
+    private String TAG = "upd/Usm";
+
     private double mAmount = 1;
     private double mRadius = 1;
     private int mThreshold = 0;
@@ -104,7 +106,7 @@ public class Usm extends Controller {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mRadius = progress;
+                mRadius = progress + 1;
                 String txt = mainActivity.getResources().getString(R.string.radius_is);
                 mTextRadius.setText(String.format(txt, progress));
             }
@@ -131,10 +133,12 @@ public class Usm extends Controller {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
@@ -148,10 +152,12 @@ public class Usm extends Controller {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
@@ -167,31 +173,14 @@ public class Usm extends Controller {
         return ((1 << 8) - 1) & color;
     }
 
-    private int fixColor(int origColor, int blurColor) {
-        int R = getR(origColor);
-        int G = getG(origColor);
-        int B = getB(origColor);
-
-        int difR = (int) ((255 - getR(blurColor)) / mAmount);
-        double dR = Math.abs(difR - R);
-        if (dR > mThreshold) R += difR;
-
-        int difG = (int) ((255 - getG(blurColor)) / mAmount);
-        double dG = Math.abs(difG - G);
-        if (dG > mThreshold) G += difG;
-
-        int difB = (int) ((255 - getB(blurColor)) / mAmount);
-        double dB = Math.abs(difB - B);
-        if (dB > mThreshold) B += difB;
-
-        if (R > 255) R = 255;
-        if (R < 0) R = 0;
-        if (G > 255) G = 255;
-        if (G < 0) G = 0;
-        if (B > 255) B = 255;
-        if (B < 0) B = 0;
-
-        return Color.rgb(R, G, B);
+    private int changeContrast(int pix, double contrast) {
+        double newPix = ((((pix / 255f) - 0.5) * contrast) + 0.5) * 255f;
+        if (newPix < 0) {
+            newPix = 0.0;
+        } else if (newPix > 255) {
+            newPix = 255.0;
+        }
+        return (int) newPix;
     }
 
     private void algorithm() {
@@ -199,15 +188,40 @@ public class Usm extends Controller {
         mainActivity.resetBitmap();
 
         Bitmap blurred = ColorFIltersCollection.fastBlur(mainActivity.getBitmap(), (int) mRadius, 1);
+        double contrast = Math.pow((100 + mAmount) / 100, 2.0);
+        int cnt = 0;
 
         for (int w = 0; w < mainActivity.getBitmap().getWidth(); w++) {
             for (int h = 0; h < mainActivity.getBitmap().getHeight(); h++) {
-                int origColor = mainActivity.getBitmap().getPixel(w, h);
-                int blurColor = blurred.getPixel(w, h);
 
-                mainActivity.getBitmap().setPixel(w, h, fixColor(origColor, blurColor));
+                int red = Color.red(mainActivity.getPixelBitmap(w, h));
+                int green = Color.green(mainActivity.getPixelBitmap(w, h));
+                int blue = Color.blue(mainActivity.getPixelBitmap(w, h));
+
+                int diffR = Math.abs( Math.min(
+                        red - (int) (Color.red(blurred.getPixel(w, h)) * 1.2), 0));
+                int diffG = Math.abs( Math.min(
+                        green - (int) (Color.green(blurred.getPixel(w, h)) * 1.2), 0));
+                int diffB = Math.abs( Math.min(
+                        blue - (int) (Color.blue(blurred.getPixel(w, h)) * 1.2), 0));
+
+                if (red != changeContrast(red, contrast)) cnt++;
+                else if (green != changeContrast(green, contrast)) cnt++;
+                else if (blue != changeContrast(blue, contrast)) cnt++;
+
+                if (diffR > mThreshold) cnt--;
+                else if (diffG > mThreshold) cnt--;
+                else if (diffB > mThreshold) cnt--;
+
+                if (diffR > mThreshold) red = changeContrast(red, contrast);
+                if (diffG > mThreshold) green = changeContrast(green, contrast);
+                if (diffB > mThreshold) blue = changeContrast(blue, contrast);
+
+                mainActivity.getBitmap().setPixel(w, h, Color.rgb(red, green, blue));
+
             }
         }
+        Log.i(TAG, String.format("%d", cnt));
     }
 
 }
