@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
@@ -53,7 +54,8 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         mainActivity.switchProgressBarVisibilityInvisible();
     }
 
-    class AsyncTaskFilters extends AsyncTask<String, Void, Bitmap> {
+    @SuppressLint("StaticFieldLeak")
+    private class AsyncTaskFilters extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -113,7 +115,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
             mainActivity.imageChanged = true;
             mainActivity.algorithmExecuted = true;
             mainActivity.getImageView().setImageBitmap(result);
-            mainActivity.setBitmapFromImageview();
+            mainActivity.setBitmapFromImageView();
 
             // invalidate changes once
             mainActivity.runOnUiThread(new Runnable() {
@@ -137,6 +139,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     public void onBindViewHolder(final FiltersAdapter.ViewHolder holder, final int position) {
 
         holder.name.setText(mNamesFilters.get(position));
+        @SuppressLint("StaticFieldLeak")
         AsyncTaskFilters thumbAsync = new AsyncTaskFilters(){
             @Override
             protected void onPostExecute(Bitmap result) {

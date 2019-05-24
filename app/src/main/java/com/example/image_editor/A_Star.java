@@ -56,6 +56,7 @@ public class A_Star extends Controller implements OnTouchListener {
         mRemWall = new ArrayList<>();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     void touchToolbar() {
         super.touchToolbar();
@@ -82,6 +83,7 @@ public class A_Star extends Controller implements OnTouchListener {
         imageView.setOnTouchListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void lockInterface() {
         super.lockInterface();
@@ -94,6 +96,7 @@ public class A_Star extends Controller implements OnTouchListener {
         imageView.setOnTouchListener(null);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void unlockInterface() {
         super.unlockInterface();
@@ -555,7 +558,6 @@ public class A_Star extends Controller implements OnTouchListener {
         myComp.setInG(mPointStart, 0);
 
         while (!openset.isEmpty()) {
-            // todo: why a* with 8 direction incorrect?
             Point x = openset.poll();
 
             if (x.x == mPointFinish.x && x.y == mPointFinish.y) {
@@ -591,12 +593,13 @@ public class A_Star extends Controller implements OnTouchListener {
         return new ArrayList<>();
     }
 
-    void touchRun() {
+    private void touchRun() {
 
         final int n = mainActivity.getBitmap().getWidth();
         final int m = mainActivity.getBitmap().getHeight();
 
-        @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+        @SuppressLint("StaticFieldLeak")
+        AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
             @Override
             protected Bitmap doInBackground(String... params) {
                 ArrayList<Point> answer = algorithm(n, m);

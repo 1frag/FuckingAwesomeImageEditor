@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -42,6 +43,7 @@ class Controller {
         Log.i("upd", "touchToolbar");
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void setDefaultState(View view) {
         final LayoutInflater factory = mainActivity.getLayoutInflater();
         final View menu = factory.inflate(R.layout.main_head, null);
@@ -56,7 +58,7 @@ class Controller {
         if (mainActivity.imageChanged && !mainActivity.algorithmExecuted) {
             mainActivity.getImageView().setImageBitmap(
                     mainActivity.history.showHead().copy(Bitmap.Config.ARGB_8888, true));
-            mainActivity.setBitmapFromImageview();
+            mainActivity.setBitmapFromImageView();
         }
 
         mainActivity.inMethod = false;
@@ -91,7 +93,6 @@ class Controller {
         mainActivity.findViewById(R.id.recyclerView).setVisibility(View.INVISIBLE);
         mainActivity.findViewById(R.id.apply_layout).setVisibility(View.VISIBLE);
 
-        // это не костыль, это логика (с)
         mainActivity.getImageView().setImageBitmap(mainActivity.getBitmap());
     }
 
@@ -149,6 +150,7 @@ class Controller {
         mainActivity.switchProgressBarVisibilityInvisible();
     }
 
+    @SuppressLint("StaticFieldLeak")
     class AsyncTaskConductor extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected void onPreExecute() {
@@ -166,7 +168,7 @@ class Controller {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             mainActivity.getImageView().setImageBitmap(result);
-            mainActivity.setBitmapFromImageview();
+            mainActivity.setBitmapFromImageView();
 
             mainActivity.imageChanged = true;
             mainActivity.algorithmExecuted = true;
@@ -184,7 +186,6 @@ class Controller {
     }
 
     private void removeFloatingPoints(){
-        // todo: dynamic link resourse // getindentifier
         if(mainActivity.findViewById(R.id.circle1) != null)
             mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle2) != null)
@@ -197,7 +198,5 @@ class Controller {
             mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
         if(mainActivity.findViewById(R.id.circle6) != null)
             mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
-
     }
-
 }

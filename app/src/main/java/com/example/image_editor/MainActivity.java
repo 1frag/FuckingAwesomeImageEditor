@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressBar mProgressBar;
 
+    private String currentPhotoPath;
     private static final String IMAGE_DIRECTORY = "/Awesome";
     private final int GALLERY = 1, CAMERA = 2;
     private String TAG = "MainActivity";
@@ -78,18 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
     private Settings mSetting;
 
-    /* test part goes here */
-    Controller Controller;
-    Controller A_Star;
-    Controller Algem;
-    Controller Rotation;
-    Controller LinearAlgebra;
-    Controller Color_Filters;
-    Controller Retouch;
-    Controller Scaling;
-    Controller Segmentation;
-    Controller Usm;
-    /* finish of test part */
+    private Controller Controller;
+    private Controller A_Star;
+    private Controller Algem;
+    private Controller Rotation;
+    private Controller LinearAlgebra;
+    private Controller Color_Filters;
+    private Controller Retouch;
+    private Controller Scaling;
+    private Controller Segmentation;
+    private Controller Usm;
 
     public LinearLayout getmPlaceHolder() {
         return mPlaceHolder;
@@ -148,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         getImages();
     }
 
+    // some service methods
     public Bitmap getBitmap() {
         return mBitmap;
     }
@@ -157,38 +157,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void invalidateImageView() {
-        mImageView.invalidate();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mImageView.invalidate();
+            }
+        });
     }
 
-    public int getPixelBitmap(int x, int y) {
-        if (0 > x || x >= mBitmap.getWidth() ||
-                0 > y || y >= mBitmap.getHeight()) {
-            Log.w(TAG, "reference to pixel beyond borders");
-            return 0;
-        }
-        return mBitmap.getPixel(x, y);
-    }
-
-    public void setPixelBitmap(int x, int y, int color) {
-        if (0 > x || x >= mBitmap.getWidth() ||
-                0 > y || y >= mBitmap.getHeight()) {
-            Log.w(TAG, "reference to pixel beyond borders");
-            return;
-        }
-        mBitmap.setPixel(x, y, color);
-    }
-
-    public int getWidthBitmap() {
-        return mBitmap.getHeight();
-    }
-
-    public int getHeightBitmap() {
-        return mBitmap.getHeight();
-    }
-
-    public Bitmap getBitmapBefore() {
-        return history.showHead().copy(Bitmap.Config.ARGB_8888, true);
-    }
+    public Bitmap getBitmapBefore() { return history.showHead().copy(Bitmap.Config.ARGB_8888, true); }
 
     public void resetBitmap() {
         mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
@@ -202,7 +179,34 @@ public class MainActivity extends AppCompatActivity {
         return mBitmapDrawing;
     }
 
-    /* test part goes here */
+    public ImageView getImageView() { return mImageView; }
+
+    public void setBitmapFromImageView() { mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap(); }
+
+    public void switchProgressBarVisibilityVisible() { mProgressBar.setVisibility(View.VISIBLE); }
+
+    public void switchProgressBarVisibilityInvisible() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    public int getPixelBitmap(int x, int y) {
+        if (0 > x || x >= mBitmap.getWidth() ||
+                0 > y || y >= mBitmap.getHeight()) {
+            Log.w(TAG, "Reference to pixel beyond borders");
+            return 0;
+        }
+        return mBitmap.getPixel(x, y);
+    }
+
+    public void setPixelBitmap(int x, int y, int color) {
+        if (0 > x || x >= mBitmap.getWidth() ||
+                0 > y || y >= mBitmap.getHeight()) {
+            Log.w(TAG, "Reference to pixel beyond borders");
+            return;
+        }
+        mBitmap.setPixel(x, y, color);
+    }
+
     public void initClasses() {
         if (mClasses.size() == 0) {
             for (int i = 0; i < 9; i++)
@@ -220,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
+    // called on create
     private void initClassesMain() {
         Controller = new Controller(this);
         A_Star = new A_Star(this);
@@ -232,14 +237,15 @@ public class MainActivity extends AppCompatActivity {
         Segmentation = new Segmentation(this);
         Usm = new Usm(this);
     }
-    /* finish of test part */
 
     private void initRecyclerView() {
         Log.d("upd", "initRecyclerView: init recyclerview");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, mNames, mImageUrls, mClasses);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this,
+                mNames, mImageUrls, mClasses);
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -254,8 +260,8 @@ public class MainActivity extends AppCompatActivity {
         } else openQuitDialog(); // уверен, что выйти из приложения
     }
 
+    // history buttons
     public void redoOnClick(View view) {
-        System.out.println("REDO");
         mBitmap = history.takeFromBuffer();
         if (mBitmap == null) { // if stack is empty
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.nothing_to_show), Toast.LENGTH_SHORT).show();
@@ -270,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
         mImageView.setImageBitmap(mBitmap);
     }
 
+    // quit dialogs
     private void openQuitDialog() {
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(this);
         quitDialog.setTitle(getResources().getString(R.string.exit_sure));
@@ -284,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                return;
             }
         });
 
@@ -307,7 +313,6 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                return;
             }
         });
 
@@ -321,7 +326,8 @@ public class MainActivity extends AppCompatActivity {
         bigPictureDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap, mBitmap.getWidth() / 2, MainActivity.this);
+                mBitmap = ColorFIltersCollection.resizeBicubic(mBitmap,
+                        mBitmap.getWidth() / 2, MainActivity.this);
                 mImageView.setImageBitmap(mBitmap);
                 mPhotoChosen = true;
                 history.clearAllAndSetOriginal(mBitmap);
@@ -331,19 +337,10 @@ public class MainActivity extends AppCompatActivity {
         bigPictureDialog.setNegativeButton(getResources().getString(R.string.choose_another), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                return;
             }
         });
 
         bigPictureDialog.show();
-    }
-
-    public void switchProgressBarVisibilityVisible() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void switchProgressBarVisibilityInvisible() {
-        mProgressBar.setVisibility(View.GONE);
     }
 
     private void getImages() {
@@ -380,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
+    // upload and save image methods
     public void choosePhotoFromGallery(View view) {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -387,13 +385,11 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY);
     }
 
-    String currentPhotoPath;
-
     private File createImageFile() {
         // Create an image file name
         File image;
 
-        String imageFileName = "JPEG_" + "_KEK";
+        String imageFileName = "JPEG_" + "_AWESOME";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         try {
             image = File.createTempFile(
@@ -413,10 +409,130 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                FileProvider.getUriForFile(this, "com.example.image_editor.fileprovider", createImageFile()));
+                FileProvider.getUriForFile(this,
+                        "com.example.image_editor.fileprovider", createImageFile()));
         startActivityForResult(intent, CAMERA);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(MainActivity.this,
+                            getResources().getString(R.string.failed),
+                            Toast.LENGTH_SHORT).show();
+                }
+                if (mBitmap.getByteCount() > 10000000) {
+                    openBigPictureDialog();
+                    return;
+                }
+            }
+
+        } else if (requestCode == CAMERA && resultCode == RESULT_OK) {
+            mBitmap = BitmapFactory.decodeFile(currentPhotoPath);
+        }
+
+        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mImageView.setImageBitmap(mBitmap);
+        mPhotoChosen = true;
+        history.clearAllAndSetOriginal(mBitmap);
+        Controller.setDefaultState(null);
+    }
+
+    public void shareImage(View view) {
+        Bitmap icon = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse(Environment.getExternalStorageDirectory().getPath()));
+        startActivity(Intent.createChooser(share, getResources().getString(R.string.share_image)));
+    }
+
+    public void saveImage(View view) {
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this,
+                    new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.image_saved_in) + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
+    }
+
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            Log.i("upd", "All permissions are granted by user!");
+                        }
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            Log.i("upd", "problem with permission");
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.some_error),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
+
+    // Settings part
     class Settings {
         int language;
         boolean theme;
@@ -462,7 +578,7 @@ public class MainActivity extends AppCompatActivity {
         } else locale = new Locale("ru");
 
         View v = findViewById(R.id.main_constraint_layout);
-        if (mSetting.theme == true) {
+        if (mSetting.theme) {
             v.setBackgroundColor(getResources().getColor(R.color.colorBackground3));
         } else v.setBackgroundColor(getResources().getColor(R.color.colorBackground2));
 
@@ -488,142 +604,4 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-
-    /* legacy code starts here */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-                Uri contentURI = data.getData();
-                try {
-                    mBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(MainActivity.this,
-                            getResources().getString(R.string.failed),
-                            Toast.LENGTH_SHORT).show();
-                }
-                if (mBitmap.getByteCount() > 10000000) {
-                    openBigPictureDialog();
-                    return;
-                }
-            }
-
-        } else if (requestCode == CAMERA && resultCode == RESULT_OK) {
-            mBitmap = (Bitmap) BitmapFactory.decodeFile(currentPhotoPath);
-        }
-
-        mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mImageView.setImageBitmap(mBitmap);
-        mPhotoChosen = true;
-        history.clearAllAndSetOriginal(mBitmap);
-        Controller.setDefaultState(null);
-    }
-
-    // you can rewrite something if you want
-    public void shareImage(View view) {
-        Bitmap icon = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        startActivity(Intent.createChooser(share, getResources().getString(R.string.share_image)));
-    }
-
-    public void saveImage(View view) {
-        // TODO: think about loading from private mBitmap or mImageView??
-        // I prefer second option. P.S. Sasha
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
-        try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("upd", "File Saved::--->" + f.getAbsolutePath());
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.image_saved_in) + IMAGE_DIRECTORY, Toast.LENGTH_SHORT).show();
-    }
-
-    private void requestMultiplePermissions() {
-        Dexter.withActivity(this)
-                .withPermissions(
-                        Manifest.permission.CAMERA,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                            Log.i("upd", "All permissions are granted by user!");
-                        }
-
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            Log.i("upd", "problem with permission");
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
-                        Toast.makeText(getApplicationContext(),
-                                getResources().getString(R.string.some_error),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread()
-                .check();
-    }
-
-
-    public ImageView getImageView() {
-        return mImageView;
-    }
-
-    public void setBitmapFromImageview() {
-        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-    }
-
-    public void click_finish(View view) {
-        Log.i("upd", ((Integer) view.getId()).toString());
-        Log.i("upd", ((Integer) R.id.button_finish_a_star).toString());
-    }
-    /* legacy code finish here */
 }

@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+// simple points with two coordinates
 class DPoint {
     public double x;
     public double y;

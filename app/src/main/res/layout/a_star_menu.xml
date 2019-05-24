@@ -118,6 +118,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/text_clear"
         android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:gravity="center"

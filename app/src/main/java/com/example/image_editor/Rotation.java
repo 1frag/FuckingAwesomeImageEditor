@@ -141,11 +141,13 @@ public class Rotation extends Controller implements View.OnTouchListener {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void configApplyButton(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak")
+                AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
 //                        mainActivity.resetBitmap();
@@ -154,7 +156,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         return bufBitmap;
                     }
                 };
-                if (mCropOption == true){
+                if (mCropOption){
                     Log.i("msg", Integer.toString(mPointsArray.size()));
                     mainActivity.getImageView().setOnTouchListener(null);
                     mCropOption = false;
@@ -174,6 +176,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
                     final DPoint dot1 = mPointsArray.get(0);
                     final DPoint dot2 = mPointsArray.get(1);
+                    @SuppressLint("StaticFieldLeak")
                     AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                         @Override
                         protected Bitmap doInBackground(String... params) {
@@ -184,7 +187,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         protected void onPostExecute(Bitmap result){
                             super.onPostExecute(result);
                             mainActivity.getImageView().setImageBitmap(result);
-                            mainActivity.setBitmapFromImageview();
+                            mainActivity.setBitmapFromImageView();
                             mainActivity.invalidateImageView();
                         }
                     };
@@ -212,6 +215,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
@@ -229,6 +233,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
@@ -242,11 +247,12 @@ public class Rotation extends Controller implements View.OnTouchListener {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void configCropButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCropOption == false) {
+                if (!mCropOption) {
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -259,8 +265,10 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     mainActivity.getImageView().setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
-                            float scalingX = mainActivity.getImageView().getWidth() / (float) mainActivity.getBitmap().getWidth();
-                            float scalingY = mainActivity.getImageView().getHeight() / (float) mainActivity.getBitmap().getHeight();
+                            float scalingX = mainActivity.getImageView().getWidth() /
+                                    (float) mainActivity.getBitmap().getWidth();
+                            float scalingY = mainActivity.getImageView().getHeight() /
+                                    (float) mainActivity.getBitmap().getHeight();
                             final int mx = (int) (event.getX() / scalingX);
                             final int my = (int) (event.getY() / scalingY);
 
@@ -292,6 +300,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
                     @Override
                     protected Bitmap doInBackground(String... params) {
@@ -299,7 +308,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     }
                 };
                 asyncTask.execute();
-//                mBufferBitmap = mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+
                 mPointsArray.clear();
                 mainActivity.imageChanged = false;
             }
@@ -307,7 +316,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
     }
 
     private int getCurrentAngle() {
-//        Log.i("upd", String.format("%s %s", mCurrentAngleDiv90, mCurrentAngleMod90));
+
         int cur = (mCurrentAngleDiv90 * 90 + mCurrentAngleMod90 + 3600) % 360;
         if (cur > 180) return cur - 360;
         else return cur;
@@ -315,7 +324,6 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
     private DPoint getPoint23(int angle, double x, double y,
                               double w, double h) {
-        // todo:sadasasdasdasdasdzczxcasd!!!
         double a = (double) (angle % 90) * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
@@ -328,7 +336,6 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
     private DPoint getPoint33(int angle, double x, double y,
                               double w, double h) {
-        // todo:sadasasdasdasdasdzczxcasd!!!
         double a = (double) (angle % 90) * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
@@ -443,18 +450,12 @@ public class Rotation extends Controller implements View.OnTouchListener {
         return bufBitmap;
     }
 
-    // suppress the warning
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
-    }
-
     private void drawCircle(int mx, int my, int r, int color) {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
                 if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r) {
-                    if (0 > x || x >= mainActivity.getWidthBitmap()) continue;
-                    if (0 > y || y >= mainActivity.getHeightBitmap()) continue;
+                    if (0 > x || x >= mainActivity.getBitmap().getWidth()) continue;
+                    if (0 > y || y >= mainActivity.getBitmap().getHeight()) continue;
                     mainActivity.setPixelBitmap(x, y, color);
                     mainActivity.imageChanged = true;
                 }
@@ -493,6 +494,11 @@ public class Rotation extends Controller implements View.OnTouchListener {
             mCanvas.drawLine(x1, y1, x1-dX, y1, mPaint);
             mCanvas.drawLine(x2, y2, x2+dX, y2, mPaint);
         }
+    }
 
+    // suppress the warning
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
     }
 }

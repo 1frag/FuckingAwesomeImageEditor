@@ -445,6 +445,7 @@ public class ColorFIltersCollection {
         width = bmpOriginal.getWidth();
         int depth = 20;
 
+        // like black and white, but sephia
         Bitmap bmpSephia = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmpSephia);
         Paint paint = new Paint();
@@ -535,7 +536,6 @@ public class ColorFIltersCollection {
     // link: https://medium.com/@petrakeas/alias-free-resize-with-renderscript-5bf15a86ce3
     // firstly apply Gaussian blur to the image
     // and then subsample it using bicubic interpolation
-
     public static Bitmap resizeBicubic(Bitmap src, int dstWidth, Context context) {
         RenderScript rs = RenderScript.create(context);
 

@@ -18,7 +18,7 @@
 
 
     <ImageButton
-        android:id="@+id/clear_btn"
+        android:id="@+id/button_clear"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="24dp"
@@ -35,10 +35,10 @@
         android:text="@string/clear"
         android:gravity="center"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/clear_btn"
+        app:layout_constraintEnd_toEndOf="@+id/button_clear"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/clear_btn"
-        app:layout_constraintTop_toBottomOf="@+id/clear_btn" />
+        app:layout_constraintStart_toStartOf="@+id/button_clear"
+        app:layout_constraintTop_toBottomOf="@+id/button_clear" />
 
 
     <ImageButton
@@ -51,7 +51,7 @@
         android:contentDescription="@string/add_pnts"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_point"
-        app:layout_constraintStart_toEndOf="@+id/clear_btn"
+        app:layout_constraintStart_toEndOf="@+id/button_clear"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton

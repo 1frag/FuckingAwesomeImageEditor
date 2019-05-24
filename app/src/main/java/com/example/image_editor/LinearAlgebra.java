@@ -74,7 +74,8 @@ public class LinearAlgebra extends Controller {
             @Override
             public void onClick(View v) {
                 initParams();
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                @SuppressLint("StaticFieldLeak")
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         return algorithm();
@@ -86,7 +87,6 @@ public class LinearAlgebra extends Controller {
     }
 
     private void initMovingViewFirstGroup() {
-        // todo: wtf, why?, becouse in touchToolbar circle_i is null
         mainActivity.findViewById(R.id.circle1).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.circle2).setVisibility(View.VISIBLE);
         mainActivity.findViewById(R.id.circle3).setVisibility(View.VISIBLE);

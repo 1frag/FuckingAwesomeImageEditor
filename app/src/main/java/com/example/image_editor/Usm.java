@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
@@ -30,8 +31,8 @@ public class Usm extends Controller {
 
     @Override
     void touchToolbar() {
-
         super.touchToolbar();
+
         prepareToRun(R.layout.sharpness_menu);
         setHeader(mainActivity.getResources().getString(R.string.name_unsharp_masking));
 
@@ -77,6 +78,7 @@ public class Usm extends Controller {
             @Override
             public void onClick(View v) {
                 long startTime = System.currentTimeMillis();
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
@@ -126,14 +128,10 @@ public class Usm extends Controller {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
     }
 
@@ -147,14 +145,10 @@ public class Usm extends Controller {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStopTrackingTouch(SeekBar seekBar) { }
         });
     }
 

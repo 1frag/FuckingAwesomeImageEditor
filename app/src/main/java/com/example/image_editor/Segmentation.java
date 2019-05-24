@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -57,6 +58,7 @@ class Segmentation extends Controller {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {

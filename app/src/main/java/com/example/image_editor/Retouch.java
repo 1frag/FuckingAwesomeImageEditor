@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -39,6 +40,7 @@ public class Retouch extends Controller implements OnTouchListener {
         super(activity);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     void touchToolbar() {
         super.touchToolbar();
@@ -46,7 +48,7 @@ public class Retouch extends Controller implements OnTouchListener {
         setHeader(mainActivity.getResources().getString(R.string.retouch));
 
         mApplyRetouchButton = mainActivity.findViewById(R.id.button_apply_retouch);
-        mClearButton = mainActivity.findViewById(R.id.clear_btn);
+        mClearButton = mainActivity.findViewById(R.id.button_clear);
 
         mTextViewBrushSize = mainActivity.findViewById(R.id.text_brush);
         mTextViewBlurRadius = mainActivity.findViewById(R.id.text_radius);
@@ -72,6 +74,7 @@ public class Retouch extends Controller implements OnTouchListener {
         imageView.setOnTouchListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void lockInterface() {
         super.lockInterface();
@@ -82,6 +85,7 @@ public class Retouch extends Controller implements OnTouchListener {
         imageView.setOnTouchListener(null);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void unlockInterface() {
         super.unlockInterface();
@@ -96,6 +100,7 @@ public class Retouch extends Controller implements OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
@@ -144,9 +149,7 @@ public class Retouch extends Controller implements OnTouchListener {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                return;
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -167,9 +170,7 @@ public class Retouch extends Controller implements OnTouchListener {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                return;
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -194,11 +195,6 @@ public class Retouch extends Controller implements OnTouchListener {
             }
         }
         return true;
-    }
-
-    private void errorTouched() {
-        // TODO: handle this
-        return;
     }
 
     @Override

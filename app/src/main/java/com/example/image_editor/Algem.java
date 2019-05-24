@@ -1,5 +1,6 @@
 package com.example.image_editor;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super(activity);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     void touchToolbar() {
         super.touchToolbar();
@@ -38,7 +40,7 @@ public class Algem extends Controller implements View.OnTouchListener {
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
-        mClearButton = mainActivity.findViewById(R.id.clear_btn);
+        mClearButton = mainActivity.findViewById(R.id.button_clear);
 
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
@@ -54,6 +56,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         imageView.setOnTouchListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void lockInterface() {
         super.lockInterface();
@@ -63,6 +66,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         imageView.setOnTouchListener(null);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void unlockInterface() {
         super.unlockInterface();
@@ -85,6 +89,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                @SuppressLint("StaticFieldLeak")
                 AsyncTaskConductor splainTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
@@ -111,7 +116,7 @@ public class Algem extends Controller implements View.OnTouchListener {
             @Override
             public void onClick(View v) {
                 imageView.setImageBitmap(mainActivity.getBitmapBefore());
-                mainActivity.setBitmapFromImageview();
+                mainActivity.setBitmapFromImageView();
                 mPointsArray.clear();
                 mPreviousPoint = null;
                 mainActivity.imageChanged = false;
@@ -119,7 +124,6 @@ public class Algem extends Controller implements View.OnTouchListener {
         });
     }
 
-    // legacy code below :D
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
@@ -146,8 +150,8 @@ public class Algem extends Controller implements View.OnTouchListener {
         for (int x = mx - r; x <= mx + r; x++) {
             for (int y = my - r; y <= my + r; y++) {
                 if ((x - mx) * (x - mx) + (y - my) * (y - my) <= r * r) {
-                    if (0 > x || x >= mainActivity.getWidthBitmap()) continue;
-                    if (0 > y || y >= mainActivity.getHeightBitmap()) continue;
+                    if (0 > x || x >= mainActivity.getBitmap().getWidth()) continue;
+                    if (0 > y || y >= mainActivity.getBitmap().getHeight()) continue;
                     mainActivity.setPixelBitmap(x, y, color);
                     mainActivity.imageChanged = true;
                 }
@@ -221,7 +225,7 @@ public class Algem extends Controller implements View.OnTouchListener {
     }
 
     private void algorithm() {
-        // in first we have:
+        // algorithm explaining:
         //
         // 2 * P(1, 0  ) + 1 * P(1, 1 )                 = mPointsArray(0)+2*mPointsArray(1)
         // 1 * P(1, i-1) + 4 * P(1, i ) + 1 * P(1, i+1) = 4*mPointsArray(i)+2*mPointsArray(i+1), for i in [1, N-2]
@@ -234,9 +238,8 @@ public class Algem extends Controller implements View.OnTouchListener {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // todo: а не сдохнет?) (*mainActivity.runOnUiThread*)
-                    // TODO: а почему должен? :D
-                    Toast.makeText(mainActivity.getApplicationContext(), mainActivity.getResources().getString(R.string.warning_no_points), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity.getApplicationContext(),
+                            mainActivity.getResources().getString(R.string.warning_no_points), Toast.LENGTH_SHORT).show();
                 }
             });
             return;
@@ -268,9 +271,9 @@ public class Algem extends Controller implements View.OnTouchListener {
                 DPoint r4 = pntMul(t * t * t, mPointsArray.get(i + 1));
                 int nx = (int) (r1.x + 3 * r2.x + 3 * r3.x + r4.x);
                 int ny = (int) (r1.y + 3 * r2.y + 3 * r3.y + r4.y);
-                if (nx < 0 || nx >= mainActivity.getWidthBitmap()) continue;
-                if (ny < 0 || ny >= mainActivity.getHeightBitmap()) continue;
-//                mBitmap.setPixel(nx, ny, Color.BLACK);
+                if (nx < 0 || nx >= mainActivity.getBitmap().getWidth()) continue;
+                if (ny < 0 || ny >= mainActivity.getBitmap().getHeight()) continue;
+
                 drawCircle(nx, ny, 5, Color.BLACK);
             }
         }
@@ -293,9 +296,5 @@ public class Algem extends Controller implements View.OnTouchListener {
         double ny = (mPointsArray.get(N).y + P1.get(N - 1).y) / 2;
         answer.add(new DPoint(nx, ny));
         return answer;
-    }
-
-    public void changeside(View view) {
-        // todo: xepnZ hOW Tu du?? -0_0-
     }
 }

@@ -142,7 +142,7 @@ public class Scaling extends Controller {
         int h = mainActivity.getBitmap().getHeight();
 
         // likewise in linear algebra
-        if (coef > 1)
+        if (coef < 1)
             return ColorFIltersCollection.
                 resizeBilinear(mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true),
                         w, h, (int) (w * coef), (int) (h * coef));
