@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
@@ -14,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -385,8 +387,33 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY);
     }
 
+    String currentPhotoPath;
+
+    private File createImageFile() {
+        // Create an image file name
+        File image;
+
+        String imageFileName = "JPEG_" + "_KEK";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        try {
+            image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+        } catch (IOException e){
+            return null;
+        }
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
     public void takePhotoFromCamera(View view) {
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                FileProvider.getUriForFile(this, "com.example.image_editor.fileprovider", createImageFile()));
         startActivityForResult(intent, CAMERA);
     }
 
@@ -467,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
+        if (resultCode == RESULT_CANCELED) {
             return;
         }
         if (requestCode == GALLERY) {
@@ -487,8 +514,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-        } else if (requestCode == CAMERA) {
-            mBitmap = (Bitmap) data.getExtras().get("data");
+        } else if (requestCode == CAMERA && resultCode == RESULT_OK) {
+            mBitmap = (Bitmap) BitmapFactory.decodeFile(currentPhotoPath);
         }
 
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
