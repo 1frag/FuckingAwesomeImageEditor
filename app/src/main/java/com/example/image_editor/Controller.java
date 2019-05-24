@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-class Conductor {
+class Controller {
 
     private ImageButton mApplyChangesButton;
     private ImageButton mCancelChangesButton;
@@ -26,7 +26,7 @@ class Conductor {
     public MainActivity mainActivity;
     private ImageButton infoButton;
 
-    Conductor(MainActivity activity) {
+    Controller(MainActivity activity) {
         mainActivity = activity;
         imageView = mainActivity.getImageView();
 
@@ -39,7 +39,6 @@ class Conductor {
     }
 
     void touchToolbar() {
-        mainActivity.saveBitmapBefore();
         Log.i("upd", "touchToolbar");
     }
 

@@ -7,12 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -26,7 +21,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -54,7 +48,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mImageView;
-    private Bitmap mBitmap, mBeforeChanges;
+    private Bitmap mBitmap;
     private Bitmap mBitmapDrawing;
 
     private RecyclerView mRecyclerView;
@@ -63,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<Integer> mImageUrls = new ArrayList<>();
-    private ArrayList<Conductor> mClasses = new ArrayList<>();
+    private ArrayList<Controller> mClasses = new ArrayList<>();
 
     private ProgressBar mProgressBar;
 
@@ -83,16 +77,16 @@ public class MainActivity extends AppCompatActivity {
     private Settings mSetting;
 
     /* test part goes here */
-    Conductor Conductor;
-    Conductor A_Star;
-    Conductor Algem;
-    Conductor Rotation;
-    Conductor LinearAlgebra;
-    Conductor Color_Filters;
-    Conductor Retouch;
-    Conductor Scaling;
-    Conductor Segmentation;
-    Conductor Usm;
+    Controller Controller;
+    Controller A_Star;
+    Controller Algem;
+    Controller Rotation;
+    Controller LinearAlgebra;
+    Controller Color_Filters;
+    Controller Retouch;
+    Controller Scaling;
+    Controller Segmentation;
+    Controller Usm;
     /* finish of test part */
 
     public LinearLayout getmPlaceHolder() {
@@ -133,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true); // to make it mutable
 
-        mBitmapDrawing = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        mBitmapDrawing = ((BitmapDrawable) mImageView.getDrawable()).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
 
         mProgressBar = findViewById(R.id.progressbar_main);
         switchProgressBarVisibilityInvisible();
@@ -154,10 +148,6 @@ public class MainActivity extends AppCompatActivity {
 
     public Bitmap getBitmap() {
         return mBitmap;
-    }
-
-    public void saveBitmapBefore() {
-        mBeforeChanges = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
     }
 
     public void setBitmap(Bitmap btmp) {
@@ -195,11 +185,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Bitmap getBitmapBefore() {
-        return mBeforeChanges;
+        return history.showHead().copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void resetBitmap() {
-        mBitmap = mBeforeChanges.copy(Bitmap.Config.ARGB_8888, true);
+        mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
     }
 
     public void resetDrawing(){
@@ -214,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
     public void initClasses() {
         if (mClasses.size() == 0) {
             for (int i = 0; i < 9; i++)
-                mClasses.add(new Conductor(this));
+                mClasses.add(new Controller(this));
         }
         mClasses.set(0, A_Star);
         mClasses.set(1, Algem);
@@ -229,12 +219,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initClassesMain() {
-        Conductor = new Conductor(this);
+        Controller = new Controller(this);
         A_Star = new A_Star(this);
         Algem = new Algem(this);
         Rotation = new Rotation(this);
         LinearAlgebra = new LinearAlgebra(this);
-        Color_Filters = new Color_Filters(this);
+        Color_Filters = new ColorFilters(this);
         Retouch = new Retouch(this);
         Scaling = new Scaling(this);
         Segmentation = new Segmentation(this);
@@ -257,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             if (algoInWork) return; // алгоритм ещё работает!
             else if (imageChanged) openQuitFromMethodDialog(); // уверен, что выйти из метода
             else {
-                Conductor.setDefaultState(null); // выход из метода, если изменений не было
+                Controller.setDefaultState(null); // выход из метода, если изменений не было
             }
         } else openQuitDialog(); // уверен, что выйти из приложения
     }
@@ -267,16 +257,14 @@ public class MainActivity extends AppCompatActivity {
         mBitmap = history.takeFromBuffer();
         if (mBitmap == null) { // if stack is empty
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.nothing_to_show), Toast.LENGTH_SHORT).show();
-            mBitmap = mBeforeChanges;
+            mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
         } else {
-            mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
             mImageView.setImageBitmap(mBitmap);
         }
     }
 
     public void undoOnClick(View view) {
         mBitmap = history.popBitmap();
-        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
     }
 
@@ -308,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
         quitDialog.setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Conductor.setDefaultState(null); // выход из метода, если изменений не было
+                Controller.setDefaultState(null); // выход из метода, если изменений не было
                 mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
                 mImageView.setImageBitmap(mBitmap);
             }
@@ -506,11 +494,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mBeforeChanges = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mImageView.setImageBitmap(mBitmap);
         mPhotoChosen = true;
         history.clearAllAndSetOriginal(mBitmap);
-        Conductor.setDefaultState(null);
+        Controller.setDefaultState(null);
     }
 
     // you can rewrite something if you want

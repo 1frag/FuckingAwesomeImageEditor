@@ -14,7 +14,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-class Segmentation extends Conductor {
+class Segmentation extends Controller {
     private FaceDetector mDetector;
     private String TAG = "Detect Faces";
 
