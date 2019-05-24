@@ -79,6 +79,7 @@ public class Retouch extends Controller implements OnTouchListener {
         mClearButton.setEnabled(false);
         mSeekBarBlurRadius.setEnabled(false);
         mSeekBarBrushSize.setEnabled(false);
+        imageView.setOnTouchListener(null);
     }
 
     @Override
@@ -88,6 +89,7 @@ public class Retouch extends Controller implements OnTouchListener {
         mClearButton.setEnabled(true);
         mSeekBarBlurRadius.setEnabled(true);
         mSeekBarBrushSize.setEnabled(true);
+        imageView.setOnTouchListener(this);
     }
 
     private void configApplyButton(final Button button) {

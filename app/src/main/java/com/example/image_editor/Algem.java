@@ -45,6 +45,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.lockInterface();
         mAddPointsButton.setEnabled(false);
         mStartAlgemButton.setEnabled(false);
+        imageView.setOnTouchListener(null);
     }
 
     @Override
@@ -52,6 +53,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
+        imageView.setOnTouchListener(this);
     }
 
     private void configDrawPointsButton(ImageButton btn1) {
