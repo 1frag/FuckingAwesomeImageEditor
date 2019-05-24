@@ -128,5 +128,6 @@
     <string name="big_picture">"Too big picture. Squeeze?"</string>
     <string name="choose_another">I choose another</string>
     <string name="continue_q">Change will not apply. Continue?</string>
+    <string name="clear_crop">Clear CROP</string>
 
 </resources>

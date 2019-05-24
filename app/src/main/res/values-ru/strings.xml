@@ -103,4 +103,5 @@
     <string name="continue_q">Изменения не будут применены. Продолжить?</string>
     <string name="choose_another">Я выберу другую</string>
     <string name="big_picture">Пикча большая. Сожмём?</string>
+    <string name="clear_crop">Clear CROP</string>
 </resources>
