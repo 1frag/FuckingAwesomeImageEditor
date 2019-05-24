@@ -49,6 +49,11 @@ public class A_Star extends Controller implements OnTouchListener {
     private boolean mStartIsSet = false;
     private boolean mFinishIsSet = false;
 
+    private float scalingX;
+    private float scalingY;
+    private int W;
+    private int H;
+
     A_Star(MainActivity activity) {
         super(activity);
         mRemStart = new ArrayList<>();
@@ -77,6 +82,11 @@ public class A_Star extends Controller implements OnTouchListener {
         configSettingsButton(mSettingsButton);
         configClearButton(mClearButton);
         mSettings = new Settings();
+
+        W = mainActivity.getBitmap().getWidth();
+        H = mainActivity.getBitmap().getHeight();
+        scalingX = imageView.getWidth() / (float) W;
+        scalingY = imageView.getHeight() / (float) H;
 
         imageView.setImageBitmap(mainActivity.getBitmap());
         imageView.invalidate();
@@ -113,8 +123,6 @@ public class A_Star extends Controller implements OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         mainActivity.imageChanged = true;
 
-        float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
-        float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
         int mx = (int) (event.getX() / scalingX);
         int my = (int) (event.getY() / scalingY);
 
@@ -136,10 +144,10 @@ public class A_Star extends Controller implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
+                if (0 > mx + i || mx + i >= W) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > my + j || my + j >= H) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
@@ -165,10 +173,10 @@ public class A_Star extends Controller implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
+                if (0 > mx + i || mx + i >= W) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > my + j || my + j >= H) {
                     continue;
                 }
                 // abs(i) + abs(j) <= rad
@@ -198,10 +206,10 @@ public class A_Star extends Controller implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth()) {
+                if (0 > mx + i || mx + i >= W) {
                     continue;
                 }
-                if (0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > my + j || my + j >= H) {
                     continue;
                 }
                 if (conditionInWall(i, j, rad)) {
@@ -471,8 +479,8 @@ public class A_Star extends Controller implements OnTouchListener {
         }
         for (int i = -rad; i <= rad; i++) {
             for (int j = -rad; j <= rad; j++) {
-                if (0 > mx + i || mx + i >= mainActivity.getBitmap().getWidth() ||
-                        0 > my + j || my + j >= mainActivity.getBitmap().getHeight()) {
+                if (0 > mx + i || mx + i >= W ||
+                        0 > my + j || my + j >= H) {
                     continue;
                 }
                 if (abs(i) + abs(j) <= rad) {
@@ -595,8 +603,8 @@ public class A_Star extends Controller implements OnTouchListener {
 
     private void touchRun() {
 
-        final int n = mainActivity.getBitmap().getWidth();
-        final int m = mainActivity.getBitmap().getHeight();
+        final int n = W;
+        final int m = H;
 
         @SuppressLint("StaticFieldLeak")
         AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
@@ -608,14 +616,12 @@ public class A_Star extends Controller implements OnTouchListener {
                     int rad = mSettings.size_path;
                     for (int ii = -rad; ii <= rad; ii++) {
                         for (int jj = -rad; jj <= rad; jj++) {
-                            // если нарисовал пиксель за битмапом, то это вылетает
                             mainActivity.setPixelBitmap(answer.get(i).x + ii,
                                     answer.get(i).y + jj,
                                     mSettings.color_path);
                         }
                     }
                 }
-
                 if (answer.size() == 0) {
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
@@ -626,7 +632,6 @@ public class A_Star extends Controller implements OnTouchListener {
                         }
                     });
                 }
-
                 return mainActivity.getBitmap();
             }
         };
