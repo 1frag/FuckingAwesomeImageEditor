@@ -14,7 +14,7 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-class Segmentation extends Conductor{
+class Segmentation extends Conductor {
     private FaceDetector mDetector;
     private String TAG = "Detect Faces";
 
@@ -40,11 +40,11 @@ class Segmentation extends Conductor{
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
-                    protected Bitmap doInBackground(String... params){
-                        scanFaces();
-                        return mainActivity.getBitmap();
+                    protected Bitmap doInBackground(String... params) {
+                        Bitmap bufBitmap = scanFaces();
+                        return bufBitmap;
                     }
                 };
                 asyncTask.execute();
@@ -52,7 +52,7 @@ class Segmentation extends Conductor{
         });
     }
 
-    private void scanFaces() {
+    private Bitmap scanFaces() {
         if (mDetector.isOperational() && mainActivity.getBitmap() != null) {
             Bitmap editedBitmap = Bitmap.createBitmap(
                     mainActivity.getBitmap().getWidth(),
@@ -68,7 +68,7 @@ class Segmentation extends Conductor{
             Canvas canvas = new Canvas(editedBitmap);
             canvas.drawBitmap(mainActivity.getBitmap(), 0, 0, paint);
             Frame frame = new Frame.Builder().setBitmap(editedBitmap).build();
-            SparseArray<Face> faces = mDetector.detect(frame);
+            final SparseArray<Face> faces = mDetector.detect(frame);
             for (int index = 0; index < faces.size(); ++index) {
                 Face face = faces.valueAt(index);
                 canvas.drawRect(
@@ -78,13 +78,18 @@ class Segmentation extends Conductor{
                         face.getPosition().y + face.getHeight(), paint);
             }
 
-            imageView.setImageBitmap(editedBitmap);
-            Toast.makeText(mainActivity.getApplicationContext(),
-                    String.format(mainActivity.getResources().getString(R.string.faces_found), faces.size()),
-                    Toast.LENGTH_SHORT).show();
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mainActivity.getApplicationContext(),
+                            String.format(mainActivity.getResources().getString(R.string.faces_found), faces.size()),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+            return editedBitmap;
         } else {
             Log.i(TAG, "Could not set up the mDetector!");
+            return mainActivity.getBitmap();
         }
     }
-
 }

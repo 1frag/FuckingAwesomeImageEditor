@@ -103,7 +103,7 @@
     <string name="width_is">Width: %d</string>
     <string name="height_is">Height: %d</string>
     <string name="scale_is">Scale: %.2fx</string>
-    <string name="amount_is">Amount: %f</string>
+    <string name="amount_is">Amount: %d</string>
     <string name="warning_scale">Dude, it\'s too small</string>
     <string name="segmentation">Segmentation</string>
     <string name="faces_found">%d faces found</string>
