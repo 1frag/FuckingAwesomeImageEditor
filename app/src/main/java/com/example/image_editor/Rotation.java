@@ -2,7 +2,9 @@ package com.example.image_editor;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +36,8 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
     private boolean mCropOption = false;
 
+    private Canvas mCanvas; // for border drawing
+    private Paint mPaint;
     private Bitmap mBufferBitmap; // for correct crop
 
     Rotation(MainActivity activity) {
@@ -147,7 +151,43 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         return bufBitmap;
                     }
                 };
-                asyncRotate.execute();
+                if (mCropOption == true){
+                    Log.i("msg", Integer.toString(mPointsArray.size()));
+                    mainActivity.getImageView().setOnTouchListener(null);
+                    mCropOption = false;
+
+                    if (mPointsArray.size() < 2){
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mainActivity.getApplicationContext(),
+                                        "You don't set any points, dude",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        mPointsArray.clear();
+                        return;
+                    }
+
+                    final DPoint dot1 = mPointsArray.get(0);
+                    final DPoint dot2 = mPointsArray.get(1);
+                    AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                        @Override
+                        protected Bitmap doInBackground(String... params) {
+                            Bitmap bufBitmap = cropAlgo(dot1, dot2);
+                            return bufBitmap;
+                        }
+                        @Override
+                        protected void onPostExecute(Bitmap result){
+                            super.onPostExecute(result);
+                            mainActivity.getImageView().setImageBitmap(result);
+                            mainActivity.setBitmapFromImageview();
+                            mainActivity.invalidateImageView();
+                        }
+                    };
+                    asyncTask.execute();
+                    mPointsArray.clear();
+                } else asyncRotate.execute();
             }
         });
 
@@ -208,7 +248,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         @Override
                         public void run() {
                             Toast.makeText(mainActivity.getApplicationContext(),
-                                    "Set two points on picture to crop and click on this button again",
+                                    "Set two points on picture to crop and click on apply button",
                                     Toast.LENGTH_LONG).show();
                         }
                     });
@@ -221,13 +261,15 @@ public class Rotation extends Controller implements View.OnTouchListener {
                             final int mx = (int) (event.getX() / scalingX);
                             final int my = (int) (event.getY() / scalingY);
 
-                            drawCircle(mx, my, 15, Color.BLACK);
-
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mPointsArray.add(new DPoint(mx, my));
-                                    mainActivity.invalidateImageView();
+                                    if (mPointsArray.size() < 2) {
+                                        mPointsArray.add(new DPoint(mx, my));
+                                        drawCircle(mx, my, 15, Color.BLACK);
+                                        mainActivity.invalidateImageView();
+                                    }
+                                    if (mPointsArray.size() == 2) drawCropBorder();
                                 }
                             });
 
@@ -238,43 +280,6 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         }
                     });
                     mCropOption = true;
-
-                } else {
-                    Log.i("msg", Integer.toString(mPointsArray.size()));
-                    mainActivity.getImageView().setOnTouchListener(null);
-                    mCropOption = false;
-
-                    if (mPointsArray.size() < 2){
-                        mainActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(mainActivity.getApplicationContext(),
-                                        "You don't set any points, dude",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        mPointsArray.clear();
-                        return;
-                    }
-
-                    final DPoint dot1 = mPointsArray.get(0);
-                    final DPoint dot2 = mPointsArray.get(1);
-                    AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
-                        @Override
-                        protected Bitmap doInBackground(String... params) {
-                            Bitmap bufBitmap = cropAlgo(dot1, dot2);
-                            return bufBitmap;
-                        }
-                        @Override
-                        protected void onPostExecute(Bitmap result){
-                            super.onPostExecute(result);
-                            mainActivity.getImageView().setImageBitmap(result);
-                            mainActivity.setBitmapFromImageview();
-                            mainActivity.invalidateImageView();
-                        }
-                    };
-                    asyncTask.execute();
-                    mPointsArray.clear();
                 }
             }
         });
@@ -434,5 +439,39 @@ public class Rotation extends Controller implements View.OnTouchListener {
                 }
             }
         }
+    }
+
+    private void drawCropBorder(){
+        mCanvas = new Canvas(mainActivity.getBitmap());
+        mPaint = new Paint();
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStrokeWidth(9);
+
+        int x1 =(int) mPointsArray.get(0).x;
+        int x2 =(int) mPointsArray.get(1).x;
+        int y1 =(int) mPointsArray.get(0).y;
+        int y2 =(int) mPointsArray.get(1).y;
+
+        int dX = Math.abs(x1-x2);
+        int dY = Math.abs(y1-y2);
+
+        if (y1 < y2){
+            mCanvas.drawLine(x1, y1, x1, y1+dY, mPaint);
+            mCanvas.drawLine(x2, y2, x2, y2-dY, mPaint);
+        }
+        else{
+            mCanvas.drawLine(x1, y1, x1, y1-dY, mPaint);
+            mCanvas.drawLine(x2, y2, x2, y2+dY, mPaint);
+        }
+
+        if (x1 < x2){
+            mCanvas.drawLine(x1, y1, x1+dX, y1, mPaint);
+            mCanvas.drawLine(x2, y2, x2-dX, y2, mPaint);
+        }
+        else{
+            mCanvas.drawLine(x1, y1, x1-dX, y1, mPaint);
+            mCanvas.drawLine(x2, y2, x2+dX, y2, mPaint);
+        }
+
     }
 }
