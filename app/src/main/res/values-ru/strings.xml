@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fucking Awesome Editor</string>
     <string name="title_activity_filters">Методы</string>
     <string name="title_activity_scaling">Масштабирование</string>
     <string name="title_activity_usm">Нерезкое маскирование</string>
@@ -53,9 +52,8 @@
     <string name="start_points">начальные точки</string>
     <string name="finish_points">конечные точки</string>
     <string name="rv_image">rv_image</string>
-    <string name="add_pnts">add_pnts</string>
     <string name="current_method">Текущий метод</string>
-    <string name="settings">настройки</string>
+    <string name="settings">Настройки</string>
     <string name="point">   Точка:</string>
     <string name="first_point">Первая точка:</string>
     <string name="second_point">Вторая точка:</string>

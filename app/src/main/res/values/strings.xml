@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Fucking Awesome Editor</string>
+    <string name="app_name" translatable="false">Fucking Awesome Editor</string>
+
     <string name="title_activity_filters">Filters</string>
     <string name="title_activity_scaling">Scaling</string>
     <string name="title_activity_usm">Unsharp Masking</string>
@@ -10,15 +11,19 @@
     <string name="title_activity_rotation">Rotation</string>
     <string name="title_activity_a__star">A* algorithm</string>
     <string name="title_activity_spline">Spline</string>
+
     <string name="choose_filter">Choose Filter</string>
     <string name="select_or_capture_image">Select or Capture Image</string>
     <string name="HINT">HINT: do something ;)</string>
+
     <string name="heuristic">Passage rules: </string>
     <string name="four">Four directions</string>
     <string name="eight">Eight directions</string>
     <string name="best">Eight directions, if corner is not blocked</string>
+
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+
     <string name="set_start">Set START</string>
     <string name="set_finish">Set FINISH</string>
     <string name="set_walls">Set WALLs</string>
@@ -52,13 +57,16 @@
     <string name="listitem_text" translatable="false">Laguna</string>
     <string name="rv_image">rv_image</string>
     <string name="default_image" translatable="false">default_image</string>
-    <string name="add_pnts">add_pnts</string>
+    <string name="add_pnts" translatable="false">add_pnts</string>
+
     <string name="_255" translatable="false">255</string>
     <string name="_50" translatable="false">50</string>
     <string name="_100" translatable="false">100%</string>
     <string name="_0ps" translatable="false">0%</string>
     <string name="_2" translatable="false">2</string>
     <string name="_1" translatable="false">1</string>
+    <string name="_5" translatable="false">5</string>
+
     <string name="current_method">Current METHOD</string>
     <string name="info" translatable="false">info</string>
     <string name="settings">Settings</string>
@@ -68,7 +76,6 @@
     <string name="third_point">Third point:</string>
     <string name="switch_language">Switch language</string>
     <string name="example">Example</string>
-    <string name="_5" translatable="false">5</string>
     <string name="language">Language: </string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
@@ -118,7 +125,7 @@
     <string name="clear">Clear</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="exit_sure">Выход: Вы уверены?</string>
-    <string name="big_picture">"Too big picture. Squeeze? "</string>
+    <string name="big_picture">"Too big picture. Squeeze?"</string>
     <string name="choose_another">I choose another</string>
     <string name="continue_q">Change will apply. Continue?</string>
 
