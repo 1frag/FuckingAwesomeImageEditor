@@ -1,19 +1,29 @@
 <resources>
-    <string name="app_name">Fucking Awesome Editor</string>
+    <string name="app_name" translatable="false">Fucking Awesome Editor</string>
+
     <string name="title_activity_filters">Filters</string>
     <string name="title_activity_scaling">Scaling</string>
-    <string name="title_activity_color__filters">Color_Filters</string>
+    <string name="title_activity_usm">Unsharp Masking</string>
+    <string name="title_activity_bi__filters">Bilinear Filters</string>
+    <string name="title_activity_segmentation">Segmentation</string>
+    <string name="title_activity_retouch">Retouch</string>
+    <string name="title_activity_color__filters">Color Filters</string>
     <string name="title_activity_rotation">Rotation</string>
-    <string name="title_activity_a__star">A_Star</string>
+    <string name="title_activity_a__star">A* algorithm</string>
+    <string name="title_activity_spline">Spline</string>
+
     <string name="choose_filter">Choose Filter</string>
     <string name="select_or_capture_image">Select or Capture Image</string>
     <string name="HINT">HINT: do something ;)</string>
+
     <string name="heuristic">Passage rules: </string>
     <string name="four">Four directions</string>
     <string name="eight">Eight directions</string>
     <string name="best">Eight directions, if corner is not blocked</string>
+
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
+
     <string name="set_start">Set START</string>
     <string name="set_finish">Set FINISH</string>
     <string name="set_walls">Set WALLs</string>
@@ -36,26 +46,29 @@
     <string name="edit">EDIT</string>
     <string name="amount">Amount</string>
     <string name="threshold">Threshold</string>
-    <string name="_45">-90</string>
-    <string name="_45p">+90</string>
-    <string name="_0">0</string>
+    <string name="_45" translatable="false">-90</string>
+    <string name="_45p" translatable="false">+90</string>
+    <string name="_0" translatable="false">0</string>
     <string name="rotate">rotate</string>
     <string name="crop">crop</string>
     <string name="mirroring">mirroring</string>
     <string name="start_points">Start points</string>
     <string name="finish_points">Finish points</string>
-    <string name="listitem_text">Laguna</string>
+    <string name="listitem_text" translatable="false">Laguna</string>
     <string name="rv_image">rv_image</string>
-    <string name="default_image">default_image</string>
-    <string name="add_pnts">add_pnts</string>
-    <string name="_255">255</string>
-    <string name="_50">50</string>
-    <string name="_100">100%</string>
-    <string name="_0ps">0%</string>
-    <string name="_2">2</string>
-    <string name="_1">1</string>
+    <string name="default_image" translatable="false">default_image</string>
+    <string name="add_pnts" translatable="false">add_pnts</string>
+
+    <string name="_255" translatable="false">255</string>
+    <string name="_50" translatable="false">50</string>
+    <string name="_100" translatable="false">100%</string>
+    <string name="_0ps" translatable="false">0%</string>
+    <string name="_2" translatable="false">2</string>
+    <string name="_1" translatable="false">1</string>
+    <string name="_5" translatable="false">5</string>
+
     <string name="current_method">Current METHOD</string>
-    <string name="info">info</string>
+    <string name="info" translatable="false">info</string>
     <string name="settings">Settings</string>
     <string name="point">   Point:</string>
     <string name="first_point">First point:</string>
@@ -63,7 +76,6 @@
     <string name="third_point">Third point:</string>
     <string name="switch_language">Switch language</string>
     <string name="example">Example</string>
-    <string name="_5">5</string>
     <string name="language">Language: </string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
@@ -74,17 +86,17 @@
     <string name="warning_set_start_and_finish">You need to set start and finish first!</string>
     <string name="warning_no_points">No points, dude</string>
     <string name="interpolation_slines">Splines and lines</string>
-    <string name="filter_original">Original</string>
-    <string name="filters_movie">Movie</string>
-    <string name="filters_blur">Blur</string>
-    <string name="filers_black_and_white"><![CDATA[B&W]]></string>
-    <string name="filter_blue_laguna">Blue laguna</string>
-    <string name="filter_contrast">Contrast</string>
-    <string name="filter_sephia">Sephia</string>
-    <string name="filter_noise">Noise</string>
-    <string name="filter_green_grass">Green grass</string>
-    <string name="filter_ruby">Ruby</string>
-    <string name="filter_vignette">Vignette</string>
+    <string name="filter_original" translatable="false">Original</string>
+    <string name="filters_movie" translatable="false">Movie</string>
+    <string name="filters_blur" translatable="false">Blur</string>
+    <string name="filers_black_and_white" translatable="false"><![CDATA[B&W]]></string>
+    <string name="filter_blue_laguna" translatable="false">Blue laguna</string>
+    <string name="filter_contrast" translatable="false">Contrast</string>
+    <string name="filter_sephia" translatable="false">Sephia</string>
+    <string name="filter_noise" translatable="false">Noise</string>
+    <string name="filter_green_grass" translatable="false">Green grass</string>
+    <string name="filter_ruby" translatable="false">Ruby</string>
+    <string name="filter_vignette" translatable="false">Vignette</string>
     <string name="color_correction_name">Color correction</string>
     <string name="change_lost">Changes will be lost. Continue?</string>
     <string name="yes">Yes</string>
@@ -113,7 +125,8 @@
     <string name="clear">Clear</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="exit_sure">Выход: Вы уверены?</string>
-    <string name="continue_q">Изменения не будут применены. Продолжить?</string>
-    <string name="big_picture">Пикча большая. Сожмём?</string>
+    <string name="big_picture">"Too big picture. Squeeze?"</string>
+    <string name="choose_another">I choose another</string>
+    <string name="continue_q">Change will apply. Continue?</string>
 
 </resources>

@@ -90,6 +90,8 @@ public class A_Star extends Controller implements OnTouchListener {
         mSetWallButton.setEnabled(false);
         mStartAlgoButton.setEnabled(false);
         mSettingsButton.setEnabled(false);
+        mClearButton.setEnabled(false);
+        imageView.setOnTouchListener(null);
     }
 
     @Override
@@ -100,6 +102,8 @@ public class A_Star extends Controller implements OnTouchListener {
         mSetWallButton.setEnabled(true);
         mStartAlgoButton.setEnabled(true);
         mSettingsButton.setEnabled(true);
+        mClearButton.setEnabled(true);
+        imageView.setOnTouchListener(this);
     }
 
     @Override

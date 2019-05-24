@@ -7,10 +7,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <SeekBar
         android:id="@+id/seekbar_amount"
-        android:layout_width="220dp"
+        android:layout_width="210dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:thumbOffset="@dimen/cardview_default_radius"
@@ -26,9 +33,9 @@
         app:layout_constraintTop_toTopOf="@+id/seekbar_amount" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginEnd="4dp"
         android:text="@string/_100"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_amount"
         app:layout_constraintTop_toTopOf="@+id/seekbar_amount" />
@@ -37,7 +44,7 @@
         android:id="@+id/text_amount_usm"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:text="@string/amount"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/seekbar_amount"
@@ -47,7 +54,7 @@
 
     <SeekBar
         android:id="@+id/seekbar_radius"
-        android:layout_width="220dp"
+        android:layout_width="210dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:thumbOffset="@dimen/cardview_default_radius"
@@ -65,7 +72,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginEnd="4dp"
         android:text="@string/_50"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_radius"
         app:layout_constraintTop_toTopOf="@+id/seekbar_radius" />
@@ -75,7 +81,7 @@
         android:id="@+id/text_radius_usm"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:text="@string/radius"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/seekbar_radius"
@@ -85,7 +91,7 @@
 
     <SeekBar
         android:id="@+id/seekbar_threshold"
-        android:layout_width="220dp"
+        android:layout_width="210dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
         android:thumbOffset="@dimen/cardview_default_radius"
@@ -103,7 +109,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginEnd="4dp"
         android:text="@string/_255"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_threshold"
         app:layout_constraintTop_toTopOf="@+id/seekbar_threshold" />
@@ -129,14 +134,6 @@
         android:text="@string/start_algo"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

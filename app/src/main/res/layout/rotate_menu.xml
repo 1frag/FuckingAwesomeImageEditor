@@ -7,6 +7,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/view_rotation"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/text_angle"
         android:layout_width="wrap_content"
@@ -59,36 +68,6 @@
         android:thumbTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--<com.warkiz.widget.IndicatorSeekBar-->
-    <!--android:id="@+id/seekBar"-->
-    <!--android:layout_width="300dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:layout_marginEnd="8dp"-->
-    <!--app:isb_indicator_color="@color/darkGrey"-->
-    <!--app:isb_indicator_text_color="@color/colorAccent"-->
-    <!--app:isb_indicator_text_size="18sp"-->
-    <!--app:isb_max="45"-->
-    <!--app:isb_min="-45"-->
-    <!--app:isb_only_thumb_draggable="false"-->
-    <!--app:isb_progress="0"-->
-    <!--app:isb_seek_smoothly="true"-->
-    <!--app:isb_show_indicator="rounded_rectangle"-->
-    <!--app:isb_show_tick_marks_type="oval"-->
-    <!--app:isb_show_tick_texts="true"-->
-    <!--app:isb_thumb_color="@color/green"-->
-    <!--app:isb_thumb_size="20dp"-->
-    <!--app:isb_tick_marks_size="13dp"-->
-    <!--app:isb_tick_texts_color="@color/Pink"-->
-    <!--app:isb_tick_texts_size="15sp"-->
-    <!--app:isb_ticks_count="7"-->
-    <!--app:isb_track_background_color="@color/darkGrey"-->
-    <!--app:isb_track_background_size="2dp"-->
-    <!--app:isb_track_progress_color="@color/Pink"-->
-    <!--app:isb_track_progress_size="4dp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <Button
         android:id="@+id/button_apply_rotate"
@@ -166,16 +145,6 @@
         app:layout_constraintEnd_toEndOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toBottomOf="@+id/seekbar_rotate"
         android:contentDescription="@string/mirroring"/>
-
-
-    <View
-        android:id="@+id/view_rotation"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

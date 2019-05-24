@@ -12,6 +12,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class Rotation extends Controller implements View.OnTouchListener {
 
     private Button mApplyRotateButton;
@@ -24,12 +26,13 @@ public class Rotation extends Controller implements View.OnTouchListener {
     private SeekBar mSeekBarAngle;
 
     private TextView mTextViewAngle;
-    private TextView mTextViewLeft;
-    private TextView mTextViewRight;
+
+    private ArrayList<DPoint> mPointsArray = new ArrayList<>();
 
     private int mCurrentAngleDiv90 = 0;
     private int mCurrentAngleMod90 = 0;
-    private int mLastAngle = 0;
+
+    private boolean mCropOption = false;
 
     Rotation(MainActivity activity) {
         super(activity);
@@ -48,8 +51,6 @@ public class Rotation extends Controller implements View.OnTouchListener {
         mMirrorVButton = mainActivity.findViewById(R.id.button_mirrorV);
         mCropButton = mainActivity.findViewById(R.id.button_crop);
 
-        mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
-        mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
         mSeekBarAngle = mainActivity.findViewById(R.id.seekbar_rotate);
@@ -137,7 +138,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.resetBitmap();
-                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle(), false));
+                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle()));
                         return mainActivity.getBitmap();
                     }
                 };
@@ -155,7 +156,6 @@ public class Rotation extends Controller implements View.OnTouchListener {
                 mCurrentAngleDiv90 %= 4;
                 String txt = mainActivity.getResources().getString(R.string.angle_is);
                 mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
-
             }
         });
     }
@@ -164,7 +164,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.setBitmap(horizontalSymmetry());
@@ -180,7 +180,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         mainActivity.setBitmap(verticalSymmetry());
@@ -188,6 +188,71 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     }
                 };
                 asyncTask.execute();
+            }
+        });
+    }
+
+    private void configCropButton(ImageButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCropOption == false) {
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mainActivity.getApplicationContext(),
+                                    "Set to points on picture to crop and click again",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    imageView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            float scalingX = imageView.getWidth() / (float) mainActivity.getBitmap().getWidth();
+                            float scalingY = imageView.getHeight() / (float) mainActivity.getBitmap().getHeight();
+                            int mx = (int) (event.getX() / scalingX);
+                            int my = (int) (event.getY() / scalingY);
+
+                            mPointsArray.add(new DPoint(mx, my));
+                            mainActivity.invalidateImageView();
+                            mainActivity.imageChanged = true;
+
+                            Log.i("msg", mx + " " + my);
+                            return false;
+                        }
+                    });
+                    mCropOption = true;
+
+                } else {
+                    Log.i("msg", Integer.toString(mPointsArray.size()));
+                    imageView.setOnTouchListener(null);
+                    mCropOption = false;
+
+                    if (mPointsArray.size() < 2){
+                        mainActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mainActivity.getApplicationContext(),
+                                        "You don't set any points, dude",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        mPointsArray.clear();
+                        return;
+                    }
+
+                    final DPoint dot1 = mPointsArray.get(0);
+                    final DPoint dot2 = mPointsArray.get(1);
+                    AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
+                        @Override
+                        protected Bitmap doInBackground(String... params) {
+                            Bitmap bufBitmap = cropAlgo(dot1, dot2);
+                            return bufBitmap;
+                        }
+                    };
+                    asyncTask.execute();
+                    mPointsArray.clear();
+                }
             }
         });
     }
@@ -201,6 +266,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
     private DPoint getPoint23(int angle, double x, double y,
                               double w, double h) {
+        // todo:sadasasdasdasdasdzczxcasd!!!
         double a = (double) (angle % 90) * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
@@ -213,6 +279,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
 
     private DPoint getPoint33(int angle, double x, double y,
                               double w, double h) {
+        // todo:sadasasdasdasdasdzczxcasd!!!
         double a = (double) (angle % 90) * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
@@ -223,26 +290,23 @@ public class Rotation extends Controller implements View.OnTouchListener {
         return new DPoint(x, w * cosa);
     }
 
-    private void configCropButton(ImageButton button) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTaskConductor asyncRotate = new AsyncTaskConductor() {
-                    @Override
-                    protected Bitmap doInBackground(String... params) {
-                        mainActivity.resetBitmap();
-                        mainActivity.setBitmap(rotateOnAngle(getCurrentAngle(), true));
-                        return mainActivity.getBitmap();
-                    }
-                };
-                asyncRotate.execute();
-            }
-        });
+    private Bitmap cropAlgo(DPoint point1, DPoint point2){
+        int startX = (point1.x > point2.x) ? (int)point2.x : (int)point1.x;
+        int startY = (point1.y > point2.y) ? (int)point2.y : (int)point1.y;
+        int finishX = (point1.x >= point2.x) ? (int)point1.x : (int)point2.x;
+        int finishY = (point1.y >= point2.y) ? (int)point1.y : (int)point2.y;
+
+        Bitmap bufBitmap = Bitmap.createBitmap(finishX - startX,
+                finishY - startY, Bitmap.Config.ARGB_8888);
+
+        for (int i = 0; i < bufBitmap.getWidth(); i++)
+            for (int j = 0; j < bufBitmap.getHeight(); j++)
+                bufBitmap.setPixel(i, j, mainActivity.getBitmap().getPixel(startX+i, startY+j));
+        return bufBitmap;
     }
 
-    private Bitmap rotateOnAngle(int angle, boolean crop) {
+    private Bitmap rotateOnAngle(int angle) {
         if (angle < 0) angle += 360;
-        mLastAngle = angle;
 
         double a = (double) angle * Math.PI / 180.0;
         double sina = Math.sin(a);
@@ -254,30 +318,12 @@ public class Rotation extends Controller implements View.OnTouchListener {
         int x = (int) (Math.abs((double) w * cosa) + Math.abs((double) h * sina) + 2);
         int y = (int) (Math.abs((double) w * sina) + Math.abs((double) h * cosa) + 2);
 
-        DPoint p11, p12, p13, p21, p22, p23;
-
-        if (!crop || (angle % 90 == 0)) {
-            p11 = new DPoint(w / 2.0, h / 2.0);
-            p12 = new DPoint(0, 0);
-            p13 = new DPoint(w, 0);
-            p21 = new DPoint(x / 2.0, y / 2.0);
-            p22 = getPoint23(angle, x, y, w, h);
-            p23 = getPoint33(angle, x, y, w, h);
-        } else if (angle < 90 || (180 < angle && angle < 270)) {
-            p11 = new DPoint(0, 0);
-            p12 = new DPoint(w, h);
-            p13 = new DPoint(w, 0);
-            p21 = new DPoint(0, 0);
-            p22 = new DPoint(w, h);
-            p23 = getPointCircle(angle, w, 0, w / 2, h / 2);
-        } else {
-            p11 = new DPoint(w, 0);
-            p12 = new DPoint(0, h);
-            p13 = new DPoint(0, 0);
-            p21 = new DPoint(w, 0);
-            p22 = new DPoint(0, h);
-            p23 = getPointCircle(angle, 0, 0, w / 2, h / 2);
-        }
+        DPoint p11 = new DPoint(w / 2.0, h / 2.0);
+        DPoint p12 = new DPoint(0, 0);
+        DPoint p13 = new DPoint(w, 0);
+        DPoint p21 = new DPoint(x / 2.0, y / 2.0);
+        DPoint p22 = getPoint23(angle, x, y, w, h);
+        DPoint p23 = getPoint33(angle, x, y, w, h);
 
         Log.i("upd", String.format("1) %s %s", p22.x, p22.y));
         Log.i("upd", String.format("2) %s %s", p23.x, p23.y));
@@ -314,53 +360,6 @@ public class Rotation extends Controller implements View.OnTouchListener {
         }
 
         return btmp;
-    }
-
-    private double binSearch(int ax, int ay,
-                             double side, double R,
-                             int ox, int oy, float coef) {
-        double left = oy - R;
-        double right = oy + R;
-        int n = 1000;
-        for (int i = 0; i < n; i++) {
-            double midy = (left + right) / 2f;
-            double midx = ox + coef * Math.sqrt(R * R - midy * midy);
-            if ((midy - ay) * (midy - ay) + (midx - ax) * (midx - ax) < side * side) {
-                left = midy;
-            } else {
-                right = midx;
-            }
-        }
-        return (left + right) / 2f;
-    }
-
-    private DPoint getPointCircle(int angle, int ax, int ay, int ox, int oy) {
-        //getPointCircle(angle, w, 0, w/2, h/2);
-        double a = ((double) angle) * (Math.PI / 180.0);
-        double R = Math.sqrt((ax - ox) * (ax - ox) + (ay - oy) * (ay - oy));
-        double side = R * Math.sin(a) / Math.cos(a / 2f);
-        double y1 = binSearch(ax, ay, side, R, ox, oy, 1f);
-        double x1 = ox + Math.sqrt(R * R - y1 * y1);
-        double y2 = binSearch(ax, ay, side, R, ox, oy, -1f);
-        double x2 = ox + Math.sqrt(R * R - y2 * y2);
-        double A_line = oy - ay;
-        double B_line = ax - ox;
-        double C_line = (ox * ay) - (oy * ax);
-        double res = A_line * x1 + B_line * y1 + C_line;
-        if(angle < 180){
-            if(res < 0){
-                return new DPoint(x1, y1);
-            } else {
-                return new DPoint(x2, y2);
-            }
-        } else {
-            if(res < 0){
-                return new DPoint(x2, y2);
-            } else {
-                return new DPoint(x1, y1);
-            }
-        }
-
     }
 
     private Bitmap verticalSymmetry() {
