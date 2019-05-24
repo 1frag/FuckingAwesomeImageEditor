@@ -207,7 +207,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
 
     private DPoint getPoint23(int angle, double x, double y,
                               double w, double h) {
-        // todo:sadasasdasdasdasdzczxcasd!!!
         double a = (double) (angle % 90) * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);
@@ -220,7 +219,6 @@ public class Rotation extends Conductor implements View.OnTouchListener {
 
     private DPoint getPoint33(int angle, double x, double y,
                               double w, double h) {
-        // todo:sadasasdasdasdasdzczxcasd!!!
         double a = (double) (angle % 90) * Math.PI / 180.0;
         double sina = Math.sin(a);
         double cosa = Math.cos(a);

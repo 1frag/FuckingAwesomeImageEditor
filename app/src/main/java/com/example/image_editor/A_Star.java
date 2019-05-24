@@ -138,11 +138,7 @@ public class A_Star extends Conductor implements OnTouchListener {
                     Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
                     mRemStart.add(now);
                     // sometimes that happened
-                    try{
-                        mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
-                    } catch (IllegalStateException e){
-                        break;
-                    }
+                    mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(10, 255, 10));
                     mainActivity.imageChanged = true;
                 }
             }
@@ -568,10 +564,10 @@ public class A_Star extends Conductor implements OnTouchListener {
                 if (y.y < 0 || y.y >= m) continue;
                 if (!is_cor[y.x][y.y]) continue;
                 if (closedset.contains(y)) continue;
-                if (abs(dirx[i]) + abs(diry[i]) == 2 &&
+                if ((abs(dirx[i]) + abs(diry[i]) == 2) &&
                         mSettings.rool == R.id.rb_eight_with_restrictions) {
-                    if (!is_cor[y.x][diry[i] + y.y] &&
-                            !is_cor[dirx[i] + y.x][y.y]) continue;
+                    if (!is_cor[y.x][y.y] &&
+                            !is_cor[y.x][y.y]) continue;
                 }
                 int tentative_g_score = myComp.getInG(x) + 1;
                 if (!in_open[y.x][y.y]) {
