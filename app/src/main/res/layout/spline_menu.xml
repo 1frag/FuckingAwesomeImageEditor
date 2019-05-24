@@ -31,6 +31,18 @@
         app:layout_constraintTop_toBottomOf="@+id/button_clear" />
 
 
+    <Button
+        android:id="@+id/button_draw_line"
+        android:layout_width="70dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Draw line"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/button_start_splain"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/button_add_points"
         android:layout_width="60dp"
@@ -74,7 +86,8 @@
         android:id="@+id/up"
         android:layout_width="40dp"
         android:layout_height="38dp"
-        android:layout_marginEnd="112dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="172dp"
         android:background="@color/White"
         android:contentDescription="@string/cd"
         android:rotation="90"
@@ -84,17 +97,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="40dp"
         android:layout_height="38dp"
         android:background="@color/White"
+        android:contentDescription="@string/cd"
         android:rotation="270"
-        android:src="@drawable/ic_navigate"
         android:scaleType="centerCrop"
+        android:src="@drawable/ic_navigate"
         app:layout_constraintEnd_toEndOf="@+id/up"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/up"
-        app:layout_constraintTop_toBottomOf="@+id/up"
-        android:contentDescription="@string/cd"/>
+        app:layout_constraintTop_toBottomOf="@+id/up" />
 
     <Button
         android:id="@+id/button_start_splain"
@@ -105,6 +119,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/start_algo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.896"
         app:layout_constraintStart_toEndOf="@+id/up"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,7 +131,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </android.support.constraint.ConstraintLayout>

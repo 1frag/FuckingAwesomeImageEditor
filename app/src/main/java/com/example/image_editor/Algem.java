@@ -1,7 +1,9 @@
 package com.example.image_editor;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +16,10 @@ public class Algem extends Controller implements View.OnTouchListener {
 
     private ImageButton mAddPointsButton;
     private Button mStartAlgemButton;
-    // TODO: button for lines
+    private Button mDrawLineButton;
+
+    private Canvas mCanvas;
+    private Paint mPaint;
 
     private ArrayList<DPoint> mPointsArray = new ArrayList<>();
 
@@ -32,11 +37,19 @@ public class Algem extends Controller implements View.OnTouchListener {
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
+        mDrawLineButton = mainActivity.findViewById(R.id.button_draw_line);
 
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
+        configDrawLineButton(mDrawLineButton);
 
         imageView.setImageBitmap(mainActivity.getBitmap());
+        mCanvas = new Canvas(mainActivity.getBitmap());
+
+        mPaint = new Paint();
+        mPaint.setColor(Color.BLACK);
+        mPaint.setStrokeWidth(12);
+
         imageView.setOnTouchListener(this);
     }
 
@@ -45,6 +58,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.lockInterface();
         mAddPointsButton.setEnabled(false);
         mStartAlgemButton.setEnabled(false);
+        mDrawLineButton.setEnabled(false);
         imageView.setOnTouchListener(null);
     }
 
@@ -53,6 +67,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
+        mDrawLineButton.setEnabled(true);
         imageView.setOnTouchListener(this);
     }
 
@@ -77,6 +92,22 @@ public class Algem extends Controller implements View.OnTouchListener {
                     }
                 };
                 splainTask.execute();
+            }
+        });
+    }
+
+    private void configDrawLineButton(final Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncTaskConductor lineTask = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params){
+                        drawLine();
+                        return mainActivity.getBitmap();
+                    }
+                };
+                lineTask.execute();
             }
         });
     }
@@ -204,7 +235,6 @@ public class Algem extends Controller implements View.OnTouchListener {
     }
 
     private void clearGap() {
-
         mainActivity.resetBitmap();
 
         for (int i = 0; i < mPointsArray.size(); i++) {
@@ -212,6 +242,16 @@ public class Algem extends Controller implements View.OnTouchListener {
             int my = (int) mPointsArray.get(i).y;
             drawCircle(mx, my, 15, Color.BLACK);
         }
+    }
+
+    private void drawLine(){
+        for (int i = 0; i < mPointsArray.size() - 1; i++){
+            DPoint point1 = mPointsArray.get(i);
+            DPoint point2 = mPointsArray.get(i+1);
+
+            mCanvas.drawLine((float)point1.x, (float)point1.y, (float)point2.x, (float)point2.y, mPaint);
+        }
+        return;
     }
 
     private void drawSpline(ArrayList<DPoint> p1, ArrayList<DPoint> p2) {
