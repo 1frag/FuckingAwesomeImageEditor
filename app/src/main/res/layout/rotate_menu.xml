@@ -146,7 +146,7 @@
         android:contentDescription="@string/crop"/>
 
     <ImageButton
-        android:id="@+id/clear_crop"
+        android:id="@+id/button_clear_crop"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/colorBackground1"
@@ -162,10 +162,10 @@
         android:text="@string/clear_crop"
         android:textSize="9sp"
         android:gravity="center"
-        app:layout_constraintEnd_toEndOf="@+id/clear_crop"
+        app:layout_constraintEnd_toEndOf="@+id/button_clear_crop"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/clear_crop"
-        app:layout_constraintTop_toBottomOf="@+id/clear_crop" />
+        app:layout_constraintStart_toStartOf="@+id/button_clear_crop"
+        app:layout_constraintTop_toBottomOf="@+id/button_clear_crop" />
 
 
 

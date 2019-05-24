@@ -24,6 +24,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
     private ImageButton mMirrorVButton;
     private ImageButton mMirrorHButton;
     private ImageButton mCropButton;
+    private ImageButton mClearCropButton;
 
     private SeekBar mSeekBarAngle;
 
@@ -56,6 +57,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         mMirrorHButton = mainActivity.findViewById(R.id.button_mirrorH);
         mMirrorVButton = mainActivity.findViewById(R.id.button_mirrorV);
         mCropButton = mainActivity.findViewById(R.id.button_crop);
+        mClearCropButton = mainActivity.findViewById(R.id.button_clear_crop);
 
         mTextViewAngle = mainActivity.findViewById(R.id.text_angle);
 
@@ -72,6 +74,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
         configMirrorHorizontalButton(mMirrorHButton);
         configMirrorVerticalButton(mMirrorVButton);
         configCropButton(mCropButton);
+        configClearCropButton(mClearCropButton);
 
         String txt = mainActivity.getResources().getString(R.string.angle_is);
         mTextViewAngle.setText(String.format(txt, getCurrentAngle()));
@@ -281,6 +284,24 @@ public class Rotation extends Controller implements View.OnTouchListener {
                     });
                     mCropOption = true;
                 }
+            }
+        });
+    }
+
+    private void configClearCropButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                    @Override
+                    protected Bitmap doInBackground(String... params) {
+                        return mBufferBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                    }
+                };
+                asyncTask.execute();
+//                mBufferBitmap = mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+                mPointsArray.clear();
+                mainActivity.imageChanged = false;
             }
         });
     }

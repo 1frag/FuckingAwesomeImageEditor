@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Algem extends Controller implements View.OnTouchListener {
 
     private ImageButton mAddPointsButton;
+    private ImageButton mClearButton;
     private Button mStartAlgemButton;
 
     private Canvas mCanvas;
@@ -37,9 +38,11 @@ public class Algem extends Controller implements View.OnTouchListener {
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
+        mClearButton = mainActivity.findViewById(R.id.clear_btn);
 
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
+        configClearButton(mClearButton);
 
         imageView.setImageBitmap(mainActivity.getBitmap());
         mCanvas = new Canvas(mainActivity.getBitmap());
@@ -56,6 +59,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.lockInterface();
         mAddPointsButton.setEnabled(false);
         mStartAlgemButton.setEnabled(false);
+        mClearButton.setEnabled(false);
         imageView.setOnTouchListener(null);
     }
 
@@ -64,6 +68,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
+        mClearButton.setEnabled(true);
         imageView.setOnTouchListener(this);
     }
 
@@ -97,6 +102,19 @@ public class Algem extends Controller implements View.OnTouchListener {
                     }
                 };
                 splainTask.execute();
+            }
+        });
+    }
+
+    private void configClearButton(ImageButton button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageBitmap(mainActivity.getBitmapBefore());
+                mainActivity.setBitmapFromImageview();
+                mPointsArray.clear();
+                mPreviousPoint = null;
+                mainActivity.imageChanged = false;
             }
         });
     }
