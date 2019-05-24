@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class Usm extends Conductor {
+public class Usm extends Controller {
 
     private Button mRunUsmButton;
 

@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Rotation extends Conductor implements View.OnTouchListener {
+public class Rotation extends Controller implements View.OnTouchListener {
 
     private Button mApplyRotateButton;
     private ImageButton mResetRotateButton;

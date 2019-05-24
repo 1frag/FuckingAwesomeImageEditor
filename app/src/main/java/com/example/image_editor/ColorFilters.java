@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Color_Filters extends Conductor {
+public class ColorFilters extends Controller {
 
     private ArrayList<String> mNamesFilters = new ArrayList<>();
     private ArrayList<String> mNamesProg = new ArrayList<>();
 
-    Color_Filters(MainActivity activity) {
+    ColorFilters(MainActivity activity) {
         super(activity);
     }
 

@@ -8,9 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.internal.BaseImplementation;
-
-public class Scaling extends Conductor {
+public class Scaling extends Controller {
 
     private Button mResetScalingButton;
     private Button mApplyScalingButton;

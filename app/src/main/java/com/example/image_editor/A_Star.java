@@ -29,7 +29,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static java.lang.Math.abs;
 
-public class A_Star extends Conductor implements OnTouchListener {
+public class A_Star extends Controller implements OnTouchListener {
 
     private Button mStartAlgoButton;
     private ImageButton mChangeStartButton;

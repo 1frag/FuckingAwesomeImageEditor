@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Algem extends Conductor implements View.OnTouchListener {
+public class Algem extends Controller implements View.OnTouchListener {
 
     private ImageButton mAddPointsButton;
     private Button mStartAlgemButton;
