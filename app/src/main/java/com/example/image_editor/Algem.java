@@ -16,12 +16,12 @@ public class Algem extends Controller implements View.OnTouchListener {
 
     private ImageButton mAddPointsButton;
     private Button mStartAlgemButton;
-    private Button mDrawLineButton;
 
     private Canvas mCanvas;
     private Paint mPaint;
 
     private ArrayList<DPoint> mPointsArray = new ArrayList<>();
+    private DPoint mPreviousPoint = null;
 
     private int N, mTypeEvent;
 
@@ -37,11 +37,9 @@ public class Algem extends Controller implements View.OnTouchListener {
 
         mStartAlgemButton = mainActivity.findViewById(R.id.button_start_splain);
         mAddPointsButton = mainActivity.findViewById(R.id.button_add_points);
-        mDrawLineButton = mainActivity.findViewById(R.id.button_draw_line);
 
         configDrawPointsButton(mAddPointsButton);
         configStartAlgoButton(mStartAlgemButton);
-        configDrawLineButton(mDrawLineButton);
 
         imageView.setImageBitmap(mainActivity.getBitmap());
         mCanvas = new Canvas(mainActivity.getBitmap());
@@ -58,7 +56,6 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.lockInterface();
         mAddPointsButton.setEnabled(false);
         mStartAlgemButton.setEnabled(false);
-        mDrawLineButton.setEnabled(false);
         imageView.setOnTouchListener(null);
     }
 
@@ -67,7 +64,6 @@ public class Algem extends Controller implements View.OnTouchListener {
         super.unlockInterface();
         mAddPointsButton.setEnabled(true);
         mStartAlgemButton.setEnabled(true);
-        mDrawLineButton.setEnabled(true);
         imageView.setOnTouchListener(this);
     }
 
@@ -90,24 +86,17 @@ public class Algem extends Controller implements View.OnTouchListener {
                         algorithm();
                         return mainActivity.getBitmap();
                     }
-                };
-                splainTask.execute();
-            }
-        });
-    }
-
-    private void configDrawLineButton(final Button button){
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AsyncTaskConductor lineTask = new AsyncTaskConductor(){
                     @Override
-                    protected Bitmap doInBackground(String... params){
-                        drawLine();
-                        return mainActivity.getBitmap();
+                    protected void onPostExecute(Bitmap result){
+                        super.onPostExecute(result);
+                        // to resume lines drawing
+                        imageView.setImageBitmap(mainActivity.getBitmap());
+                        mainActivity.invalidateImageView();
+                        mainActivity.imageChanged = false;
+                        mCanvas.setBitmap(mainActivity.getBitmap());
                     }
                 };
-                lineTask.execute();
+                splainTask.execute();
             }
         });
     }
@@ -123,6 +112,10 @@ public class Algem extends Controller implements View.OnTouchListener {
 
         if (mTypeEvent == 1 && event.getAction() == 0) {
             drawCircle(mx, my, 15, Color.BLACK);
+            if (mPreviousPoint != null){
+                mCanvas.drawLine((float)mPreviousPoint.x, (float)mPreviousPoint.y, (float)mx, (float)my, mPaint);
+            }
+            mPreviousPoint = new DPoint(mx, my);
             mPointsArray.add(new DPoint(mx, my));
             mainActivity.invalidateImageView();
             mainActivity.imageChanged = true;
@@ -242,16 +235,6 @@ public class Algem extends Controller implements View.OnTouchListener {
             int my = (int) mPointsArray.get(i).y;
             drawCircle(mx, my, 15, Color.BLACK);
         }
-    }
-
-    private void drawLine(){
-        for (int i = 0; i < mPointsArray.size() - 1; i++){
-            DPoint point1 = mPointsArray.get(i);
-            DPoint point2 = mPointsArray.get(i+1);
-
-            mCanvas.drawLine((float)point1.x, (float)point1.y, (float)point2.x, (float)point2.y, mPaint);
-        }
-        return;
     }
 
     private void drawSpline(ArrayList<DPoint> p1, ArrayList<DPoint> p2) {

@@ -31,18 +31,6 @@
         app:layout_constraintTop_toBottomOf="@+id/button_clear" />
 
 
-    <Button
-        android:id="@+id/button_draw_line"
-        android:layout_width="70dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Draw line"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton"
-        app:layout_constraintEnd_toStartOf="@+id/button_start_splain"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageButton
         android:id="@+id/button_add_points"
         android:layout_width="60dp"
@@ -119,7 +107,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/start_algo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toEndOf="@+id/up"
         app:layout_constraintTop_toTopOf="parent" />
 
