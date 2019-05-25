@@ -192,7 +192,7 @@ public class A_Star extends Controller implements OnTouchListener {
                     // sometimes that happened
                     try {
                         mainActivity.getBitmap().setPixel(mx + i, my + j, Color.rgb(255, 10, 10));
-                    } catch (IllegalStateException e){
+                    } catch (IllegalStateException e) {
                         break;
                     }
                     mainActivity.imageChanged = true;

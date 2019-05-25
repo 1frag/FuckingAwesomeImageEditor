@@ -17,10 +17,10 @@ public class Matrix3x1 {
         return 404;
     }
 
-    public double get(int row){
-        if(row == 0)return a11;
-        if(row == 1)return a21;
-        if(row == 2)return a31;
+    public double get(int row) {
+        if (row == 0) return a11;
+        if (row == 1) return a21;
+        if (row == 2) return a31;
         return 404;
     }
 

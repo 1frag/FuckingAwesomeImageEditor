@@ -101,8 +101,9 @@ public class Algem extends Controller implements View.OnTouchListener {
                         algorithm();
                         return mainActivity.getBitmap();
                     }
+
                     @Override
-                    protected void onPostExecute(Bitmap result){
+                    protected void onPostExecute(Bitmap result) {
                         super.onPostExecute(result);
                         // to resume lines drawing
                         imageView.setImageBitmap(mainActivity.getBitmap());
@@ -116,7 +117,7 @@ public class Algem extends Controller implements View.OnTouchListener {
         });
     }
 
-    private void configClearButton(ImageButton button){
+    private void configClearButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,8 +140,8 @@ public class Algem extends Controller implements View.OnTouchListener {
 
         if (mTypeEvent == 1 && event.getAction() == 0) {
             drawCircle(mx, my, 15, Color.BLACK);
-            if (mPreviousPoint != null){
-                mCanvas.drawLine((float)mPreviousPoint.x, (float)mPreviousPoint.y, (float)mx, (float)my, mPaint);
+            if (mPreviousPoint != null) {
+                mCanvas.drawLine((float) mPreviousPoint.x, (float) mPreviousPoint.y, (float) mx, (float) my, mPaint);
             }
             mPreviousPoint = new DPoint(mx, my);
             mPointsArray.add(new DPoint(mx, my));

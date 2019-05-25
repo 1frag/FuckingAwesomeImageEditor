@@ -79,7 +79,7 @@ public class Scaling extends Controller {
                 imageView.setImageBitmap(mainActivity.getBitmapBefore());
                 mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmapBefore().getWidth()));
                 mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmapBefore().getHeight()));
-                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), (float)1 ));
+                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), (float) 1));
                 mSeekBarScaling.setProgress(100);
             }
         });
@@ -94,7 +94,7 @@ public class Scaling extends Controller {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         Bitmap bufBitmap = algorithm((float) mScalingValue / 100);
-                        if (bufBitmap.getHeight() > 3200 || bufBitmap.getWidth() > 3200){
+                        if (bufBitmap.getHeight() > 3200 || bufBitmap.getWidth() > 3200) {
                             mainActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -108,8 +108,9 @@ public class Scaling extends Controller {
                         }
                         return bufBitmap;
                     }
+
                     @Override
-                    protected void onPostExecute(final Bitmap result){
+                    protected void onPostExecute(final Bitmap result) {
                         super.onPostExecute(result);
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
@@ -162,8 +163,8 @@ public class Scaling extends Controller {
         // likewise in linear algebra
         if (coef < 1)
             return ColorFIltersCollection.
-                resizeBilinear(mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true),
-                        w, h, (int) (w * coef), (int) (h * coef));
+                    resizeBilinear(mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true),
+                            w, h, (int) (w * coef), (int) (h * coef));
         else
             return ColorFIltersCollection.resizeBicubic(
                     mainActivity.getBitmap().copy(Bitmap.Config.ARGB_8888, true), (int) (w * coef),

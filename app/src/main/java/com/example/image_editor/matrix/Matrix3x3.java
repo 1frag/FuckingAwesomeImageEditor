@@ -8,8 +8,8 @@ public class Matrix3x3 {
             a31, a32, a33;
 
     public Matrix3x3(double a11, double a12, double a13,
-              double a21, double a22, double a23,
-              double a31, double a32, double a33) {
+                     double a21, double a22, double a23,
+                     double a31, double a32, double a33) {
         this.a11 = a11;
         this.a12 = a12;
         this.a13 = a13;

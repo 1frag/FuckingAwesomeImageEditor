@@ -168,25 +168,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public Bitmap getBitmapBefore() { return history.showHead().copy(Bitmap.Config.ARGB_8888, true); }
+    public Bitmap getBitmapBefore() {
+        return history.showHead().copy(Bitmap.Config.ARGB_8888, true);
+    }
 
     public void resetBitmap() {
         mBitmap = history.showHead().copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    public void resetDrawing(){
+    public void resetDrawing() {
         mBitmapDrawing = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
     }
 
-    public Bitmap getBitmapDrawing(){
+    public Bitmap getBitmapDrawing() {
         return mBitmapDrawing;
     }
 
-    public ImageView getImageView() { return mImageView; }
+    public ImageView getImageView() {
+        return mImageView;
+    }
 
-    public void setBitmapFromImageView() { mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap(); }
+    public void setBitmapFromImageView() {
+        mBitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+    }
 
-    public void switchProgressBarVisibilityVisible() { mProgressBar.setVisibility(View.VISIBLE); }
+    public void switchProgressBarVisibilityVisible() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
 
     public void switchProgressBarVisibilityInvisible() {
         mProgressBar.setVisibility(View.GONE);
@@ -400,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
                     ".jpg",         /* suffix */
                     storageDir      /* directory */
             );
-        } catch (IOException e){
+        } catch (IOException e) {
             return null;
         }
         // Save a file: path for use with ACTION_VIEW intents

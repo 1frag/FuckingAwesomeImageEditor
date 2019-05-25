@@ -31,8 +31,8 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
     private boolean mClicked = false;
 
     public FiltersAdapter(MainActivity activity,
-                   ArrayList<String> namesUser,
-                   ArrayList<String> namesProg) throws NoSuchMethodException {
+                          ArrayList<String> namesUser,
+                          ArrayList<String> namesProg) throws NoSuchMethodException {
         mainActivity = activity;
         mNamesFilters = namesUser;
         mNamesProg = namesProg;
@@ -42,7 +42,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         mThumb = ThumbnailUtils.extractThumbnail(mBitmap, THUMBSIZE, THUMBSIZE);
     }
 
-    private void lockInterface(){
+    private void lockInterface() {
         mClicked = true;
         mainActivity.findViewById(R.id.button_apply_changes).setEnabled(false);
         mainActivity.findViewById(R.id.button_cancel_changes).setEnabled(false);
@@ -50,7 +50,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         mainActivity.switchProgressBarVisibilityVisible();
     }
 
-    private void unlockInterface(){
+    private void unlockInterface() {
         mClicked = false;
         mainActivity.findViewById(R.id.button_apply_changes).setEnabled(true);
         mainActivity.findViewById(R.id.button_cancel_changes).setEnabled(true);
@@ -144,7 +144,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
 
         holder.name.setText(mNamesFilters.get(position));
         @SuppressLint("StaticFieldLeak")
-        AsyncTaskFilters thumbAsync = new AsyncTaskFilters(){
+        AsyncTaskFilters thumbAsync = new AsyncTaskFilters() {
             @Override
             protected void onPostExecute(Bitmap result) {
                 holder.image.setImageBitmap(result);
@@ -168,7 +168,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
         return mNamesFilters.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView name;

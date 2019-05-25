@@ -99,7 +99,7 @@ public class Controller {
         mainActivity.getImageView().setImageBitmap(mainActivity.getBitmap());
     }
 
-    public void setHeader(String header){
+    public void setHeader(String header) {
         mMethodName.setText(header);
     }
 
@@ -117,7 +117,7 @@ public class Controller {
         return builder.create();
     }
 
-    public void configMethodInfoButton(View button, final int layout){
+    public void configMethodInfoButton(View button, final int layout) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +135,7 @@ public class Controller {
         });
     }
 
-    private void configCancelButton(ImageButton button){
+    private void configCancelButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,11 +146,11 @@ public class Controller {
         });
     }
 
-    private void configApplyButton(ImageButton button){
+    private void configApplyButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mainActivity.algorithmExecuted && !mainActivity.imageChanged){
+                if (!mainActivity.algorithmExecuted && !mainActivity.imageChanged) {
                     imageView.setImageBitmap(mainActivity.getBitmapBefore());
                     mainActivity.resetBitmap();
                     mainActivity.invalidateImageView();
@@ -164,14 +164,14 @@ public class Controller {
         });
     }
 
-    public void lockInterface(){
+    public void lockInterface() {
         mApplyChangesButton.setEnabled(false);
         mCancelChangesButton.setEnabled(false);
         mainActivity.algoInWork = true;
         mainActivity.switchProgressBarVisibilityVisible();
     }
 
-    public void unlockInterface(){
+    public void unlockInterface() {
         mApplyChangesButton.setEnabled(true);
         mCancelChangesButton.setEnabled(true);
         mainActivity.algoInWork = false;

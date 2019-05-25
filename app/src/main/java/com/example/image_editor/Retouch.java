@@ -113,8 +113,9 @@ public class Retouch extends Controller implements OnTouchListener {
                         algorithm();
                         return mainActivity.getBitmapDrawing();
                     }
+
                     @Override
-                    protected void onPostExecute(Bitmap result){
+                    protected void onPostExecute(Bitmap result) {
                         super.onPostExecute(result);
                         // это не костыль, это логика (с)
                         mainActivity.resetDrawing();
@@ -155,7 +156,8 @@ public class Retouch extends Controller implements OnTouchListener {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -176,7 +178,8 @@ public class Retouch extends Controller implements OnTouchListener {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {

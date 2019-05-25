@@ -47,13 +47,13 @@ class Segmentation extends Controller {
     }
 
     @Override
-    public void lockInterface(){
+    public void lockInterface() {
         super.lockInterface();
         mFacesDetect.setEnabled(false);
     }
 
     @Override
-    public void unlockInterface(){
+    public void unlockInterface() {
         super.unlockInterface();
         mFacesDetect.setEnabled(true);
     }

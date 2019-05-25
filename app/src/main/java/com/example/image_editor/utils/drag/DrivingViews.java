@@ -12,18 +12,18 @@ public class DrivingViews {
     private FragmentTransaction transaction;
     private ElevationDragFragment fragment;
 
-    public DrivingViews(MainActivity mainActivity){
+    public DrivingViews(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
-    public void hide(){
+    public void hide() {
         transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         Fragment empty_fragment = new Fragment();
         transaction.replace(R.id.sample_content_fragment, empty_fragment);
         transaction.commit();
     }
 
-    public void show(){
+    public void show() {
         transaction = mainActivity.getSupportFragmentManager().beginTransaction();
         fragment = new ElevationDragFragment();
         transaction.replace(R.id.sample_content_fragment, fragment);

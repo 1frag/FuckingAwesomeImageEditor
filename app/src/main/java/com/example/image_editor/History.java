@@ -21,7 +21,7 @@ public class History {
         mBuffer = new Stack<Bitmap>();
     }
 
-    public void addBitmap(Bitmap bitmap){
+    public void addBitmap(Bitmap bitmap) {
         mHistory.push(bitmap.copy(Bitmap.Config.ARGB_8888, true));
         mCounter += 1;
         if (mCounter == STACK_SIZE) dropStack();
@@ -29,12 +29,12 @@ public class History {
     }
 
     // put current bitmap in mBuffer
-    public Bitmap popBitmap(){
+    public Bitmap popBitmap() {
         Bitmap bitmap;
         try {
             bitmap = mHistory.pop(); // if mHistory is empty
         }                           // return original
-        catch (EmptyStackException e){
+        catch (EmptyStackException e) {
             return mOriginalBitmap;
         }
         mBuffer.push(bitmap);
@@ -43,11 +43,11 @@ public class History {
         return bitmap;
     }
 
-    public Bitmap takeFromBuffer(){
+    public Bitmap takeFromBuffer() {
         Bitmap bitmap;
         try {
             bitmap = mBuffer.pop();
-        }catch (EmptyStackException e){
+        } catch (EmptyStackException e) {
             return null;
         }
         mHistory.push(bitmap.copy(Bitmap.Config.ARGB_8888, true));
@@ -57,24 +57,24 @@ public class History {
         return bitmap;
     }
 
-    public Bitmap showHead(){
+    public Bitmap showHead() {
         Bitmap bitmap;
         try {
             bitmap = mHistory.peek();
-        } catch (EmptyStackException e){
+        } catch (EmptyStackException e) {
             return mOriginalBitmap;
         }
         return bitmap;
     }
 
-    public void clearAllAndSetOriginal(Bitmap bitmap){
+    public void clearAllAndSetOriginal(Bitmap bitmap) {
         mHistory.clear();
         mBuffer.clear();
         mOriginalBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCounter = 1;
     }
 
-    private void dropStack(){
+    private void dropStack() {
         mOriginalBitmap = mHistory.remove(0);
         mCounter -= 1;
     }

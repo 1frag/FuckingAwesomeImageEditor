@@ -200,11 +200,11 @@ public class Usm extends Controller {
                 int green = Color.green(mainActivity.getPixelBitmap(w, h));
                 int blue = Color.blue(mainActivity.getPixelBitmap(w, h));
 
-                int diffR = Math.abs( Math.min(
+                int diffR = Math.abs(Math.min(
                         red - (int) (Color.red(blurred.getPixel(w, h)) * 1.2), 0));
-                int diffG = Math.abs( Math.min(
+                int diffG = Math.abs(Math.min(
                         green - (int) (Color.green(blurred.getPixel(w, h)) * 1.2), 0));
-                int diffB = Math.abs( Math.min(
+                int diffB = Math.abs(Math.min(
                         blue - (int) (Color.blue(blurred.getPixel(w, h)) * 1.2), 0));
 
                 if (red != changeContrast(red, contrast)) cnt++;
@@ -220,7 +220,6 @@ public class Usm extends Controller {
                 if (diffB > mThreshold) blue = changeContrast(blue, contrast);
 
                 mainActivity.getBitmap().setPixel(w, h, Color.rgb(red, green, blue));
-
             }
         }
         Log.i(TAG, String.format("%d", cnt));

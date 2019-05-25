@@ -161,12 +161,12 @@ public class Rotation extends Controller implements View.OnTouchListener {
                         return bufBitmap;
                     }
                 };
-                if (mCropOption){
+                if (mCropOption) {
                     Log.i("msg", Integer.toString(mPointsArray.size()));
                     mainActivity.getImageView().setOnTouchListener(null);
                     mCropOption = false;
 
-                    if (mPointsArray.size() < 2){
+                    if (mPointsArray.size() < 2) {
                         mainActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -188,8 +188,9 @@ public class Rotation extends Controller implements View.OnTouchListener {
                             Bitmap bufBitmap = cropAlgo(dot1, dot2);
                             return bufBitmap;
                         }
+
                         @Override
-                        protected void onPostExecute(Bitmap result){
+                        protected void onPostExecute(Bitmap result) {
                             super.onPostExecute(result);
                             mainActivity.getImageView().setImageBitmap(result);
                             mainActivity.setBitmapFromImageView();
@@ -301,12 +302,12 @@ public class Rotation extends Controller implements View.OnTouchListener {
         });
     }
 
-    private void configClearCropButton(ImageButton button){
+    private void configClearCropButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 @SuppressLint("StaticFieldLeak")
-                AsyncTaskConductor asyncTask = new AsyncTaskConductor(){
+                AsyncTaskConductor asyncTask = new AsyncTaskConductor() {
                     @Override
                     protected Bitmap doInBackground(String... params) {
                         return mBufferBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -351,18 +352,18 @@ public class Rotation extends Controller implements View.OnTouchListener {
         return new DPoint(x, w * cosa);
     }
 
-    private Bitmap cropAlgo(DPoint point1, DPoint point2){
-        int startX = (point1.x > point2.x) ? (int)point2.x : (int)point1.x;
-        int startY = (point1.y > point2.y) ? (int)point2.y : (int)point1.y;
-        int finishX = (point1.x >= point2.x) ? (int)point1.x : (int)point2.x;
-        int finishY = (point1.y >= point2.y) ? (int)point1.y : (int)point2.y;
+    private Bitmap cropAlgo(DPoint point1, DPoint point2) {
+        int startX = (point1.x > point2.x) ? (int) point2.x : (int) point1.x;
+        int startY = (point1.y > point2.y) ? (int) point2.y : (int) point1.y;
+        int finishX = (point1.x >= point2.x) ? (int) point1.x : (int) point2.x;
+        int finishY = (point1.y >= point2.y) ? (int) point1.y : (int) point2.y;
 
         Bitmap bufBitmap = Bitmap.createBitmap(finishX - startX,
                 finishY - startY, Bitmap.Config.ARGB_8888);
 
         for (int i = 0; i < bufBitmap.getWidth(); i++)
             for (int j = 0; j < bufBitmap.getHeight(); j++)
-                bufBitmap.setPixel(i, j, mBufferBitmap.getPixel(startX+i, startY+j));
+                bufBitmap.setPixel(i, j, mBufferBitmap.getPixel(startX + i, startY + j));
         return bufBitmap;
     }
 
@@ -468,36 +469,34 @@ public class Rotation extends Controller implements View.OnTouchListener {
         }
     }
 
-    private void drawCropBorder(){
+    private void drawCropBorder() {
         mCanvas = new Canvas(mainActivity.getBitmap());
         mPaint = new Paint();
         mPaint.setColor(Color.BLACK);
         mPaint.setStrokeWidth(9);
 
-        int x1 =(int) mPointsArray.get(0).x;
-        int x2 =(int) mPointsArray.get(1).x;
-        int y1 =(int) mPointsArray.get(0).y;
-        int y2 =(int) mPointsArray.get(1).y;
+        int x1 = (int) mPointsArray.get(0).x;
+        int x2 = (int) mPointsArray.get(1).x;
+        int y1 = (int) mPointsArray.get(0).y;
+        int y2 = (int) mPointsArray.get(1).y;
 
-        int dX = Math.abs(x1-x2);
-        int dY = Math.abs(y1-y2);
+        int dX = Math.abs(x1 - x2);
+        int dY = Math.abs(y1 - y2);
 
-        if (y1 < y2){
-            mCanvas.drawLine(x1, y1, x1, y1+dY, mPaint);
-            mCanvas.drawLine(x2, y2, x2, y2-dY, mPaint);
-        }
-        else{
-            mCanvas.drawLine(x1, y1, x1, y1-dY, mPaint);
-            mCanvas.drawLine(x2, y2, x2, y2+dY, mPaint);
+        if (y1 < y2) {
+            mCanvas.drawLine(x1, y1, x1, y1 + dY, mPaint);
+            mCanvas.drawLine(x2, y2, x2, y2 - dY, mPaint);
+        } else {
+            mCanvas.drawLine(x1, y1, x1, y1 - dY, mPaint);
+            mCanvas.drawLine(x2, y2, x2, y2 + dY, mPaint);
         }
 
-        if (x1 < x2){
-            mCanvas.drawLine(x1, y1, x1+dX, y1, mPaint);
-            mCanvas.drawLine(x2, y2, x2-dX, y2, mPaint);
-        }
-        else{
-            mCanvas.drawLine(x1, y1, x1-dX, y1, mPaint);
-            mCanvas.drawLine(x2, y2, x2+dX, y2, mPaint);
+        if (x1 < x2) {
+            mCanvas.drawLine(x1, y1, x1 + dX, y1, mPaint);
+            mCanvas.drawLine(x2, y2, x2 - dX, y2, mPaint);
+        } else {
+            mCanvas.drawLine(x1, y1, x1 - dX, y1, mPaint);
+            mCanvas.drawLine(x2, y2, x2 + dX, y2, mPaint);
         }
     }
 
