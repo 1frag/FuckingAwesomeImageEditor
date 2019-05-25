@@ -27,7 +27,7 @@ class Segmentation extends Controller {
     }
 
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.segmentatioon_menu);
         setHeader(mainActivity.getResources().getString(R.string.segmentation));

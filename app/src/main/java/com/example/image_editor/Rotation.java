@@ -14,6 +14,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.image_editor.utils.DPoint;
+
 import java.util.ArrayList;
 
 public class Rotation extends Controller implements View.OnTouchListener {
@@ -46,7 +48,7 @@ public class Rotation extends Controller implements View.OnTouchListener {
     }
 
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.rotate_menu);
         setHeader(mainActivity.getResources().getString(R.string.name_rotation));

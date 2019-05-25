@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.image_editor;
+package com.example.image_editor.utils.drag;
 
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;

@@ -1,7 +1,7 @@
-package com.example.image_editor;
+package com.example.image_editor.utils;
 
 // simple points with two coordinates
-class DPoint {
+public class DPoint {
     public double x;
     public double y;
 

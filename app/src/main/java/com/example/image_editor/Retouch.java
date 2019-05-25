@@ -13,6 +13,9 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.image_editor.utils.ColorFIltersCollection;
+import com.example.image_editor.utils.Pixel;
+
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
@@ -36,13 +39,13 @@ public class Retouch extends Controller implements OnTouchListener {
     private int mBrushSize = 1;
     private int mBlurRadius = 1;
 
-    Retouch(MainActivity activity) {
+    public Retouch(MainActivity activity) {
         super(activity);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.retouch_menu);
         setHeader(mainActivity.getResources().getString(R.string.retouch));

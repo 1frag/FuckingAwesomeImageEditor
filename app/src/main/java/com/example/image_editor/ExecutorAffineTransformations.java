@@ -2,6 +2,10 @@ package com.example.image_editor;
 
 import android.util.Log;
 
+import com.example.image_editor.matrix.Matrix3x1;
+import com.example.image_editor.matrix.Matrix3x3;
+import com.example.image_editor.utils.DPoint;
+
 public class ExecutorAffineTransformations {
     private Double a, b, c, d, e, f;
     private Matrix3x1 mSecond_x, mSecond_y;
@@ -24,7 +28,7 @@ public class ExecutorAffineTransformations {
         );
     }
 
-    ExecutorAffineTransformations(DPoint p11, DPoint p12, DPoint p13,
+    public ExecutorAffineTransformations(DPoint p11, DPoint p12, DPoint p13,
                                   DPoint p21, DPoint p22, DPoint p23) {
         // Solver's initialization
         mFirst = new Matrix3x3(

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.image_editor.utils.ColorFIltersCollection;
+
 public class Usm extends Controller {
 
     private Button mRunUsmButton;
@@ -27,12 +29,12 @@ public class Usm extends Controller {
     private double mRadius = 1;
     private int mThreshold = 0;
 
-    Usm(MainActivity activity) {
+    public Usm(MainActivity activity) {
         super(activity);
     }
 
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
 
         prepareToRun(R.layout.sharpness_menu);

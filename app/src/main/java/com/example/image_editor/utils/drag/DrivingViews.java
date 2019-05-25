@@ -1,15 +1,18 @@
-package com.example.image_editor;
+package com.example.image_editor.utils.drag;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-class DrivingViews {
+import com.example.image_editor.MainActivity;
+import com.example.image_editor.R;
+
+public class DrivingViews {
 
     private MainActivity mainActivity;
     private FragmentTransaction transaction;
     private ElevationDragFragment fragment;
 
-    DrivingViews(MainActivity mainActivity){
+    public DrivingViews(MainActivity mainActivity){
         this.mainActivity = mainActivity;
     }
 

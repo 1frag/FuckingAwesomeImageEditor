@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.image_editor.utils.DPoint;
+
 import java.util.ArrayList;
 
 public class Algem extends Controller implements View.OnTouchListener {
@@ -27,13 +29,13 @@ public class Algem extends Controller implements View.OnTouchListener {
 
     private int N, mTypeEvent;
 
-    Algem(MainActivity activity) {
+    public Algem(MainActivity activity) {
         super(activity);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.spline_menu);
         setHeader(mainActivity.getResources().getString(R.string.interpolation_slines));

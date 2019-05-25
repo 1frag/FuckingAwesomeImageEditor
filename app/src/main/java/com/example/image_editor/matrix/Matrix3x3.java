@@ -1,4 +1,4 @@
-package com.example.image_editor;
+package com.example.image_editor.matrix;
 
 public class Matrix3x3 {
 
@@ -7,7 +7,7 @@ public class Matrix3x3 {
             a21, a22, a23,
             a31, a32, a33;
 
-    Matrix3x3(double a11, double a12, double a13,
+    public Matrix3x3(double a11, double a12, double a13,
               double a21, double a22, double a23,
               double a31, double a32, double a33) {
         this.a11 = a11;
@@ -21,7 +21,7 @@ public class Matrix3x3 {
         this.a33 = a33;
     }
 
-    Matrix3x3() {
+    public Matrix3x3() {
         this.a11 = this.a12 = this.a13 = 0;
         this.a21 = this.a22 = this.a23 = 0;
         this.a31 = this.a32 = this.a33 = 0;

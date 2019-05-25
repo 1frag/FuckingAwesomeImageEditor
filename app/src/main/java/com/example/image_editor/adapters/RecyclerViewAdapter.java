@@ -1,4 +1,4 @@
-package com.example.image_editor;
+package com.example.image_editor.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.image_editor.Controller;
+import com.example.image_editor.MainActivity;
+import com.example.image_editor.R;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<Controller> mClasses = new ArrayList<>();
     private MainActivity activity;
 
-    RecyclerViewAdapter(MainActivity activity, ArrayList<String> names, ArrayList<Integer> imageUrls, ArrayList<Controller> classes) {
+    public RecyclerViewAdapter(MainActivity activity, ArrayList<String> names, ArrayList<Integer> imageUrls, ArrayList<Controller> classes) {
         this.mNames = names;
         this.mImageUrls = imageUrls;
         this.mClasses = classes;
