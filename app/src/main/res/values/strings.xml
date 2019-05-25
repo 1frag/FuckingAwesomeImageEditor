@@ -46,9 +46,6 @@
     <string name="edit">EDIT</string>
     <string name="amount">Amount</string>
     <string name="threshold">Threshold</string>
-    <string name="_45" translatable="false">-90</string>
-    <string name="_45p" translatable="false">+90</string>
-    <string name="_0" translatable="false">0</string>
     <string name="rotate">rotate</string>
     <string name="crop">crop</string>
     <string name="mirroring">mirroring</string>
@@ -59,13 +56,16 @@
     <string name="default_image" translatable="false">default_image</string>
     <string name="add_pnts" translatable="false">add_pnts</string>
 
-    <string name="_255" translatable="false">255</string>
-    <string name="_50" translatable="false">50</string>
-    <string name="_100" translatable="false">100%</string>
-    <string name="_0ps" translatable="false">0%</string>
-    <string name="_2" translatable="false">2</string>
-    <string name="_1" translatable="false">1</string>
-    <string name="_5" translatable="false">5</string>
+    <string name="threshold_max" translatable="false">255</string>
+    <string name="radius_max" translatable="false">50</string>
+    <string name="amount_max" translatable="false">100%</string>
+    <string name="amount_min" translatable="false">0%</string>
+    <string name="scaling_max" translatable="false">2</string>
+    <string name="scaling_middle" translatable="false">1</string>
+    <string name="size_mov_circles_max" translatable="false">5</string>
+    <string name="left_turn_boundary" translatable="false">-90</string>
+    <string name="right_turn_boundary" translatable="false">+90</string>
+    <string name="zero" translatable="false">0</string>
 
     <string name="current_method">Current METHOD</string>
     <string name="info" translatable="false">info</string>
@@ -125,10 +125,11 @@
     <string name="clear">Clear</string>
     <string name="found_out">Found out</string>
     <string name="nothing_to_show">Nothing to show</string>
-    <string name="exit_sure">Выход: Вы уверены?</string>
+    <string name="exit_sure">Exit: Are you sure?</string>
     <string name="big_picture">"Too big picture. Squeeze?"</string>
     <string name="choose_another">I will choose another</string>
     <string name="continue_q">Change will not apply. Continue?</string>
     <string name="clear_crop">Clear CROP</string>
+    <string name="not_path">Path not found</string>
 
 </resources>

@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:text="@string/_0ps"
+        android:text="@string/amount_min"
         app:layout_constraintStart_toStartOf="@+id/seekbar_amount"
         app:layout_constraintTop_toTopOf="@+id/seekbar_amount" />
 
@@ -36,7 +36,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:text="@string/_100"
+        android:text="@string/amount_max"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_amount"
         app:layout_constraintTop_toTopOf="@+id/seekbar_amount" />
 
@@ -65,14 +65,14 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:text="@string/_0"
+        android:text="@string/zero"
         app:layout_constraintStart_toStartOf="@+id/seekbar_radius"
         app:layout_constraintTop_toTopOf="@+id/seekbar_radius" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:text="@string/_50"
+        android:text="@string/radius_max"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_radius"
         app:layout_constraintTop_toTopOf="@+id/seekbar_radius" />
 
@@ -102,14 +102,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:text="@string/_0"
+        android:text="@string/zero"
         app:layout_constraintStart_toStartOf="@+id/seekbar_threshold"
         app:layout_constraintTop_toTopOf="@+id/seekbar_threshold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:text="@string/_255"
+        android:text="@string/threshold_max"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_threshold"
         app:layout_constraintTop_toTopOf="@+id/seekbar_threshold" />
 

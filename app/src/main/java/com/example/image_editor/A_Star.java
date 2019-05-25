@@ -522,12 +522,12 @@ public class A_Star extends Controller implements OnTouchListener {
 
     private ArrayList<Point> algorithm(int n, int m) {
 
-        boolean[][] in_open = new boolean[n][m];
+        boolean[][] inOpen = new boolean[n][m];
         boolean[][] isCor = new boolean[n][m];
         mPar = new Point[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                in_open[i][j] = false;
+                inOpen[i][j] = false;
                 isCor[i][j] = true;
             }
         }
@@ -563,12 +563,18 @@ public class A_Star extends Controller implements OnTouchListener {
         HashSet<Point> closedset = new HashSet<>();
         PointComparator myComp = new PointComparator(mPointFinish, n, m);
         PriorityQueue<Point> openset =
-                new PriorityQueue<>(30000, myComp);
+                new PriorityQueue<>(10, myComp);
         openset.add(mPointStart);
         myComp.setInG(mPointStart, 0);
 
         while (!openset.isEmpty()) {
             Point x = openset.poll();
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.invalidate();
+                }
+            });
 
             if (x.x == mPointFinish.x && x.y == mPointFinish.y) {
                 return reconstructPath();
@@ -587,9 +593,9 @@ public class A_Star extends Controller implements OnTouchListener {
                             !isCor[y.x][y.y]) continue;
                 }
                 int tentativeGScore = myComp.getInG(x) + 1;
-                if (!in_open[y.x][y.y]) {
+                if (!inOpen[y.x][y.y]) {
                     tentativeIsBetter = true;
-                    in_open[y.x][y.y] = true;
+                    inOpen[y.x][y.y] = true;
                     openset.add(y);
                 } else if (tentativeGScore < myComp.getInG(y)) {
                     tentativeIsBetter = true;
@@ -629,7 +635,7 @@ public class A_Star extends Controller implements OnTouchListener {
                         @Override
                         public void run() {
                             Toast.makeText(mainActivity.getApplicationContext(),
-                                    "Path not found 404",
+                                    mainActivity.getResources().getString(R.string.not_path),
                                     Toast.LENGTH_SHORT).show();
                         }
                     });

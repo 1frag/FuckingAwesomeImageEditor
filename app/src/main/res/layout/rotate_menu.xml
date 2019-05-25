@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
-        android:text="@string/_45"
+        android:text="@string/left_turn_boundary"
         app:layout_constraintStart_toStartOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
-        android:text="@string/_45p"
+        android:text="@string/right_turn_boundary"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/_0"
+        android:text="@string/zero"
         app:layout_constraintEnd_toStartOf="@+id/text_plus45"
         app:layout_constraintStart_toEndOf="@+id/text_minus45"
         app:layout_constraintTop_toTopOf="parent" />

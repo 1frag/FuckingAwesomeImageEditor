@@ -21,7 +21,7 @@ class PointComparator implements Comparator<Point> {
     private int Y(Point a) {
         if (a.x == INF)
             return INF;
-        return -(mG[a.x][a.y]-h(a));
+        return -(mG[a.x][a.y]+h(a));
     }
 
     @Override

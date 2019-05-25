@@ -133,7 +133,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/_1"
+        android:text="@string/scaling_middle"
         app:layout_constraintBottom_toBottomOf="@+id/seekbar_size_wall"
         app:layout_constraintStart_toStartOf="@+id/seekbar_size_wall" />
 
@@ -201,7 +201,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/_1"
+        android:text="@string/scaling_middle"
         app:layout_constraintStart_toStartOf="@+id/seekbar_size_path"
         app:layout_constraintTop_toBottomOf="@+id/path" />
 
@@ -210,7 +210,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/_5"
+        android:text="@string/size_mov_circles_max"
         app:layout_constraintEnd_toEndOf="@+id/seekbar_size_path"
         app:layout_constraintTop_toBottomOf="@+id/path" />
 
