@@ -28,8 +28,8 @@ public class ExecutorAffineTransformations {
         );
     }
 
-    public ExecutorAffineTransformations(DPoint p11, DPoint p12, DPoint p13,
-                                         DPoint p21, DPoint p22, DPoint p23) {
+    public ExecutorAffineTransformations(DPoint p21, DPoint p22, DPoint p23,
+            DPoint p11, DPoint p12, DPoint p13) {
         // Solver's initialization
         mFirst = new Matrix3x3(
                 p11.x, p11.y, 1.0,
