@@ -29,12 +29,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-<<<<<<< HEAD
         android:text="@string/amount_min"
-=======
         android:layout_marginTop="4dp"
-        android:text="@string/_0ps"
->>>>>>> 34cc7ea66e982a2ed11eb74a9014eaf3e962cc54
         app:layout_constraintStart_toStartOf="@+id/seekbar_amount"
         app:layout_constraintTop_toTopOf="@+id/seekbar_amount" />
 
@@ -71,12 +67,8 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="20dp"
-<<<<<<< HEAD
         android:text="@string/zero"
-=======
         android:layout_marginTop="4dp"
-        android:text="@string/_0"
->>>>>>> 34cc7ea66e982a2ed11eb74a9014eaf3e962cc54
         app:layout_constraintStart_toStartOf="@+id/seekbar_radius"
         app:layout_constraintTop_toTopOf="@+id/seekbar_radius" />
 
@@ -113,12 +105,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-<<<<<<< HEAD
         android:text="@string/zero"
-=======
         android:layout_marginTop="4dp"
-        android:text="@string/_0"
->>>>>>> 34cc7ea66e982a2ed11eb74a9014eaf3e962cc54
         app:layout_constraintStart_toStartOf="@+id/seekbar_threshold"
         app:layout_constraintTop_toTopOf="@+id/seekbar_threshold" />
 

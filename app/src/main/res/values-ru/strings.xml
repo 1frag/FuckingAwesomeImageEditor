@@ -89,7 +89,7 @@
     <string name="name_scaling">Масштабирование</string>
     <string name="width_is">Ширина: %d</string>
     <string name="height_is">Высота: %d</string>
-    <string name="scale_is">Масштаб: %.2dx</string>
+    <string name="scale_is">Масштаб: %.2fx</string>
     <string name="amount_is">Процент: %d</string>
     <string name="warning_scale">Чувак, оно очень мальнекое</string>
     <string name="segmentation">Сегментация</string>
