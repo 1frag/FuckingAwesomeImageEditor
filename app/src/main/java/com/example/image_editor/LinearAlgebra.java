@@ -41,18 +41,18 @@ public class LinearAlgebra extends Controller {
     }
 
     @Override
-    public void lockInterface(){
+    public void lockInterface() {
         super.lockInterface();
         mStartAlgoButton.setEnabled(false);
     }
 
     @Override
-    public void unlockInterface(){
+    public void unlockInterface() {
         super.unlockInterface();
         mStartAlgoButton.setEnabled(true);
     }
 
-    private void configSetStartPointsButton(ImageButton button){
+    private void configSetStartPointsButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +62,7 @@ public class LinearAlgebra extends Controller {
         });
     }
 
-    private void configSetFinishPointsButton(ImageButton button){
+    private void configSetFinishPointsButton(ImageButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +72,7 @@ public class LinearAlgebra extends Controller {
     }
 
 
-    private void configStartAlgoButton(Button button){
+    private void configStartAlgoButton(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,12 +119,20 @@ public class LinearAlgebra extends Controller {
         p23 = new DPoint(mainActivity.findViewById(R.id.circle6).getX(), mainActivity.findViewById(R.id.circle6).getY());
     }
 
+    private double S(DPoint A, DPoint B, DPoint C) {
+        double ABx = B.x - A.x;
+        double ABy = B.y - A.y;
+        double ACx = C.x - A.x;
+        double ACy = C.y - A.y;
+        return ABx * ACx + ABy * ACy;
+    }
+
     private Bitmap algorithm() {
         ExecutorAffineTransformations solver;
         solver = new ExecutorAffineTransformations(
                 p11, p12, p13, p21, p22, p23);
 
-        if (!solver.prepare()){
+        if (!solver.prepare()) {
             mainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -152,8 +160,23 @@ public class LinearAlgebra extends Controller {
                     cnt++;
             }
         }
-        Log.i("upd", String.format("%s", cnt));
 
-        return btmp;
+        DPoint a1 = solver.calc(0, 0);
+        DPoint a2 = solver.calc(mainActivity.getBitmap().getWidth(), 0);
+        int w = (int) Math.sqrt((a1.x - a2.x) * (a1.x - a2.x) + (a1.y - a2.y) * (a1.y - a2.y));
+        a1 = solver.calc(0, 0);
+        a2 = solver.calc(0, mainActivity.getBitmap().getHeight());
+        int h = (int) Math.sqrt((a1.x - a2.x) * (a1.x - a2.x) + (a1.y - a2.y) * (a1.y - a2.y));
+
+        if (S(p11, p12, p13) < S(p21, p22, p23)) {
+            return ColorFIltersCollection.resizeBilinear(
+                    btmp.copy(Bitmap.Config.ARGB_8888,
+                            true), mainActivity.getBitmap().getWidth(),
+                    mainActivity.getBitmap().getHeight(), w, h);
+        } else {
+            return ColorFIltersCollection.resizeBicubic(
+                    btmp.copy(Bitmap.Config.ARGB_8888, true), w,
+                    mainActivity.getApplicationContext());
+        }
     }
 }
