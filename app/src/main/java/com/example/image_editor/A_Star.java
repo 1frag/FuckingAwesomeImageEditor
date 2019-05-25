@@ -20,6 +20,9 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.example.image_editor.utils.Pixel;
+import com.example.image_editor.utils.PointComparator;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -54,7 +57,7 @@ public class A_Star extends Controller implements OnTouchListener {
     private int W;
     private int H;
 
-    A_Star(MainActivity activity) {
+    public A_Star(MainActivity activity) {
         super(activity);
         mRemStart = new ArrayList<>();
         mRemFinish = new ArrayList<>();
@@ -63,7 +66,7 @@ public class A_Star extends Controller implements OnTouchListener {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.a_star_menu);
         setHeader(mainActivity.getResources().getString(R.string.a_star_name));

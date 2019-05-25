@@ -30,6 +30,9 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.image_editor.adapters.RecyclerViewAdapter;
+import com.example.image_editor.utils.ColorFIltersCollection;
+import com.example.image_editor.utils.drag.DrivingViews;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;

@@ -8,6 +8,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.image_editor.utils.ColorFIltersCollection;
+
 public class Scaling extends Controller {
 
     private Button mResetScalingButton;
@@ -26,7 +28,7 @@ public class Scaling extends Controller {
     }
 
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.scaling_menu);
         setHeader(mainActivity.getResources().getString(R.string.name_scaling));

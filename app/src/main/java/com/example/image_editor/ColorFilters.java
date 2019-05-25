@@ -3,6 +3,8 @@ package com.example.image_editor;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.image_editor.adapters.FiltersAdapter;
+
 import java.util.ArrayList;
 
 public class ColorFilters extends Controller {
@@ -10,11 +12,11 @@ public class ColorFilters extends Controller {
     private ArrayList<String> mNamesFilters = new ArrayList<>();
     private ArrayList<String> mNamesProg = new ArrayList<>();
 
-    ColorFilters(MainActivity activity) {
+    public ColorFilters(MainActivity activity) {
         super(activity);
     }
 
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.filters_menu);
         setHeader(mainActivity.getResources().getString(R.string.color_correction_name));

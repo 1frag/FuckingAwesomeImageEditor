@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.image_editor.utils.ColorFIltersCollection;
+import com.example.image_editor.utils.DPoint;
+
 public class LinearAlgebra extends Controller {
 
     private Button mStartAlgoButton;
@@ -16,12 +19,12 @@ public class LinearAlgebra extends Controller {
     private DPoint p11, p12, p13;
     private DPoint p21, p22, p23;
 
-    LinearAlgebra(MainActivity activity) {
+    public LinearAlgebra(MainActivity activity) {
         super(activity);
     }
 
     @Override
-    void touchToolbar() {
+    public void touchToolbar() {
         super.touchToolbar();
         prepareToRun(R.layout.linear_algebra_menu);
         setHeader(mainActivity.getResources().getString(R.string.algem_2_0_name));

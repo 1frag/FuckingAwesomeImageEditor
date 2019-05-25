@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.image_editor;
+package com.example.image_editor.utils.drag;
 
 import android.graphics.Outline;
 import android.os.Bundle;
@@ -24,6 +24,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+
+import com.example.image_editor.R;
 
 
 public class ElevationDragFragment extends Fragment {

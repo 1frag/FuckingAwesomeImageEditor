@@ -1,4 +1,4 @@
-package com.example.image_editor;
+package com.example.image_editor.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

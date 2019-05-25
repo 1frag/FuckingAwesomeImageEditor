@@ -1,4 +1,4 @@
-package com.example.image_editor;
+package com.example.image_editor.utils;
 
 import android.annotation.TargetApi;
 import android.graphics.Point;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 
 import static java.lang.Math.abs;
 
-class PointComparator implements Comparator<Point> {
+public class PointComparator implements Comparator<Point> {
 
     private int INF = (int) (1e9 + 7);
     private Point mTarget;
@@ -30,7 +30,7 @@ class PointComparator implements Comparator<Point> {
         return Integer.compare(Y(b), Y(a));
     }
 
-    PointComparator(Point atarget, int n, int m){
+    public PointComparator(Point atarget, int n, int m){
         mTarget = atarget;
         mG = new int[n][m];
         for (int i = 0; i < n; i++) {
@@ -40,11 +40,11 @@ class PointComparator implements Comparator<Point> {
         }
     }
 
-    void setInG(Point r, int val){
+    public void setInG(Point r, int val){
         mG[r.x][r.y] = val;
     }
 
-    int getInG(Point r){
+    public int getInG(Point r){
         return mG[r.x][r.y];
     }
 }

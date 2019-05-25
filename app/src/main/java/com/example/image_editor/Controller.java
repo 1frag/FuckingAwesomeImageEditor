@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-class Controller {
+public class Controller {
 
     private ImageButton mApplyChangesButton;
     private ImageButton mCancelChangesButton;
@@ -30,7 +30,7 @@ class Controller {
     public MainActivity mainActivity;
     private ImageButton infoButton;
 
-    Controller(MainActivity activity) {
+    public Controller(MainActivity activity) {
         mainActivity = activity;
         imageView = mainActivity.getImageView();
 
@@ -42,7 +42,7 @@ class Controller {
         mApplyChangesButton = mainActivity.findViewById(R.id.button_apply_changes);
     }
 
-    void touchToolbar() {
+    public void touchToolbar() {
         Log.i("upd", "touchToolbar");
     }
 
@@ -74,7 +74,7 @@ class Controller {
         mainActivity.getImageView().setOnTouchListener(null);
     }
 
-    void prepareToRun(int resource) {
+    public void prepareToRun(int resource) {
         mainActivity.inMethod = true;
         LinearLayout placeHolder = mainActivity.findViewById(R.id.method_layout);
 

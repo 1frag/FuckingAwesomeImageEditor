@@ -1,4 +1,4 @@
-package com.example.image_editor;
+package com.example.image_editor.adapters;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.image_editor.MainActivity;
+import com.example.image_editor.R;
+import com.example.image_editor.utils.ColorFIltersCollection;
 
 import java.util.ArrayList;
 
@@ -26,7 +30,7 @@ public class FiltersAdapter extends RecyclerView.Adapter<FiltersAdapter.ViewHold
 
     private boolean mClicked = false;
 
-    FiltersAdapter(MainActivity activity,
+    public FiltersAdapter(MainActivity activity,
                    ArrayList<String> namesUser,
                    ArrayList<String> namesProg) throws NoSuchMethodException {
         mainActivity = activity;
