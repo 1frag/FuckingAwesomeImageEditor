@@ -17,9 +17,9 @@
     <string name="HINT">HINT: do something ;)</string>
 
     <string name="heuristic">Passage rules: </string>
-    <string name="four">Four directions</string>
-    <string name="eight">Eight directions</string>
-    <string name="best">Eight directions, if corner is not blocked</string>
+    <string name="four">Smoothed path</string>
+    <string name="eight">Staircase</string>
+    <string name="best">Staircase modified</string>
 
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>

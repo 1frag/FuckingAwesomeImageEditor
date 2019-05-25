@@ -16,9 +16,9 @@
     <string name="HINT">HINT: do something ;)</string>
 
     <string name="heuristic">Правила прохода: </string>
-    <string name="four">Четыре направления</string>
-    <string name="eight">Восемь направлений</string>
-    <string name="best">Восемь направлений, если угол не заблокирован</string>
+    <string name="four">Гладкий путь</string>
+    <string name="eight">Ступеньчатый путь</string>
+    <string name="best">Улучшенный ступенчатый путь</string>
 
     <string name="apply">принять</string>
     <string name="cancel">отмена</string>
