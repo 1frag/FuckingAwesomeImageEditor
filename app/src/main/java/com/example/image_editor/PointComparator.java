@@ -11,17 +11,17 @@ import static java.lang.Math.abs;
 class PointComparator implements Comparator<Point> {
 
     private int INF = (int) (1e9 + 7);
-    private Point target;
-    private int[][] G;
+    private Point mTarget;
+    private int[][] mG;
 
     private int h(Point a){
-        return abs(a.x - target.x) + abs(a.y - target.y);
+        return abs(a.x - mTarget.x) + abs(a.y - mTarget.y);
     }
 
     private int Y(Point a) {
         if (a.x == INF)
             return INF;
-        return -(G[a.x][a.y]+h(a));
+        return -(mG[a.x][a.y]-h(a));
     }
 
     @Override
@@ -31,20 +31,20 @@ class PointComparator implements Comparator<Point> {
     }
 
     PointComparator(Point atarget, int n, int m){
-        target = atarget;
-        G = new int[n][m];
+        mTarget = atarget;
+        mG = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                G[i][j] = 1000000;
+                mG[i][j] = 1000000;
             }
         }
     }
 
     void setInG(Point r, int val){
-        G[r.x][r.y] = val;
+        mG[r.x][r.y] = val;
     }
 
     int getInG(Point r){
-        return G[r.x][r.y];
+        return mG[r.x][r.y];
     }
 }
