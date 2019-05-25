@@ -3,7 +3,6 @@ package com.example.image_editor;
 import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.os.Build;
-import android.util.Log;
 
 import java.util.Comparator;
 
@@ -36,7 +35,7 @@ class PointComparator implements Comparator<Point> {
         G = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                G[i][j] = 100000;
+                G[i][j] = 1000000;
             }
         }
     }

@@ -98,6 +98,7 @@
     <string name="threshold_is">Порог: %d</string>
     <string name="angle_is">Угол: %d</string>
     <string name="clear">Очистить</string>
+    <string name="found_out">Узнал</string>
     <string name="nothing_to_show">Нечего показывать</string>
     <string name="exit_sure">Выход: Вы уверены?</string>
     <string name="continue_q">Изменения не будут применены. Продолжить?</string>

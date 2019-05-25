@@ -108,7 +108,7 @@ class Controller {
         LayoutInflater inflater = mainActivity.getLayoutInflater();
 
         builder.setView(inflater.inflate(R.layout.layout_info, null))
-                .setPositiveButton(R.string.apply, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.found_out, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -117,7 +117,6 @@ class Controller {
         return builder.create();
     }
 
-    // TODO: override in each function, give layout as parameter and set onClickListener on public button
     public void configMethodInfoButton(View button, final int layout){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +154,6 @@ class Controller {
                     imageView.setImageBitmap(mainActivity.getBitmapBefore());
                     mainActivity.resetBitmap();
                     mainActivity.invalidateImageView();
-//                    setDefaultState(v);
                     return;
                 }
                 if (mainActivity.algorithmExecuted) {
@@ -215,18 +213,4 @@ class Controller {
         }
     }
 
-    private void removeFloatingPoints(){
-        if(mainActivity.findViewById(R.id.circle1) != null)
-            mainActivity.findViewById(R.id.circle1).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle2) != null)
-            mainActivity.findViewById(R.id.circle2).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle3) != null)
-            mainActivity.findViewById(R.id.circle3).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle4) != null)
-            mainActivity.findViewById(R.id.circle4).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle5) != null)
-            mainActivity.findViewById(R.id.circle5).setVisibility(View.GONE);
-        if(mainActivity.findViewById(R.id.circle6) != null)
-            mainActivity.findViewById(R.id.circle6).setVisibility(View.GONE);
-    }
 }

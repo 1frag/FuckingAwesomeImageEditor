@@ -182,7 +182,7 @@ public class A_Star extends Controller implements OnTouchListener {
                 if (0 > my + j || my + j >= H) {
                     continue;
                 }
-                // abs(i) + abs(j) <= rad
+
                 if (abs(i) + abs(j) <= rad) {
                     Pixel now = new Pixel(mx + i, my + j, mainActivity.getBitmap().getPixel(mx + i, my + j));
                     mRemFinish.add(now);
@@ -203,7 +203,7 @@ public class A_Star extends Controller implements OnTouchListener {
     }
 
     private boolean drawWall(int mx, int my) {
-        int rad = mSettings.size_wall;
+        int rad = mSettings.sizeWall;
         if (!canPutRect(rad, mx, my)) {
             return false;
         }
@@ -228,11 +228,11 @@ public class A_Star extends Controller implements OnTouchListener {
     }
 
     private boolean conditionInWall(int i, int j, int rad) {
-        if (mSettings.type_wall == R.id.rb_romb)
+        if (mSettings.typeWall == R.id.rb_romb)
             return abs(i) + abs(j) <= rad;
-        if (mSettings.type_wall == R.id.rb_square)
+        if (mSettings.typeWall == R.id.rb_square)
             return true;
-        if (mSettings.type_wall == R.id.rb_circul)
+        if (mSettings.typeWall == R.id.rb_circul)
             return i * i + j * j <= rad * rad;
         return true;
     }
@@ -287,7 +287,6 @@ public class A_Star extends Controller implements OnTouchListener {
                 mainActivity.resetBitmap();
                 imageView.setImageBitmap(mainActivity.getBitmap());
                 mainActivity.invalidateImageView();
-                // todo: all to default
                 mRemStart = new ArrayList<>();
                 mRemFinish = new ArrayList<>();
                 mRemWall = new ArrayList<>();
@@ -314,18 +313,18 @@ public class A_Star extends Controller implements OnTouchListener {
                         rg_rool.check(mSettings.rool);
 
                         RadioGroup rg_walls = alertDialog.findViewById(R.id.rg_walls);
-                        rg_walls.check(mSettings.type_wall);
+                        rg_walls.check(mSettings.typeWall);
 
                         SeekBar seekBarSizeWall = alertDialog.findViewById(R.id.seekbar_size_wall);
                         seekBarSizeWall.setMax(30);
-                        seekBarSizeWall.setProgress(mSettings.size_wall);
+                        seekBarSizeWall.setProgress(mSettings.sizeWall);
 
                         SeekBar seekBarSizePath = alertDialog.findViewById(R.id.seekbar_size_path);
                         seekBarSizePath.setMax(5);
-                        seekBarSizePath.setProgress(mSettings.size_path);
+                        seekBarSizePath.setProgress(mSettings.sizePath);
 
                         Button button_color_path = alertDialog.findViewById(R.id.button_color_path);
-                        button_color_path.setBackgroundColor(mSettings.color_path);
+                        button_color_path.setBackgroundColor(mSettings.colorPath);
 
                         Button button_color_wall = alertDialog.findViewById(R.id.button_color_wall);
                         button_color_wall.setBackgroundColor(mSettings.color_wall);
@@ -386,11 +385,11 @@ public class A_Star extends Controller implements OnTouchListener {
 
     private void configSelectColorPath(final AlertDialog alertDialog) {
         AmbilWarnaDialog dialog = new AmbilWarnaDialog(mainActivity,
-                mSettings.color_path,
+                mSettings.colorPath,
                 new AmbilWarnaDialog.OnAmbilWarnaListener() {
                     @Override
                     public void onOk(AmbilWarnaDialog dialog, int color) {
-                        mSettings.color_path = color;
+                        mSettings.colorPath = color;
                         alertDialog.findViewById(R.id.button_color_path)
                                 .setBackgroundColor(color);
                     }
@@ -414,13 +413,13 @@ public class A_Star extends Controller implements OnTouchListener {
                         AlertDialog alertDialog = (AlertDialog) dialog;
                         mSettings.rool = ((RadioGroup) alertDialog
                                 .findViewById(R.id.rg_rool)).getCheckedRadioButtonId();
-                        mSettings.type_wall = ((RadioGroup) alertDialog
+                        mSettings.typeWall = ((RadioGroup) alertDialog
                                 .findViewById(R.id.rg_walls)).getCheckedRadioButtonId();
-                        mSettings.size_path = ((SeekBar) alertDialog
+                        mSettings.sizePath = ((SeekBar) alertDialog
                                 .findViewById(R.id.seekbar_size_path)).getProgress();
-                        mSettings.size_wall = ((SeekBar) alertDialog
+                        mSettings.sizeWall = ((SeekBar) alertDialog
                                 .findViewById(R.id.seekbar_size_wall)).getProgress();
-                        mSettings.color_path = ((ColorDrawable) alertDialog
+                        mSettings.colorPath = ((ColorDrawable) alertDialog
                                 .findViewById(R.id.button_color_path)
                                 .getBackground())
                                 .getColor();
@@ -524,12 +523,12 @@ public class A_Star extends Controller implements OnTouchListener {
     private ArrayList<Point> algorithm(int n, int m) {
 
         boolean[][] in_open = new boolean[n][m];
-        boolean[][] is_cor = new boolean[n][m];
+        boolean[][] isCor = new boolean[n][m];
         mPar = new Point[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 in_open[i][j] = false;
-                is_cor[i][j] = true;
+                isCor[i][j] = true;
             }
         }
 
@@ -544,7 +543,7 @@ public class A_Star extends Controller implements OnTouchListener {
                 continue;
             }
 
-            int rad = mSettings.size_path;
+            int rad = mSettings.sizePath;
             for (int ii = -rad; ii <= rad; ii++) {
                 for (int jj = -rad; jj <= rad; jj++) {
                     nx = mRemWall.get(i).getX() + ii;
@@ -552,7 +551,7 @@ public class A_Star extends Controller implements OnTouchListener {
                     if (nx < 0 || ny < 0) continue;
                     if (nx >= n || ny >= m) continue;
                     if (ii * ii + jj * jj <= rad * rad) {
-                        is_cor[nx][ny] = false;
+                        isCor[nx][ny] = false;
                     }
                 }
             }
@@ -564,7 +563,7 @@ public class A_Star extends Controller implements OnTouchListener {
         HashSet<Point> closedset = new HashSet<>();
         PointComparator myComp = new PointComparator(mPointFinish, n, m);
         PriorityQueue<Point> openset =
-                new PriorityQueue<>(10, myComp);
+                new PriorityQueue<>(30000, myComp);
         openset.add(mPointStart);
         myComp.setInG(mPointStart, 0);
 
@@ -576,28 +575,28 @@ public class A_Star extends Controller implements OnTouchListener {
             }
             closedset.add(x);
             for (int i = 0; i < dirx.length; i++) {
-                boolean tentative_is_better = false;
+                boolean tentativeIsBetter = false;
                 Point y = new Point(dirx[i] + x.x, diry[i] + x.y);
                 if (y.x < 0 || y.x >= n) continue;
                 if (y.y < 0 || y.y >= m) continue;
-                if (!is_cor[y.x][y.y]) continue;
+                if (!isCor[y.x][y.y]) continue;
                 if (closedset.contains(y)) continue;
                 if ((abs(dirx[i]) + abs(diry[i]) == 2) &&
                         mSettings.rool == R.id.rb_eight_with_restrictions) {
-                    if (!is_cor[y.x][y.y] &&
-                            !is_cor[y.x][y.y]) continue;
+                    if (!isCor[y.x][y.y] &&
+                            !isCor[y.x][y.y]) continue;
                 }
-                int tentative_g_score = myComp.getInG(x) + 1;
+                int tentativeGScore = myComp.getInG(x) + 1;
                 if (!in_open[y.x][y.y]) {
-                    tentative_is_better = true;
+                    tentativeIsBetter = true;
                     in_open[y.x][y.y] = true;
                     openset.add(y);
-                } else if (tentative_g_score < myComp.getInG(y)) {
-                    tentative_is_better = true;
+                } else if (tentativeGScore < myComp.getInG(y)) {
+                    tentativeIsBetter = true;
                 }
-                if (tentative_is_better) {
+                if (tentativeIsBetter) {
                     mPar[y.x][y.y] = x;
-                    myComp.setInG(y, tentative_g_score);
+                    myComp.setInG(y, tentativeGScore);
                 }
             }
         }
@@ -616,12 +615,12 @@ public class A_Star extends Controller implements OnTouchListener {
                 ArrayList<Point> answer = algorithm(n, m);
 
                 for (int i = 0; i < answer.size(); i++) {
-                    int rad = mSettings.size_path;
+                    int rad = mSettings.sizePath;
                     for (int ii = -rad; ii <= rad; ii++) {
                         for (int jj = -rad; jj <= rad; jj++) {
                             mainActivity.setPixelBitmap(answer.get(i).x + ii,
                                     answer.get(i).y + jj,
-                                    mSettings.color_path);
+                                    mSettings.colorPath);
                         }
                     }
                 }
@@ -644,16 +643,16 @@ public class A_Star extends Controller implements OnTouchListener {
     }
 
     class Settings {
-        int rool, type_wall, size_wall;
-        int color_wall, size_path, color_path;
+        int rool, typeWall, sizeWall;
+        int color_wall, sizePath, colorPath;
 
         Settings() {
             rool = R.id.rb_four;
-            type_wall = R.id.rb_romb;
-            size_wall = 30;
+            typeWall = R.id.rb_romb;
+            sizeWall = 30;
             color_wall = Color.WHITE;
-            size_path = 5;
-            color_path = Color.YELLOW;
+            sizePath = 5;
+            colorPath = Color.YELLOW;
         }
     }
 }
