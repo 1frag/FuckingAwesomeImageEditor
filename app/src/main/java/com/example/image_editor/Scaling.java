@@ -77,7 +77,7 @@ public class Scaling extends Controller {
                 imageView.setImageBitmap(mainActivity.getBitmapBefore());
                 mTextWidth.setText(String.format(mainActivity.getResources().getString(R.string.width_is), mainActivity.getBitmapBefore().getWidth()));
                 mTextHeight.setText(String.format(mainActivity.getResources().getString(R.string.height_is), mainActivity.getBitmapBefore().getHeight()));
-                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), 1));
+                mTextScaling.setText(String.format(mainActivity.getResources().getString(R.string.scale_is), (float)1 ));
                 mSeekBarScaling.setProgress(100);
             }
         });
